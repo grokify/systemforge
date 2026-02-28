@@ -1,0 +1,63 @@
+{
+  "irVersion": "1.0",
+  "project": "coreforge",
+  "repository": "https://github.com/grokify/coreforge",
+  "versioning": "semver",
+  "commitConvention": "conventional",
+  "maintainers": ["grokify"],
+  "releases": [
+    {
+      "version": "v0.1.0",
+      "date": "2026-02-28",
+      "highlights": [
+        { "description": "Batteries-included Go platform module for multi-tenant SaaS applications" },
+        { "description": "Complete identity management with users, organizations, and memberships" },
+        { "description": "Full OAuth 2.0 server implementation using Fosite with PKCE, client credentials, and JWT bearer grants" },
+        { "description": "Session management with JWT, DPoP (RFC 9449) proof-of-possession, and BFF pattern" }
+      ],
+      "added": [
+        { "description": "User accounts with email and Argon2id password hashing", "commit": "3907780" },
+        { "description": "Organizations for multi-tenant applications with name, slug, plan, and settings", "commit": "3907780" },
+        { "description": "Memberships with flexible role-based user-organization relationships", "commit": "3907780" },
+        { "description": "OAuth account linking for GitHub and Google providers", "commit": "3907780" },
+        { "description": "API key service for machine-to-machine authentication with scopes", "commit": "d13b7a5" },
+        { "description": "OAuth 2.0 server using Fosite with Authorization Code + PKCE grant", "commit": "297ecc7" },
+        { "description": "Client Credentials grant for service-to-service authentication", "commit": "297ecc7" },
+        { "description": "Refresh Token grant with rotation and theft detection", "commit": "297ecc7" },
+        { "description": "JWT Bearer grant (RFC 7523) for service account authentication", "commit": "297ecc7" },
+        { "description": "Service accounts with RSA/EC key pairs for non-human identities", "commit": "297ecc7" },
+        { "description": "Token introspection (RFC 7662) and revocation (RFC 7009) endpoints", "commit": "297ecc7" },
+        { "description": "JWT service supporting HS256, RS256, and ES256 algorithms", "commit": "4397d6a" },
+        { "description": "DPoP (RFC 9449) proof-of-possession token binding implementation", "commit": "b086e49" },
+        { "description": "Backend for Frontend (BFF) pattern with server-side sessions", "commit": "205886b" },
+        { "description": "GitHub and Google OAuth social login handlers", "commit": "4ea5e42" },
+        { "description": "JWT Bearer and API key authentication middleware", "commit": "2b84467" },
+        { "description": "Role-based access control (RBAC) with organization-scoped permissions", "commit": "edf630e" },
+        { "description": "Casbin provider for advanced policy rules", "commit": "edf630e" },
+        { "description": "Simple provider for lightweight permission checking", "commit": "edf630e" },
+        { "description": "HTTP middleware for route protection (Chi and stdlib)", "commit": "edf630e" },
+        { "description": "Feature flag engine with boolean, percentage, and user list flags", "commit": "edb959d" },
+        { "description": "Organization-scoped feature flag evaluation", "commit": "edb959d" },
+        { "description": "In-memory feature flag store for development and testing", "commit": "edb959d" },
+        { "description": "PostgreSQL RLS policy generation and session variable helpers", "commit": "7240382" },
+        { "description": "Tenant isolation for multi-tenant data separation", "commit": "7240382" },
+        { "description": "Ent ORM integration with transaction helpers for tenant context", "commit": "7240382" }
+      ],
+      "infrastructure": [
+        { "description": "GitHub Actions CI workflow for build and test", "commit": "0f8c44c" },
+        { "description": "GitHub Actions lint workflow with golangci-lint", "commit": "0f8c44c" },
+        { "description": "Dependabot configuration for Go modules and GitHub Actions", "commit": "0f8c44c" }
+      ],
+      "documentation": [
+        { "description": "Comprehensive MkDocs documentation site with Material theme", "commit": "87a8489" },
+        { "description": "Getting started guides: installation, quickstart, configuration", "commit": "87a8489" },
+        { "description": "Identity module documentation: users, organizations, memberships, API keys", "commit": "87a8489" },
+        { "description": "OAuth 2.0 documentation: apps, authorization code, client credentials, service accounts, tokens", "commit": "87a8489" },
+        { "description": "Integration guides: existing apps and migration", "commit": "87a8489" },
+        { "description": "API reference and Ent schema documentation", "commit": "87a8489" },
+        { "description": "PRD and TRD design documents for authentication and OAuth", "commit": "28dffa6" },
+        { "description": "README with badges, quick start examples, and module structure", "commit": "a91b98e" }
+      ]
+    }
+  ]
+}
