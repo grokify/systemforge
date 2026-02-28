@@ -1,6 +1,6 @@
 module github.com/grokify/coreforge
 
-go 1.24
+go 1.24.0
 
 require (
 	entgo.io/ent v0.14.5
@@ -9,7 +9,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/ory/fosite v0.49.0
 	golang.org/x/crypto v0.35.0
-	golang.org/x/oauth2 v0.28.0
+	golang.org/x/oauth2 v0.35.0
 )
 
 require (
