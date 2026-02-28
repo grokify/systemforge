@@ -1,0 +1,70 @@
+site_name: CoreForge
+site_description: Batteries-included Go platform module for multi-tenant SaaS applications
+site_url: https://grokify.github.io/coreforge/
+repo_url: https://github.com/grokify/coreforge
+repo_name: grokify/coreforge
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+
+plugins:
+  - search
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Configuration: getting-started/configuration.md
+  - Identity:
+    - Overview: identity/overview.md
+    - Users: identity/users.md
+    - Organizations: identity/organizations.md
+    - Memberships: identity/memberships.md
+    - API Keys: identity/api-keys.md
+  - OAuth 2.0:
+    - Overview: oauth/overview.md
+    - OAuth Apps: oauth/apps.md
+    - Authorization Code: oauth/authorization-code.md
+    - Client Credentials: oauth/client-credentials.md
+    - Service Accounts: oauth/service-accounts.md
+    - Token Management: oauth/tokens.md
+  - Integration:
+    - With Existing Apps: integration/existing-apps.md
+    - Migration Guide: integration/migration.md
+  - Reference:
+    - Ent Schemas: reference/schemas.md
+    - API Reference: reference/api.md

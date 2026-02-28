@@ -1,0 +1,274 @@
+# API Reference
+
+## OAuth Endpoints
+
+### Authorization Endpoint
+
+Initiates the authorization code flow.
+
+```
+GET /oauth/authorize
+POST /oauth/authorize
+```
+
+**Query Parameters**:
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `response_type` | Yes | Must be `code` |
+| `client_id` | Yes | OAuth app client ID |
+| `redirect_uri` | Yes | Registered redirect URI |
+| `scope` | Yes | Space-separated scopes |
+| `state` | Recommended | CSRF protection token |
+| `code_challenge` | Public clients | PKCE challenge |
+| `code_challenge_method` | With challenge | Must be `S256` |
+| `nonce` | OIDC | OpenID Connect nonce |
+
+**Success Response**: Redirect to `redirect_uri` with `code` and `state`
+
+**Error Response**: Redirect with `error` and `error_description`
+
+---
+
+### Token Endpoint
+
+Exchange authorization code or credentials for tokens.
+
+```
+POST /oauth/token
+Content-Type: application/x-www-form-urlencoded
+```
+
+#### Authorization Code Grant
+
+```
+grant_type=authorization_code
+code=<authorization_code>
+redirect_uri=<registered_uri>
+client_id=<client_id>
+code_verifier=<pkce_verifier>
+```
+
+#### Client Credentials Grant
+
+```
+grant_type=client_credentials
+client_id=<client_id>
+client_secret=<client_secret>
+scope=<requested_scopes>
+```
+
+#### Refresh Token Grant
+
+```
+grant_type=refresh_token
+refresh_token=<refresh_token>
+client_id=<client_id>
+```
+
+**Success Response**:
+
+```json
+{
+  "access_token": "eyJ...",
+  "token_type": "Bearer",
+  "expires_in": 900,
+  "refresh_token": "dGhp...",
+  "scope": "openid profile"
+}
+```
+
+**Error Response**:
+
+```json
+{
+  "error": "invalid_grant",
+  "error_description": "The authorization code has expired"
+}
+```
+
+---
+
+### Introspection Endpoint
+
+Validate and get information about a token.
+
+```
+POST /oauth/introspect
+Content-Type: application/x-www-form-urlencoded
+Authorization: Basic <base64(client_id:client_secret)>
+
+token=<access_token>
+token_type_hint=access_token
+```
+
+**Active Token Response**:
+
+```json
+{
+  "active": true,
+  "scope": "openid profile",
+  "client_id": "my-app",
+  "username": "user@example.com",
+  "token_type": "Bearer",
+  "exp": 1704067200,
+  "iat": 1704066300,
+  "sub": "550e8400-e29b-41d4-a716-446655440000",
+  "aud": ["my-app"]
+}
+```
+
+**Inactive Token Response**:
+
+```json
+{
+  "active": false
+}
+```
+
+---
+
+### Revocation Endpoint
+
+Revoke an access or refresh token.
+
+```
+POST /oauth/revoke
+Content-Type: application/x-www-form-urlencoded
+Authorization: Basic <base64(client_id:client_secret)>
+
+token=<token>
+token_type_hint=refresh_token
+```
+
+**Response**: Always returns `200 OK`
+
+---
+
+### Well-Known Endpoints
+
+#### OpenID Configuration
+
+```
+GET /.well-known/openid-configuration
+```
+
+**Response**:
+
+```json
+{
+  "issuer": "https://api.example.com",
+  "authorization_endpoint": "https://api.example.com/oauth/authorize",
+  "token_endpoint": "https://api.example.com/oauth/token",
+  "introspection_endpoint": "https://api.example.com/oauth/introspect",
+  "revocation_endpoint": "https://api.example.com/oauth/revoke",
+  "jwks_uri": "https://api.example.com/.well-known/jwks.json",
+  "response_types_supported": ["code"],
+  "grant_types_supported": ["authorization_code", "refresh_token", "client_credentials"],
+  "token_endpoint_auth_methods_supported": ["client_secret_basic", "client_secret_post", "none"],
+  "code_challenge_methods_supported": ["S256"]
+}
+```
+
+#### JSON Web Key Set
+
+```
+GET /.well-known/jwks.json
+```
+
+**Response**:
+
+```json
+{
+  "keys": [
+    {
+      "kty": "RSA",
+      "kid": "key-id",
+      "use": "sig",
+      "alg": "RS256",
+      "n": "...",
+      "e": "AQAB"
+    }
+  ]
+}
+```
+
+---
+
+## Go API
+
+### OAuth Provider
+
+```go
+import "github.com/grokify/coreforge/identity/oauth"
+
+// Create provider
+cfg := oauth.DefaultConfig("https://api.example.com", []byte("secret"))
+provider, err := oauth.NewProvider(entClient, cfg)
+
+// Get Fosite provider
+fosite := provider.OAuth2Provider()
+
+// Get storage
+storage := provider.Storage()
+
+// Create session
+session := provider.Session("user-id")
+```
+
+### OAuth Handler
+
+```go
+handler := oauth.NewHandler(provider)
+
+// Endpoints
+http.HandleFunc("/oauth/authorize", handler.AuthorizeEndpoint)
+http.HandleFunc("/oauth/token", handler.TokenEndpoint)
+http.HandleFunc("/oauth/introspect", handler.IntrospectionEndpoint)
+http.HandleFunc("/oauth/revoke", handler.RevocationEndpoint)
+http.HandleFunc("/.well-known/openid-configuration", handler.WellKnownEndpoint)
+http.HandleFunc("/.well-known/jwks.json", handler.JWKSEndpoint)
+
+// Middleware
+protected := handler.Middleware(myHandler)
+```
+
+### Context Helpers
+
+```go
+import "github.com/grokify/coreforge/identity/oauth"
+
+// In handler after middleware
+func myHandler(w http.ResponseWriter, r *http.Request) {
+    ctx := r.Context()
+
+    // Get user ID
+    userID := oauth.UserIDFromContext(ctx)
+
+    // Get scopes
+    scopes := oauth.ScopesFromContext(ctx)
+
+    // Check scope
+    if oauth.HasScope(ctx, "admin") {
+        // Has admin scope
+    }
+
+    // Get full access request
+    ar := oauth.AccessRequestFromContext(ctx)
+}
+```
+
+---
+
+## Error Codes
+
+| Code | Description |
+|------|-------------|
+| `invalid_request` | Malformed request |
+| `invalid_client` | Client authentication failed |
+| `invalid_grant` | Invalid authorization code or refresh token |
+| `unauthorized_client` | Client not authorized for grant type |
+| `unsupported_grant_type` | Grant type not supported |
+| `invalid_scope` | Requested scope is invalid |
+| `access_denied` | User denied authorization |
+| `server_error` | Internal server error |
