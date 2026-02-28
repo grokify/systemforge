@@ -71,6 +71,8 @@ nav:
     - Authentication TRD: design/TRD_AUTHN.md
     - OAuth TRD: design/TRD_OAUTH.md
     - Implementation Tasks: design/TRD_TASKS.md
+  - Releases:
+    - v0.1.0: releases/v0.1.0.md
   - Reference:
     - Ent Schemas: reference/schemas.md
     - API Reference: reference/api.md
