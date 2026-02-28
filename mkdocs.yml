@@ -65,6 +65,12 @@ nav:
   - Integration:
     - With Existing Apps: integration/existing-apps.md
     - Migration Guide: integration/migration.md
+  - Design:
+    - Authentication PRD: design/PRD_AUTHN.md
+    - OAuth PRD: design/PRD_OAUTH.md
+    - Authentication TRD: design/TRD_AUTHN.md
+    - OAuth TRD: design/TRD_OAUTH.md
+    - Implementation Tasks: design/TRD_TASKS.md
   - Reference:
     - Ent Schemas: reference/schemas.md
     - API Reference: reference/api.md
