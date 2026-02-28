@@ -11,47 +11,47 @@ CoreForge is a batteries-included Go platform module providing reusable identity
 
 ### Identity Module
 
-- **Users** - Email, password hash (Argon2id), platform admin flag
-- **Organizations** - Multi-tenant with name, slug, plan, settings
-- **Memberships** - User-org relationships with flexible roles
-- **OAuth Accounts** - External OAuth provider links (GitHub, Google)
-- **API Keys** - Machine-to-machine authentication with scopes
+- 👤 **Users** - Email, password hash (Argon2id), platform admin flag
+- 🏢 **Organizations** - Multi-tenant with name, slug, plan, settings
+- 🔗 **Memberships** - User-org relationships with flexible roles
+- 🔐 **OAuth Accounts** - External OAuth provider links (GitHub, Google)
+- 🔑 **API Keys** - Machine-to-machine authentication with scopes
 
 ### OAuth 2.0 Server (Fosite)
 
-- **Authorization Code + PKCE** - Secure browser-based auth
-- **Client Credentials** - Service-to-service auth
-- **Refresh Token** - With rotation and theft detection
-- **JWT Bearer (RFC 7523)** - Service account authentication
-- **Service Accounts** - Non-human identities with RSA/EC key pairs
-- **Token Introspection & Revocation** - RFC 7662/7009
+- 📜 **Authorization Code + PKCE** - Secure browser-based auth
+- 🤖 **Client Credentials** - Service-to-service auth
+- 🔄 **Refresh Token** - With rotation and theft detection
+- 📝 **JWT Bearer (RFC 7523)** - Service account authentication
+- ⚙️ **Service Accounts** - Non-human identities with RSA/EC key pairs
+- 🔍 **Token Introspection & Revocation** - RFC 7662/7009
 
 ### Session Module
 
-- **JWT Service** - Access/refresh token generation with HS256/RS256/ES256
-- **DPoP (RFC 9449)** - Proof-of-possession token binding
-- **BFF Pattern** - Backend for Frontend with server-side sessions
-- **OAuth Handlers** - GitHub and Google social login
-- **Middleware** - JWT Bearer and API key authentication
+- 🎫 **JWT Service** - Access/refresh token generation with HS256/RS256/ES256
+- 🔒 **DPoP (RFC 9449)** - Proof-of-possession token binding
+- 🖥️ **BFF Pattern** - Backend for Frontend with server-side sessions
+- 🌐 **OAuth Handlers** - GitHub and Google social login
+- 🛡️ **Middleware** - JWT Bearer and API key authentication
 
 ### Authorization Module
 
-- **RBAC** - Role-based access control with org-scoped permissions
-- **Casbin Provider** - Advanced policy rules with Casbin integration
-- **Simple Provider** - Lightweight permission checking
-- **HTTP Middleware** - Route protection for Chi and stdlib
+- 👥 **RBAC** - Role-based access control with org-scoped permissions
+- ⚖️ **Casbin Provider** - Advanced policy rules with Casbin integration
+- ✨ **Simple Provider** - Lightweight permission checking
+- 🚧 **HTTP Middleware** - Route protection for Chi and stdlib
 
 ### Feature Flags
 
-- **Flag Engine** - Boolean, percentage, and user list flags
-- **Organization Scoping** - Per-org flag evaluation
-- **In-Memory Store** - Development and testing
+- 🚩 **Flag Engine** - Boolean, percentage, and user list flags
+- 🏢 **Organization Scoping** - Per-org flag evaluation
+- 💾 **In-Memory Store** - Development and testing
 
 ### Row-Level Security (RLS)
 
-- **PostgreSQL RLS** - Policy generation and session variables
-- **Tenant Isolation** - Multi-tenant data separation
-- **Ent Integration** - Transaction helpers with tenant context
+- 🗃️ **PostgreSQL RLS** - Policy generation and session variables
+- 🏠 **Tenant Isolation** - Multi-tenant data separation
+- 🔗 **Ent Integration** - Transaction helpers with tenant context
 
 ## Installation
 
