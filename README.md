@@ -1,9 +1,11 @@
 # CoreForge
 
-[![Go CI](https://github.com/grokify/coreforge/workflows/Go%20CI/badge.svg)](https://github.com/grokify/coreforge/actions)
-[![Go Lint](https://github.com/grokify/coreforge/workflows/Go%20Lint/badge.svg)](https://github.com/grokify/coreforge/actions)
-[![Go Report Card](https://goreportcard.com/badge/github.com/grokify/coreforge)](https://goreportcard.com/report/github.com/grokify/coreforge)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Build Status][build-status-svg]][build-status-url]
+[![Lint Status][lint-status-svg]][lint-status-url]
+[![Go Report Card][goreport-svg]][goreport-url]
+[![Docs][docs-godoc-svg]][docs-godoc-url]
+[![Visualization][viz-svg]][viz-url]
+[![License][license-svg]][license-url]
 
 CoreForge is a batteries-included Go platform module providing reusable identity, session, authorization, and feature flags for multi-tenant SaaS applications. Think of it as Django/Laravel-style conveniences for Go.
 
@@ -315,3 +317,18 @@ Contributions are welcome! Please read the contributing guidelines before submit
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
+
+ [build-status-svg]: https://github.com/grokify/coreforge/actions/workflows/ci.yaml/badge.svg?branch=main
+ [build-status-url]: https://github.com/grokify/coreforge/actions/workflows/ci.yaml
+ [lint-status-svg]: https://github.com/grokify/coreforge/actions/workflows/lint.yaml/badge.svg?branch=main
+ [lint-status-url]: https://github.com/grokify/coreforge/actions/workflows/lint.yaml
+ [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/coreforge
+ [goreport-url]: https://goreportcard.com/report/github.com/grokify/coreforge
+ [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/coreforge
+ [docs-godoc-url]: https://pkg.go.dev/github.com/grokify/coreforge
+ [viz-svg]: https://img.shields.io/badge/visualizaton-Go-blue.svg
+ [viz-url]: https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=grokify%2Fcoreforge
+ [loc-svg]: https://tokei.rs/b1/github/grokify/coreforge
+ [repo-url]: https://github.com/grokify/coreforge
+ [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
+ [license-url]: https://github.com/grokify/coreforge/blob/master/LICENSE
