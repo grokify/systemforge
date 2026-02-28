@@ -1,0 +1,14 @@
+version: "2"
+run:
+  go: "1.23"
+linters:
+  enable:
+    - dogsled
+    - dupl
+    - gosec
+    - misspell
+    - nakedret
+    - staticcheck
+    - unconvert
+    - unparam
+    - whitespace

@@ -1,0 +1,32 @@
+# Build output
+site/
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+.envrc
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Ent generated (uncomment if you want to track generated code)
+# identity/ent/*.go
+# !identity/ent/generate.go
+# !identity/ent/schema/
