@@ -96,4 +96,8 @@
          <loc>https://grokify.github.io/coreforge/reference/schemas/</loc>
          <lastmod>2026-02-28</lastmod>
     </url>
+    <url>
+         <loc>https://grokify.github.io/coreforge/releases/v0.1.0/</loc>
+         <lastmod>2026-02-28</lastmod>
+    </url>
 </urlset>
