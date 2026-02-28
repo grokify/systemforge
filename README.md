@@ -1,14 +1,57 @@
 # CoreForge
 
-CoreForge is a batteries-included Go platform module providing reusable identity, session, RBAC, and feature flags for multi-tenant SaaS applications. Think of it as Django/Laravel-style conveniences for Go.
+[![Go CI](https://github.com/grokify/coreforge/workflows/Go%20CI/badge.svg)](https://github.com/grokify/coreforge/actions)
+[![Go Lint](https://github.com/grokify/coreforge/workflows/Go%20Lint/badge.svg)](https://github.com/grokify/coreforge/actions)
+[![Go Report Card](https://goreportcard.com/badge/github.com/grokify/coreforge)](https://goreportcard.com/report/github.com/grokify/coreforge)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+CoreForge is a batteries-included Go platform module providing reusable identity, session, authorization, and feature flags for multi-tenant SaaS applications. Think of it as Django/Laravel-style conveniences for Go.
 
 ## Features
 
-- **Identity** - User, Organization, Membership, OAuth account management with Ent schemas
-- **Session** - JWT tokens, OAuth providers (GitHub, Google), middleware adapters
-- **RBAC** - Role-based access control with optional Casbin integration
-- **Feature Flags** - Feature flag engine with memory and PostgreSQL stores
-- **RLS** - PostgreSQL Row-Level Security helpers
+### Identity Module
+
+- **Users** - Email, password hash (Argon2id), platform admin flag
+- **Organizations** - Multi-tenant with name, slug, plan, settings
+- **Memberships** - User-org relationships with flexible roles
+- **OAuth Accounts** - External OAuth provider links (GitHub, Google)
+- **API Keys** - Machine-to-machine authentication with scopes
+
+### OAuth 2.0 Server (Fosite)
+
+- **Authorization Code + PKCE** - Secure browser-based auth
+- **Client Credentials** - Service-to-service auth
+- **Refresh Token** - With rotation and theft detection
+- **JWT Bearer (RFC 7523)** - Service account authentication
+- **Service Accounts** - Non-human identities with RSA/EC key pairs
+- **Token Introspection & Revocation** - RFC 7662/7009
+
+### Session Module
+
+- **JWT Service** - Access/refresh token generation with HS256/RS256/ES256
+- **DPoP (RFC 9449)** - Proof-of-possession token binding
+- **BFF Pattern** - Backend for Frontend with server-side sessions
+- **OAuth Handlers** - GitHub and Google social login
+- **Middleware** - JWT Bearer and API key authentication
+
+### Authorization Module
+
+- **RBAC** - Role-based access control with org-scoped permissions
+- **Casbin Provider** - Advanced policy rules with Casbin integration
+- **Simple Provider** - Lightweight permission checking
+- **HTTP Middleware** - Route protection for Chi and stdlib
+
+### Feature Flags
+
+- **Flag Engine** - Boolean, percentage, and user list flags
+- **Organization Scoping** - Per-org flag evaluation
+- **In-Memory Store** - Development and testing
+
+### Row-Level Security (RLS)
+
+- **PostgreSQL RLS** - Policy generation and session variables
+- **Tenant Isolation** - Multi-tenant data separation
+- **Ent Integration** - Transaction helpers with tenant context
 
 ## Installation
 
@@ -16,40 +59,47 @@ CoreForge is a batteries-included Go platform module providing reusable identity
 go get github.com/grokify/coreforge
 ```
 
-## Module Structure
-
-```
-github.com/grokify/coreforge/
-├── identity/          # User, Organization, Membership, OAuth
-├── session/           # JWT, OAuth, middleware
-├── rbac/              # Role-based access control
-├── featureflags/      # Feature flag engine
-└── rls/               # PostgreSQL RLS helpers
-```
-
 ## Quick Start
 
 ### Using Identity Schemas
 
-CoreForge provides Ent schemas that can be used directly or composed via mixins.
+CoreForge provides Ent schemas with `cf_` table prefix for side-by-side migration.
 
 #### Direct Schema Usage
-
-Import and use CoreForge schemas directly in your Ent configuration:
 
 ```go
 package main
 
 import (
-    "github.com/grokify/coreforge/identity/ent/schema"
+    "context"
+
+    "github.com/grokify/coreforge/identity/ent"
+    _ "github.com/lib/pq"
 )
 
-// Your app uses CoreForge schemas directly
+func main() {
+    client, err := ent.Open("postgres", "postgres://...")
+    if err != nil {
+        panic(err)
+    }
+    defer client.Close()
+
+    // Run migrations
+    if err := client.Schema.Create(context.Background()); err != nil {
+        panic(err)
+    }
+
+    // Create a user
+    user, err := client.User.Create().
+        SetEmail("user@example.com").
+        SetName("Example User").
+        Save(context.Background())
+}
 ```
 
 #### Mixin Composition (Recommended)
 
-Compose CoreForge mixins into your own schemas for maximum flexibility:
+Compose CoreForge mixins into your own schemas:
 
 ```go
 // your-app/ent/schema/user.go
@@ -57,6 +107,7 @@ package schema
 
 import (
     "entgo.io/ent"
+    "entgo.io/ent/schema/field"
     cfmixin "github.com/grokify/coreforge/identity/ent/mixin"
 )
 
@@ -66,16 +117,140 @@ type User struct {
 
 func (User) Mixin() []ent.Mixin {
     return []ent.Mixin{
-        cfmixin.UserBase{},  // CoreForge fields
+        cfmixin.UUIDMixin{},      // UUID primary key
+        cfmixin.TimestampMixin{}, // created_at, updated_at
     }
 }
 
 func (User) Fields() []ent.Field {
     return []ent.Field{
-        // App-specific extensions
         field.String("username").Unique(),
+        // App-specific fields...
     }
 }
+```
+
+### JWT Authentication
+
+```go
+import (
+    "github.com/grokify/coreforge/session/jwt"
+    "github.com/grokify/coreforge/session/middleware"
+)
+
+// Create JWT service
+svc, err := jwt.NewService(&jwt.Config{
+    Secret:             []byte("your-secret-key"),
+    AccessTokenExpiry:  15 * time.Minute,
+    RefreshTokenExpiry: 7 * 24 * time.Hour,
+    Issuer:             "your-app",
+})
+
+// Generate tokens
+pair, err := svc.GenerateTokenPair(userID, email, name)
+
+// Middleware for protected routes
+r.Use(middleware.JWT(svc))
+```
+
+### DPoP Token Binding
+
+```go
+import "github.com/grokify/coreforge/session/dpop"
+
+// Generate DPoP key pair (BFF side)
+keyPair, err := dpop.GenerateKeyPair()
+
+// Create proof for API request
+proof, err := dpop.CreateProofWithOptions(keyPair, "POST", "https://api.example.com/data", dpop.ProofOptions{
+    AccessToken: accessToken,
+})
+
+// Verify proof (API side)
+verifier := dpop.NewVerifier(dpop.VerificationConfig{
+    MaxAge: 5 * time.Minute,
+})
+result, err := verifier.Verify(proofJWT, dpop.VerificationRequest{
+    Method:      "POST",
+    URI:         "https://api.example.com/data",
+    AccessToken: accessToken,
+})
+```
+
+### BFF Pattern
+
+```go
+import "github.com/grokify/coreforge/session/bff"
+
+// Create BFF proxy
+proxy := bff.NewProxy(bff.ProxyConfig{
+    Backend:        "https://api.internal.example.com",
+    AllowedOrigins: []string{"https://app.example.com"},
+    SessionStore:   bff.NewMemoryStore(),
+})
+
+// Mount proxy handler
+r.Handle("/api/*", proxy.Handler())
+```
+
+### Authorization
+
+```go
+import (
+    "github.com/grokify/coreforge/authz"
+    "github.com/grokify/coreforge/authz/simple"
+)
+
+// Create authorization provider
+provider := simple.NewProvider(simple.Config{
+    AllowOwnerFullAccess:  true,
+    AllowPlatformAdminAll: true,
+})
+
+// Add role permissions
+provider.AddRolePermissions("admin", []string{
+    "users:read", "users:write",
+    "settings:read", "settings:write",
+})
+provider.AddRolePermissions("member", []string{
+    "users:read",
+})
+
+// Use middleware
+mw := authz.NewMiddleware(provider)
+r.With(mw.RequireAction(authz.ResourceType("users"), authz.ActionRead)).Get("/users", listUsers)
+```
+
+## Module Structure
+
+```
+github.com/grokify/coreforge/
+├── identity/              # User, Organization, Membership, OAuth
+│   ├── ent/schema/        # Ent schemas with cf_ prefix
+│   ├── apikey/            # API key service
+│   ├── oauth/             # OAuth 2.0 server (Fosite)
+│   ├── password.go        # Argon2id hashing
+│   └── service.go         # Identity service interfaces
+│
+├── session/               # Session management
+│   ├── jwt/               # JWT service with DPoP claims
+│   ├── dpop/              # DPoP proof-of-possession
+│   ├── bff/               # Backend for Frontend pattern
+│   ├── oauth/             # Social login handlers
+│   └── middleware/        # Auth middleware
+│
+├── authz/                 # Authorization
+│   ├── simple/            # Simple RBAC provider
+│   ├── casbin/            # Casbin adapter
+│   ├── providertest/      # Provider test suite
+│   └── middleware.go      # HTTP middleware
+│
+├── featureflags/          # Feature flag engine
+│   └── stores/            # Flag stores
+│
+└── rls/                   # PostgreSQL Row-Level Security
+    ├── rls.go             # Policy generation
+    └── middleware.go      # HTTP middleware
 ```
 
 ## Design Decisions
@@ -83,20 +258,31 @@ func (User) Fields() []ent.Field {
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
 | Table prefix | `cf_` | Avoids conflicts, enables side-by-side migration |
-| Role storage | String field | Apps define own vocabularies |
-| OAuth pattern | Separate table | Supports multiple providers per user |
-| Refresh tokens | Database-backed | Enables revocation, breach detection |
+| Role storage | String field | Apps define own vocabularies (owner/admin/member) |
+| OAuth pattern | Fosite library | Production-ready, RFC-compliant OAuth 2.0 |
+| Refresh tokens | Database-backed | Enables revocation, theft detection |
 | Primary keys | UUID | Modern, distributed-friendly |
+| Password hashing | Argon2id | OWASP recommended, memory-hard |
 
 ## Database Tables
 
 CoreForge creates the following tables (all prefixed with `cf_`):
 
-- `cf_users` - User accounts
-- `cf_organizations` - Multi-tenant organizations
-- `cf_memberships` - User-organization relationships with roles
-- `cf_oauth_accounts` - OAuth provider connections
-- `cf_refresh_tokens` - JWT refresh token tracking
+| Table | Description |
+|-------|-------------|
+| `cf_users` | User accounts |
+| `cf_organizations` | Multi-tenant organizations |
+| `cf_memberships` | User-organization relationships |
+| `cf_oauth_accounts` | External OAuth provider links |
+| `cf_refresh_tokens` | JWT refresh token tracking |
+| `cf_api_keys` | Developer API keys |
+| `cf_oauth_apps` | OAuth client applications |
+| `cf_oauth_app_secrets` | Client secrets (hashed) |
+| `cf_oauth_tokens` | Issued OAuth tokens |
+| `cf_oauth_auth_codes` | Authorization codes |
+| `cf_oauth_consents` | User consent records |
+| `cf_service_accounts` | Non-human identities |
+| `cf_service_account_key_pairs` | RSA/EC key pairs |
 
 ## Migration Strategy
 
@@ -107,6 +293,25 @@ For existing apps, CoreForge supports side-by-side migration:
 3. **Cutover**: Switch reads to CoreForge tables
 4. **Cleanup**: Remove old tables
 
+## Documentation
+
+Full documentation is available via MkDocs:
+
+```bash
+# Install MkDocs
+pip install mkdocs mkdocs-material
+
+# Serve locally
+mkdocs serve
+
+# Build static site
+mkdocs build
+```
+
+## Contributing
+
+Contributions are welcome! Please read the contributing guidelines before submitting PRs.
+
 ## License
 
-MIT License - see LICENSE file for details.
+MIT License - see [LICENSE](LICENSE) file for details.
