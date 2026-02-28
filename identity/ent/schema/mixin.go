@@ -1,0 +1,55 @@
+// Package schema provides Ent schema definitions for CoreForge identity management.
+package schema
+
+import (
+	"time"
+
+	"entgo.io/ent"
+	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/mixin"
+	"github.com/google/uuid"
+)
+
+// UUIDMixin provides a UUID primary key field.
+type UUIDMixin struct {
+	mixin.Schema
+}
+
+// Fields returns the UUID id field.
+func (UUIDMixin) Fields() []ent.Field {
+	return []ent.Field{
+		field.UUID("id", uuid.UUID{}).
+			Default(uuid.New).
+			Immutable(),
+	}
+}
+
+// TimestampMixin provides created_at and updated_at timestamp fields.
+type TimestampMixin struct {
+	mixin.Schema
+}
+
+// Fields returns the timestamp fields.
+func (TimestampMixin) Fields() []ent.Field {
+	return []ent.Field{
+		field.Time("created_at").
+			Default(time.Now).
+			Immutable(),
+		field.Time("updated_at").
+			Default(time.Now).
+			UpdateDefault(time.Now),
+	}
+}
+
+// BaseMixin combines UUID and Timestamp mixins for convenience.
+type BaseMixin struct {
+	mixin.Schema
+}
+
+// Fields returns combined UUID and timestamp fields.
+func (BaseMixin) Fields() []ent.Field {
+	fields := make([]ent.Field, 0, 3)
+	fields = append(fields, UUIDMixin{}.Fields()...)
+	fields = append(fields, TimestampMixin{}.Fields()...)
+	return fields
+}

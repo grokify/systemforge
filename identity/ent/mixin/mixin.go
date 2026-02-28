@@ -1,0 +1,168 @@
+// Package mixin provides Ent mixins for composing CoreForge identity fields
+// into application schemas.
+package mixin
+
+import (
+	"time"
+
+	"entgo.io/ent"
+	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/mixin"
+	"github.com/google/uuid"
+)
+
+// UUIDMixin provides a UUID primary key field.
+// Use this when you want UUID-based primary keys in your schema.
+type UUIDMixin struct {
+	mixin.Schema
+}
+
+// Fields returns the UUID id field.
+func (UUIDMixin) Fields() []ent.Field {
+	return []ent.Field{
+		field.UUID("id", uuid.UUID{}).
+			Default(uuid.New).
+			Immutable(),
+	}
+}
+
+// TimestampMixin provides created_at and updated_at timestamp fields.
+// Use this for automatic timestamp tracking in your schema.
+type TimestampMixin struct {
+	mixin.Schema
+}
+
+// Fields returns the timestamp fields.
+func (TimestampMixin) Fields() []ent.Field {
+	return []ent.Field{
+		field.Time("created_at").
+			Default(time.Now).
+			Immutable(),
+		field.Time("updated_at").
+			Default(time.Now).
+			UpdateDefault(time.Now),
+	}
+}
+
+// BaseMixin combines UUID and Timestamp mixins for convenience.
+// This is the most commonly used mixin for CoreForge-compatible entities.
+type BaseMixin struct {
+	mixin.Schema
+}
+
+// Fields returns combined UUID and timestamp fields.
+func (BaseMixin) Fields() []ent.Field {
+	fields := make([]ent.Field, 0, 3)
+	fields = append(fields, UUIDMixin{}.Fields()...)
+	fields = append(fields, TimestampMixin{}.Fields()...)
+	return fields
+}
+
+// UserBase provides the core user fields for composition into app schemas.
+// Apps can use this mixin to get CoreForge-compatible user fields while
+// adding their own custom fields.
+//
+// Example usage:
+//
+//	type User struct {
+//	    ent.Schema
+//	}
+//
+//	func (User) Mixin() []ent.Mixin {
+//	    return []ent.Mixin{
+//	        mixin.UserBase{},
+//	    }
+//	}
+//
+//	func (User) Fields() []ent.Field {
+//	    return []ent.Field{
+//	        // App-specific fields
+//	        field.String("username").Unique(),
+//	    }
+//	}
+type UserBase struct {
+	mixin.Schema
+}
+
+// Fields returns the core user fields.
+func (UserBase) Fields() []ent.Field {
+	baseFields := BaseMixin{}.Fields()
+	userFields := []ent.Field{
+		field.String("email").
+			NotEmpty().
+			Unique(),
+		field.String("name").
+			NotEmpty(),
+		field.String("avatar_url").
+			Optional().
+			Nillable(),
+		field.String("password_hash").
+			Optional().
+			Sensitive(),
+		field.Bool("is_platform_admin").
+			Default(false).
+			Comment("Cross-organization admin access"),
+		field.Bool("active").
+			Default(true),
+		field.Time("last_login_at").
+			Optional().
+			Nillable(),
+	}
+	return append(baseFields, userFields...)
+}
+
+// OrganizationBase provides the core organization fields for composition.
+// Apps can use this mixin to get CoreForge-compatible organization fields
+// while adding their own custom fields or renaming to match their domain
+// (e.g., Team, Tenant, Workspace).
+type OrganizationBase struct {
+	mixin.Schema
+}
+
+// Fields returns the core organization fields.
+func (OrganizationBase) Fields() []ent.Field {
+	baseFields := BaseMixin{}.Fields()
+	orgFields := []ent.Field{
+		field.String("name").
+			NotEmpty(),
+		field.String("slug").
+			NotEmpty().
+			Unique().
+			Comment("URL-safe identifier"),
+		field.String("logo_url").
+			Optional().
+			Nillable(),
+		field.JSON("settings", map[string]any{}).
+			Optional().
+			Comment("App-specific configuration"),
+		field.Enum("plan").
+			Values("free", "starter", "pro", "enterprise").
+			Default("free"),
+		field.Bool("active").
+			Default(true),
+	}
+	return append(baseFields, orgFields...)
+}
+
+// MembershipBase provides the core membership fields for composition.
+// Apps can use this mixin to get CoreForge-compatible membership fields
+// while customizing role values for their domain.
+type MembershipBase struct {
+	mixin.Schema
+}
+
+// Fields returns the core membership fields.
+func (MembershipBase) Fields() []ent.Field {
+	baseFields := BaseMixin{}.Fields()
+	membershipFields := []ent.Field{
+		field.UUID("user_id", uuid.UUID{}),
+		field.UUID("organization_id", uuid.UUID{}),
+		field.String("role").
+			NotEmpty().
+			Comment("App-defined role (e.g., owner, admin, member, student, instructor)"),
+		field.JSON("permissions", []string{}).
+			Optional().
+			Comment("Optional fine-grained permissions"),
+	}
+	return append(baseFields, membershipFields...)
+}
