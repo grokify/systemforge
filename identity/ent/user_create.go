@@ -143,6 +143,20 @@ func (_c *UserCreate) SetNillableLastLoginAt(v *time.Time) *UserCreate {
 	return _c
 }
 
+// SetFederationID sets the "federation_id" field.
+func (_c *UserCreate) SetFederationID(v uuid.UUID) *UserCreate {
+	_c.mutation.SetFederationID(v)
+	return _c
+}
+
+// SetNillableFederationID sets the "federation_id" field if the given value is not nil.
+func (_c *UserCreate) SetNillableFederationID(v *uuid.UUID) *UserCreate {
+	if v != nil {
+		_c.SetFederationID(*v)
+	}
+	return _c
+}
+
 // SetID sets the "id" field.
 func (_c *UserCreate) SetID(v uuid.UUID) *UserCreate {
 	_c.mutation.SetID(v)
@@ -450,6 +464,10 @@ func (_c *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.LastLoginAt(); ok {
 		_spec.SetField(user.FieldLastLoginAt, field.TypeTime, value)
 		_node.LastLoginAt = &value
+	}
+	if value, ok := _c.mutation.FederationID(); ok {
+		_spec.SetField(user.FieldFederationID, field.TypeUUID, value)
+		_node.FederationID = &value
 	}
 	if nodes := _c.mutation.MembershipsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -761,6 +779,24 @@ func (u *UserUpsert) ClearLastLoginAt() *UserUpsert {
 	return u
 }
 
+// SetFederationID sets the "federation_id" field.
+func (u *UserUpsert) SetFederationID(v uuid.UUID) *UserUpsert {
+	u.Set(user.FieldFederationID, v)
+	return u
+}
+
+// UpdateFederationID sets the "federation_id" field to the value that was provided on create.
+func (u *UserUpsert) UpdateFederationID() *UserUpsert {
+	u.SetExcluded(user.FieldFederationID)
+	return u
+}
+
+// ClearFederationID clears the value of the "federation_id" field.
+func (u *UserUpsert) ClearFederationID() *UserUpsert {
+	u.SetNull(user.FieldFederationID)
+	return u
+}
+
 // UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
@@ -942,6 +978,27 @@ func (u *UserUpsertOne) UpdateLastLoginAt() *UserUpsertOne {
 func (u *UserUpsertOne) ClearLastLoginAt() *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
 		s.ClearLastLoginAt()
+	})
+}
+
+// SetFederationID sets the "federation_id" field.
+func (u *UserUpsertOne) SetFederationID(v uuid.UUID) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.SetFederationID(v)
+	})
+}
+
+// UpdateFederationID sets the "federation_id" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateFederationID() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateFederationID()
+	})
+}
+
+// ClearFederationID clears the value of the "federation_id" field.
+func (u *UserUpsertOne) ClearFederationID() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.ClearFederationID()
 	})
 }
 
@@ -1293,6 +1350,27 @@ func (u *UserUpsertBulk) UpdateLastLoginAt() *UserUpsertBulk {
 func (u *UserUpsertBulk) ClearLastLoginAt() *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
 		s.ClearLastLoginAt()
+	})
+}
+
+// SetFederationID sets the "federation_id" field.
+func (u *UserUpsertBulk) SetFederationID(v uuid.UUID) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.SetFederationID(v)
+	})
+}
+
+// UpdateFederationID sets the "federation_id" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateFederationID() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateFederationID()
+	})
+}
+
+// ClearFederationID clears the value of the "federation_id" field.
+func (u *UserUpsertBulk) ClearFederationID() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.ClearFederationID()
 	})
 }
 

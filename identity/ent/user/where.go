@@ -101,6 +101,11 @@ func LastLoginAt(v time.Time) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldLastLoginAt, v))
 }
 
+// FederationID applies equality check predicate on the "federation_id" field. It's identical to FederationIDEQ.
+func FederationID(v uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldFederationID, v))
+}
+
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.
 func CreatedAtEQ(v time.Time) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldCreatedAt, v))
@@ -529,6 +534,56 @@ func LastLoginAtIsNil() predicate.User {
 // LastLoginAtNotNil applies the NotNil predicate on the "last_login_at" field.
 func LastLoginAtNotNil() predicate.User {
 	return predicate.User(sql.FieldNotNull(FieldLastLoginAt))
+}
+
+// FederationIDEQ applies the EQ predicate on the "federation_id" field.
+func FederationIDEQ(v uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldFederationID, v))
+}
+
+// FederationIDNEQ applies the NEQ predicate on the "federation_id" field.
+func FederationIDNEQ(v uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldNEQ(FieldFederationID, v))
+}
+
+// FederationIDIn applies the In predicate on the "federation_id" field.
+func FederationIDIn(vs ...uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldIn(FieldFederationID, vs...))
+}
+
+// FederationIDNotIn applies the NotIn predicate on the "federation_id" field.
+func FederationIDNotIn(vs ...uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldNotIn(FieldFederationID, vs...))
+}
+
+// FederationIDGT applies the GT predicate on the "federation_id" field.
+func FederationIDGT(v uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldGT(FieldFederationID, v))
+}
+
+// FederationIDGTE applies the GTE predicate on the "federation_id" field.
+func FederationIDGTE(v uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldGTE(FieldFederationID, v))
+}
+
+// FederationIDLT applies the LT predicate on the "federation_id" field.
+func FederationIDLT(v uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldLT(FieldFederationID, v))
+}
+
+// FederationIDLTE applies the LTE predicate on the "federation_id" field.
+func FederationIDLTE(v uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldLTE(FieldFederationID, v))
+}
+
+// FederationIDIsNil applies the IsNil predicate on the "federation_id" field.
+func FederationIDIsNil() predicate.User {
+	return predicate.User(sql.FieldIsNull(FieldFederationID))
+}
+
+// FederationIDNotNil applies the NotNil predicate on the "federation_id" field.
+func FederationIDNotNil() predicate.User {
+	return predicate.User(sql.FieldNotNull(FieldFederationID))
 }
 
 // HasMemberships applies the HasEdge predicate on the "memberships" edge.

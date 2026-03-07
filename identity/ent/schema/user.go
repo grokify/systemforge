@@ -7,6 +7,7 @@ import (
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
+	"github.com/google/uuid"
 )
 
 // User holds the schema definition for the User entity.
@@ -50,6 +51,11 @@ func (User) Fields() []ent.Field {
 		field.Time("last_login_at").
 			Optional().
 			Nillable(),
+		field.UUID("federation_id", uuid.UUID{}).
+			Optional().
+			Nillable().
+			Unique().
+			Comment("CoreControl global identity ID for federated users"),
 	}
 }
 
@@ -76,5 +82,7 @@ func (User) Indexes() []ent.Index {
 		index.Fields("email").
 			Unique(),
 		index.Fields("active"),
+		index.Fields("federation_id").
+			Unique(),
 	}
 }

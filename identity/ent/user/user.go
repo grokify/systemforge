@@ -33,6 +33,8 @@ const (
 	FieldActive = "active"
 	// FieldLastLoginAt holds the string denoting the last_login_at field in the database.
 	FieldLastLoginAt = "last_login_at"
+	// FieldFederationID holds the string denoting the federation_id field in the database.
+	FieldFederationID = "federation_id"
 	// EdgeMemberships holds the string denoting the memberships edge name in mutations.
 	EdgeMemberships = "memberships"
 	// EdgeOauthAccounts holds the string denoting the oauth_accounts edge name in mutations.
@@ -130,6 +132,7 @@ var Columns = []string{
 	FieldIsPlatformAdmin,
 	FieldActive,
 	FieldLastLoginAt,
+	FieldFederationID,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -212,6 +215,11 @@ func ByActive(opts ...sql.OrderTermOption) OrderOption {
 // ByLastLoginAt orders the results by the last_login_at field.
 func ByLastLoginAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldLastLoginAt, opts...).ToFunc()
+}
+
+// ByFederationID orders the results by the federation_id field.
+func ByFederationID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldFederationID, opts...).ToFunc()
 }
 
 // ByMembershipsCount orders the results by memberships count.

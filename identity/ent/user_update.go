@@ -160,6 +160,26 @@ func (_u *UserUpdate) ClearLastLoginAt() *UserUpdate {
 	return _u
 }
 
+// SetFederationID sets the "federation_id" field.
+func (_u *UserUpdate) SetFederationID(v uuid.UUID) *UserUpdate {
+	_u.mutation.SetFederationID(v)
+	return _u
+}
+
+// SetNillableFederationID sets the "federation_id" field if the given value is not nil.
+func (_u *UserUpdate) SetNillableFederationID(v *uuid.UUID) *UserUpdate {
+	if v != nil {
+		_u.SetFederationID(*v)
+	}
+	return _u
+}
+
+// ClearFederationID clears the value of the "federation_id" field.
+func (_u *UserUpdate) ClearFederationID() *UserUpdate {
+	_u.mutation.ClearFederationID()
+	return _u
+}
+
 // AddMembershipIDs adds the "memberships" edge to the Membership entity by IDs.
 func (_u *UserUpdate) AddMembershipIDs(ids ...uuid.UUID) *UserUpdate {
 	_u.mutation.AddMembershipIDs(ids...)
@@ -584,6 +604,12 @@ func (_u *UserUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if _u.mutation.LastLoginAtCleared() {
 		_spec.ClearField(user.FieldLastLoginAt, field.TypeTime)
+	}
+	if value, ok := _u.mutation.FederationID(); ok {
+		_spec.SetField(user.FieldFederationID, field.TypeUUID, value)
+	}
+	if _u.mutation.FederationIDCleared() {
+		_spec.ClearField(user.FieldFederationID, field.TypeUUID)
 	}
 	if _u.mutation.MembershipsCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -1132,6 +1158,26 @@ func (_u *UserUpdateOne) ClearLastLoginAt() *UserUpdateOne {
 	return _u
 }
 
+// SetFederationID sets the "federation_id" field.
+func (_u *UserUpdateOne) SetFederationID(v uuid.UUID) *UserUpdateOne {
+	_u.mutation.SetFederationID(v)
+	return _u
+}
+
+// SetNillableFederationID sets the "federation_id" field if the given value is not nil.
+func (_u *UserUpdateOne) SetNillableFederationID(v *uuid.UUID) *UserUpdateOne {
+	if v != nil {
+		_u.SetFederationID(*v)
+	}
+	return _u
+}
+
+// ClearFederationID clears the value of the "federation_id" field.
+func (_u *UserUpdateOne) ClearFederationID() *UserUpdateOne {
+	_u.mutation.ClearFederationID()
+	return _u
+}
+
 // AddMembershipIDs adds the "memberships" edge to the Membership entity by IDs.
 func (_u *UserUpdateOne) AddMembershipIDs(ids ...uuid.UUID) *UserUpdateOne {
 	_u.mutation.AddMembershipIDs(ids...)
@@ -1586,6 +1632,12 @@ func (_u *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) {
 	}
 	if _u.mutation.LastLoginAtCleared() {
 		_spec.ClearField(user.FieldLastLoginAt, field.TypeTime)
+	}
+	if value, ok := _u.mutation.FederationID(); ok {
+		_spec.SetField(user.FieldFederationID, field.TypeUUID, value)
+	}
+	if _u.mutation.FederationIDCleared() {
+		_spec.ClearField(user.FieldFederationID, field.TypeUUID)
 	}
 	if _u.mutation.MembershipsCleared() {
 		edge := &sqlgraph.EdgeSpec{

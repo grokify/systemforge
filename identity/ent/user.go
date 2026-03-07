@@ -36,6 +36,8 @@ type User struct {
 	Active bool `json:"active,omitempty"`
 	// LastLoginAt holds the value of the "last_login_at" field.
 	LastLoginAt *time.Time `json:"last_login_at,omitempty"`
+	// CoreControl global identity ID for federated users
+	FederationID *uuid.UUID `json:"federation_id,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the UserQuery when eager-loading is set.
 	Edges        UserEdges `json:"edges"`
@@ -153,6 +155,8 @@ func (*User) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case user.FieldFederationID:
+			values[i] = &sql.NullScanner{S: new(uuid.UUID)}
 		case user.FieldIsPlatformAdmin, user.FieldActive:
 			values[i] = new(sql.NullBool)
 		case user.FieldEmail, user.FieldName, user.FieldAvatarURL, user.FieldPasswordHash:
@@ -237,6 +241,13 @@ func (_m *User) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.LastLoginAt = new(time.Time)
 				*_m.LastLoginAt = value.Time
+			}
+		case user.FieldFederationID:
+			if value, ok := values[i].(*sql.NullScanner); !ok {
+				return fmt.Errorf("unexpected type %T for field federation_id", values[i])
+			} else if value.Valid {
+				_m.FederationID = new(uuid.UUID)
+				*_m.FederationID = *value.S.(*uuid.UUID)
 			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
@@ -347,6 +358,11 @@ func (_m *User) String() string {
 	if v := _m.LastLoginAt; v != nil {
 		builder.WriteString("last_login_at=")
 		builder.WriteString(v.Format(time.ANSIC))
+	}
+	builder.WriteString(", ")
+	if v := _m.FederationID; v != nil {
+		builder.WriteString("federation_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteByte(')')
 	return builder.String()
