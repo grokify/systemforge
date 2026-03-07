@@ -12,7 +12,12 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"github.com/grokify/coreforge/identity/ent/agent"
 	"github.com/grokify/coreforge/identity/ent/apikey"
+	"github.com/grokify/coreforge/identity/ent/application"
+	"github.com/grokify/coreforge/identity/ent/credential"
+	"github.com/grokify/coreforge/identity/ent/human"
+	"github.com/grokify/coreforge/identity/ent/invite"
 	"github.com/grokify/coreforge/identity/ent/membership"
 	"github.com/grokify/coreforge/identity/ent/oauthaccount"
 	"github.com/grokify/coreforge/identity/ent/oauthapp"
@@ -21,9 +26,13 @@ import (
 	"github.com/grokify/coreforge/identity/ent/oauthconsent"
 	"github.com/grokify/coreforge/identity/ent/oauthtoken"
 	"github.com/grokify/coreforge/identity/ent/organization"
+	"github.com/grokify/coreforge/identity/ent/principal"
+	"github.com/grokify/coreforge/identity/ent/principalmembership"
+	"github.com/grokify/coreforge/identity/ent/principaltoken"
 	"github.com/grokify/coreforge/identity/ent/refreshtoken"
 	"github.com/grokify/coreforge/identity/ent/serviceaccount"
 	"github.com/grokify/coreforge/identity/ent/serviceaccountkeypair"
+	"github.com/grokify/coreforge/identity/ent/serviceprincipal"
 	"github.com/grokify/coreforge/identity/ent/user"
 )
 
@@ -86,6 +95,11 @@ func checkColumn(t, c string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			apikey.Table:                apikey.ValidColumn,
+			agent.Table:                 agent.ValidColumn,
+			application.Table:           application.ValidColumn,
+			credential.Table:            credential.ValidColumn,
+			human.Table:                 human.ValidColumn,
+			invite.Table:                invite.ValidColumn,
 			membership.Table:            membership.ValidColumn,
 			oauthaccount.Table:          oauthaccount.ValidColumn,
 			oauthapp.Table:              oauthapp.ValidColumn,
@@ -94,9 +108,13 @@ func checkColumn(t, c string) error {
 			oauthconsent.Table:          oauthconsent.ValidColumn,
 			oauthtoken.Table:            oauthtoken.ValidColumn,
 			organization.Table:          organization.ValidColumn,
+			principal.Table:             principal.ValidColumn,
+			principalmembership.Table:   principalmembership.ValidColumn,
+			principaltoken.Table:        principaltoken.ValidColumn,
 			refreshtoken.Table:          refreshtoken.ValidColumn,
 			serviceaccount.Table:        serviceaccount.ValidColumn,
 			serviceaccountkeypair.Table: serviceaccountkeypair.ValidColumn,
+			serviceprincipal.Table:      serviceprincipal.ValidColumn,
 			user.Table:                  user.ValidColumn,
 		})
 	})

@@ -3,7 +3,12 @@
 package ent
 
 import (
+	"github.com/grokify/coreforge/identity/ent/agent"
 	"github.com/grokify/coreforge/identity/ent/apikey"
+	"github.com/grokify/coreforge/identity/ent/application"
+	"github.com/grokify/coreforge/identity/ent/credential"
+	"github.com/grokify/coreforge/identity/ent/human"
+	"github.com/grokify/coreforge/identity/ent/invite"
 	"github.com/grokify/coreforge/identity/ent/membership"
 	"github.com/grokify/coreforge/identity/ent/oauthaccount"
 	"github.com/grokify/coreforge/identity/ent/oauthapp"
@@ -13,9 +18,13 @@ import (
 	"github.com/grokify/coreforge/identity/ent/oauthtoken"
 	"github.com/grokify/coreforge/identity/ent/organization"
 	"github.com/grokify/coreforge/identity/ent/predicate"
+	"github.com/grokify/coreforge/identity/ent/principal"
+	"github.com/grokify/coreforge/identity/ent/principalmembership"
+	"github.com/grokify/coreforge/identity/ent/principaltoken"
 	"github.com/grokify/coreforge/identity/ent/refreshtoken"
 	"github.com/grokify/coreforge/identity/ent/serviceaccount"
 	"github.com/grokify/coreforge/identity/ent/serviceaccountkeypair"
+	"github.com/grokify/coreforge/identity/ent/serviceprincipal"
 	"github.com/grokify/coreforge/identity/ent/user"
 
 	"entgo.io/ent/dialect/sql"
@@ -26,7 +35,7 @@ import (
 
 // schemaGraph holds a representation of ent/schema at runtime.
 var schemaGraph = func() *sqlgraph.Schema {
-	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 13)}
+	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 22)}
 	graph.Nodes[0] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   apikey.Table,
@@ -57,6 +66,146 @@ var schemaGraph = func() *sqlgraph.Schema {
 	}
 	graph.Nodes[1] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
+			Table:   agent.Table,
+			Columns: agent.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUUID,
+				Column: agent.FieldID,
+			},
+		},
+		Type: "Agent",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			agent.FieldCreatedAt:             {Type: field.TypeTime, Column: agent.FieldCreatedAt},
+			agent.FieldUpdatedAt:             {Type: field.TypeTime, Column: agent.FieldUpdatedAt},
+			agent.FieldPrincipalID:           {Type: field.TypeUUID, Column: agent.FieldPrincipalID},
+			agent.FieldModelID:               {Type: field.TypeString, Column: agent.FieldModelID},
+			agent.FieldVersion:               {Type: field.TypeString, Column: agent.FieldVersion},
+			agent.FieldDelegatingPrincipalID: {Type: field.TypeUUID, Column: agent.FieldDelegatingPrincipalID},
+			agent.FieldCapabilityConstraints: {Type: field.TypeJSON, Column: agent.FieldCapabilityConstraints},
+			agent.FieldResourceConstraints:   {Type: field.TypeJSON, Column: agent.FieldResourceConstraints},
+			agent.FieldMaxTokenLifetime:      {Type: field.TypeInt, Column: agent.FieldMaxTokenLifetime},
+			agent.FieldSessionID:             {Type: field.TypeString, Column: agent.FieldSessionID},
+			agent.FieldRequiresConfirmation:  {Type: field.TypeBool, Column: agent.FieldRequiresConfirmation},
+		},
+	}
+	graph.Nodes[2] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   application.Table,
+			Columns: application.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUUID,
+				Column: application.FieldID,
+			},
+		},
+		Type: "Application",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			application.FieldCreatedAt:            {Type: field.TypeTime, Column: application.FieldCreatedAt},
+			application.FieldUpdatedAt:            {Type: field.TypeTime, Column: application.FieldUpdatedAt},
+			application.FieldPrincipalID:          {Type: field.TypeUUID, Column: application.FieldPrincipalID},
+			application.FieldClientID:             {Type: field.TypeString, Column: application.FieldClientID},
+			application.FieldDescription:          {Type: field.TypeString, Column: application.FieldDescription},
+			application.FieldLogoURL:              {Type: field.TypeString, Column: application.FieldLogoURL},
+			application.FieldAppType:              {Type: field.TypeEnum, Column: application.FieldAppType},
+			application.FieldRedirectUris:         {Type: field.TypeJSON, Column: application.FieldRedirectUris},
+			application.FieldAllowedGrants:        {Type: field.TypeJSON, Column: application.FieldAllowedGrants},
+			application.FieldAllowedResponseTypes: {Type: field.TypeJSON, Column: application.FieldAllowedResponseTypes},
+			application.FieldAccessTokenTTL:       {Type: field.TypeInt, Column: application.FieldAccessTokenTTL},
+			application.FieldRefreshTokenTTL:      {Type: field.TypeInt, Column: application.FieldRefreshTokenTTL},
+			application.FieldRefreshTokenRotation: {Type: field.TypeBool, Column: application.FieldRefreshTokenRotation},
+			application.FieldFirstParty:           {Type: field.TypeBool, Column: application.FieldFirstParty},
+			application.FieldPublic:               {Type: field.TypeBool, Column: application.FieldPublic},
+		},
+	}
+	graph.Nodes[3] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   credential.Table,
+			Columns: credential.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUUID,
+				Column: credential.FieldID,
+			},
+		},
+		Type: "Credential",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			credential.FieldPrincipalID:          {Type: field.TypeUUID, Column: credential.FieldPrincipalID},
+			credential.FieldType:                 {Type: field.TypeEnum, Column: credential.FieldType},
+			credential.FieldIdentifier:           {Type: field.TypeString, Column: credential.FieldIdentifier},
+			credential.FieldSecretHash:           {Type: field.TypeString, Column: credential.FieldSecretHash},
+			credential.FieldPublicKey:            {Type: field.TypeString, Column: credential.FieldPublicKey},
+			credential.FieldKeyAlgorithm:         {Type: field.TypeString, Column: credential.FieldKeyAlgorithm},
+			credential.FieldKeyID:                {Type: field.TypeString, Column: credential.FieldKeyID},
+			credential.FieldWebauthnCredentialID: {Type: field.TypeBytes, Column: credential.FieldWebauthnCredentialID},
+			credential.FieldWebauthnPublicKey:    {Type: field.TypeBytes, Column: credential.FieldWebauthnPublicKey},
+			credential.FieldWebauthnAaguid:       {Type: field.TypeString, Column: credential.FieldWebauthnAaguid},
+			credential.FieldWebauthnSignCount:    {Type: field.TypeUint32, Column: credential.FieldWebauthnSignCount},
+			credential.FieldScopes:               {Type: field.TypeJSON, Column: credential.FieldScopes},
+			credential.FieldActive:               {Type: field.TypeBool, Column: credential.FieldActive},
+			credential.FieldExpiresAt:            {Type: field.TypeTime, Column: credential.FieldExpiresAt},
+			credential.FieldRevoked:              {Type: field.TypeBool, Column: credential.FieldRevoked},
+			credential.FieldRevokedAt:            {Type: field.TypeTime, Column: credential.FieldRevokedAt},
+			credential.FieldRevokedReason:        {Type: field.TypeString, Column: credential.FieldRevokedReason},
+			credential.FieldLastUsedAt:           {Type: field.TypeTime, Column: credential.FieldLastUsedAt},
+			credential.FieldLastUsedIP:           {Type: field.TypeString, Column: credential.FieldLastUsedIP},
+			credential.FieldName:                 {Type: field.TypeString, Column: credential.FieldName},
+			credential.FieldMetadata:             {Type: field.TypeJSON, Column: credential.FieldMetadata},
+			credential.FieldCreatedAt:            {Type: field.TypeTime, Column: credential.FieldCreatedAt},
+			credential.FieldUpdatedAt:            {Type: field.TypeTime, Column: credential.FieldUpdatedAt},
+		},
+	}
+	graph.Nodes[4] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   human.Table,
+			Columns: human.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUUID,
+				Column: human.FieldID,
+			},
+		},
+		Type: "Human",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			human.FieldCreatedAt:       {Type: field.TypeTime, Column: human.FieldCreatedAt},
+			human.FieldUpdatedAt:       {Type: field.TypeTime, Column: human.FieldUpdatedAt},
+			human.FieldPrincipalID:     {Type: field.TypeUUID, Column: human.FieldPrincipalID},
+			human.FieldEmail:           {Type: field.TypeString, Column: human.FieldEmail},
+			human.FieldGivenName:       {Type: field.TypeString, Column: human.FieldGivenName},
+			human.FieldFamilyName:      {Type: field.TypeString, Column: human.FieldFamilyName},
+			human.FieldAvatarURL:       {Type: field.TypeString, Column: human.FieldAvatarURL},
+			human.FieldLocale:          {Type: field.TypeString, Column: human.FieldLocale},
+			human.FieldTimezone:        {Type: field.TypeString, Column: human.FieldTimezone},
+			human.FieldIsPlatformAdmin: {Type: field.TypeBool, Column: human.FieldIsPlatformAdmin},
+			human.FieldLastLoginAt:     {Type: field.TypeTime, Column: human.FieldLastLoginAt},
+			human.FieldEmailVerifiedAt: {Type: field.TypeTime, Column: human.FieldEmailVerifiedAt},
+		},
+	}
+	graph.Nodes[5] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   invite.Table,
+			Columns: invite.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUUID,
+				Column: invite.FieldID,
+			},
+		},
+		Type: "Invite",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			invite.FieldCreatedAt:             {Type: field.TypeTime, Column: invite.FieldCreatedAt},
+			invite.FieldUpdatedAt:             {Type: field.TypeTime, Column: invite.FieldUpdatedAt},
+			invite.FieldOrganizationID:        {Type: field.TypeUUID, Column: invite.FieldOrganizationID},
+			invite.FieldInviterPrincipalID:    {Type: field.TypeUUID, Column: invite.FieldInviterPrincipalID},
+			invite.FieldEmail:                 {Type: field.TypeString, Column: invite.FieldEmail},
+			invite.FieldRole:                  {Type: field.TypeString, Column: invite.FieldRole},
+			invite.FieldToken:                 {Type: field.TypeString, Column: invite.FieldToken},
+			invite.FieldStatus:                {Type: field.TypeEnum, Column: invite.FieldStatus},
+			invite.FieldMessage:               {Type: field.TypeString, Column: invite.FieldMessage},
+			invite.FieldExpiresAt:             {Type: field.TypeTime, Column: invite.FieldExpiresAt},
+			invite.FieldAcceptedAt:            {Type: field.TypeTime, Column: invite.FieldAcceptedAt},
+			invite.FieldAcceptedByPrincipalID: {Type: field.TypeUUID, Column: invite.FieldAcceptedByPrincipalID},
+			invite.FieldResendCount:           {Type: field.TypeInt, Column: invite.FieldResendCount},
+			invite.FieldLastSentAt:            {Type: field.TypeTime, Column: invite.FieldLastSentAt},
+		},
+	}
+	graph.Nodes[6] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
 			Table:   membership.Table,
 			Columns: membership.Columns,
 			ID: &sqlgraph.FieldSpec{
@@ -74,7 +223,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			membership.FieldPermissions:    {Type: field.TypeJSON, Column: membership.FieldPermissions},
 		},
 	}
-	graph.Nodes[2] = &sqlgraph.Node{
+	graph.Nodes[7] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   oauthaccount.Table,
 			Columns: oauthaccount.Columns,
@@ -95,7 +244,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			oauthaccount.FieldTokenExpiresAt: {Type: field.TypeTime, Column: oauthaccount.FieldTokenExpiresAt},
 		},
 	}
-	graph.Nodes[3] = &sqlgraph.Node{
+	graph.Nodes[8] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   oauthapp.Table,
 			Columns: oauthapp.Columns,
@@ -129,7 +278,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			oauthapp.FieldUpdatedAt:            {Type: field.TypeTime, Column: oauthapp.FieldUpdatedAt},
 		},
 	}
-	graph.Nodes[4] = &sqlgraph.Node{
+	graph.Nodes[9] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   oauthappsecret.Table,
 			Columns: oauthappsecret.Columns,
@@ -150,7 +299,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			oauthappsecret.FieldCreatedAt:    {Type: field.TypeTime, Column: oauthappsecret.FieldCreatedAt},
 		},
 	}
-	graph.Nodes[5] = &sqlgraph.Node{
+	graph.Nodes[10] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   oauthauthcode.Table,
 			Columns: oauthauthcode.Columns,
@@ -179,7 +328,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			oauthauthcode.FieldCreatedAt:           {Type: field.TypeTime, Column: oauthauthcode.FieldCreatedAt},
 		},
 	}
-	graph.Nodes[6] = &sqlgraph.Node{
+	graph.Nodes[11] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   oauthconsent.Table,
 			Columns: oauthconsent.Columns,
@@ -203,7 +352,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			oauthconsent.FieldUpdatedAt:     {Type: field.TypeTime, Column: oauthconsent.FieldUpdatedAt},
 		},
 	}
-	graph.Nodes[7] = &sqlgraph.Node{
+	graph.Nodes[12] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   oauthtoken.Table,
 			Columns: oauthtoken.Columns,
@@ -235,7 +384,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			oauthtoken.FieldCreatedAt:             {Type: field.TypeTime, Column: oauthtoken.FieldCreatedAt},
 		},
 	}
-	graph.Nodes[8] = &sqlgraph.Node{
+	graph.Nodes[13] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   organization.Table,
 			Columns: organization.Columns,
@@ -246,17 +395,100 @@ var schemaGraph = func() *sqlgraph.Schema {
 		},
 		Type: "Organization",
 		Fields: map[string]*sqlgraph.FieldSpec{
-			organization.FieldCreatedAt: {Type: field.TypeTime, Column: organization.FieldCreatedAt},
-			organization.FieldUpdatedAt: {Type: field.TypeTime, Column: organization.FieldUpdatedAt},
-			organization.FieldName:      {Type: field.TypeString, Column: organization.FieldName},
-			organization.FieldSlug:      {Type: field.TypeString, Column: organization.FieldSlug},
-			organization.FieldLogoURL:   {Type: field.TypeString, Column: organization.FieldLogoURL},
-			organization.FieldSettings:  {Type: field.TypeJSON, Column: organization.FieldSettings},
-			organization.FieldPlan:      {Type: field.TypeEnum, Column: organization.FieldPlan},
-			organization.FieldActive:    {Type: field.TypeBool, Column: organization.FieldActive},
+			organization.FieldCreatedAt:        {Type: field.TypeTime, Column: organization.FieldCreatedAt},
+			organization.FieldUpdatedAt:        {Type: field.TypeTime, Column: organization.FieldUpdatedAt},
+			organization.FieldName:             {Type: field.TypeString, Column: organization.FieldName},
+			organization.FieldSlug:             {Type: field.TypeString, Column: organization.FieldSlug},
+			organization.FieldOrgType:          {Type: field.TypeEnum, Column: organization.FieldOrgType},
+			organization.FieldOwnerPrincipalID: {Type: field.TypeUUID, Column: organization.FieldOwnerPrincipalID},
+			organization.FieldLogoURL:          {Type: field.TypeString, Column: organization.FieldLogoURL},
+			organization.FieldDescription:      {Type: field.TypeString, Column: organization.FieldDescription},
+			organization.FieldWebsiteURL:       {Type: field.TypeString, Column: organization.FieldWebsiteURL},
+			organization.FieldSettings:         {Type: field.TypeJSON, Column: organization.FieldSettings},
+			organization.FieldPlan:             {Type: field.TypeEnum, Column: organization.FieldPlan},
+			organization.FieldActive:           {Type: field.TypeBool, Column: organization.FieldActive},
 		},
 	}
-	graph.Nodes[9] = &sqlgraph.Node{
+	graph.Nodes[14] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   principal.Table,
+			Columns: principal.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUUID,
+				Column: principal.FieldID,
+			},
+		},
+		Type: "Principal",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			principal.FieldCreatedAt:      {Type: field.TypeTime, Column: principal.FieldCreatedAt},
+			principal.FieldUpdatedAt:      {Type: field.TypeTime, Column: principal.FieldUpdatedAt},
+			principal.FieldType:           {Type: field.TypeEnum, Column: principal.FieldType},
+			principal.FieldIdentifier:     {Type: field.TypeString, Column: principal.FieldIdentifier},
+			principal.FieldDisplayName:    {Type: field.TypeString, Column: principal.FieldDisplayName},
+			principal.FieldOrganizationID: {Type: field.TypeUUID, Column: principal.FieldOrganizationID},
+			principal.FieldActive:         {Type: field.TypeBool, Column: principal.FieldActive},
+			principal.FieldCapabilities:   {Type: field.TypeJSON, Column: principal.FieldCapabilities},
+			principal.FieldAllowedScopes:  {Type: field.TypeJSON, Column: principal.FieldAllowedScopes},
+			principal.FieldMetadata:       {Type: field.TypeJSON, Column: principal.FieldMetadata},
+		},
+	}
+	graph.Nodes[15] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   principalmembership.Table,
+			Columns: principalmembership.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUUID,
+				Column: principalmembership.FieldID,
+			},
+		},
+		Type: "PrincipalMembership",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			principalmembership.FieldCreatedAt:      {Type: field.TypeTime, Column: principalmembership.FieldCreatedAt},
+			principalmembership.FieldUpdatedAt:      {Type: field.TypeTime, Column: principalmembership.FieldUpdatedAt},
+			principalmembership.FieldPrincipalID:    {Type: field.TypeUUID, Column: principalmembership.FieldPrincipalID},
+			principalmembership.FieldOrganizationID: {Type: field.TypeUUID, Column: principalmembership.FieldOrganizationID},
+			principalmembership.FieldRole:           {Type: field.TypeString, Column: principalmembership.FieldRole},
+			principalmembership.FieldPermissions:    {Type: field.TypeJSON, Column: principalmembership.FieldPermissions},
+			principalmembership.FieldActive:         {Type: field.TypeBool, Column: principalmembership.FieldActive},
+		},
+	}
+	graph.Nodes[16] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   principaltoken.Table,
+			Columns: principaltoken.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUUID,
+				Column: principaltoken.FieldID,
+			},
+		},
+		Type: "PrincipalToken",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			principaltoken.FieldPrincipalID:           {Type: field.TypeUUID, Column: principaltoken.FieldPrincipalID},
+			principaltoken.FieldPrincipalType:         {Type: field.TypeEnum, Column: principaltoken.FieldPrincipalType},
+			principaltoken.FieldIssuedByAppID:         {Type: field.TypeUUID, Column: principaltoken.FieldIssuedByAppID},
+			principaltoken.FieldAccessTokenSignature:  {Type: field.TypeString, Column: principaltoken.FieldAccessTokenSignature},
+			principaltoken.FieldRefreshTokenSignature: {Type: field.TypeString, Column: principaltoken.FieldRefreshTokenSignature},
+			principaltoken.FieldFamilyID:              {Type: field.TypeUUID, Column: principaltoken.FieldFamilyID},
+			principaltoken.FieldParentTokenID:         {Type: field.TypeUUID, Column: principaltoken.FieldParentTokenID},
+			principaltoken.FieldScopes:                {Type: field.TypeJSON, Column: principaltoken.FieldScopes},
+			principaltoken.FieldAudience:              {Type: field.TypeJSON, Column: principaltoken.FieldAudience},
+			principaltoken.FieldCapabilities:          {Type: field.TypeJSON, Column: principaltoken.FieldCapabilities},
+			principaltoken.FieldDelegationChain:       {Type: field.TypeJSON, Column: principaltoken.FieldDelegationChain},
+			principaltoken.FieldDpopJkt:               {Type: field.TypeString, Column: principaltoken.FieldDpopJkt},
+			principaltoken.FieldSessionID:             {Type: field.TypeString, Column: principaltoken.FieldSessionID},
+			principaltoken.FieldRequestData:           {Type: field.TypeString, Column: principaltoken.FieldRequestData},
+			principaltoken.FieldAccessExpiresAt:       {Type: field.TypeTime, Column: principaltoken.FieldAccessExpiresAt},
+			principaltoken.FieldRefreshExpiresAt:      {Type: field.TypeTime, Column: principaltoken.FieldRefreshExpiresAt},
+			principaltoken.FieldRevoked:               {Type: field.TypeBool, Column: principaltoken.FieldRevoked},
+			principaltoken.FieldRevokedAt:             {Type: field.TypeTime, Column: principaltoken.FieldRevokedAt},
+			principaltoken.FieldRevokedReason:         {Type: field.TypeString, Column: principaltoken.FieldRevokedReason},
+			principaltoken.FieldClientIP:              {Type: field.TypeString, Column: principaltoken.FieldClientIP},
+			principaltoken.FieldUserAgent:             {Type: field.TypeString, Column: principaltoken.FieldUserAgent},
+			principaltoken.FieldLastUsedAt:            {Type: field.TypeTime, Column: principaltoken.FieldLastUsedAt},
+			principaltoken.FieldCreatedAt:             {Type: field.TypeTime, Column: principaltoken.FieldCreatedAt},
+		},
+	}
+	graph.Nodes[17] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   refreshtoken.Table,
 			Columns: refreshtoken.Columns,
@@ -278,7 +510,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			refreshtoken.FieldIPAddress: {Type: field.TypeString, Column: refreshtoken.FieldIPAddress},
 		},
 	}
-	graph.Nodes[10] = &sqlgraph.Node{
+	graph.Nodes[18] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   serviceaccount.Table,
 			Columns: serviceaccount.Columns,
@@ -301,7 +533,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			serviceaccount.FieldUpdatedAt:      {Type: field.TypeTime, Column: serviceaccount.FieldUpdatedAt},
 		},
 	}
-	graph.Nodes[11] = &sqlgraph.Node{
+	graph.Nodes[19] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   serviceaccountkeypair.Table,
 			Columns: serviceaccountkeypair.Columns,
@@ -325,7 +557,28 @@ var schemaGraph = func() *sqlgraph.Schema {
 			serviceaccountkeypair.FieldCreatedAt:        {Type: field.TypeTime, Column: serviceaccountkeypair.FieldCreatedAt},
 		},
 	}
-	graph.Nodes[12] = &sqlgraph.Node{
+	graph.Nodes[20] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   serviceprincipal.Table,
+			Columns: serviceprincipal.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUUID,
+				Column: serviceprincipal.FieldID,
+			},
+		},
+		Type: "ServicePrincipal",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			serviceprincipal.FieldCreatedAt:   {Type: field.TypeTime, Column: serviceprincipal.FieldCreatedAt},
+			serviceprincipal.FieldUpdatedAt:   {Type: field.TypeTime, Column: serviceprincipal.FieldUpdatedAt},
+			serviceprincipal.FieldPrincipalID: {Type: field.TypeUUID, Column: serviceprincipal.FieldPrincipalID},
+			serviceprincipal.FieldServiceType: {Type: field.TypeString, Column: serviceprincipal.FieldServiceType},
+			serviceprincipal.FieldDescription: {Type: field.TypeString, Column: serviceprincipal.FieldDescription},
+			serviceprincipal.FieldCreatedBy:   {Type: field.TypeUUID, Column: serviceprincipal.FieldCreatedBy},
+			serviceprincipal.FieldLastUsedAt:  {Type: field.TypeTime, Column: serviceprincipal.FieldLastUsedAt},
+			serviceprincipal.FieldAllowedIps:  {Type: field.TypeJSON, Column: serviceprincipal.FieldAllowedIps},
+		},
+	}
+	graph.Nodes[21] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   user.Table,
 			Columns: user.Columns,
@@ -345,6 +598,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldIsPlatformAdmin: {Type: field.TypeBool, Column: user.FieldIsPlatformAdmin},
 			user.FieldActive:          {Type: field.TypeBool, Column: user.FieldActive},
 			user.FieldLastLoginAt:     {Type: field.TypeTime, Column: user.FieldLastLoginAt},
+			user.FieldFederationID:    {Type: field.TypeUUID, Column: user.FieldFederationID},
 		},
 	}
 	graph.MustAddE(
@@ -370,6 +624,102 @@ var schemaGraph = func() *sqlgraph.Schema {
 		},
 		"APIKey",
 		"Organization",
+	)
+	graph.MustAddE(
+		"principal",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: true,
+			Table:   agent.PrincipalTable,
+			Columns: []string{agent.PrincipalColumn},
+			Bidi:    false,
+		},
+		"Agent",
+		"Principal",
+	)
+	graph.MustAddE(
+		"delegating_principal",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   agent.DelegatingPrincipalTable,
+			Columns: []string{agent.DelegatingPrincipalColumn},
+			Bidi:    false,
+		},
+		"Agent",
+		"Principal",
+	)
+	graph.MustAddE(
+		"principal",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: true,
+			Table:   application.PrincipalTable,
+			Columns: []string{application.PrincipalColumn},
+			Bidi:    false,
+		},
+		"Application",
+		"Principal",
+	)
+	graph.MustAddE(
+		"issued_tokens",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   application.IssuedTokensTable,
+			Columns: []string{application.IssuedTokensColumn},
+			Bidi:    false,
+		},
+		"Application",
+		"PrincipalToken",
+	)
+	graph.MustAddE(
+		"principal",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   credential.PrincipalTable,
+			Columns: []string{credential.PrincipalColumn},
+			Bidi:    false,
+		},
+		"Credential",
+		"Principal",
+	)
+	graph.MustAddE(
+		"principal",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: true,
+			Table:   human.PrincipalTable,
+			Columns: []string{human.PrincipalColumn},
+			Bidi:    false,
+		},
+		"Human",
+		"Principal",
+	)
+	graph.MustAddE(
+		"organization",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   invite.OrganizationTable,
+			Columns: []string{invite.OrganizationColumn},
+			Bidi:    false,
+		},
+		"Invite",
+		"Organization",
+	)
+	graph.MustAddE(
+		"inviter",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   invite.InviterTable,
+			Columns: []string{invite.InviterColumn},
+			Bidi:    false,
+		},
+		"Invite",
+		"Principal",
 	)
 	graph.MustAddE(
 		"user",
@@ -612,6 +962,246 @@ var schemaGraph = func() *sqlgraph.Schema {
 		"ServiceAccount",
 	)
 	graph.MustAddE(
+		"principals",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalsTable,
+			Columns: []string{organization.PrincipalsColumn},
+			Bidi:    false,
+		},
+		"Organization",
+		"Principal",
+	)
+	graph.MustAddE(
+		"principal_memberships",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalMembershipsTable,
+			Columns: []string{organization.PrincipalMembershipsColumn},
+			Bidi:    false,
+		},
+		"Organization",
+		"PrincipalMembership",
+	)
+	graph.MustAddE(
+		"owner",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   organization.OwnerTable,
+			Columns: []string{organization.OwnerColumn},
+			Bidi:    false,
+		},
+		"Organization",
+		"Principal",
+	)
+	graph.MustAddE(
+		"invites",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.InvitesTable,
+			Columns: []string{organization.InvitesColumn},
+			Bidi:    false,
+		},
+		"Organization",
+		"Invite",
+	)
+	graph.MustAddE(
+		"organization",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   principal.OrganizationTable,
+			Columns: []string{principal.OrganizationColumn},
+			Bidi:    false,
+		},
+		"Principal",
+		"Organization",
+	)
+	graph.MustAddE(
+		"human",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: false,
+			Table:   principal.HumanTable,
+			Columns: []string{principal.HumanColumn},
+			Bidi:    false,
+		},
+		"Principal",
+		"Human",
+	)
+	graph.MustAddE(
+		"application",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: false,
+			Table:   principal.ApplicationTable,
+			Columns: []string{principal.ApplicationColumn},
+			Bidi:    false,
+		},
+		"Principal",
+		"Application",
+	)
+	graph.MustAddE(
+		"agent",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: false,
+			Table:   principal.AgentTable,
+			Columns: []string{principal.AgentColumn},
+			Bidi:    false,
+		},
+		"Principal",
+		"Agent",
+	)
+	graph.MustAddE(
+		"service_principal",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: false,
+			Table:   principal.ServicePrincipalTable,
+			Columns: []string{principal.ServicePrincipalColumn},
+			Bidi:    false,
+		},
+		"Principal",
+		"ServicePrincipal",
+	)
+	graph.MustAddE(
+		"credentials",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.CredentialsTable,
+			Columns: []string{principal.CredentialsColumn},
+			Bidi:    false,
+		},
+		"Principal",
+		"Credential",
+	)
+	graph.MustAddE(
+		"principal_tokens",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.PrincipalTokensTable,
+			Columns: []string{principal.PrincipalTokensColumn},
+			Bidi:    false,
+		},
+		"Principal",
+		"PrincipalToken",
+	)
+	graph.MustAddE(
+		"principal_memberships",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.PrincipalMembershipsTable,
+			Columns: []string{principal.PrincipalMembershipsColumn},
+			Bidi:    false,
+		},
+		"Principal",
+		"PrincipalMembership",
+	)
+	graph.MustAddE(
+		"owned_organizations",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.OwnedOrganizationsTable,
+			Columns: []string{principal.OwnedOrganizationsColumn},
+			Bidi:    false,
+		},
+		"Principal",
+		"Organization",
+	)
+	graph.MustAddE(
+		"sent_invites",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.SentInvitesTable,
+			Columns: []string{principal.SentInvitesColumn},
+			Bidi:    false,
+		},
+		"Principal",
+		"Invite",
+	)
+	graph.MustAddE(
+		"principal",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   principalmembership.PrincipalTable,
+			Columns: []string{principalmembership.PrincipalColumn},
+			Bidi:    false,
+		},
+		"PrincipalMembership",
+		"Principal",
+	)
+	graph.MustAddE(
+		"organization",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   principalmembership.OrganizationTable,
+			Columns: []string{principalmembership.OrganizationColumn},
+			Bidi:    false,
+		},
+		"PrincipalMembership",
+		"Organization",
+	)
+	graph.MustAddE(
+		"principal",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   principaltoken.PrincipalTable,
+			Columns: []string{principaltoken.PrincipalColumn},
+			Bidi:    false,
+		},
+		"PrincipalToken",
+		"Principal",
+	)
+	graph.MustAddE(
+		"issued_by_app",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   principaltoken.IssuedByAppTable,
+			Columns: []string{principaltoken.IssuedByAppColumn},
+			Bidi:    false,
+		},
+		"PrincipalToken",
+		"Application",
+	)
+	graph.MustAddE(
+		"parent_token",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   principaltoken.ParentTokenTable,
+			Columns: []string{principaltoken.ParentTokenColumn},
+			Bidi:    false,
+		},
+		"PrincipalToken",
+		"PrincipalToken",
+	)
+	graph.MustAddE(
+		"child_tokens",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principaltoken.ChildTokensTable,
+			Columns: []string{principaltoken.ChildTokensColumn},
+			Bidi:    false,
+		},
+		"PrincipalToken",
+		"PrincipalToken",
+	)
+	graph.MustAddE(
 		"user",
 		&sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -670,6 +1260,30 @@ var schemaGraph = func() *sqlgraph.Schema {
 		},
 		"ServiceAccountKeyPair",
 		"ServiceAccount",
+	)
+	graph.MustAddE(
+		"principal",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: true,
+			Table:   serviceprincipal.PrincipalTable,
+			Columns: []string{serviceprincipal.PrincipalColumn},
+			Bidi:    false,
+		},
+		"ServicePrincipal",
+		"Principal",
+	)
+	graph.MustAddE(
+		"creator",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   serviceprincipal.CreatorTable,
+			Columns: []string{serviceprincipal.CreatorColumn},
+			Bidi:    false,
+		},
+		"ServicePrincipal",
+		"Principal",
 	)
 	graph.MustAddE(
 		"memberships",
@@ -932,6 +1546,693 @@ func (f *APIKeyFilter) WhereHasOrganizationWith(preds ...predicate.Organization)
 }
 
 // addPredicate implements the predicateAdder interface.
+func (_q *AgentQuery) addPredicate(pred func(s *sql.Selector)) {
+	_q.predicates = append(_q.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the AgentQuery builder.
+func (_q *AgentQuery) Filter() *AgentFilter {
+	return &AgentFilter{config: _q.config, predicateAdder: _q}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *AgentMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the AgentMutation builder.
+func (m *AgentMutation) Filter() *AgentFilter {
+	return &AgentFilter{config: m.config, predicateAdder: m}
+}
+
+// AgentFilter provides a generic filtering capability at runtime for AgentQuery.
+type AgentFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *AgentFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[1].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql [16]byte predicate on the id field.
+func (f *AgentFilter) WhereID(p entql.ValueP) {
+	f.Where(p.Field(agent.FieldID))
+}
+
+// WhereCreatedAt applies the entql time.Time predicate on the created_at field.
+func (f *AgentFilter) WhereCreatedAt(p entql.TimeP) {
+	f.Where(p.Field(agent.FieldCreatedAt))
+}
+
+// WhereUpdatedAt applies the entql time.Time predicate on the updated_at field.
+func (f *AgentFilter) WhereUpdatedAt(p entql.TimeP) {
+	f.Where(p.Field(agent.FieldUpdatedAt))
+}
+
+// WherePrincipalID applies the entql [16]byte predicate on the principal_id field.
+func (f *AgentFilter) WherePrincipalID(p entql.ValueP) {
+	f.Where(p.Field(agent.FieldPrincipalID))
+}
+
+// WhereModelID applies the entql string predicate on the model_id field.
+func (f *AgentFilter) WhereModelID(p entql.StringP) {
+	f.Where(p.Field(agent.FieldModelID))
+}
+
+// WhereVersion applies the entql string predicate on the version field.
+func (f *AgentFilter) WhereVersion(p entql.StringP) {
+	f.Where(p.Field(agent.FieldVersion))
+}
+
+// WhereDelegatingPrincipalID applies the entql [16]byte predicate on the delegating_principal_id field.
+func (f *AgentFilter) WhereDelegatingPrincipalID(p entql.ValueP) {
+	f.Where(p.Field(agent.FieldDelegatingPrincipalID))
+}
+
+// WhereCapabilityConstraints applies the entql json.RawMessage predicate on the capability_constraints field.
+func (f *AgentFilter) WhereCapabilityConstraints(p entql.BytesP) {
+	f.Where(p.Field(agent.FieldCapabilityConstraints))
+}
+
+// WhereResourceConstraints applies the entql json.RawMessage predicate on the resource_constraints field.
+func (f *AgentFilter) WhereResourceConstraints(p entql.BytesP) {
+	f.Where(p.Field(agent.FieldResourceConstraints))
+}
+
+// WhereMaxTokenLifetime applies the entql int predicate on the max_token_lifetime field.
+func (f *AgentFilter) WhereMaxTokenLifetime(p entql.IntP) {
+	f.Where(p.Field(agent.FieldMaxTokenLifetime))
+}
+
+// WhereSessionID applies the entql string predicate on the session_id field.
+func (f *AgentFilter) WhereSessionID(p entql.StringP) {
+	f.Where(p.Field(agent.FieldSessionID))
+}
+
+// WhereRequiresConfirmation applies the entql bool predicate on the requires_confirmation field.
+func (f *AgentFilter) WhereRequiresConfirmation(p entql.BoolP) {
+	f.Where(p.Field(agent.FieldRequiresConfirmation))
+}
+
+// WhereHasPrincipal applies a predicate to check if query has an edge principal.
+func (f *AgentFilter) WhereHasPrincipal() {
+	f.Where(entql.HasEdge("principal"))
+}
+
+// WhereHasPrincipalWith applies a predicate to check if query has an edge principal with a given conditions (other predicates).
+func (f *AgentFilter) WhereHasPrincipalWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("principal", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasDelegatingPrincipal applies a predicate to check if query has an edge delegating_principal.
+func (f *AgentFilter) WhereHasDelegatingPrincipal() {
+	f.Where(entql.HasEdge("delegating_principal"))
+}
+
+// WhereHasDelegatingPrincipalWith applies a predicate to check if query has an edge delegating_principal with a given conditions (other predicates).
+func (f *AgentFilter) WhereHasDelegatingPrincipalWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("delegating_principal", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (_q *ApplicationQuery) addPredicate(pred func(s *sql.Selector)) {
+	_q.predicates = append(_q.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the ApplicationQuery builder.
+func (_q *ApplicationQuery) Filter() *ApplicationFilter {
+	return &ApplicationFilter{config: _q.config, predicateAdder: _q}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *ApplicationMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the ApplicationMutation builder.
+func (m *ApplicationMutation) Filter() *ApplicationFilter {
+	return &ApplicationFilter{config: m.config, predicateAdder: m}
+}
+
+// ApplicationFilter provides a generic filtering capability at runtime for ApplicationQuery.
+type ApplicationFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *ApplicationFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[2].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql [16]byte predicate on the id field.
+func (f *ApplicationFilter) WhereID(p entql.ValueP) {
+	f.Where(p.Field(application.FieldID))
+}
+
+// WhereCreatedAt applies the entql time.Time predicate on the created_at field.
+func (f *ApplicationFilter) WhereCreatedAt(p entql.TimeP) {
+	f.Where(p.Field(application.FieldCreatedAt))
+}
+
+// WhereUpdatedAt applies the entql time.Time predicate on the updated_at field.
+func (f *ApplicationFilter) WhereUpdatedAt(p entql.TimeP) {
+	f.Where(p.Field(application.FieldUpdatedAt))
+}
+
+// WherePrincipalID applies the entql [16]byte predicate on the principal_id field.
+func (f *ApplicationFilter) WherePrincipalID(p entql.ValueP) {
+	f.Where(p.Field(application.FieldPrincipalID))
+}
+
+// WhereClientID applies the entql string predicate on the client_id field.
+func (f *ApplicationFilter) WhereClientID(p entql.StringP) {
+	f.Where(p.Field(application.FieldClientID))
+}
+
+// WhereDescription applies the entql string predicate on the description field.
+func (f *ApplicationFilter) WhereDescription(p entql.StringP) {
+	f.Where(p.Field(application.FieldDescription))
+}
+
+// WhereLogoURL applies the entql string predicate on the logo_url field.
+func (f *ApplicationFilter) WhereLogoURL(p entql.StringP) {
+	f.Where(p.Field(application.FieldLogoURL))
+}
+
+// WhereAppType applies the entql string predicate on the app_type field.
+func (f *ApplicationFilter) WhereAppType(p entql.StringP) {
+	f.Where(p.Field(application.FieldAppType))
+}
+
+// WhereRedirectUris applies the entql json.RawMessage predicate on the redirect_uris field.
+func (f *ApplicationFilter) WhereRedirectUris(p entql.BytesP) {
+	f.Where(p.Field(application.FieldRedirectUris))
+}
+
+// WhereAllowedGrants applies the entql json.RawMessage predicate on the allowed_grants field.
+func (f *ApplicationFilter) WhereAllowedGrants(p entql.BytesP) {
+	f.Where(p.Field(application.FieldAllowedGrants))
+}
+
+// WhereAllowedResponseTypes applies the entql json.RawMessage predicate on the allowed_response_types field.
+func (f *ApplicationFilter) WhereAllowedResponseTypes(p entql.BytesP) {
+	f.Where(p.Field(application.FieldAllowedResponseTypes))
+}
+
+// WhereAccessTokenTTL applies the entql int predicate on the access_token_ttl field.
+func (f *ApplicationFilter) WhereAccessTokenTTL(p entql.IntP) {
+	f.Where(p.Field(application.FieldAccessTokenTTL))
+}
+
+// WhereRefreshTokenTTL applies the entql int predicate on the refresh_token_ttl field.
+func (f *ApplicationFilter) WhereRefreshTokenTTL(p entql.IntP) {
+	f.Where(p.Field(application.FieldRefreshTokenTTL))
+}
+
+// WhereRefreshTokenRotation applies the entql bool predicate on the refresh_token_rotation field.
+func (f *ApplicationFilter) WhereRefreshTokenRotation(p entql.BoolP) {
+	f.Where(p.Field(application.FieldRefreshTokenRotation))
+}
+
+// WhereFirstParty applies the entql bool predicate on the first_party field.
+func (f *ApplicationFilter) WhereFirstParty(p entql.BoolP) {
+	f.Where(p.Field(application.FieldFirstParty))
+}
+
+// WherePublic applies the entql bool predicate on the public field.
+func (f *ApplicationFilter) WherePublic(p entql.BoolP) {
+	f.Where(p.Field(application.FieldPublic))
+}
+
+// WhereHasPrincipal applies a predicate to check if query has an edge principal.
+func (f *ApplicationFilter) WhereHasPrincipal() {
+	f.Where(entql.HasEdge("principal"))
+}
+
+// WhereHasPrincipalWith applies a predicate to check if query has an edge principal with a given conditions (other predicates).
+func (f *ApplicationFilter) WhereHasPrincipalWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("principal", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasIssuedTokens applies a predicate to check if query has an edge issued_tokens.
+func (f *ApplicationFilter) WhereHasIssuedTokens() {
+	f.Where(entql.HasEdge("issued_tokens"))
+}
+
+// WhereHasIssuedTokensWith applies a predicate to check if query has an edge issued_tokens with a given conditions (other predicates).
+func (f *ApplicationFilter) WhereHasIssuedTokensWith(preds ...predicate.PrincipalToken) {
+	f.Where(entql.HasEdgeWith("issued_tokens", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (_q *CredentialQuery) addPredicate(pred func(s *sql.Selector)) {
+	_q.predicates = append(_q.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the CredentialQuery builder.
+func (_q *CredentialQuery) Filter() *CredentialFilter {
+	return &CredentialFilter{config: _q.config, predicateAdder: _q}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *CredentialMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the CredentialMutation builder.
+func (m *CredentialMutation) Filter() *CredentialFilter {
+	return &CredentialFilter{config: m.config, predicateAdder: m}
+}
+
+// CredentialFilter provides a generic filtering capability at runtime for CredentialQuery.
+type CredentialFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *CredentialFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[3].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql [16]byte predicate on the id field.
+func (f *CredentialFilter) WhereID(p entql.ValueP) {
+	f.Where(p.Field(credential.FieldID))
+}
+
+// WherePrincipalID applies the entql [16]byte predicate on the principal_id field.
+func (f *CredentialFilter) WherePrincipalID(p entql.ValueP) {
+	f.Where(p.Field(credential.FieldPrincipalID))
+}
+
+// WhereType applies the entql string predicate on the type field.
+func (f *CredentialFilter) WhereType(p entql.StringP) {
+	f.Where(p.Field(credential.FieldType))
+}
+
+// WhereIdentifier applies the entql string predicate on the identifier field.
+func (f *CredentialFilter) WhereIdentifier(p entql.StringP) {
+	f.Where(p.Field(credential.FieldIdentifier))
+}
+
+// WhereSecretHash applies the entql string predicate on the secret_hash field.
+func (f *CredentialFilter) WhereSecretHash(p entql.StringP) {
+	f.Where(p.Field(credential.FieldSecretHash))
+}
+
+// WherePublicKey applies the entql string predicate on the public_key field.
+func (f *CredentialFilter) WherePublicKey(p entql.StringP) {
+	f.Where(p.Field(credential.FieldPublicKey))
+}
+
+// WhereKeyAlgorithm applies the entql string predicate on the key_algorithm field.
+func (f *CredentialFilter) WhereKeyAlgorithm(p entql.StringP) {
+	f.Where(p.Field(credential.FieldKeyAlgorithm))
+}
+
+// WhereKeyID applies the entql string predicate on the key_id field.
+func (f *CredentialFilter) WhereKeyID(p entql.StringP) {
+	f.Where(p.Field(credential.FieldKeyID))
+}
+
+// WhereWebauthnCredentialID applies the entql []byte predicate on the webauthn_credential_id field.
+func (f *CredentialFilter) WhereWebauthnCredentialID(p entql.BytesP) {
+	f.Where(p.Field(credential.FieldWebauthnCredentialID))
+}
+
+// WhereWebauthnPublicKey applies the entql []byte predicate on the webauthn_public_key field.
+func (f *CredentialFilter) WhereWebauthnPublicKey(p entql.BytesP) {
+	f.Where(p.Field(credential.FieldWebauthnPublicKey))
+}
+
+// WhereWebauthnAaguid applies the entql string predicate on the webauthn_aaguid field.
+func (f *CredentialFilter) WhereWebauthnAaguid(p entql.StringP) {
+	f.Where(p.Field(credential.FieldWebauthnAaguid))
+}
+
+// WhereWebauthnSignCount applies the entql uint32 predicate on the webauthn_sign_count field.
+func (f *CredentialFilter) WhereWebauthnSignCount(p entql.Uint32P) {
+	f.Where(p.Field(credential.FieldWebauthnSignCount))
+}
+
+// WhereScopes applies the entql json.RawMessage predicate on the scopes field.
+func (f *CredentialFilter) WhereScopes(p entql.BytesP) {
+	f.Where(p.Field(credential.FieldScopes))
+}
+
+// WhereActive applies the entql bool predicate on the active field.
+func (f *CredentialFilter) WhereActive(p entql.BoolP) {
+	f.Where(p.Field(credential.FieldActive))
+}
+
+// WhereExpiresAt applies the entql time.Time predicate on the expires_at field.
+func (f *CredentialFilter) WhereExpiresAt(p entql.TimeP) {
+	f.Where(p.Field(credential.FieldExpiresAt))
+}
+
+// WhereRevoked applies the entql bool predicate on the revoked field.
+func (f *CredentialFilter) WhereRevoked(p entql.BoolP) {
+	f.Where(p.Field(credential.FieldRevoked))
+}
+
+// WhereRevokedAt applies the entql time.Time predicate on the revoked_at field.
+func (f *CredentialFilter) WhereRevokedAt(p entql.TimeP) {
+	f.Where(p.Field(credential.FieldRevokedAt))
+}
+
+// WhereRevokedReason applies the entql string predicate on the revoked_reason field.
+func (f *CredentialFilter) WhereRevokedReason(p entql.StringP) {
+	f.Where(p.Field(credential.FieldRevokedReason))
+}
+
+// WhereLastUsedAt applies the entql time.Time predicate on the last_used_at field.
+func (f *CredentialFilter) WhereLastUsedAt(p entql.TimeP) {
+	f.Where(p.Field(credential.FieldLastUsedAt))
+}
+
+// WhereLastUsedIP applies the entql string predicate on the last_used_ip field.
+func (f *CredentialFilter) WhereLastUsedIP(p entql.StringP) {
+	f.Where(p.Field(credential.FieldLastUsedIP))
+}
+
+// WhereName applies the entql string predicate on the name field.
+func (f *CredentialFilter) WhereName(p entql.StringP) {
+	f.Where(p.Field(credential.FieldName))
+}
+
+// WhereMetadata applies the entql json.RawMessage predicate on the metadata field.
+func (f *CredentialFilter) WhereMetadata(p entql.BytesP) {
+	f.Where(p.Field(credential.FieldMetadata))
+}
+
+// WhereCreatedAt applies the entql time.Time predicate on the created_at field.
+func (f *CredentialFilter) WhereCreatedAt(p entql.TimeP) {
+	f.Where(p.Field(credential.FieldCreatedAt))
+}
+
+// WhereUpdatedAt applies the entql time.Time predicate on the updated_at field.
+func (f *CredentialFilter) WhereUpdatedAt(p entql.TimeP) {
+	f.Where(p.Field(credential.FieldUpdatedAt))
+}
+
+// WhereHasPrincipal applies a predicate to check if query has an edge principal.
+func (f *CredentialFilter) WhereHasPrincipal() {
+	f.Where(entql.HasEdge("principal"))
+}
+
+// WhereHasPrincipalWith applies a predicate to check if query has an edge principal with a given conditions (other predicates).
+func (f *CredentialFilter) WhereHasPrincipalWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("principal", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (_q *HumanQuery) addPredicate(pred func(s *sql.Selector)) {
+	_q.predicates = append(_q.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the HumanQuery builder.
+func (_q *HumanQuery) Filter() *HumanFilter {
+	return &HumanFilter{config: _q.config, predicateAdder: _q}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *HumanMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the HumanMutation builder.
+func (m *HumanMutation) Filter() *HumanFilter {
+	return &HumanFilter{config: m.config, predicateAdder: m}
+}
+
+// HumanFilter provides a generic filtering capability at runtime for HumanQuery.
+type HumanFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *HumanFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[4].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql [16]byte predicate on the id field.
+func (f *HumanFilter) WhereID(p entql.ValueP) {
+	f.Where(p.Field(human.FieldID))
+}
+
+// WhereCreatedAt applies the entql time.Time predicate on the created_at field.
+func (f *HumanFilter) WhereCreatedAt(p entql.TimeP) {
+	f.Where(p.Field(human.FieldCreatedAt))
+}
+
+// WhereUpdatedAt applies the entql time.Time predicate on the updated_at field.
+func (f *HumanFilter) WhereUpdatedAt(p entql.TimeP) {
+	f.Where(p.Field(human.FieldUpdatedAt))
+}
+
+// WherePrincipalID applies the entql [16]byte predicate on the principal_id field.
+func (f *HumanFilter) WherePrincipalID(p entql.ValueP) {
+	f.Where(p.Field(human.FieldPrincipalID))
+}
+
+// WhereEmail applies the entql string predicate on the email field.
+func (f *HumanFilter) WhereEmail(p entql.StringP) {
+	f.Where(p.Field(human.FieldEmail))
+}
+
+// WhereGivenName applies the entql string predicate on the given_name field.
+func (f *HumanFilter) WhereGivenName(p entql.StringP) {
+	f.Where(p.Field(human.FieldGivenName))
+}
+
+// WhereFamilyName applies the entql string predicate on the family_name field.
+func (f *HumanFilter) WhereFamilyName(p entql.StringP) {
+	f.Where(p.Field(human.FieldFamilyName))
+}
+
+// WhereAvatarURL applies the entql string predicate on the avatar_url field.
+func (f *HumanFilter) WhereAvatarURL(p entql.StringP) {
+	f.Where(p.Field(human.FieldAvatarURL))
+}
+
+// WhereLocale applies the entql string predicate on the locale field.
+func (f *HumanFilter) WhereLocale(p entql.StringP) {
+	f.Where(p.Field(human.FieldLocale))
+}
+
+// WhereTimezone applies the entql string predicate on the timezone field.
+func (f *HumanFilter) WhereTimezone(p entql.StringP) {
+	f.Where(p.Field(human.FieldTimezone))
+}
+
+// WhereIsPlatformAdmin applies the entql bool predicate on the is_platform_admin field.
+func (f *HumanFilter) WhereIsPlatformAdmin(p entql.BoolP) {
+	f.Where(p.Field(human.FieldIsPlatformAdmin))
+}
+
+// WhereLastLoginAt applies the entql time.Time predicate on the last_login_at field.
+func (f *HumanFilter) WhereLastLoginAt(p entql.TimeP) {
+	f.Where(p.Field(human.FieldLastLoginAt))
+}
+
+// WhereEmailVerifiedAt applies the entql time.Time predicate on the email_verified_at field.
+func (f *HumanFilter) WhereEmailVerifiedAt(p entql.TimeP) {
+	f.Where(p.Field(human.FieldEmailVerifiedAt))
+}
+
+// WhereHasPrincipal applies a predicate to check if query has an edge principal.
+func (f *HumanFilter) WhereHasPrincipal() {
+	f.Where(entql.HasEdge("principal"))
+}
+
+// WhereHasPrincipalWith applies a predicate to check if query has an edge principal with a given conditions (other predicates).
+func (f *HumanFilter) WhereHasPrincipalWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("principal", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (_q *InviteQuery) addPredicate(pred func(s *sql.Selector)) {
+	_q.predicates = append(_q.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the InviteQuery builder.
+func (_q *InviteQuery) Filter() *InviteFilter {
+	return &InviteFilter{config: _q.config, predicateAdder: _q}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *InviteMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the InviteMutation builder.
+func (m *InviteMutation) Filter() *InviteFilter {
+	return &InviteFilter{config: m.config, predicateAdder: m}
+}
+
+// InviteFilter provides a generic filtering capability at runtime for InviteQuery.
+type InviteFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *InviteFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[5].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql [16]byte predicate on the id field.
+func (f *InviteFilter) WhereID(p entql.ValueP) {
+	f.Where(p.Field(invite.FieldID))
+}
+
+// WhereCreatedAt applies the entql time.Time predicate on the created_at field.
+func (f *InviteFilter) WhereCreatedAt(p entql.TimeP) {
+	f.Where(p.Field(invite.FieldCreatedAt))
+}
+
+// WhereUpdatedAt applies the entql time.Time predicate on the updated_at field.
+func (f *InviteFilter) WhereUpdatedAt(p entql.TimeP) {
+	f.Where(p.Field(invite.FieldUpdatedAt))
+}
+
+// WhereOrganizationID applies the entql [16]byte predicate on the organization_id field.
+func (f *InviteFilter) WhereOrganizationID(p entql.ValueP) {
+	f.Where(p.Field(invite.FieldOrganizationID))
+}
+
+// WhereInviterPrincipalID applies the entql [16]byte predicate on the inviter_principal_id field.
+func (f *InviteFilter) WhereInviterPrincipalID(p entql.ValueP) {
+	f.Where(p.Field(invite.FieldInviterPrincipalID))
+}
+
+// WhereEmail applies the entql string predicate on the email field.
+func (f *InviteFilter) WhereEmail(p entql.StringP) {
+	f.Where(p.Field(invite.FieldEmail))
+}
+
+// WhereRole applies the entql string predicate on the role field.
+func (f *InviteFilter) WhereRole(p entql.StringP) {
+	f.Where(p.Field(invite.FieldRole))
+}
+
+// WhereToken applies the entql string predicate on the token field.
+func (f *InviteFilter) WhereToken(p entql.StringP) {
+	f.Where(p.Field(invite.FieldToken))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *InviteFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(invite.FieldStatus))
+}
+
+// WhereMessage applies the entql string predicate on the message field.
+func (f *InviteFilter) WhereMessage(p entql.StringP) {
+	f.Where(p.Field(invite.FieldMessage))
+}
+
+// WhereExpiresAt applies the entql time.Time predicate on the expires_at field.
+func (f *InviteFilter) WhereExpiresAt(p entql.TimeP) {
+	f.Where(p.Field(invite.FieldExpiresAt))
+}
+
+// WhereAcceptedAt applies the entql time.Time predicate on the accepted_at field.
+func (f *InviteFilter) WhereAcceptedAt(p entql.TimeP) {
+	f.Where(p.Field(invite.FieldAcceptedAt))
+}
+
+// WhereAcceptedByPrincipalID applies the entql [16]byte predicate on the accepted_by_principal_id field.
+func (f *InviteFilter) WhereAcceptedByPrincipalID(p entql.ValueP) {
+	f.Where(p.Field(invite.FieldAcceptedByPrincipalID))
+}
+
+// WhereResendCount applies the entql int predicate on the resend_count field.
+func (f *InviteFilter) WhereResendCount(p entql.IntP) {
+	f.Where(p.Field(invite.FieldResendCount))
+}
+
+// WhereLastSentAt applies the entql time.Time predicate on the last_sent_at field.
+func (f *InviteFilter) WhereLastSentAt(p entql.TimeP) {
+	f.Where(p.Field(invite.FieldLastSentAt))
+}
+
+// WhereHasOrganization applies a predicate to check if query has an edge organization.
+func (f *InviteFilter) WhereHasOrganization() {
+	f.Where(entql.HasEdge("organization"))
+}
+
+// WhereHasOrganizationWith applies a predicate to check if query has an edge organization with a given conditions (other predicates).
+func (f *InviteFilter) WhereHasOrganizationWith(preds ...predicate.Organization) {
+	f.Where(entql.HasEdgeWith("organization", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasInviter applies a predicate to check if query has an edge inviter.
+func (f *InviteFilter) WhereHasInviter() {
+	f.Where(entql.HasEdge("inviter"))
+}
+
+// WhereHasInviterWith applies a predicate to check if query has an edge inviter with a given conditions (other predicates).
+func (f *InviteFilter) WhereHasInviterWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("inviter", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
 func (_q *MembershipQuery) addPredicate(pred func(s *sql.Selector)) {
 	_q.predicates = append(_q.predicates, pred)
 }
@@ -960,7 +2261,7 @@ type MembershipFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *MembershipFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[1].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[6].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1058,7 +2359,7 @@ type OAuthAccountFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OAuthAccountFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[2].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[7].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1152,7 +2453,7 @@ type OAuthAppFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OAuthAppFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[3].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[8].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1381,7 +2682,7 @@ type OAuthAppSecretFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OAuthAppSecretFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[4].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[9].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1475,7 +2776,7 @@ type OAuthAuthCodeFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OAuthAuthCodeFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[5].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[10].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1623,7 +2924,7 @@ type OAuthConsentFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OAuthConsentFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[6].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[11].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1746,7 +3047,7 @@ type OAuthTokenFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OAuthTokenFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[7].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[12].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1909,7 +3210,7 @@ type OrganizationFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OrganizationFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[8].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[13].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1940,9 +3241,29 @@ func (f *OrganizationFilter) WhereSlug(p entql.StringP) {
 	f.Where(p.Field(organization.FieldSlug))
 }
 
+// WhereOrgType applies the entql string predicate on the org_type field.
+func (f *OrganizationFilter) WhereOrgType(p entql.StringP) {
+	f.Where(p.Field(organization.FieldOrgType))
+}
+
+// WhereOwnerPrincipalID applies the entql [16]byte predicate on the owner_principal_id field.
+func (f *OrganizationFilter) WhereOwnerPrincipalID(p entql.ValueP) {
+	f.Where(p.Field(organization.FieldOwnerPrincipalID))
+}
+
 // WhereLogoURL applies the entql string predicate on the logo_url field.
 func (f *OrganizationFilter) WhereLogoURL(p entql.StringP) {
 	f.Where(p.Field(organization.FieldLogoURL))
+}
+
+// WhereDescription applies the entql string predicate on the description field.
+func (f *OrganizationFilter) WhereDescription(p entql.StringP) {
+	f.Where(p.Field(organization.FieldDescription))
+}
+
+// WhereWebsiteURL applies the entql string predicate on the website_url field.
+func (f *OrganizationFilter) WhereWebsiteURL(p entql.StringP) {
+	f.Where(p.Field(organization.FieldWebsiteURL))
 }
 
 // WhereSettings applies the entql json.RawMessage predicate on the settings field.
@@ -2016,6 +3337,606 @@ func (f *OrganizationFilter) WhereHasServiceAccountsWith(preds ...predicate.Serv
 	})))
 }
 
+// WhereHasPrincipals applies a predicate to check if query has an edge principals.
+func (f *OrganizationFilter) WhereHasPrincipals() {
+	f.Where(entql.HasEdge("principals"))
+}
+
+// WhereHasPrincipalsWith applies a predicate to check if query has an edge principals with a given conditions (other predicates).
+func (f *OrganizationFilter) WhereHasPrincipalsWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("principals", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasPrincipalMemberships applies a predicate to check if query has an edge principal_memberships.
+func (f *OrganizationFilter) WhereHasPrincipalMemberships() {
+	f.Where(entql.HasEdge("principal_memberships"))
+}
+
+// WhereHasPrincipalMembershipsWith applies a predicate to check if query has an edge principal_memberships with a given conditions (other predicates).
+func (f *OrganizationFilter) WhereHasPrincipalMembershipsWith(preds ...predicate.PrincipalMembership) {
+	f.Where(entql.HasEdgeWith("principal_memberships", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasOwner applies a predicate to check if query has an edge owner.
+func (f *OrganizationFilter) WhereHasOwner() {
+	f.Where(entql.HasEdge("owner"))
+}
+
+// WhereHasOwnerWith applies a predicate to check if query has an edge owner with a given conditions (other predicates).
+func (f *OrganizationFilter) WhereHasOwnerWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("owner", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasInvites applies a predicate to check if query has an edge invites.
+func (f *OrganizationFilter) WhereHasInvites() {
+	f.Where(entql.HasEdge("invites"))
+}
+
+// WhereHasInvitesWith applies a predicate to check if query has an edge invites with a given conditions (other predicates).
+func (f *OrganizationFilter) WhereHasInvitesWith(preds ...predicate.Invite) {
+	f.Where(entql.HasEdgeWith("invites", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (_q *PrincipalQuery) addPredicate(pred func(s *sql.Selector)) {
+	_q.predicates = append(_q.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the PrincipalQuery builder.
+func (_q *PrincipalQuery) Filter() *PrincipalFilter {
+	return &PrincipalFilter{config: _q.config, predicateAdder: _q}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *PrincipalMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the PrincipalMutation builder.
+func (m *PrincipalMutation) Filter() *PrincipalFilter {
+	return &PrincipalFilter{config: m.config, predicateAdder: m}
+}
+
+// PrincipalFilter provides a generic filtering capability at runtime for PrincipalQuery.
+type PrincipalFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *PrincipalFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[14].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql [16]byte predicate on the id field.
+func (f *PrincipalFilter) WhereID(p entql.ValueP) {
+	f.Where(p.Field(principal.FieldID))
+}
+
+// WhereCreatedAt applies the entql time.Time predicate on the created_at field.
+func (f *PrincipalFilter) WhereCreatedAt(p entql.TimeP) {
+	f.Where(p.Field(principal.FieldCreatedAt))
+}
+
+// WhereUpdatedAt applies the entql time.Time predicate on the updated_at field.
+func (f *PrincipalFilter) WhereUpdatedAt(p entql.TimeP) {
+	f.Where(p.Field(principal.FieldUpdatedAt))
+}
+
+// WhereType applies the entql string predicate on the type field.
+func (f *PrincipalFilter) WhereType(p entql.StringP) {
+	f.Where(p.Field(principal.FieldType))
+}
+
+// WhereIdentifier applies the entql string predicate on the identifier field.
+func (f *PrincipalFilter) WhereIdentifier(p entql.StringP) {
+	f.Where(p.Field(principal.FieldIdentifier))
+}
+
+// WhereDisplayName applies the entql string predicate on the display_name field.
+func (f *PrincipalFilter) WhereDisplayName(p entql.StringP) {
+	f.Where(p.Field(principal.FieldDisplayName))
+}
+
+// WhereOrganizationID applies the entql [16]byte predicate on the organization_id field.
+func (f *PrincipalFilter) WhereOrganizationID(p entql.ValueP) {
+	f.Where(p.Field(principal.FieldOrganizationID))
+}
+
+// WhereActive applies the entql bool predicate on the active field.
+func (f *PrincipalFilter) WhereActive(p entql.BoolP) {
+	f.Where(p.Field(principal.FieldActive))
+}
+
+// WhereCapabilities applies the entql json.RawMessage predicate on the capabilities field.
+func (f *PrincipalFilter) WhereCapabilities(p entql.BytesP) {
+	f.Where(p.Field(principal.FieldCapabilities))
+}
+
+// WhereAllowedScopes applies the entql json.RawMessage predicate on the allowed_scopes field.
+func (f *PrincipalFilter) WhereAllowedScopes(p entql.BytesP) {
+	f.Where(p.Field(principal.FieldAllowedScopes))
+}
+
+// WhereMetadata applies the entql json.RawMessage predicate on the metadata field.
+func (f *PrincipalFilter) WhereMetadata(p entql.BytesP) {
+	f.Where(p.Field(principal.FieldMetadata))
+}
+
+// WhereHasOrganization applies a predicate to check if query has an edge organization.
+func (f *PrincipalFilter) WhereHasOrganization() {
+	f.Where(entql.HasEdge("organization"))
+}
+
+// WhereHasOrganizationWith applies a predicate to check if query has an edge organization with a given conditions (other predicates).
+func (f *PrincipalFilter) WhereHasOrganizationWith(preds ...predicate.Organization) {
+	f.Where(entql.HasEdgeWith("organization", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasHuman applies a predicate to check if query has an edge human.
+func (f *PrincipalFilter) WhereHasHuman() {
+	f.Where(entql.HasEdge("human"))
+}
+
+// WhereHasHumanWith applies a predicate to check if query has an edge human with a given conditions (other predicates).
+func (f *PrincipalFilter) WhereHasHumanWith(preds ...predicate.Human) {
+	f.Where(entql.HasEdgeWith("human", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasApplication applies a predicate to check if query has an edge application.
+func (f *PrincipalFilter) WhereHasApplication() {
+	f.Where(entql.HasEdge("application"))
+}
+
+// WhereHasApplicationWith applies a predicate to check if query has an edge application with a given conditions (other predicates).
+func (f *PrincipalFilter) WhereHasApplicationWith(preds ...predicate.Application) {
+	f.Where(entql.HasEdgeWith("application", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasAgent applies a predicate to check if query has an edge agent.
+func (f *PrincipalFilter) WhereHasAgent() {
+	f.Where(entql.HasEdge("agent"))
+}
+
+// WhereHasAgentWith applies a predicate to check if query has an edge agent with a given conditions (other predicates).
+func (f *PrincipalFilter) WhereHasAgentWith(preds ...predicate.Agent) {
+	f.Where(entql.HasEdgeWith("agent", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasServicePrincipal applies a predicate to check if query has an edge service_principal.
+func (f *PrincipalFilter) WhereHasServicePrincipal() {
+	f.Where(entql.HasEdge("service_principal"))
+}
+
+// WhereHasServicePrincipalWith applies a predicate to check if query has an edge service_principal with a given conditions (other predicates).
+func (f *PrincipalFilter) WhereHasServicePrincipalWith(preds ...predicate.ServicePrincipal) {
+	f.Where(entql.HasEdgeWith("service_principal", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasCredentials applies a predicate to check if query has an edge credentials.
+func (f *PrincipalFilter) WhereHasCredentials() {
+	f.Where(entql.HasEdge("credentials"))
+}
+
+// WhereHasCredentialsWith applies a predicate to check if query has an edge credentials with a given conditions (other predicates).
+func (f *PrincipalFilter) WhereHasCredentialsWith(preds ...predicate.Credential) {
+	f.Where(entql.HasEdgeWith("credentials", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasPrincipalTokens applies a predicate to check if query has an edge principal_tokens.
+func (f *PrincipalFilter) WhereHasPrincipalTokens() {
+	f.Where(entql.HasEdge("principal_tokens"))
+}
+
+// WhereHasPrincipalTokensWith applies a predicate to check if query has an edge principal_tokens with a given conditions (other predicates).
+func (f *PrincipalFilter) WhereHasPrincipalTokensWith(preds ...predicate.PrincipalToken) {
+	f.Where(entql.HasEdgeWith("principal_tokens", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasPrincipalMemberships applies a predicate to check if query has an edge principal_memberships.
+func (f *PrincipalFilter) WhereHasPrincipalMemberships() {
+	f.Where(entql.HasEdge("principal_memberships"))
+}
+
+// WhereHasPrincipalMembershipsWith applies a predicate to check if query has an edge principal_memberships with a given conditions (other predicates).
+func (f *PrincipalFilter) WhereHasPrincipalMembershipsWith(preds ...predicate.PrincipalMembership) {
+	f.Where(entql.HasEdgeWith("principal_memberships", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasOwnedOrganizations applies a predicate to check if query has an edge owned_organizations.
+func (f *PrincipalFilter) WhereHasOwnedOrganizations() {
+	f.Where(entql.HasEdge("owned_organizations"))
+}
+
+// WhereHasOwnedOrganizationsWith applies a predicate to check if query has an edge owned_organizations with a given conditions (other predicates).
+func (f *PrincipalFilter) WhereHasOwnedOrganizationsWith(preds ...predicate.Organization) {
+	f.Where(entql.HasEdgeWith("owned_organizations", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasSentInvites applies a predicate to check if query has an edge sent_invites.
+func (f *PrincipalFilter) WhereHasSentInvites() {
+	f.Where(entql.HasEdge("sent_invites"))
+}
+
+// WhereHasSentInvitesWith applies a predicate to check if query has an edge sent_invites with a given conditions (other predicates).
+func (f *PrincipalFilter) WhereHasSentInvitesWith(preds ...predicate.Invite) {
+	f.Where(entql.HasEdgeWith("sent_invites", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (_q *PrincipalMembershipQuery) addPredicate(pred func(s *sql.Selector)) {
+	_q.predicates = append(_q.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the PrincipalMembershipQuery builder.
+func (_q *PrincipalMembershipQuery) Filter() *PrincipalMembershipFilter {
+	return &PrincipalMembershipFilter{config: _q.config, predicateAdder: _q}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *PrincipalMembershipMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the PrincipalMembershipMutation builder.
+func (m *PrincipalMembershipMutation) Filter() *PrincipalMembershipFilter {
+	return &PrincipalMembershipFilter{config: m.config, predicateAdder: m}
+}
+
+// PrincipalMembershipFilter provides a generic filtering capability at runtime for PrincipalMembershipQuery.
+type PrincipalMembershipFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *PrincipalMembershipFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[15].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql [16]byte predicate on the id field.
+func (f *PrincipalMembershipFilter) WhereID(p entql.ValueP) {
+	f.Where(p.Field(principalmembership.FieldID))
+}
+
+// WhereCreatedAt applies the entql time.Time predicate on the created_at field.
+func (f *PrincipalMembershipFilter) WhereCreatedAt(p entql.TimeP) {
+	f.Where(p.Field(principalmembership.FieldCreatedAt))
+}
+
+// WhereUpdatedAt applies the entql time.Time predicate on the updated_at field.
+func (f *PrincipalMembershipFilter) WhereUpdatedAt(p entql.TimeP) {
+	f.Where(p.Field(principalmembership.FieldUpdatedAt))
+}
+
+// WherePrincipalID applies the entql [16]byte predicate on the principal_id field.
+func (f *PrincipalMembershipFilter) WherePrincipalID(p entql.ValueP) {
+	f.Where(p.Field(principalmembership.FieldPrincipalID))
+}
+
+// WhereOrganizationID applies the entql [16]byte predicate on the organization_id field.
+func (f *PrincipalMembershipFilter) WhereOrganizationID(p entql.ValueP) {
+	f.Where(p.Field(principalmembership.FieldOrganizationID))
+}
+
+// WhereRole applies the entql string predicate on the role field.
+func (f *PrincipalMembershipFilter) WhereRole(p entql.StringP) {
+	f.Where(p.Field(principalmembership.FieldRole))
+}
+
+// WherePermissions applies the entql json.RawMessage predicate on the permissions field.
+func (f *PrincipalMembershipFilter) WherePermissions(p entql.BytesP) {
+	f.Where(p.Field(principalmembership.FieldPermissions))
+}
+
+// WhereActive applies the entql bool predicate on the active field.
+func (f *PrincipalMembershipFilter) WhereActive(p entql.BoolP) {
+	f.Where(p.Field(principalmembership.FieldActive))
+}
+
+// WhereHasPrincipal applies a predicate to check if query has an edge principal.
+func (f *PrincipalMembershipFilter) WhereHasPrincipal() {
+	f.Where(entql.HasEdge("principal"))
+}
+
+// WhereHasPrincipalWith applies a predicate to check if query has an edge principal with a given conditions (other predicates).
+func (f *PrincipalMembershipFilter) WhereHasPrincipalWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("principal", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasOrganization applies a predicate to check if query has an edge organization.
+func (f *PrincipalMembershipFilter) WhereHasOrganization() {
+	f.Where(entql.HasEdge("organization"))
+}
+
+// WhereHasOrganizationWith applies a predicate to check if query has an edge organization with a given conditions (other predicates).
+func (f *PrincipalMembershipFilter) WhereHasOrganizationWith(preds ...predicate.Organization) {
+	f.Where(entql.HasEdgeWith("organization", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (_q *PrincipalTokenQuery) addPredicate(pred func(s *sql.Selector)) {
+	_q.predicates = append(_q.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the PrincipalTokenQuery builder.
+func (_q *PrincipalTokenQuery) Filter() *PrincipalTokenFilter {
+	return &PrincipalTokenFilter{config: _q.config, predicateAdder: _q}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *PrincipalTokenMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the PrincipalTokenMutation builder.
+func (m *PrincipalTokenMutation) Filter() *PrincipalTokenFilter {
+	return &PrincipalTokenFilter{config: m.config, predicateAdder: m}
+}
+
+// PrincipalTokenFilter provides a generic filtering capability at runtime for PrincipalTokenQuery.
+type PrincipalTokenFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *PrincipalTokenFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[16].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql [16]byte predicate on the id field.
+func (f *PrincipalTokenFilter) WhereID(p entql.ValueP) {
+	f.Where(p.Field(principaltoken.FieldID))
+}
+
+// WherePrincipalID applies the entql [16]byte predicate on the principal_id field.
+func (f *PrincipalTokenFilter) WherePrincipalID(p entql.ValueP) {
+	f.Where(p.Field(principaltoken.FieldPrincipalID))
+}
+
+// WherePrincipalType applies the entql string predicate on the principal_type field.
+func (f *PrincipalTokenFilter) WherePrincipalType(p entql.StringP) {
+	f.Where(p.Field(principaltoken.FieldPrincipalType))
+}
+
+// WhereIssuedByAppID applies the entql [16]byte predicate on the issued_by_app_id field.
+func (f *PrincipalTokenFilter) WhereIssuedByAppID(p entql.ValueP) {
+	f.Where(p.Field(principaltoken.FieldIssuedByAppID))
+}
+
+// WhereAccessTokenSignature applies the entql string predicate on the access_token_signature field.
+func (f *PrincipalTokenFilter) WhereAccessTokenSignature(p entql.StringP) {
+	f.Where(p.Field(principaltoken.FieldAccessTokenSignature))
+}
+
+// WhereRefreshTokenSignature applies the entql string predicate on the refresh_token_signature field.
+func (f *PrincipalTokenFilter) WhereRefreshTokenSignature(p entql.StringP) {
+	f.Where(p.Field(principaltoken.FieldRefreshTokenSignature))
+}
+
+// WhereFamilyID applies the entql [16]byte predicate on the family_id field.
+func (f *PrincipalTokenFilter) WhereFamilyID(p entql.ValueP) {
+	f.Where(p.Field(principaltoken.FieldFamilyID))
+}
+
+// WhereParentTokenID applies the entql [16]byte predicate on the parent_token_id field.
+func (f *PrincipalTokenFilter) WhereParentTokenID(p entql.ValueP) {
+	f.Where(p.Field(principaltoken.FieldParentTokenID))
+}
+
+// WhereScopes applies the entql json.RawMessage predicate on the scopes field.
+func (f *PrincipalTokenFilter) WhereScopes(p entql.BytesP) {
+	f.Where(p.Field(principaltoken.FieldScopes))
+}
+
+// WhereAudience applies the entql json.RawMessage predicate on the audience field.
+func (f *PrincipalTokenFilter) WhereAudience(p entql.BytesP) {
+	f.Where(p.Field(principaltoken.FieldAudience))
+}
+
+// WhereCapabilities applies the entql json.RawMessage predicate on the capabilities field.
+func (f *PrincipalTokenFilter) WhereCapabilities(p entql.BytesP) {
+	f.Where(p.Field(principaltoken.FieldCapabilities))
+}
+
+// WhereDelegationChain applies the entql json.RawMessage predicate on the delegation_chain field.
+func (f *PrincipalTokenFilter) WhereDelegationChain(p entql.BytesP) {
+	f.Where(p.Field(principaltoken.FieldDelegationChain))
+}
+
+// WhereDpopJkt applies the entql string predicate on the dpop_jkt field.
+func (f *PrincipalTokenFilter) WhereDpopJkt(p entql.StringP) {
+	f.Where(p.Field(principaltoken.FieldDpopJkt))
+}
+
+// WhereSessionID applies the entql string predicate on the session_id field.
+func (f *PrincipalTokenFilter) WhereSessionID(p entql.StringP) {
+	f.Where(p.Field(principaltoken.FieldSessionID))
+}
+
+// WhereRequestData applies the entql string predicate on the request_data field.
+func (f *PrincipalTokenFilter) WhereRequestData(p entql.StringP) {
+	f.Where(p.Field(principaltoken.FieldRequestData))
+}
+
+// WhereAccessExpiresAt applies the entql time.Time predicate on the access_expires_at field.
+func (f *PrincipalTokenFilter) WhereAccessExpiresAt(p entql.TimeP) {
+	f.Where(p.Field(principaltoken.FieldAccessExpiresAt))
+}
+
+// WhereRefreshExpiresAt applies the entql time.Time predicate on the refresh_expires_at field.
+func (f *PrincipalTokenFilter) WhereRefreshExpiresAt(p entql.TimeP) {
+	f.Where(p.Field(principaltoken.FieldRefreshExpiresAt))
+}
+
+// WhereRevoked applies the entql bool predicate on the revoked field.
+func (f *PrincipalTokenFilter) WhereRevoked(p entql.BoolP) {
+	f.Where(p.Field(principaltoken.FieldRevoked))
+}
+
+// WhereRevokedAt applies the entql time.Time predicate on the revoked_at field.
+func (f *PrincipalTokenFilter) WhereRevokedAt(p entql.TimeP) {
+	f.Where(p.Field(principaltoken.FieldRevokedAt))
+}
+
+// WhereRevokedReason applies the entql string predicate on the revoked_reason field.
+func (f *PrincipalTokenFilter) WhereRevokedReason(p entql.StringP) {
+	f.Where(p.Field(principaltoken.FieldRevokedReason))
+}
+
+// WhereClientIP applies the entql string predicate on the client_ip field.
+func (f *PrincipalTokenFilter) WhereClientIP(p entql.StringP) {
+	f.Where(p.Field(principaltoken.FieldClientIP))
+}
+
+// WhereUserAgent applies the entql string predicate on the user_agent field.
+func (f *PrincipalTokenFilter) WhereUserAgent(p entql.StringP) {
+	f.Where(p.Field(principaltoken.FieldUserAgent))
+}
+
+// WhereLastUsedAt applies the entql time.Time predicate on the last_used_at field.
+func (f *PrincipalTokenFilter) WhereLastUsedAt(p entql.TimeP) {
+	f.Where(p.Field(principaltoken.FieldLastUsedAt))
+}
+
+// WhereCreatedAt applies the entql time.Time predicate on the created_at field.
+func (f *PrincipalTokenFilter) WhereCreatedAt(p entql.TimeP) {
+	f.Where(p.Field(principaltoken.FieldCreatedAt))
+}
+
+// WhereHasPrincipal applies a predicate to check if query has an edge principal.
+func (f *PrincipalTokenFilter) WhereHasPrincipal() {
+	f.Where(entql.HasEdge("principal"))
+}
+
+// WhereHasPrincipalWith applies a predicate to check if query has an edge principal with a given conditions (other predicates).
+func (f *PrincipalTokenFilter) WhereHasPrincipalWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("principal", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasIssuedByApp applies a predicate to check if query has an edge issued_by_app.
+func (f *PrincipalTokenFilter) WhereHasIssuedByApp() {
+	f.Where(entql.HasEdge("issued_by_app"))
+}
+
+// WhereHasIssuedByAppWith applies a predicate to check if query has an edge issued_by_app with a given conditions (other predicates).
+func (f *PrincipalTokenFilter) WhereHasIssuedByAppWith(preds ...predicate.Application) {
+	f.Where(entql.HasEdgeWith("issued_by_app", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasParentToken applies a predicate to check if query has an edge parent_token.
+func (f *PrincipalTokenFilter) WhereHasParentToken() {
+	f.Where(entql.HasEdge("parent_token"))
+}
+
+// WhereHasParentTokenWith applies a predicate to check if query has an edge parent_token with a given conditions (other predicates).
+func (f *PrincipalTokenFilter) WhereHasParentTokenWith(preds ...predicate.PrincipalToken) {
+	f.Where(entql.HasEdgeWith("parent_token", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasChildTokens applies a predicate to check if query has an edge child_tokens.
+func (f *PrincipalTokenFilter) WhereHasChildTokens() {
+	f.Where(entql.HasEdge("child_tokens"))
+}
+
+// WhereHasChildTokensWith applies a predicate to check if query has an edge child_tokens with a given conditions (other predicates).
+func (f *PrincipalTokenFilter) WhereHasChildTokensWith(preds ...predicate.PrincipalToken) {
+	f.Where(entql.HasEdgeWith("child_tokens", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
 // addPredicate implements the predicateAdder interface.
 func (_q *RefreshTokenQuery) addPredicate(pred func(s *sql.Selector)) {
 	_q.predicates = append(_q.predicates, pred)
@@ -2045,7 +3966,7 @@ type RefreshTokenFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *RefreshTokenFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[9].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[17].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2144,7 +4065,7 @@ type ServiceAccountFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *ServiceAccountFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[10].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[18].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2276,7 +4197,7 @@ type ServiceAccountKeyPairFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *ServiceAccountKeyPairFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[11].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[19].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2357,6 +4278,114 @@ func (f *ServiceAccountKeyPairFilter) WhereHasServiceAccountWith(preds ...predic
 }
 
 // addPredicate implements the predicateAdder interface.
+func (_q *ServicePrincipalQuery) addPredicate(pred func(s *sql.Selector)) {
+	_q.predicates = append(_q.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the ServicePrincipalQuery builder.
+func (_q *ServicePrincipalQuery) Filter() *ServicePrincipalFilter {
+	return &ServicePrincipalFilter{config: _q.config, predicateAdder: _q}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *ServicePrincipalMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the ServicePrincipalMutation builder.
+func (m *ServicePrincipalMutation) Filter() *ServicePrincipalFilter {
+	return &ServicePrincipalFilter{config: m.config, predicateAdder: m}
+}
+
+// ServicePrincipalFilter provides a generic filtering capability at runtime for ServicePrincipalQuery.
+type ServicePrincipalFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *ServicePrincipalFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[20].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql [16]byte predicate on the id field.
+func (f *ServicePrincipalFilter) WhereID(p entql.ValueP) {
+	f.Where(p.Field(serviceprincipal.FieldID))
+}
+
+// WhereCreatedAt applies the entql time.Time predicate on the created_at field.
+func (f *ServicePrincipalFilter) WhereCreatedAt(p entql.TimeP) {
+	f.Where(p.Field(serviceprincipal.FieldCreatedAt))
+}
+
+// WhereUpdatedAt applies the entql time.Time predicate on the updated_at field.
+func (f *ServicePrincipalFilter) WhereUpdatedAt(p entql.TimeP) {
+	f.Where(p.Field(serviceprincipal.FieldUpdatedAt))
+}
+
+// WherePrincipalID applies the entql [16]byte predicate on the principal_id field.
+func (f *ServicePrincipalFilter) WherePrincipalID(p entql.ValueP) {
+	f.Where(p.Field(serviceprincipal.FieldPrincipalID))
+}
+
+// WhereServiceType applies the entql string predicate on the service_type field.
+func (f *ServicePrincipalFilter) WhereServiceType(p entql.StringP) {
+	f.Where(p.Field(serviceprincipal.FieldServiceType))
+}
+
+// WhereDescription applies the entql string predicate on the description field.
+func (f *ServicePrincipalFilter) WhereDescription(p entql.StringP) {
+	f.Where(p.Field(serviceprincipal.FieldDescription))
+}
+
+// WhereCreatedBy applies the entql [16]byte predicate on the created_by field.
+func (f *ServicePrincipalFilter) WhereCreatedBy(p entql.ValueP) {
+	f.Where(p.Field(serviceprincipal.FieldCreatedBy))
+}
+
+// WhereLastUsedAt applies the entql time.Time predicate on the last_used_at field.
+func (f *ServicePrincipalFilter) WhereLastUsedAt(p entql.TimeP) {
+	f.Where(p.Field(serviceprincipal.FieldLastUsedAt))
+}
+
+// WhereAllowedIps applies the entql json.RawMessage predicate on the allowed_ips field.
+func (f *ServicePrincipalFilter) WhereAllowedIps(p entql.BytesP) {
+	f.Where(p.Field(serviceprincipal.FieldAllowedIps))
+}
+
+// WhereHasPrincipal applies a predicate to check if query has an edge principal.
+func (f *ServicePrincipalFilter) WhereHasPrincipal() {
+	f.Where(entql.HasEdge("principal"))
+}
+
+// WhereHasPrincipalWith applies a predicate to check if query has an edge principal with a given conditions (other predicates).
+func (f *ServicePrincipalFilter) WhereHasPrincipalWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("principal", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasCreator applies a predicate to check if query has an edge creator.
+func (f *ServicePrincipalFilter) WhereHasCreator() {
+	f.Where(entql.HasEdge("creator"))
+}
+
+// WhereHasCreatorWith applies a predicate to check if query has an edge creator with a given conditions (other predicates).
+func (f *ServicePrincipalFilter) WhereHasCreatorWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("creator", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
 func (_q *UserQuery) addPredicate(pred func(s *sql.Selector)) {
 	_q.predicates = append(_q.predicates, pred)
 }
@@ -2385,7 +4414,7 @@ type UserFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *UserFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[12].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[21].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2439,6 +4468,11 @@ func (f *UserFilter) WhereActive(p entql.BoolP) {
 // WhereLastLoginAt applies the entql time.Time predicate on the last_login_at field.
 func (f *UserFilter) WhereLastLoginAt(p entql.TimeP) {
 	f.Where(p.Field(user.FieldLastLoginAt))
+}
+
+// WhereFederationID applies the entql [16]byte predicate on the federation_id field.
+func (f *UserFilter) WhereFederationID(p entql.ValueP) {
+	f.Where(p.Field(user.FieldFederationID))
 }
 
 // WhereHasMemberships applies a predicate to check if query has an edge memberships.

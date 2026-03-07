@@ -135,6 +135,126 @@ func (f APIKeyMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.APIKeyMutation", m)
 }
 
+// The AgentQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type AgentQueryRuleFunc func(context.Context, *ent.AgentQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f AgentQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.AgentQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.AgentQuery", q)
+}
+
+// The AgentMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type AgentMutationRuleFunc func(context.Context, *ent.AgentMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f AgentMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.AgentMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.AgentMutation", m)
+}
+
+// The ApplicationQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type ApplicationQueryRuleFunc func(context.Context, *ent.ApplicationQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f ApplicationQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.ApplicationQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.ApplicationQuery", q)
+}
+
+// The ApplicationMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type ApplicationMutationRuleFunc func(context.Context, *ent.ApplicationMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f ApplicationMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.ApplicationMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.ApplicationMutation", m)
+}
+
+// The CredentialQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type CredentialQueryRuleFunc func(context.Context, *ent.CredentialQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f CredentialQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.CredentialQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.CredentialQuery", q)
+}
+
+// The CredentialMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type CredentialMutationRuleFunc func(context.Context, *ent.CredentialMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f CredentialMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.CredentialMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.CredentialMutation", m)
+}
+
+// The HumanQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type HumanQueryRuleFunc func(context.Context, *ent.HumanQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f HumanQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.HumanQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.HumanQuery", q)
+}
+
+// The HumanMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type HumanMutationRuleFunc func(context.Context, *ent.HumanMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f HumanMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.HumanMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.HumanMutation", m)
+}
+
+// The InviteQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type InviteQueryRuleFunc func(context.Context, *ent.InviteQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f InviteQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.InviteQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.InviteQuery", q)
+}
+
+// The InviteMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type InviteMutationRuleFunc func(context.Context, *ent.InviteMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f InviteMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.InviteMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.InviteMutation", m)
+}
+
 // The MembershipQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
 type MembershipQueryRuleFunc func(context.Context, *ent.MembershipQuery) error
@@ -327,6 +447,78 @@ func (f OrganizationMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mu
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.OrganizationMutation", m)
 }
 
+// The PrincipalQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type PrincipalQueryRuleFunc func(context.Context, *ent.PrincipalQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f PrincipalQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.PrincipalQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.PrincipalQuery", q)
+}
+
+// The PrincipalMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type PrincipalMutationRuleFunc func(context.Context, *ent.PrincipalMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f PrincipalMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.PrincipalMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.PrincipalMutation", m)
+}
+
+// The PrincipalMembershipQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type PrincipalMembershipQueryRuleFunc func(context.Context, *ent.PrincipalMembershipQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f PrincipalMembershipQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.PrincipalMembershipQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.PrincipalMembershipQuery", q)
+}
+
+// The PrincipalMembershipMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type PrincipalMembershipMutationRuleFunc func(context.Context, *ent.PrincipalMembershipMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f PrincipalMembershipMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.PrincipalMembershipMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.PrincipalMembershipMutation", m)
+}
+
+// The PrincipalTokenQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type PrincipalTokenQueryRuleFunc func(context.Context, *ent.PrincipalTokenQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f PrincipalTokenQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.PrincipalTokenQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.PrincipalTokenQuery", q)
+}
+
+// The PrincipalTokenMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type PrincipalTokenMutationRuleFunc func(context.Context, *ent.PrincipalTokenMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f PrincipalTokenMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.PrincipalTokenMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.PrincipalTokenMutation", m)
+}
+
 // The RefreshTokenQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
 type RefreshTokenQueryRuleFunc func(context.Context, *ent.RefreshTokenQuery) error
@@ -399,6 +591,30 @@ func (f ServiceAccountKeyPairMutationRuleFunc) EvalMutation(ctx context.Context,
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.ServiceAccountKeyPairMutation", m)
 }
 
+// The ServicePrincipalQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type ServicePrincipalQueryRuleFunc func(context.Context, *ent.ServicePrincipalQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f ServicePrincipalQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.ServicePrincipalQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.ServicePrincipalQuery", q)
+}
+
+// The ServicePrincipalMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type ServicePrincipalMutationRuleFunc func(context.Context, *ent.ServicePrincipalMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f ServicePrincipalMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.ServicePrincipalMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.ServicePrincipalMutation", m)
+}
+
 // The UserQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
 type UserQueryRuleFunc func(context.Context, *ent.UserQuery) error
@@ -460,6 +676,16 @@ func queryFilter(q ent.Query) (Filter, error) {
 	switch q := q.(type) {
 	case *ent.APIKeyQuery:
 		return q.Filter(), nil
+	case *ent.AgentQuery:
+		return q.Filter(), nil
+	case *ent.ApplicationQuery:
+		return q.Filter(), nil
+	case *ent.CredentialQuery:
+		return q.Filter(), nil
+	case *ent.HumanQuery:
+		return q.Filter(), nil
+	case *ent.InviteQuery:
+		return q.Filter(), nil
 	case *ent.MembershipQuery:
 		return q.Filter(), nil
 	case *ent.OAuthAccountQuery:
@@ -476,11 +702,19 @@ func queryFilter(q ent.Query) (Filter, error) {
 		return q.Filter(), nil
 	case *ent.OrganizationQuery:
 		return q.Filter(), nil
+	case *ent.PrincipalQuery:
+		return q.Filter(), nil
+	case *ent.PrincipalMembershipQuery:
+		return q.Filter(), nil
+	case *ent.PrincipalTokenQuery:
+		return q.Filter(), nil
 	case *ent.RefreshTokenQuery:
 		return q.Filter(), nil
 	case *ent.ServiceAccountQuery:
 		return q.Filter(), nil
 	case *ent.ServiceAccountKeyPairQuery:
+		return q.Filter(), nil
+	case *ent.ServicePrincipalQuery:
 		return q.Filter(), nil
 	case *ent.UserQuery:
 		return q.Filter(), nil
@@ -492,6 +726,16 @@ func queryFilter(q ent.Query) (Filter, error) {
 func mutationFilter(m ent.Mutation) (Filter, error) {
 	switch m := m.(type) {
 	case *ent.APIKeyMutation:
+		return m.Filter(), nil
+	case *ent.AgentMutation:
+		return m.Filter(), nil
+	case *ent.ApplicationMutation:
+		return m.Filter(), nil
+	case *ent.CredentialMutation:
+		return m.Filter(), nil
+	case *ent.HumanMutation:
+		return m.Filter(), nil
+	case *ent.InviteMutation:
 		return m.Filter(), nil
 	case *ent.MembershipMutation:
 		return m.Filter(), nil
@@ -509,11 +753,19 @@ func mutationFilter(m ent.Mutation) (Filter, error) {
 		return m.Filter(), nil
 	case *ent.OrganizationMutation:
 		return m.Filter(), nil
+	case *ent.PrincipalMutation:
+		return m.Filter(), nil
+	case *ent.PrincipalMembershipMutation:
+		return m.Filter(), nil
+	case *ent.PrincipalTokenMutation:
+		return m.Filter(), nil
 	case *ent.RefreshTokenMutation:
 		return m.Filter(), nil
 	case *ent.ServiceAccountMutation:
 		return m.Filter(), nil
 	case *ent.ServiceAccountKeyPairMutation:
+		return m.Filter(), nil
+	case *ent.ServicePrincipalMutation:
 		return m.Filter(), nil
 	case *ent.UserMutation:
 		return m.Filter(), nil

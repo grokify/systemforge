@@ -6,7 +6,12 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/grokify/coreforge/identity/ent/agent"
 	"github.com/grokify/coreforge/identity/ent/apikey"
+	"github.com/grokify/coreforge/identity/ent/application"
+	"github.com/grokify/coreforge/identity/ent/credential"
+	"github.com/grokify/coreforge/identity/ent/human"
+	"github.com/grokify/coreforge/identity/ent/invite"
 	"github.com/grokify/coreforge/identity/ent/membership"
 	"github.com/grokify/coreforge/identity/ent/oauthaccount"
 	"github.com/grokify/coreforge/identity/ent/oauthapp"
@@ -15,10 +20,14 @@ import (
 	"github.com/grokify/coreforge/identity/ent/oauthconsent"
 	"github.com/grokify/coreforge/identity/ent/oauthtoken"
 	"github.com/grokify/coreforge/identity/ent/organization"
+	"github.com/grokify/coreforge/identity/ent/principal"
+	"github.com/grokify/coreforge/identity/ent/principalmembership"
+	"github.com/grokify/coreforge/identity/ent/principaltoken"
 	"github.com/grokify/coreforge/identity/ent/refreshtoken"
 	"github.com/grokify/coreforge/identity/ent/schema"
 	"github.com/grokify/coreforge/identity/ent/serviceaccount"
 	"github.com/grokify/coreforge/identity/ent/serviceaccountkeypair"
+	"github.com/grokify/coreforge/identity/ent/serviceprincipal"
 	"github.com/grokify/coreforge/identity/ent/user"
 )
 
@@ -61,6 +70,212 @@ func init() {
 	apikeyDescID := apikeyMixinFields0[0].Descriptor()
 	// apikey.DefaultID holds the default value on creation for the id field.
 	apikey.DefaultID = apikeyDescID.Default.(func() uuid.UUID)
+	agentMixin := schema.Agent{}.Mixin()
+	agentMixinFields0 := agentMixin[0].Fields()
+	_ = agentMixinFields0
+	agentFields := schema.Agent{}.Fields()
+	_ = agentFields
+	// agentDescCreatedAt is the schema descriptor for created_at field.
+	agentDescCreatedAt := agentMixinFields0[1].Descriptor()
+	// agent.DefaultCreatedAt holds the default value on creation for the created_at field.
+	agent.DefaultCreatedAt = agentDescCreatedAt.Default.(func() time.Time)
+	// agentDescUpdatedAt is the schema descriptor for updated_at field.
+	agentDescUpdatedAt := agentMixinFields0[2].Descriptor()
+	// agent.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	agent.DefaultUpdatedAt = agentDescUpdatedAt.Default.(func() time.Time)
+	// agent.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	agent.UpdateDefaultUpdatedAt = agentDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// agentDescModelID is the schema descriptor for model_id field.
+	agentDescModelID := agentFields[1].Descriptor()
+	// agent.ModelIDValidator is a validator for the "model_id" field. It is called by the builders before save.
+	agent.ModelIDValidator = agentDescModelID.Validators[0].(func(string) error)
+	// agentDescCapabilityConstraints is the schema descriptor for capability_constraints field.
+	agentDescCapabilityConstraints := agentFields[4].Descriptor()
+	// agent.DefaultCapabilityConstraints holds the default value on creation for the capability_constraints field.
+	agent.DefaultCapabilityConstraints = agentDescCapabilityConstraints.Default.([]string)
+	// agentDescResourceConstraints is the schema descriptor for resource_constraints field.
+	agentDescResourceConstraints := agentFields[5].Descriptor()
+	// agent.DefaultResourceConstraints holds the default value on creation for the resource_constraints field.
+	agent.DefaultResourceConstraints = agentDescResourceConstraints.Default.([]string)
+	// agentDescMaxTokenLifetime is the schema descriptor for max_token_lifetime field.
+	agentDescMaxTokenLifetime := agentFields[6].Descriptor()
+	// agent.DefaultMaxTokenLifetime holds the default value on creation for the max_token_lifetime field.
+	agent.DefaultMaxTokenLifetime = agentDescMaxTokenLifetime.Default.(int)
+	// agentDescRequiresConfirmation is the schema descriptor for requires_confirmation field.
+	agentDescRequiresConfirmation := agentFields[8].Descriptor()
+	// agent.DefaultRequiresConfirmation holds the default value on creation for the requires_confirmation field.
+	agent.DefaultRequiresConfirmation = agentDescRequiresConfirmation.Default.(bool)
+	// agentDescID is the schema descriptor for id field.
+	agentDescID := agentMixinFields0[0].Descriptor()
+	// agent.DefaultID holds the default value on creation for the id field.
+	agent.DefaultID = agentDescID.Default.(func() uuid.UUID)
+	applicationMixin := schema.Application{}.Mixin()
+	applicationMixinFields0 := applicationMixin[0].Fields()
+	_ = applicationMixinFields0
+	applicationFields := schema.Application{}.Fields()
+	_ = applicationFields
+	// applicationDescCreatedAt is the schema descriptor for created_at field.
+	applicationDescCreatedAt := applicationMixinFields0[1].Descriptor()
+	// application.DefaultCreatedAt holds the default value on creation for the created_at field.
+	application.DefaultCreatedAt = applicationDescCreatedAt.Default.(func() time.Time)
+	// applicationDescUpdatedAt is the schema descriptor for updated_at field.
+	applicationDescUpdatedAt := applicationMixinFields0[2].Descriptor()
+	// application.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	application.DefaultUpdatedAt = applicationDescUpdatedAt.Default.(func() time.Time)
+	// application.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	application.UpdateDefaultUpdatedAt = applicationDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// applicationDescClientID is the schema descriptor for client_id field.
+	applicationDescClientID := applicationFields[1].Descriptor()
+	// application.ClientIDValidator is a validator for the "client_id" field. It is called by the builders before save.
+	application.ClientIDValidator = applicationDescClientID.Validators[0].(func(string) error)
+	// applicationDescDescription is the schema descriptor for description field.
+	applicationDescDescription := applicationFields[2].Descriptor()
+	// application.DescriptionValidator is a validator for the "description" field. It is called by the builders before save.
+	application.DescriptionValidator = applicationDescDescription.Validators[0].(func(string) error)
+	// applicationDescRedirectUris is the schema descriptor for redirect_uris field.
+	applicationDescRedirectUris := applicationFields[5].Descriptor()
+	// application.DefaultRedirectUris holds the default value on creation for the redirect_uris field.
+	application.DefaultRedirectUris = applicationDescRedirectUris.Default.([]string)
+	// applicationDescAllowedGrants is the schema descriptor for allowed_grants field.
+	applicationDescAllowedGrants := applicationFields[6].Descriptor()
+	// application.DefaultAllowedGrants holds the default value on creation for the allowed_grants field.
+	application.DefaultAllowedGrants = applicationDescAllowedGrants.Default.([]string)
+	// applicationDescAllowedResponseTypes is the schema descriptor for allowed_response_types field.
+	applicationDescAllowedResponseTypes := applicationFields[7].Descriptor()
+	// application.DefaultAllowedResponseTypes holds the default value on creation for the allowed_response_types field.
+	application.DefaultAllowedResponseTypes = applicationDescAllowedResponseTypes.Default.([]string)
+	// applicationDescAccessTokenTTL is the schema descriptor for access_token_ttl field.
+	applicationDescAccessTokenTTL := applicationFields[8].Descriptor()
+	// application.DefaultAccessTokenTTL holds the default value on creation for the access_token_ttl field.
+	application.DefaultAccessTokenTTL = applicationDescAccessTokenTTL.Default.(int)
+	// applicationDescRefreshTokenTTL is the schema descriptor for refresh_token_ttl field.
+	applicationDescRefreshTokenTTL := applicationFields[9].Descriptor()
+	// application.DefaultRefreshTokenTTL holds the default value on creation for the refresh_token_ttl field.
+	application.DefaultRefreshTokenTTL = applicationDescRefreshTokenTTL.Default.(int)
+	// applicationDescRefreshTokenRotation is the schema descriptor for refresh_token_rotation field.
+	applicationDescRefreshTokenRotation := applicationFields[10].Descriptor()
+	// application.DefaultRefreshTokenRotation holds the default value on creation for the refresh_token_rotation field.
+	application.DefaultRefreshTokenRotation = applicationDescRefreshTokenRotation.Default.(bool)
+	// applicationDescFirstParty is the schema descriptor for first_party field.
+	applicationDescFirstParty := applicationFields[11].Descriptor()
+	// application.DefaultFirstParty holds the default value on creation for the first_party field.
+	application.DefaultFirstParty = applicationDescFirstParty.Default.(bool)
+	// applicationDescPublic is the schema descriptor for public field.
+	applicationDescPublic := applicationFields[12].Descriptor()
+	// application.DefaultPublic holds the default value on creation for the public field.
+	application.DefaultPublic = applicationDescPublic.Default.(bool)
+	// applicationDescID is the schema descriptor for id field.
+	applicationDescID := applicationMixinFields0[0].Descriptor()
+	// application.DefaultID holds the default value on creation for the id field.
+	application.DefaultID = applicationDescID.Default.(func() uuid.UUID)
+	credentialFields := schema.Credential{}.Fields()
+	_ = credentialFields
+	// credentialDescWebauthnSignCount is the schema descriptor for webauthn_sign_count field.
+	credentialDescWebauthnSignCount := credentialFields[11].Descriptor()
+	// credential.DefaultWebauthnSignCount holds the default value on creation for the webauthn_sign_count field.
+	credential.DefaultWebauthnSignCount = credentialDescWebauthnSignCount.Default.(uint32)
+	// credentialDescScopes is the schema descriptor for scopes field.
+	credentialDescScopes := credentialFields[12].Descriptor()
+	// credential.DefaultScopes holds the default value on creation for the scopes field.
+	credential.DefaultScopes = credentialDescScopes.Default.([]string)
+	// credentialDescActive is the schema descriptor for active field.
+	credentialDescActive := credentialFields[13].Descriptor()
+	// credential.DefaultActive holds the default value on creation for the active field.
+	credential.DefaultActive = credentialDescActive.Default.(bool)
+	// credentialDescRevoked is the schema descriptor for revoked field.
+	credentialDescRevoked := credentialFields[15].Descriptor()
+	// credential.DefaultRevoked holds the default value on creation for the revoked field.
+	credential.DefaultRevoked = credentialDescRevoked.Default.(bool)
+	// credentialDescCreatedAt is the schema descriptor for created_at field.
+	credentialDescCreatedAt := credentialFields[22].Descriptor()
+	// credential.DefaultCreatedAt holds the default value on creation for the created_at field.
+	credential.DefaultCreatedAt = credentialDescCreatedAt.Default.(func() time.Time)
+	// credentialDescUpdatedAt is the schema descriptor for updated_at field.
+	credentialDescUpdatedAt := credentialFields[23].Descriptor()
+	// credential.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	credential.DefaultUpdatedAt = credentialDescUpdatedAt.Default.(func() time.Time)
+	// credential.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	credential.UpdateDefaultUpdatedAt = credentialDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// credentialDescID is the schema descriptor for id field.
+	credentialDescID := credentialFields[0].Descriptor()
+	// credential.DefaultID holds the default value on creation for the id field.
+	credential.DefaultID = credentialDescID.Default.(func() uuid.UUID)
+	humanMixin := schema.Human{}.Mixin()
+	humanMixinFields0 := humanMixin[0].Fields()
+	_ = humanMixinFields0
+	humanFields := schema.Human{}.Fields()
+	_ = humanFields
+	// humanDescCreatedAt is the schema descriptor for created_at field.
+	humanDescCreatedAt := humanMixinFields0[1].Descriptor()
+	// human.DefaultCreatedAt holds the default value on creation for the created_at field.
+	human.DefaultCreatedAt = humanDescCreatedAt.Default.(func() time.Time)
+	// humanDescUpdatedAt is the schema descriptor for updated_at field.
+	humanDescUpdatedAt := humanMixinFields0[2].Descriptor()
+	// human.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	human.DefaultUpdatedAt = humanDescUpdatedAt.Default.(func() time.Time)
+	// human.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	human.UpdateDefaultUpdatedAt = humanDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// humanDescEmail is the schema descriptor for email field.
+	humanDescEmail := humanFields[1].Descriptor()
+	// human.EmailValidator is a validator for the "email" field. It is called by the builders before save.
+	human.EmailValidator = humanDescEmail.Validators[0].(func(string) error)
+	// humanDescLocale is the schema descriptor for locale field.
+	humanDescLocale := humanFields[5].Descriptor()
+	// human.DefaultLocale holds the default value on creation for the locale field.
+	human.DefaultLocale = humanDescLocale.Default.(string)
+	// humanDescTimezone is the schema descriptor for timezone field.
+	humanDescTimezone := humanFields[6].Descriptor()
+	// human.DefaultTimezone holds the default value on creation for the timezone field.
+	human.DefaultTimezone = humanDescTimezone.Default.(string)
+	// humanDescIsPlatformAdmin is the schema descriptor for is_platform_admin field.
+	humanDescIsPlatformAdmin := humanFields[7].Descriptor()
+	// human.DefaultIsPlatformAdmin holds the default value on creation for the is_platform_admin field.
+	human.DefaultIsPlatformAdmin = humanDescIsPlatformAdmin.Default.(bool)
+	// humanDescID is the schema descriptor for id field.
+	humanDescID := humanMixinFields0[0].Descriptor()
+	// human.DefaultID holds the default value on creation for the id field.
+	human.DefaultID = humanDescID.Default.(func() uuid.UUID)
+	inviteMixin := schema.Invite{}.Mixin()
+	inviteMixinFields0 := inviteMixin[0].Fields()
+	_ = inviteMixinFields0
+	inviteFields := schema.Invite{}.Fields()
+	_ = inviteFields
+	// inviteDescCreatedAt is the schema descriptor for created_at field.
+	inviteDescCreatedAt := inviteMixinFields0[1].Descriptor()
+	// invite.DefaultCreatedAt holds the default value on creation for the created_at field.
+	invite.DefaultCreatedAt = inviteDescCreatedAt.Default.(func() time.Time)
+	// inviteDescUpdatedAt is the schema descriptor for updated_at field.
+	inviteDescUpdatedAt := inviteMixinFields0[2].Descriptor()
+	// invite.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	invite.DefaultUpdatedAt = inviteDescUpdatedAt.Default.(func() time.Time)
+	// invite.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	invite.UpdateDefaultUpdatedAt = inviteDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// inviteDescEmail is the schema descriptor for email field.
+	inviteDescEmail := inviteFields[2].Descriptor()
+	// invite.EmailValidator is a validator for the "email" field. It is called by the builders before save.
+	invite.EmailValidator = inviteDescEmail.Validators[0].(func(string) error)
+	// inviteDescRole is the schema descriptor for role field.
+	inviteDescRole := inviteFields[3].Descriptor()
+	// invite.DefaultRole holds the default value on creation for the role field.
+	invite.DefaultRole = inviteDescRole.Default.(string)
+	// invite.RoleValidator is a validator for the "role" field. It is called by the builders before save.
+	invite.RoleValidator = inviteDescRole.Validators[0].(func(string) error)
+	// inviteDescToken is the schema descriptor for token field.
+	inviteDescToken := inviteFields[4].Descriptor()
+	// invite.TokenValidator is a validator for the "token" field. It is called by the builders before save.
+	invite.TokenValidator = inviteDescToken.Validators[0].(func(string) error)
+	// inviteDescResendCount is the schema descriptor for resend_count field.
+	inviteDescResendCount := inviteFields[10].Descriptor()
+	// invite.DefaultResendCount holds the default value on creation for the resend_count field.
+	invite.DefaultResendCount = inviteDescResendCount.Default.(int)
+	// inviteDescLastSentAt is the schema descriptor for last_sent_at field.
+	inviteDescLastSentAt := inviteFields[11].Descriptor()
+	// invite.DefaultLastSentAt holds the default value on creation for the last_sent_at field.
+	invite.DefaultLastSentAt = inviteDescLastSentAt.Default.(func() time.Time)
+	// inviteDescID is the schema descriptor for id field.
+	inviteDescID := inviteMixinFields0[0].Descriptor()
+	// invite.DefaultID holds the default value on creation for the id field.
+	invite.DefaultID = inviteDescID.Default.(func() uuid.UUID)
 	membershipMixin := schema.Membership{}.Mixin()
 	membershipMixinFields0 := membershipMixin[0].Fields()
 	_ = membershipMixinFields0
@@ -319,13 +534,113 @@ func init() {
 	// organization.SlugValidator is a validator for the "slug" field. It is called by the builders before save.
 	organization.SlugValidator = organizationDescSlug.Validators[0].(func(string) error)
 	// organizationDescActive is the schema descriptor for active field.
-	organizationDescActive := organizationFields[5].Descriptor()
+	organizationDescActive := organizationFields[9].Descriptor()
 	// organization.DefaultActive holds the default value on creation for the active field.
 	organization.DefaultActive = organizationDescActive.Default.(bool)
 	// organizationDescID is the schema descriptor for id field.
 	organizationDescID := organizationMixinFields0[0].Descriptor()
 	// organization.DefaultID holds the default value on creation for the id field.
 	organization.DefaultID = organizationDescID.Default.(func() uuid.UUID)
+	principalMixin := schema.Principal{}.Mixin()
+	principalMixinFields0 := principalMixin[0].Fields()
+	_ = principalMixinFields0
+	principalFields := schema.Principal{}.Fields()
+	_ = principalFields
+	// principalDescCreatedAt is the schema descriptor for created_at field.
+	principalDescCreatedAt := principalMixinFields0[1].Descriptor()
+	// principal.DefaultCreatedAt holds the default value on creation for the created_at field.
+	principal.DefaultCreatedAt = principalDescCreatedAt.Default.(func() time.Time)
+	// principalDescUpdatedAt is the schema descriptor for updated_at field.
+	principalDescUpdatedAt := principalMixinFields0[2].Descriptor()
+	// principal.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	principal.DefaultUpdatedAt = principalDescUpdatedAt.Default.(func() time.Time)
+	// principal.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	principal.UpdateDefaultUpdatedAt = principalDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// principalDescIdentifier is the schema descriptor for identifier field.
+	principalDescIdentifier := principalFields[1].Descriptor()
+	// principal.IdentifierValidator is a validator for the "identifier" field. It is called by the builders before save.
+	principal.IdentifierValidator = principalDescIdentifier.Validators[0].(func(string) error)
+	// principalDescDisplayName is the schema descriptor for display_name field.
+	principalDescDisplayName := principalFields[2].Descriptor()
+	// principal.DisplayNameValidator is a validator for the "display_name" field. It is called by the builders before save.
+	principal.DisplayNameValidator = principalDescDisplayName.Validators[0].(func(string) error)
+	// principalDescActive is the schema descriptor for active field.
+	principalDescActive := principalFields[4].Descriptor()
+	// principal.DefaultActive holds the default value on creation for the active field.
+	principal.DefaultActive = principalDescActive.Default.(bool)
+	// principalDescCapabilities is the schema descriptor for capabilities field.
+	principalDescCapabilities := principalFields[5].Descriptor()
+	// principal.DefaultCapabilities holds the default value on creation for the capabilities field.
+	principal.DefaultCapabilities = principalDescCapabilities.Default.(map[string]bool)
+	// principalDescAllowedScopes is the schema descriptor for allowed_scopes field.
+	principalDescAllowedScopes := principalFields[6].Descriptor()
+	// principal.DefaultAllowedScopes holds the default value on creation for the allowed_scopes field.
+	principal.DefaultAllowedScopes = principalDescAllowedScopes.Default.([]string)
+	// principalDescID is the schema descriptor for id field.
+	principalDescID := principalMixinFields0[0].Descriptor()
+	// principal.DefaultID holds the default value on creation for the id field.
+	principal.DefaultID = principalDescID.Default.(func() uuid.UUID)
+	principalmembershipMixin := schema.PrincipalMembership{}.Mixin()
+	principalmembershipMixinFields0 := principalmembershipMixin[0].Fields()
+	_ = principalmembershipMixinFields0
+	principalmembershipFields := schema.PrincipalMembership{}.Fields()
+	_ = principalmembershipFields
+	// principalmembershipDescCreatedAt is the schema descriptor for created_at field.
+	principalmembershipDescCreatedAt := principalmembershipMixinFields0[1].Descriptor()
+	// principalmembership.DefaultCreatedAt holds the default value on creation for the created_at field.
+	principalmembership.DefaultCreatedAt = principalmembershipDescCreatedAt.Default.(func() time.Time)
+	// principalmembershipDescUpdatedAt is the schema descriptor for updated_at field.
+	principalmembershipDescUpdatedAt := principalmembershipMixinFields0[2].Descriptor()
+	// principalmembership.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	principalmembership.DefaultUpdatedAt = principalmembershipDescUpdatedAt.Default.(func() time.Time)
+	// principalmembership.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	principalmembership.UpdateDefaultUpdatedAt = principalmembershipDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// principalmembershipDescRole is the schema descriptor for role field.
+	principalmembershipDescRole := principalmembershipFields[2].Descriptor()
+	// principalmembership.RoleValidator is a validator for the "role" field. It is called by the builders before save.
+	principalmembership.RoleValidator = principalmembershipDescRole.Validators[0].(func(string) error)
+	// principalmembershipDescActive is the schema descriptor for active field.
+	principalmembershipDescActive := principalmembershipFields[4].Descriptor()
+	// principalmembership.DefaultActive holds the default value on creation for the active field.
+	principalmembership.DefaultActive = principalmembershipDescActive.Default.(bool)
+	// principalmembershipDescID is the schema descriptor for id field.
+	principalmembershipDescID := principalmembershipMixinFields0[0].Descriptor()
+	// principalmembership.DefaultID holds the default value on creation for the id field.
+	principalmembership.DefaultID = principalmembershipDescID.Default.(func() uuid.UUID)
+	principaltokenFields := schema.PrincipalToken{}.Fields()
+	_ = principaltokenFields
+	// principaltokenDescFamilyID is the schema descriptor for family_id field.
+	principaltokenDescFamilyID := principaltokenFields[6].Descriptor()
+	// principaltoken.DefaultFamilyID holds the default value on creation for the family_id field.
+	principaltoken.DefaultFamilyID = principaltokenDescFamilyID.Default.(func() uuid.UUID)
+	// principaltokenDescScopes is the schema descriptor for scopes field.
+	principaltokenDescScopes := principaltokenFields[8].Descriptor()
+	// principaltoken.DefaultScopes holds the default value on creation for the scopes field.
+	principaltoken.DefaultScopes = principaltokenDescScopes.Default.([]string)
+	// principaltokenDescAudience is the schema descriptor for audience field.
+	principaltokenDescAudience := principaltokenFields[9].Descriptor()
+	// principaltoken.DefaultAudience holds the default value on creation for the audience field.
+	principaltoken.DefaultAudience = principaltokenDescAudience.Default.([]string)
+	// principaltokenDescCapabilities is the schema descriptor for capabilities field.
+	principaltokenDescCapabilities := principaltokenFields[10].Descriptor()
+	// principaltoken.DefaultCapabilities holds the default value on creation for the capabilities field.
+	principaltoken.DefaultCapabilities = principaltokenDescCapabilities.Default.(map[string]bool)
+	// principaltokenDescDelegationChain is the schema descriptor for delegation_chain field.
+	principaltokenDescDelegationChain := principaltokenFields[11].Descriptor()
+	// principaltoken.DefaultDelegationChain holds the default value on creation for the delegation_chain field.
+	principaltoken.DefaultDelegationChain = principaltokenDescDelegationChain.Default.([]string)
+	// principaltokenDescRevoked is the schema descriptor for revoked field.
+	principaltokenDescRevoked := principaltokenFields[17].Descriptor()
+	// principaltoken.DefaultRevoked holds the default value on creation for the revoked field.
+	principaltoken.DefaultRevoked = principaltokenDescRevoked.Default.(bool)
+	// principaltokenDescCreatedAt is the schema descriptor for created_at field.
+	principaltokenDescCreatedAt := principaltokenFields[23].Descriptor()
+	// principaltoken.DefaultCreatedAt holds the default value on creation for the created_at field.
+	principaltoken.DefaultCreatedAt = principaltokenDescCreatedAt.Default.(func() time.Time)
+	// principaltokenDescID is the schema descriptor for id field.
+	principaltokenDescID := principaltokenFields[0].Descriptor()
+	// principaltoken.DefaultID holds the default value on creation for the id field.
+	principaltoken.DefaultID = principaltokenDescID.Default.(func() uuid.UUID)
 	refreshtokenMixin := schema.RefreshToken{}.Mixin()
 	refreshtokenMixinFields0 := refreshtokenMixin[0].Fields()
 	_ = refreshtokenMixinFields0
@@ -433,6 +748,37 @@ func init() {
 	serviceaccountkeypairDescID := serviceaccountkeypairFields[0].Descriptor()
 	// serviceaccountkeypair.DefaultID holds the default value on creation for the id field.
 	serviceaccountkeypair.DefaultID = serviceaccountkeypairDescID.Default.(func() uuid.UUID)
+	serviceprincipalMixin := schema.ServicePrincipal{}.Mixin()
+	serviceprincipalMixinFields0 := serviceprincipalMixin[0].Fields()
+	_ = serviceprincipalMixinFields0
+	serviceprincipalFields := schema.ServicePrincipal{}.Fields()
+	_ = serviceprincipalFields
+	// serviceprincipalDescCreatedAt is the schema descriptor for created_at field.
+	serviceprincipalDescCreatedAt := serviceprincipalMixinFields0[1].Descriptor()
+	// serviceprincipal.DefaultCreatedAt holds the default value on creation for the created_at field.
+	serviceprincipal.DefaultCreatedAt = serviceprincipalDescCreatedAt.Default.(func() time.Time)
+	// serviceprincipalDescUpdatedAt is the schema descriptor for updated_at field.
+	serviceprincipalDescUpdatedAt := serviceprincipalMixinFields0[2].Descriptor()
+	// serviceprincipal.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	serviceprincipal.DefaultUpdatedAt = serviceprincipalDescUpdatedAt.Default.(func() time.Time)
+	// serviceprincipal.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	serviceprincipal.UpdateDefaultUpdatedAt = serviceprincipalDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// serviceprincipalDescServiceType is the schema descriptor for service_type field.
+	serviceprincipalDescServiceType := serviceprincipalFields[1].Descriptor()
+	// serviceprincipal.ServiceTypeValidator is a validator for the "service_type" field. It is called by the builders before save.
+	serviceprincipal.ServiceTypeValidator = serviceprincipalDescServiceType.Validators[0].(func(string) error)
+	// serviceprincipalDescDescription is the schema descriptor for description field.
+	serviceprincipalDescDescription := serviceprincipalFields[2].Descriptor()
+	// serviceprincipal.DescriptionValidator is a validator for the "description" field. It is called by the builders before save.
+	serviceprincipal.DescriptionValidator = serviceprincipalDescDescription.Validators[0].(func(string) error)
+	// serviceprincipalDescAllowedIps is the schema descriptor for allowed_ips field.
+	serviceprincipalDescAllowedIps := serviceprincipalFields[5].Descriptor()
+	// serviceprincipal.DefaultAllowedIps holds the default value on creation for the allowed_ips field.
+	serviceprincipal.DefaultAllowedIps = serviceprincipalDescAllowedIps.Default.([]string)
+	// serviceprincipalDescID is the schema descriptor for id field.
+	serviceprincipalDescID := serviceprincipalMixinFields0[0].Descriptor()
+	// serviceprincipal.DefaultID holds the default value on creation for the id field.
+	serviceprincipal.DefaultID = serviceprincipalDescID.Default.(func() uuid.UUID)
 	userMixin := schema.User{}.Mixin()
 	userMixinFields0 := userMixin[0].Fields()
 	_ = userMixinFields0

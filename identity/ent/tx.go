@@ -14,6 +14,16 @@ type Tx struct {
 	config
 	// APIKey is the client for interacting with the APIKey builders.
 	APIKey *APIKeyClient
+	// Agent is the client for interacting with the Agent builders.
+	Agent *AgentClient
+	// Application is the client for interacting with the Application builders.
+	Application *ApplicationClient
+	// Credential is the client for interacting with the Credential builders.
+	Credential *CredentialClient
+	// Human is the client for interacting with the Human builders.
+	Human *HumanClient
+	// Invite is the client for interacting with the Invite builders.
+	Invite *InviteClient
 	// Membership is the client for interacting with the Membership builders.
 	Membership *MembershipClient
 	// OAuthAccount is the client for interacting with the OAuthAccount builders.
@@ -30,12 +40,20 @@ type Tx struct {
 	OAuthToken *OAuthTokenClient
 	// Organization is the client for interacting with the Organization builders.
 	Organization *OrganizationClient
+	// Principal is the client for interacting with the Principal builders.
+	Principal *PrincipalClient
+	// PrincipalMembership is the client for interacting with the PrincipalMembership builders.
+	PrincipalMembership *PrincipalMembershipClient
+	// PrincipalToken is the client for interacting with the PrincipalToken builders.
+	PrincipalToken *PrincipalTokenClient
 	// RefreshToken is the client for interacting with the RefreshToken builders.
 	RefreshToken *RefreshTokenClient
 	// ServiceAccount is the client for interacting with the ServiceAccount builders.
 	ServiceAccount *ServiceAccountClient
 	// ServiceAccountKeyPair is the client for interacting with the ServiceAccountKeyPair builders.
 	ServiceAccountKeyPair *ServiceAccountKeyPairClient
+	// ServicePrincipal is the client for interacting with the ServicePrincipal builders.
+	ServicePrincipal *ServicePrincipalClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 
@@ -170,6 +188,11 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.APIKey = NewAPIKeyClient(tx.config)
+	tx.Agent = NewAgentClient(tx.config)
+	tx.Application = NewApplicationClient(tx.config)
+	tx.Credential = NewCredentialClient(tx.config)
+	tx.Human = NewHumanClient(tx.config)
+	tx.Invite = NewInviteClient(tx.config)
 	tx.Membership = NewMembershipClient(tx.config)
 	tx.OAuthAccount = NewOAuthAccountClient(tx.config)
 	tx.OAuthApp = NewOAuthAppClient(tx.config)
@@ -178,9 +201,13 @@ func (tx *Tx) init() {
 	tx.OAuthConsent = NewOAuthConsentClient(tx.config)
 	tx.OAuthToken = NewOAuthTokenClient(tx.config)
 	tx.Organization = NewOrganizationClient(tx.config)
+	tx.Principal = NewPrincipalClient(tx.config)
+	tx.PrincipalMembership = NewPrincipalMembershipClient(tx.config)
+	tx.PrincipalToken = NewPrincipalTokenClient(tx.config)
 	tx.RefreshToken = NewRefreshTokenClient(tx.config)
 	tx.ServiceAccount = NewServiceAccountClient(tx.config)
 	tx.ServiceAccountKeyPair = NewServiceAccountKeyPairClient(tx.config)
+	tx.ServicePrincipal = NewServicePrincipalClient(tx.config)
 	tx.User = NewUserClient(tx.config)
 }
 

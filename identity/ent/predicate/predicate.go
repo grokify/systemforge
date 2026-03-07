@@ -9,6 +9,21 @@ import (
 // APIKey is the predicate function for apikey builders.
 type APIKey func(*sql.Selector)
 
+// Agent is the predicate function for agent builders.
+type Agent func(*sql.Selector)
+
+// Application is the predicate function for application builders.
+type Application func(*sql.Selector)
+
+// Credential is the predicate function for credential builders.
+type Credential func(*sql.Selector)
+
+// Human is the predicate function for human builders.
+type Human func(*sql.Selector)
+
+// Invite is the predicate function for invite builders.
+type Invite func(*sql.Selector)
+
 // Membership is the predicate function for membership builders.
 type Membership func(*sql.Selector)
 
@@ -33,6 +48,15 @@ type OAuthToken func(*sql.Selector)
 // Organization is the predicate function for organization builders.
 type Organization func(*sql.Selector)
 
+// Principal is the predicate function for principal builders.
+type Principal func(*sql.Selector)
+
+// PrincipalMembership is the predicate function for principalmembership builders.
+type PrincipalMembership func(*sql.Selector)
+
+// PrincipalToken is the predicate function for principaltoken builders.
+type PrincipalToken func(*sql.Selector)
+
 // RefreshToken is the predicate function for refreshtoken builders.
 type RefreshToken func(*sql.Selector)
 
@@ -41,6 +65,9 @@ type ServiceAccount func(*sql.Selector)
 
 // ServiceAccountKeyPair is the predicate function for serviceaccountkeypair builders.
 type ServiceAccountKeyPair func(*sql.Selector)
+
+// ServicePrincipal is the predicate function for serviceprincipal builders.
+type ServicePrincipal func(*sql.Selector)
 
 // User is the predicate function for user builders.
 type User func(*sql.Selector)

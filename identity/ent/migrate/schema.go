@@ -77,6 +77,328 @@ var (
 			},
 		},
 	}
+	// CfAgentsColumns holds the columns for the "cf_agents" table.
+	CfAgentsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "model_id", Type: field.TypeString},
+		{Name: "version", Type: field.TypeString, Nullable: true},
+		{Name: "capability_constraints", Type: field.TypeJSON},
+		{Name: "resource_constraints", Type: field.TypeJSON},
+		{Name: "max_token_lifetime", Type: field.TypeInt, Default: 3600},
+		{Name: "session_id", Type: field.TypeString, Nullable: true},
+		{Name: "requires_confirmation", Type: field.TypeBool, Default: true},
+		{Name: "delegating_principal_id", Type: field.TypeUUID, Nullable: true},
+		{Name: "principal_id", Type: field.TypeUUID, Unique: true},
+	}
+	// CfAgentsTable holds the schema information for the "cf_agents" table.
+	CfAgentsTable = &schema.Table{
+		Name:       "cf_agents",
+		Columns:    CfAgentsColumns,
+		PrimaryKey: []*schema.Column{CfAgentsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cf_agents_cf_principals_delegating_principal",
+				Columns:    []*schema.Column{CfAgentsColumns[10]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "cf_agents_cf_principals_agent",
+				Columns:    []*schema.Column{CfAgentsColumns[11]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "agent_principal_id",
+				Unique:  true,
+				Columns: []*schema.Column{CfAgentsColumns[11]},
+			},
+			{
+				Name:    "agent_model_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfAgentsColumns[3]},
+			},
+			{
+				Name:    "agent_delegating_principal_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfAgentsColumns[10]},
+			},
+			{
+				Name:    "agent_session_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfAgentsColumns[8]},
+			},
+			{
+				Name:    "agent_requires_confirmation",
+				Unique:  false,
+				Columns: []*schema.Column{CfAgentsColumns[9]},
+			},
+		},
+	}
+	// CfApplicationsColumns holds the columns for the "cf_applications" table.
+	CfApplicationsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "client_id", Type: field.TypeString, Unique: true},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 1000},
+		{Name: "logo_url", Type: field.TypeString, Nullable: true},
+		{Name: "app_type", Type: field.TypeEnum, Enums: []string{"web", "spa", "native", "machine"}, Default: "web"},
+		{Name: "redirect_uris", Type: field.TypeJSON},
+		{Name: "allowed_grants", Type: field.TypeJSON},
+		{Name: "allowed_response_types", Type: field.TypeJSON},
+		{Name: "access_token_ttl", Type: field.TypeInt, Default: 900},
+		{Name: "refresh_token_ttl", Type: field.TypeInt, Default: 604800},
+		{Name: "refresh_token_rotation", Type: field.TypeBool, Default: true},
+		{Name: "first_party", Type: field.TypeBool, Default: false},
+		{Name: "public", Type: field.TypeBool, Default: false},
+		{Name: "principal_id", Type: field.TypeUUID, Unique: true},
+	}
+	// CfApplicationsTable holds the schema information for the "cf_applications" table.
+	CfApplicationsTable = &schema.Table{
+		Name:       "cf_applications",
+		Columns:    CfApplicationsColumns,
+		PrimaryKey: []*schema.Column{CfApplicationsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cf_applications_cf_principals_application",
+				Columns:    []*schema.Column{CfApplicationsColumns[15]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "application_principal_id",
+				Unique:  true,
+				Columns: []*schema.Column{CfApplicationsColumns[15]},
+			},
+			{
+				Name:    "application_client_id",
+				Unique:  true,
+				Columns: []*schema.Column{CfApplicationsColumns[3]},
+			},
+			{
+				Name:    "application_app_type",
+				Unique:  false,
+				Columns: []*schema.Column{CfApplicationsColumns[6]},
+			},
+			{
+				Name:    "application_first_party",
+				Unique:  false,
+				Columns: []*schema.Column{CfApplicationsColumns[13]},
+			},
+		},
+	}
+	// CfCredentialsColumns holds the columns for the "cf_credentials" table.
+	CfCredentialsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "type", Type: field.TypeEnum, Enums: []string{"password", "api_key", "keypair", "webauthn", "totp", "client_secret"}},
+		{Name: "identifier", Type: field.TypeString, Nullable: true},
+		{Name: "secret_hash", Type: field.TypeString, Nullable: true},
+		{Name: "public_key", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "key_algorithm", Type: field.TypeString, Nullable: true},
+		{Name: "key_id", Type: field.TypeString, Unique: true, Nullable: true},
+		{Name: "webauthn_credential_id", Type: field.TypeBytes, Nullable: true},
+		{Name: "webauthn_public_key", Type: field.TypeBytes, Nullable: true},
+		{Name: "webauthn_aaguid", Type: field.TypeString, Nullable: true},
+		{Name: "webauthn_sign_count", Type: field.TypeUint32, Nullable: true, Default: 0},
+		{Name: "scopes", Type: field.TypeJSON},
+		{Name: "active", Type: field.TypeBool, Default: true},
+		{Name: "expires_at", Type: field.TypeTime, Nullable: true},
+		{Name: "revoked", Type: field.TypeBool, Default: false},
+		{Name: "revoked_at", Type: field.TypeTime, Nullable: true},
+		{Name: "revoked_reason", Type: field.TypeString, Nullable: true},
+		{Name: "last_used_at", Type: field.TypeTime, Nullable: true},
+		{Name: "last_used_ip", Type: field.TypeString, Nullable: true},
+		{Name: "name", Type: field.TypeString, Nullable: true},
+		{Name: "metadata", Type: field.TypeJSON, Nullable: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "principal_id", Type: field.TypeUUID},
+	}
+	// CfCredentialsTable holds the schema information for the "cf_credentials" table.
+	CfCredentialsTable = &schema.Table{
+		Name:       "cf_credentials",
+		Columns:    CfCredentialsColumns,
+		PrimaryKey: []*schema.Column{CfCredentialsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cf_credentials_cf_principals_credentials",
+				Columns:    []*schema.Column{CfCredentialsColumns[23]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "credential_principal_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfCredentialsColumns[23]},
+			},
+			{
+				Name:    "credential_principal_id_type",
+				Unique:  false,
+				Columns: []*schema.Column{CfCredentialsColumns[23], CfCredentialsColumns[1]},
+			},
+			{
+				Name:    "credential_type",
+				Unique:  false,
+				Columns: []*schema.Column{CfCredentialsColumns[1]},
+			},
+			{
+				Name:    "credential_identifier",
+				Unique:  false,
+				Columns: []*schema.Column{CfCredentialsColumns[2]},
+			},
+			{
+				Name:    "credential_active",
+				Unique:  false,
+				Columns: []*schema.Column{CfCredentialsColumns[12]},
+			},
+			{
+				Name:    "credential_revoked",
+				Unique:  false,
+				Columns: []*schema.Column{CfCredentialsColumns[14]},
+			},
+			{
+				Name:    "credential_expires_at",
+				Unique:  false,
+				Columns: []*schema.Column{CfCredentialsColumns[13]},
+			},
+			{
+				Name:    "credential_type_identifier",
+				Unique:  true,
+				Columns: []*schema.Column{CfCredentialsColumns[1], CfCredentialsColumns[2]},
+			},
+		},
+	}
+	// CfHumansColumns holds the columns for the "cf_humans" table.
+	CfHumansColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "email", Type: field.TypeString, Unique: true},
+		{Name: "given_name", Type: field.TypeString, Nullable: true},
+		{Name: "family_name", Type: field.TypeString, Nullable: true},
+		{Name: "avatar_url", Type: field.TypeString, Nullable: true},
+		{Name: "locale", Type: field.TypeString, Nullable: true, Default: "en"},
+		{Name: "timezone", Type: field.TypeString, Nullable: true, Default: "UTC"},
+		{Name: "is_platform_admin", Type: field.TypeBool, Default: false},
+		{Name: "last_login_at", Type: field.TypeTime, Nullable: true},
+		{Name: "email_verified_at", Type: field.TypeTime, Nullable: true},
+		{Name: "principal_id", Type: field.TypeUUID, Unique: true},
+	}
+	// CfHumansTable holds the schema information for the "cf_humans" table.
+	CfHumansTable = &schema.Table{
+		Name:       "cf_humans",
+		Columns:    CfHumansColumns,
+		PrimaryKey: []*schema.Column{CfHumansColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cf_humans_cf_principals_human",
+				Columns:    []*schema.Column{CfHumansColumns[12]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "human_principal_id",
+				Unique:  true,
+				Columns: []*schema.Column{CfHumansColumns[12]},
+			},
+			{
+				Name:    "human_email",
+				Unique:  true,
+				Columns: []*schema.Column{CfHumansColumns[3]},
+			},
+			{
+				Name:    "human_is_platform_admin",
+				Unique:  false,
+				Columns: []*schema.Column{CfHumansColumns[9]},
+			},
+		},
+	}
+	// CfInvitesColumns holds the columns for the "cf_invites" table.
+	CfInvitesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "email", Type: field.TypeString},
+		{Name: "role", Type: field.TypeString, Default: "member"},
+		{Name: "token", Type: field.TypeString, Unique: true},
+		{Name: "status", Type: field.TypeEnum, Enums: []string{"pending", "accepted", "declined", "expired", "revoked"}, Default: "pending"},
+		{Name: "message", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "expires_at", Type: field.TypeTime},
+		{Name: "accepted_at", Type: field.TypeTime, Nullable: true},
+		{Name: "accepted_by_principal_id", Type: field.TypeUUID, Nullable: true},
+		{Name: "resend_count", Type: field.TypeInt, Default: 0},
+		{Name: "last_sent_at", Type: field.TypeTime},
+		{Name: "organization_id", Type: field.TypeUUID},
+		{Name: "inviter_principal_id", Type: field.TypeUUID},
+	}
+	// CfInvitesTable holds the schema information for the "cf_invites" table.
+	CfInvitesTable = &schema.Table{
+		Name:       "cf_invites",
+		Columns:    CfInvitesColumns,
+		PrimaryKey: []*schema.Column{CfInvitesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cf_invites_cf_organizations_invites",
+				Columns:    []*schema.Column{CfInvitesColumns[13]},
+				RefColumns: []*schema.Column{CfOrganizationsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "cf_invites_cf_principals_sent_invites",
+				Columns:    []*schema.Column{CfInvitesColumns[14]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "invite_token",
+				Unique:  true,
+				Columns: []*schema.Column{CfInvitesColumns[5]},
+			},
+			{
+				Name:    "invite_email",
+				Unique:  false,
+				Columns: []*schema.Column{CfInvitesColumns[3]},
+			},
+			{
+				Name:    "invite_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfInvitesColumns[13]},
+			},
+			{
+				Name:    "invite_organization_id_status",
+				Unique:  false,
+				Columns: []*schema.Column{CfInvitesColumns[13], CfInvitesColumns[6]},
+			},
+			{
+				Name:    "invite_organization_id_email_status",
+				Unique:  false,
+				Columns: []*schema.Column{CfInvitesColumns[13], CfInvitesColumns[3], CfInvitesColumns[6]},
+			},
+			{
+				Name:    "invite_inviter_principal_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfInvitesColumns[14]},
+			},
+			{
+				Name:    "invite_status_expires_at",
+				Unique:  false,
+				Columns: []*schema.Column{CfInvitesColumns[6], CfInvitesColumns[8]},
+			},
+		},
+	}
 	// CfMembershipsColumns holds the columns for the "cf_memberships" table.
 	CfMembershipsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID},
@@ -493,16 +815,28 @@ var (
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "name", Type: field.TypeString},
 		{Name: "slug", Type: field.TypeString, Unique: true},
+		{Name: "org_type", Type: field.TypeEnum, Enums: []string{"personal", "team", "enterprise"}, Default: "team"},
 		{Name: "logo_url", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "website_url", Type: field.TypeString, Nullable: true},
 		{Name: "settings", Type: field.TypeJSON, Nullable: true},
 		{Name: "plan", Type: field.TypeEnum, Enums: []string{"free", "starter", "pro", "enterprise"}, Default: "free"},
 		{Name: "active", Type: field.TypeBool, Default: true},
+		{Name: "owner_principal_id", Type: field.TypeUUID, Nullable: true},
 	}
 	// CfOrganizationsTable holds the schema information for the "cf_organizations" table.
 	CfOrganizationsTable = &schema.Table{
 		Name:       "cf_organizations",
 		Columns:    CfOrganizationsColumns,
 		PrimaryKey: []*schema.Column{CfOrganizationsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cf_organizations_cf_principals_owned_organizations",
+				Columns:    []*schema.Column{CfOrganizationsColumns[12]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
 		Indexes: []*schema.Index{
 			{
 				Name:    "organization_slug",
@@ -512,7 +846,245 @@ var (
 			{
 				Name:    "organization_active",
 				Unique:  false,
-				Columns: []*schema.Column{CfOrganizationsColumns[8]},
+				Columns: []*schema.Column{CfOrganizationsColumns[11]},
+			},
+			{
+				Name:    "organization_org_type",
+				Unique:  false,
+				Columns: []*schema.Column{CfOrganizationsColumns[5]},
+			},
+			{
+				Name:    "organization_owner_principal_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfOrganizationsColumns[12]},
+			},
+			{
+				Name:    "organization_org_type_active",
+				Unique:  false,
+				Columns: []*schema.Column{CfOrganizationsColumns[5], CfOrganizationsColumns[11]},
+			},
+		},
+	}
+	// CfPrincipalsColumns holds the columns for the "cf_principals" table.
+	CfPrincipalsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "type", Type: field.TypeEnum, Enums: []string{"human", "application", "agent", "service"}},
+		{Name: "identifier", Type: field.TypeString, Unique: true},
+		{Name: "display_name", Type: field.TypeString},
+		{Name: "active", Type: field.TypeBool, Default: true},
+		{Name: "capabilities", Type: field.TypeJSON},
+		{Name: "allowed_scopes", Type: field.TypeJSON},
+		{Name: "metadata", Type: field.TypeJSON, Nullable: true},
+		{Name: "organization_id", Type: field.TypeUUID, Nullable: true},
+	}
+	// CfPrincipalsTable holds the schema information for the "cf_principals" table.
+	CfPrincipalsTable = &schema.Table{
+		Name:       "cf_principals",
+		Columns:    CfPrincipalsColumns,
+		PrimaryKey: []*schema.Column{CfPrincipalsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cf_principals_cf_organizations_principals",
+				Columns:    []*schema.Column{CfPrincipalsColumns[10]},
+				RefColumns: []*schema.Column{CfOrganizationsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "principal_identifier",
+				Unique:  true,
+				Columns: []*schema.Column{CfPrincipalsColumns[4]},
+			},
+			{
+				Name:    "principal_type",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalsColumns[3]},
+			},
+			{
+				Name:    "principal_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalsColumns[10]},
+			},
+			{
+				Name:    "principal_active",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalsColumns[6]},
+			},
+			{
+				Name:    "principal_type_active",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalsColumns[3], CfPrincipalsColumns[6]},
+			},
+			{
+				Name:    "principal_organization_id_type",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalsColumns[10], CfPrincipalsColumns[3]},
+			},
+		},
+	}
+	// CfPrincipalMembershipsColumns holds the columns for the "cf_principal_memberships" table.
+	CfPrincipalMembershipsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "role", Type: field.TypeString},
+		{Name: "permissions", Type: field.TypeJSON, Nullable: true},
+		{Name: "active", Type: field.TypeBool, Default: true},
+		{Name: "organization_id", Type: field.TypeUUID},
+		{Name: "principal_id", Type: field.TypeUUID},
+	}
+	// CfPrincipalMembershipsTable holds the schema information for the "cf_principal_memberships" table.
+	CfPrincipalMembershipsTable = &schema.Table{
+		Name:       "cf_principal_memberships",
+		Columns:    CfPrincipalMembershipsColumns,
+		PrimaryKey: []*schema.Column{CfPrincipalMembershipsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cf_principal_memberships_cf_organizations_principal_memberships",
+				Columns:    []*schema.Column{CfPrincipalMembershipsColumns[6]},
+				RefColumns: []*schema.Column{CfOrganizationsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "cf_principal_memberships_cf_principals_principal_memberships",
+				Columns:    []*schema.Column{CfPrincipalMembershipsColumns[7]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "principalmembership_principal_id_organization_id",
+				Unique:  true,
+				Columns: []*schema.Column{CfPrincipalMembershipsColumns[7], CfPrincipalMembershipsColumns[6]},
+			},
+			{
+				Name:    "principalmembership_principal_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalMembershipsColumns[7]},
+			},
+			{
+				Name:    "principalmembership_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalMembershipsColumns[6]},
+			},
+			{
+				Name:    "principalmembership_role",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalMembershipsColumns[3]},
+			},
+			{
+				Name:    "principalmembership_active",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalMembershipsColumns[5]},
+			},
+		},
+	}
+	// CfPrincipalTokensColumns holds the columns for the "cf_principal_tokens" table.
+	CfPrincipalTokensColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "principal_type", Type: field.TypeEnum, Enums: []string{"human", "application", "agent", "service"}},
+		{Name: "access_token_signature", Type: field.TypeString, Unique: true},
+		{Name: "refresh_token_signature", Type: field.TypeString, Unique: true, Nullable: true},
+		{Name: "family_id", Type: field.TypeUUID},
+		{Name: "scopes", Type: field.TypeJSON},
+		{Name: "audience", Type: field.TypeJSON},
+		{Name: "capabilities", Type: field.TypeJSON},
+		{Name: "delegation_chain", Type: field.TypeJSON},
+		{Name: "dpop_jkt", Type: field.TypeString, Nullable: true},
+		{Name: "session_id", Type: field.TypeString, Nullable: true},
+		{Name: "request_data", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "access_expires_at", Type: field.TypeTime},
+		{Name: "refresh_expires_at", Type: field.TypeTime, Nullable: true},
+		{Name: "revoked", Type: field.TypeBool, Default: false},
+		{Name: "revoked_at", Type: field.TypeTime, Nullable: true},
+		{Name: "revoked_reason", Type: field.TypeString, Nullable: true},
+		{Name: "client_ip", Type: field.TypeString, Nullable: true},
+		{Name: "user_agent", Type: field.TypeString, Nullable: true},
+		{Name: "last_used_at", Type: field.TypeTime, Nullable: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "issued_by_app_id", Type: field.TypeUUID, Nullable: true},
+		{Name: "principal_id", Type: field.TypeUUID},
+		{Name: "parent_token_id", Type: field.TypeUUID, Nullable: true},
+	}
+	// CfPrincipalTokensTable holds the schema information for the "cf_principal_tokens" table.
+	CfPrincipalTokensTable = &schema.Table{
+		Name:       "cf_principal_tokens",
+		Columns:    CfPrincipalTokensColumns,
+		PrimaryKey: []*schema.Column{CfPrincipalTokensColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cf_principal_tokens_cf_applications_issued_tokens",
+				Columns:    []*schema.Column{CfPrincipalTokensColumns[21]},
+				RefColumns: []*schema.Column{CfApplicationsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "cf_principal_tokens_cf_principals_principal_tokens",
+				Columns:    []*schema.Column{CfPrincipalTokensColumns[22]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "cf_principal_tokens_cf_principal_tokens_child_tokens",
+				Columns:    []*schema.Column{CfPrincipalTokensColumns[23]},
+				RefColumns: []*schema.Column{CfPrincipalTokensColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "principaltoken_access_token_signature",
+				Unique:  true,
+				Columns: []*schema.Column{CfPrincipalTokensColumns[2]},
+			},
+			{
+				Name:    "principaltoken_refresh_token_signature",
+				Unique:  true,
+				Columns: []*schema.Column{CfPrincipalTokensColumns[3]},
+			},
+			{
+				Name:    "principaltoken_principal_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalTokensColumns[22]},
+			},
+			{
+				Name:    "principaltoken_principal_type",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalTokensColumns[1]},
+			},
+			{
+				Name:    "principaltoken_issued_by_app_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalTokensColumns[21]},
+			},
+			{
+				Name:    "principaltoken_family_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalTokensColumns[4]},
+			},
+			{
+				Name:    "principaltoken_parent_token_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalTokensColumns[23]},
+			},
+			{
+				Name:    "principaltoken_revoked",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalTokensColumns[14]},
+			},
+			{
+				Name:    "principaltoken_access_expires_at",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalTokensColumns[12]},
+			},
+			{
+				Name:    "principaltoken_session_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfPrincipalTokensColumns[10]},
 			},
 		},
 	}
@@ -672,6 +1244,55 @@ var (
 			},
 		},
 	}
+	// CfServicePrincipalsColumns holds the columns for the "cf_service_principals" table.
+	CfServicePrincipalsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "service_type", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 1000},
+		{Name: "last_used_at", Type: field.TypeTime, Nullable: true},
+		{Name: "allowed_ips", Type: field.TypeJSON},
+		{Name: "principal_id", Type: field.TypeUUID, Unique: true},
+		{Name: "created_by", Type: field.TypeUUID, Nullable: true},
+	}
+	// CfServicePrincipalsTable holds the schema information for the "cf_service_principals" table.
+	CfServicePrincipalsTable = &schema.Table{
+		Name:       "cf_service_principals",
+		Columns:    CfServicePrincipalsColumns,
+		PrimaryKey: []*schema.Column{CfServicePrincipalsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cf_service_principals_cf_principals_service_principal",
+				Columns:    []*schema.Column{CfServicePrincipalsColumns[7]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "cf_service_principals_cf_principals_creator",
+				Columns:    []*schema.Column{CfServicePrincipalsColumns[8]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "serviceprincipal_principal_id",
+				Unique:  true,
+				Columns: []*schema.Column{CfServicePrincipalsColumns[7]},
+			},
+			{
+				Name:    "serviceprincipal_service_type",
+				Unique:  false,
+				Columns: []*schema.Column{CfServicePrincipalsColumns[3]},
+			},
+			{
+				Name:    "serviceprincipal_created_by",
+				Unique:  false,
+				Columns: []*schema.Column{CfServicePrincipalsColumns[8]},
+			},
+		},
+	}
 	// CfUsersColumns holds the columns for the "cf_users" table.
 	CfUsersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID},
@@ -684,6 +1305,7 @@ var (
 		{Name: "is_platform_admin", Type: field.TypeBool, Default: false},
 		{Name: "active", Type: field.TypeBool, Default: true},
 		{Name: "last_login_at", Type: field.TypeTime, Nullable: true},
+		{Name: "federation_id", Type: field.TypeUUID, Unique: true, Nullable: true},
 	}
 	// CfUsersTable holds the schema information for the "cf_users" table.
 	CfUsersTable = &schema.Table{
@@ -701,11 +1323,21 @@ var (
 				Unique:  false,
 				Columns: []*schema.Column{CfUsersColumns[8]},
 			},
+			{
+				Name:    "user_federation_id",
+				Unique:  true,
+				Columns: []*schema.Column{CfUsersColumns[10]},
+			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		CfAPIKeysTable,
+		CfAgentsTable,
+		CfApplicationsTable,
+		CfCredentialsTable,
+		CfHumansTable,
+		CfInvitesTable,
 		CfMembershipsTable,
 		CfOauthAccountsTable,
 		CfOauthAppsTable,
@@ -714,9 +1346,13 @@ var (
 		CfOauthConsentsTable,
 		CfOauthTokensTable,
 		CfOrganizationsTable,
+		CfPrincipalsTable,
+		CfPrincipalMembershipsTable,
+		CfPrincipalTokensTable,
 		CfRefreshTokensTable,
 		CfServiceAccountsTable,
 		CfServiceAccountKeyPairsTable,
+		CfServicePrincipalsTable,
 		CfUsersTable,
 	}
 )
@@ -726,6 +1362,28 @@ func init() {
 	CfAPIKeysTable.ForeignKeys[1].RefTable = CfUsersTable
 	CfAPIKeysTable.Annotation = &entsql.Annotation{
 		Table: "cf_api_keys",
+	}
+	CfAgentsTable.ForeignKeys[0].RefTable = CfPrincipalsTable
+	CfAgentsTable.ForeignKeys[1].RefTable = CfPrincipalsTable
+	CfAgentsTable.Annotation = &entsql.Annotation{
+		Table: "cf_agents",
+	}
+	CfApplicationsTable.ForeignKeys[0].RefTable = CfPrincipalsTable
+	CfApplicationsTable.Annotation = &entsql.Annotation{
+		Table: "cf_applications",
+	}
+	CfCredentialsTable.ForeignKeys[0].RefTable = CfPrincipalsTable
+	CfCredentialsTable.Annotation = &entsql.Annotation{
+		Table: "cf_credentials",
+	}
+	CfHumansTable.ForeignKeys[0].RefTable = CfPrincipalsTable
+	CfHumansTable.Annotation = &entsql.Annotation{
+		Table: "cf_humans",
+	}
+	CfInvitesTable.ForeignKeys[0].RefTable = CfOrganizationsTable
+	CfInvitesTable.ForeignKeys[1].RefTable = CfPrincipalsTable
+	CfInvitesTable.Annotation = &entsql.Annotation{
+		Table: "cf_invites",
 	}
 	CfMembershipsTable.ForeignKeys[0].RefTable = CfOrganizationsTable
 	CfMembershipsTable.ForeignKeys[1].RefTable = CfUsersTable
@@ -760,8 +1418,24 @@ func init() {
 	CfOauthTokensTable.Annotation = &entsql.Annotation{
 		Table: "cf_oauth_tokens",
 	}
+	CfOrganizationsTable.ForeignKeys[0].RefTable = CfPrincipalsTable
 	CfOrganizationsTable.Annotation = &entsql.Annotation{
 		Table: "cf_organizations",
+	}
+	CfPrincipalsTable.ForeignKeys[0].RefTable = CfOrganizationsTable
+	CfPrincipalsTable.Annotation = &entsql.Annotation{
+		Table: "cf_principals",
+	}
+	CfPrincipalMembershipsTable.ForeignKeys[0].RefTable = CfOrganizationsTable
+	CfPrincipalMembershipsTable.ForeignKeys[1].RefTable = CfPrincipalsTable
+	CfPrincipalMembershipsTable.Annotation = &entsql.Annotation{
+		Table: "cf_principal_memberships",
+	}
+	CfPrincipalTokensTable.ForeignKeys[0].RefTable = CfApplicationsTable
+	CfPrincipalTokensTable.ForeignKeys[1].RefTable = CfPrincipalsTable
+	CfPrincipalTokensTable.ForeignKeys[2].RefTable = CfPrincipalTokensTable
+	CfPrincipalTokensTable.Annotation = &entsql.Annotation{
+		Table: "cf_principal_tokens",
 	}
 	CfRefreshTokensTable.ForeignKeys[0].RefTable = CfUsersTable
 	CfRefreshTokensTable.Annotation = &entsql.Annotation{
@@ -775,6 +1449,11 @@ func init() {
 	CfServiceAccountKeyPairsTable.ForeignKeys[0].RefTable = CfServiceAccountsTable
 	CfServiceAccountKeyPairsTable.Annotation = &entsql.Annotation{
 		Table: "cf_service_account_key_pairs",
+	}
+	CfServicePrincipalsTable.ForeignKeys[0].RefTable = CfPrincipalsTable
+	CfServicePrincipalsTable.ForeignKeys[1].RefTable = CfPrincipalsTable
+	CfServicePrincipalsTable.Annotation = &entsql.Annotation{
+		Table: "cf_service_principals",
 	}
 	CfUsersTable.Annotation = &entsql.Annotation{
 		Table: "cf_users",
