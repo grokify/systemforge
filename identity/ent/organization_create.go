@@ -14,9 +14,12 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/google/uuid"
 	"github.com/grokify/coreforge/identity/ent/apikey"
+	"github.com/grokify/coreforge/identity/ent/invite"
 	"github.com/grokify/coreforge/identity/ent/membership"
 	"github.com/grokify/coreforge/identity/ent/oauthapp"
 	"github.com/grokify/coreforge/identity/ent/organization"
+	"github.com/grokify/coreforge/identity/ent/principal"
+	"github.com/grokify/coreforge/identity/ent/principalmembership"
 	"github.com/grokify/coreforge/identity/ent/serviceaccount"
 )
 
@@ -68,6 +71,34 @@ func (_c *OrganizationCreate) SetSlug(v string) *OrganizationCreate {
 	return _c
 }
 
+// SetOrgType sets the "org_type" field.
+func (_c *OrganizationCreate) SetOrgType(v organization.OrgType) *OrganizationCreate {
+	_c.mutation.SetOrgType(v)
+	return _c
+}
+
+// SetNillableOrgType sets the "org_type" field if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableOrgType(v *organization.OrgType) *OrganizationCreate {
+	if v != nil {
+		_c.SetOrgType(*v)
+	}
+	return _c
+}
+
+// SetOwnerPrincipalID sets the "owner_principal_id" field.
+func (_c *OrganizationCreate) SetOwnerPrincipalID(v uuid.UUID) *OrganizationCreate {
+	_c.mutation.SetOwnerPrincipalID(v)
+	return _c
+}
+
+// SetNillableOwnerPrincipalID sets the "owner_principal_id" field if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableOwnerPrincipalID(v *uuid.UUID) *OrganizationCreate {
+	if v != nil {
+		_c.SetOwnerPrincipalID(*v)
+	}
+	return _c
+}
+
 // SetLogoURL sets the "logo_url" field.
 func (_c *OrganizationCreate) SetLogoURL(v string) *OrganizationCreate {
 	_c.mutation.SetLogoURL(v)
@@ -78,6 +109,34 @@ func (_c *OrganizationCreate) SetLogoURL(v string) *OrganizationCreate {
 func (_c *OrganizationCreate) SetNillableLogoURL(v *string) *OrganizationCreate {
 	if v != nil {
 		_c.SetLogoURL(*v)
+	}
+	return _c
+}
+
+// SetDescription sets the "description" field.
+func (_c *OrganizationCreate) SetDescription(v string) *OrganizationCreate {
+	_c.mutation.SetDescription(v)
+	return _c
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableDescription(v *string) *OrganizationCreate {
+	if v != nil {
+		_c.SetDescription(*v)
+	}
+	return _c
+}
+
+// SetWebsiteURL sets the "website_url" field.
+func (_c *OrganizationCreate) SetWebsiteURL(v string) *OrganizationCreate {
+	_c.mutation.SetWebsiteURL(v)
+	return _c
+}
+
+// SetNillableWebsiteURL sets the "website_url" field if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableWebsiteURL(v *string) *OrganizationCreate {
+	if v != nil {
+		_c.SetWebsiteURL(*v)
 	}
 	return _c
 }
@@ -190,6 +249,70 @@ func (_c *OrganizationCreate) AddServiceAccounts(v ...*ServiceAccount) *Organiza
 	return _c.AddServiceAccountIDs(ids...)
 }
 
+// AddPrincipalIDs adds the "principals" edge to the Principal entity by IDs.
+func (_c *OrganizationCreate) AddPrincipalIDs(ids ...uuid.UUID) *OrganizationCreate {
+	_c.mutation.AddPrincipalIDs(ids...)
+	return _c
+}
+
+// AddPrincipals adds the "principals" edges to the Principal entity.
+func (_c *OrganizationCreate) AddPrincipals(v ...*Principal) *OrganizationCreate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddPrincipalIDs(ids...)
+}
+
+// AddPrincipalMembershipIDs adds the "principal_memberships" edge to the PrincipalMembership entity by IDs.
+func (_c *OrganizationCreate) AddPrincipalMembershipIDs(ids ...uuid.UUID) *OrganizationCreate {
+	_c.mutation.AddPrincipalMembershipIDs(ids...)
+	return _c
+}
+
+// AddPrincipalMemberships adds the "principal_memberships" edges to the PrincipalMembership entity.
+func (_c *OrganizationCreate) AddPrincipalMemberships(v ...*PrincipalMembership) *OrganizationCreate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddPrincipalMembershipIDs(ids...)
+}
+
+// SetOwnerID sets the "owner" edge to the Principal entity by ID.
+func (_c *OrganizationCreate) SetOwnerID(id uuid.UUID) *OrganizationCreate {
+	_c.mutation.SetOwnerID(id)
+	return _c
+}
+
+// SetNillableOwnerID sets the "owner" edge to the Principal entity by ID if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableOwnerID(id *uuid.UUID) *OrganizationCreate {
+	if id != nil {
+		_c = _c.SetOwnerID(*id)
+	}
+	return _c
+}
+
+// SetOwner sets the "owner" edge to the Principal entity.
+func (_c *OrganizationCreate) SetOwner(v *Principal) *OrganizationCreate {
+	return _c.SetOwnerID(v.ID)
+}
+
+// AddInviteIDs adds the "invites" edge to the Invite entity by IDs.
+func (_c *OrganizationCreate) AddInviteIDs(ids ...uuid.UUID) *OrganizationCreate {
+	_c.mutation.AddInviteIDs(ids...)
+	return _c
+}
+
+// AddInvites adds the "invites" edges to the Invite entity.
+func (_c *OrganizationCreate) AddInvites(v ...*Invite) *OrganizationCreate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddInviteIDs(ids...)
+}
+
 // Mutation returns the OrganizationMutation object of the builder.
 func (_c *OrganizationCreate) Mutation() *OrganizationMutation {
 	return _c.mutation
@@ -233,6 +356,10 @@ func (_c *OrganizationCreate) defaults() {
 		v := organization.DefaultUpdatedAt()
 		_c.mutation.SetUpdatedAt(v)
 	}
+	if _, ok := _c.mutation.OrgType(); !ok {
+		v := organization.DefaultOrgType
+		_c.mutation.SetOrgType(v)
+	}
 	if _, ok := _c.mutation.Plan(); !ok {
 		v := organization.DefaultPlan
 		_c.mutation.SetPlan(v)
@@ -269,6 +396,14 @@ func (_c *OrganizationCreate) check() error {
 	if v, ok := _c.mutation.Slug(); ok {
 		if err := organization.SlugValidator(v); err != nil {
 			return &ValidationError{Name: "slug", err: fmt.Errorf(`ent: validator failed for field "Organization.slug": %w`, err)}
+		}
+	}
+	if _, ok := _c.mutation.OrgType(); !ok {
+		return &ValidationError{Name: "org_type", err: errors.New(`ent: missing required field "Organization.org_type"`)}
+	}
+	if v, ok := _c.mutation.OrgType(); ok {
+		if err := organization.OrgTypeValidator(v); err != nil {
+			return &ValidationError{Name: "org_type", err: fmt.Errorf(`ent: validator failed for field "Organization.org_type": %w`, err)}
 		}
 	}
 	if _, ok := _c.mutation.Plan(); !ok {
@@ -334,9 +469,21 @@ func (_c *OrganizationCreate) createSpec() (*Organization, *sqlgraph.CreateSpec)
 		_spec.SetField(organization.FieldSlug, field.TypeString, value)
 		_node.Slug = value
 	}
+	if value, ok := _c.mutation.OrgType(); ok {
+		_spec.SetField(organization.FieldOrgType, field.TypeEnum, value)
+		_node.OrgType = value
+	}
 	if value, ok := _c.mutation.LogoURL(); ok {
 		_spec.SetField(organization.FieldLogoURL, field.TypeString, value)
 		_node.LogoURL = &value
+	}
+	if value, ok := _c.mutation.Description(); ok {
+		_spec.SetField(organization.FieldDescription, field.TypeString, value)
+		_node.Description = &value
+	}
+	if value, ok := _c.mutation.WebsiteURL(); ok {
+		_spec.SetField(organization.FieldWebsiteURL, field.TypeString, value)
+		_node.WebsiteURL = &value
 	}
 	if value, ok := _c.mutation.Settings(); ok {
 		_spec.SetField(organization.FieldSettings, field.TypeJSON, value)
@@ -407,6 +554,71 @@ func (_c *OrganizationCreate) createSpec() (*Organization, *sqlgraph.CreateSpec)
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(serviceaccount.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.PrincipalsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalsTable,
+			Columns: []string{organization.PrincipalsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principal.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.PrincipalMembershipsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalMembershipsTable,
+			Columns: []string{organization.PrincipalMembershipsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principalmembership.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.OwnerIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   organization.OwnerTable,
+			Columns: []string{organization.OwnerColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principal.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.OwnerPrincipalID = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.InvitesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.InvitesTable,
+			Columns: []string{organization.InvitesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(invite.FieldID, field.TypeUUID),
 			},
 		}
 		for _, k := range nodes {
@@ -502,6 +714,36 @@ func (u *OrganizationUpsert) UpdateSlug() *OrganizationUpsert {
 	return u
 }
 
+// SetOrgType sets the "org_type" field.
+func (u *OrganizationUpsert) SetOrgType(v organization.OrgType) *OrganizationUpsert {
+	u.Set(organization.FieldOrgType, v)
+	return u
+}
+
+// UpdateOrgType sets the "org_type" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateOrgType() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldOrgType)
+	return u
+}
+
+// SetOwnerPrincipalID sets the "owner_principal_id" field.
+func (u *OrganizationUpsert) SetOwnerPrincipalID(v uuid.UUID) *OrganizationUpsert {
+	u.Set(organization.FieldOwnerPrincipalID, v)
+	return u
+}
+
+// UpdateOwnerPrincipalID sets the "owner_principal_id" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateOwnerPrincipalID() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldOwnerPrincipalID)
+	return u
+}
+
+// ClearOwnerPrincipalID clears the value of the "owner_principal_id" field.
+func (u *OrganizationUpsert) ClearOwnerPrincipalID() *OrganizationUpsert {
+	u.SetNull(organization.FieldOwnerPrincipalID)
+	return u
+}
+
 // SetLogoURL sets the "logo_url" field.
 func (u *OrganizationUpsert) SetLogoURL(v string) *OrganizationUpsert {
 	u.Set(organization.FieldLogoURL, v)
@@ -517,6 +759,42 @@ func (u *OrganizationUpsert) UpdateLogoURL() *OrganizationUpsert {
 // ClearLogoURL clears the value of the "logo_url" field.
 func (u *OrganizationUpsert) ClearLogoURL() *OrganizationUpsert {
 	u.SetNull(organization.FieldLogoURL)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *OrganizationUpsert) SetDescription(v string) *OrganizationUpsert {
+	u.Set(organization.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateDescription() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *OrganizationUpsert) ClearDescription() *OrganizationUpsert {
+	u.SetNull(organization.FieldDescription)
+	return u
+}
+
+// SetWebsiteURL sets the "website_url" field.
+func (u *OrganizationUpsert) SetWebsiteURL(v string) *OrganizationUpsert {
+	u.Set(organization.FieldWebsiteURL, v)
+	return u
+}
+
+// UpdateWebsiteURL sets the "website_url" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateWebsiteURL() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldWebsiteURL)
+	return u
+}
+
+// ClearWebsiteURL clears the value of the "website_url" field.
+func (u *OrganizationUpsert) ClearWebsiteURL() *OrganizationUpsert {
+	u.SetNull(organization.FieldWebsiteURL)
 	return u
 }
 
@@ -655,6 +933,41 @@ func (u *OrganizationUpsertOne) UpdateSlug() *OrganizationUpsertOne {
 	})
 }
 
+// SetOrgType sets the "org_type" field.
+func (u *OrganizationUpsertOne) SetOrgType(v organization.OrgType) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetOrgType(v)
+	})
+}
+
+// UpdateOrgType sets the "org_type" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateOrgType() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateOrgType()
+	})
+}
+
+// SetOwnerPrincipalID sets the "owner_principal_id" field.
+func (u *OrganizationUpsertOne) SetOwnerPrincipalID(v uuid.UUID) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetOwnerPrincipalID(v)
+	})
+}
+
+// UpdateOwnerPrincipalID sets the "owner_principal_id" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateOwnerPrincipalID() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateOwnerPrincipalID()
+	})
+}
+
+// ClearOwnerPrincipalID clears the value of the "owner_principal_id" field.
+func (u *OrganizationUpsertOne) ClearOwnerPrincipalID() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearOwnerPrincipalID()
+	})
+}
+
 // SetLogoURL sets the "logo_url" field.
 func (u *OrganizationUpsertOne) SetLogoURL(v string) *OrganizationUpsertOne {
 	return u.Update(func(s *OrganizationUpsert) {
@@ -673,6 +986,48 @@ func (u *OrganizationUpsertOne) UpdateLogoURL() *OrganizationUpsertOne {
 func (u *OrganizationUpsertOne) ClearLogoURL() *OrganizationUpsertOne {
 	return u.Update(func(s *OrganizationUpsert) {
 		s.ClearLogoURL()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *OrganizationUpsertOne) SetDescription(v string) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateDescription() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *OrganizationUpsertOne) ClearDescription() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetWebsiteURL sets the "website_url" field.
+func (u *OrganizationUpsertOne) SetWebsiteURL(v string) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetWebsiteURL(v)
+	})
+}
+
+// UpdateWebsiteURL sets the "website_url" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateWebsiteURL() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateWebsiteURL()
+	})
+}
+
+// ClearWebsiteURL clears the value of the "website_url" field.
+func (u *OrganizationUpsertOne) ClearWebsiteURL() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearWebsiteURL()
 	})
 }
 
@@ -985,6 +1340,41 @@ func (u *OrganizationUpsertBulk) UpdateSlug() *OrganizationUpsertBulk {
 	})
 }
 
+// SetOrgType sets the "org_type" field.
+func (u *OrganizationUpsertBulk) SetOrgType(v organization.OrgType) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetOrgType(v)
+	})
+}
+
+// UpdateOrgType sets the "org_type" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateOrgType() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateOrgType()
+	})
+}
+
+// SetOwnerPrincipalID sets the "owner_principal_id" field.
+func (u *OrganizationUpsertBulk) SetOwnerPrincipalID(v uuid.UUID) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetOwnerPrincipalID(v)
+	})
+}
+
+// UpdateOwnerPrincipalID sets the "owner_principal_id" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateOwnerPrincipalID() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateOwnerPrincipalID()
+	})
+}
+
+// ClearOwnerPrincipalID clears the value of the "owner_principal_id" field.
+func (u *OrganizationUpsertBulk) ClearOwnerPrincipalID() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearOwnerPrincipalID()
+	})
+}
+
 // SetLogoURL sets the "logo_url" field.
 func (u *OrganizationUpsertBulk) SetLogoURL(v string) *OrganizationUpsertBulk {
 	return u.Update(func(s *OrganizationUpsert) {
@@ -1003,6 +1393,48 @@ func (u *OrganizationUpsertBulk) UpdateLogoURL() *OrganizationUpsertBulk {
 func (u *OrganizationUpsertBulk) ClearLogoURL() *OrganizationUpsertBulk {
 	return u.Update(func(s *OrganizationUpsert) {
 		s.ClearLogoURL()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *OrganizationUpsertBulk) SetDescription(v string) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateDescription() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *OrganizationUpsertBulk) ClearDescription() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetWebsiteURL sets the "website_url" field.
+func (u *OrganizationUpsertBulk) SetWebsiteURL(v string) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetWebsiteURL(v)
+	})
+}
+
+// UpdateWebsiteURL sets the "website_url" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateWebsiteURL() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateWebsiteURL()
+	})
+}
+
+// ClearWebsiteURL clears the value of the "website_url" field.
+func (u *OrganizationUpsertBulk) ClearWebsiteURL() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearWebsiteURL()
 	})
 }
 

@@ -13,10 +13,13 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/google/uuid"
 	"github.com/grokify/coreforge/identity/ent/apikey"
+	"github.com/grokify/coreforge/identity/ent/invite"
 	"github.com/grokify/coreforge/identity/ent/membership"
 	"github.com/grokify/coreforge/identity/ent/oauthapp"
 	"github.com/grokify/coreforge/identity/ent/organization"
 	"github.com/grokify/coreforge/identity/ent/predicate"
+	"github.com/grokify/coreforge/identity/ent/principal"
+	"github.com/grokify/coreforge/identity/ent/principalmembership"
 	"github.com/grokify/coreforge/identity/ent/serviceaccount"
 )
 
@@ -67,6 +70,40 @@ func (_u *OrganizationUpdate) SetNillableSlug(v *string) *OrganizationUpdate {
 	return _u
 }
 
+// SetOrgType sets the "org_type" field.
+func (_u *OrganizationUpdate) SetOrgType(v organization.OrgType) *OrganizationUpdate {
+	_u.mutation.SetOrgType(v)
+	return _u
+}
+
+// SetNillableOrgType sets the "org_type" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableOrgType(v *organization.OrgType) *OrganizationUpdate {
+	if v != nil {
+		_u.SetOrgType(*v)
+	}
+	return _u
+}
+
+// SetOwnerPrincipalID sets the "owner_principal_id" field.
+func (_u *OrganizationUpdate) SetOwnerPrincipalID(v uuid.UUID) *OrganizationUpdate {
+	_u.mutation.SetOwnerPrincipalID(v)
+	return _u
+}
+
+// SetNillableOwnerPrincipalID sets the "owner_principal_id" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableOwnerPrincipalID(v *uuid.UUID) *OrganizationUpdate {
+	if v != nil {
+		_u.SetOwnerPrincipalID(*v)
+	}
+	return _u
+}
+
+// ClearOwnerPrincipalID clears the value of the "owner_principal_id" field.
+func (_u *OrganizationUpdate) ClearOwnerPrincipalID() *OrganizationUpdate {
+	_u.mutation.ClearOwnerPrincipalID()
+	return _u
+}
+
 // SetLogoURL sets the "logo_url" field.
 func (_u *OrganizationUpdate) SetLogoURL(v string) *OrganizationUpdate {
 	_u.mutation.SetLogoURL(v)
@@ -84,6 +121,46 @@ func (_u *OrganizationUpdate) SetNillableLogoURL(v *string) *OrganizationUpdate 
 // ClearLogoURL clears the value of the "logo_url" field.
 func (_u *OrganizationUpdate) ClearLogoURL() *OrganizationUpdate {
 	_u.mutation.ClearLogoURL()
+	return _u
+}
+
+// SetDescription sets the "description" field.
+func (_u *OrganizationUpdate) SetDescription(v string) *OrganizationUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableDescription(v *string) *OrganizationUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
+	}
+	return _u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (_u *OrganizationUpdate) ClearDescription() *OrganizationUpdate {
+	_u.mutation.ClearDescription()
+	return _u
+}
+
+// SetWebsiteURL sets the "website_url" field.
+func (_u *OrganizationUpdate) SetWebsiteURL(v string) *OrganizationUpdate {
+	_u.mutation.SetWebsiteURL(v)
+	return _u
+}
+
+// SetNillableWebsiteURL sets the "website_url" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableWebsiteURL(v *string) *OrganizationUpdate {
+	if v != nil {
+		_u.SetWebsiteURL(*v)
+	}
+	return _u
+}
+
+// ClearWebsiteURL clears the value of the "website_url" field.
+func (_u *OrganizationUpdate) ClearWebsiteURL() *OrganizationUpdate {
+	_u.mutation.ClearWebsiteURL()
 	return _u
 }
 
@@ -187,6 +264,70 @@ func (_u *OrganizationUpdate) AddServiceAccounts(v ...*ServiceAccount) *Organiza
 	return _u.AddServiceAccountIDs(ids...)
 }
 
+// AddPrincipalIDs adds the "principals" edge to the Principal entity by IDs.
+func (_u *OrganizationUpdate) AddPrincipalIDs(ids ...uuid.UUID) *OrganizationUpdate {
+	_u.mutation.AddPrincipalIDs(ids...)
+	return _u
+}
+
+// AddPrincipals adds the "principals" edges to the Principal entity.
+func (_u *OrganizationUpdate) AddPrincipals(v ...*Principal) *OrganizationUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddPrincipalIDs(ids...)
+}
+
+// AddPrincipalMembershipIDs adds the "principal_memberships" edge to the PrincipalMembership entity by IDs.
+func (_u *OrganizationUpdate) AddPrincipalMembershipIDs(ids ...uuid.UUID) *OrganizationUpdate {
+	_u.mutation.AddPrincipalMembershipIDs(ids...)
+	return _u
+}
+
+// AddPrincipalMemberships adds the "principal_memberships" edges to the PrincipalMembership entity.
+func (_u *OrganizationUpdate) AddPrincipalMemberships(v ...*PrincipalMembership) *OrganizationUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddPrincipalMembershipIDs(ids...)
+}
+
+// SetOwnerID sets the "owner" edge to the Principal entity by ID.
+func (_u *OrganizationUpdate) SetOwnerID(id uuid.UUID) *OrganizationUpdate {
+	_u.mutation.SetOwnerID(id)
+	return _u
+}
+
+// SetNillableOwnerID sets the "owner" edge to the Principal entity by ID if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableOwnerID(id *uuid.UUID) *OrganizationUpdate {
+	if id != nil {
+		_u = _u.SetOwnerID(*id)
+	}
+	return _u
+}
+
+// SetOwner sets the "owner" edge to the Principal entity.
+func (_u *OrganizationUpdate) SetOwner(v *Principal) *OrganizationUpdate {
+	return _u.SetOwnerID(v.ID)
+}
+
+// AddInviteIDs adds the "invites" edge to the Invite entity by IDs.
+func (_u *OrganizationUpdate) AddInviteIDs(ids ...uuid.UUID) *OrganizationUpdate {
+	_u.mutation.AddInviteIDs(ids...)
+	return _u
+}
+
+// AddInvites adds the "invites" edges to the Invite entity.
+func (_u *OrganizationUpdate) AddInvites(v ...*Invite) *OrganizationUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddInviteIDs(ids...)
+}
+
 // Mutation returns the OrganizationMutation object of the builder.
 func (_u *OrganizationUpdate) Mutation() *OrganizationMutation {
 	return _u.mutation
@@ -276,6 +417,75 @@ func (_u *OrganizationUpdate) RemoveServiceAccounts(v ...*ServiceAccount) *Organ
 	return _u.RemoveServiceAccountIDs(ids...)
 }
 
+// ClearPrincipals clears all "principals" edges to the Principal entity.
+func (_u *OrganizationUpdate) ClearPrincipals() *OrganizationUpdate {
+	_u.mutation.ClearPrincipals()
+	return _u
+}
+
+// RemovePrincipalIDs removes the "principals" edge to Principal entities by IDs.
+func (_u *OrganizationUpdate) RemovePrincipalIDs(ids ...uuid.UUID) *OrganizationUpdate {
+	_u.mutation.RemovePrincipalIDs(ids...)
+	return _u
+}
+
+// RemovePrincipals removes "principals" edges to Principal entities.
+func (_u *OrganizationUpdate) RemovePrincipals(v ...*Principal) *OrganizationUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemovePrincipalIDs(ids...)
+}
+
+// ClearPrincipalMemberships clears all "principal_memberships" edges to the PrincipalMembership entity.
+func (_u *OrganizationUpdate) ClearPrincipalMemberships() *OrganizationUpdate {
+	_u.mutation.ClearPrincipalMemberships()
+	return _u
+}
+
+// RemovePrincipalMembershipIDs removes the "principal_memberships" edge to PrincipalMembership entities by IDs.
+func (_u *OrganizationUpdate) RemovePrincipalMembershipIDs(ids ...uuid.UUID) *OrganizationUpdate {
+	_u.mutation.RemovePrincipalMembershipIDs(ids...)
+	return _u
+}
+
+// RemovePrincipalMemberships removes "principal_memberships" edges to PrincipalMembership entities.
+func (_u *OrganizationUpdate) RemovePrincipalMemberships(v ...*PrincipalMembership) *OrganizationUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemovePrincipalMembershipIDs(ids...)
+}
+
+// ClearOwner clears the "owner" edge to the Principal entity.
+func (_u *OrganizationUpdate) ClearOwner() *OrganizationUpdate {
+	_u.mutation.ClearOwner()
+	return _u
+}
+
+// ClearInvites clears all "invites" edges to the Invite entity.
+func (_u *OrganizationUpdate) ClearInvites() *OrganizationUpdate {
+	_u.mutation.ClearInvites()
+	return _u
+}
+
+// RemoveInviteIDs removes the "invites" edge to Invite entities by IDs.
+func (_u *OrganizationUpdate) RemoveInviteIDs(ids ...uuid.UUID) *OrganizationUpdate {
+	_u.mutation.RemoveInviteIDs(ids...)
+	return _u
+}
+
+// RemoveInvites removes "invites" edges to Invite entities.
+func (_u *OrganizationUpdate) RemoveInvites(v ...*Invite) *OrganizationUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveInviteIDs(ids...)
+}
+
 // Save executes the query and returns the number of nodes affected by the update operation.
 func (_u *OrganizationUpdate) Save(ctx context.Context) (int, error) {
 	_u.defaults()
@@ -324,6 +534,11 @@ func (_u *OrganizationUpdate) check() error {
 			return &ValidationError{Name: "slug", err: fmt.Errorf(`ent: validator failed for field "Organization.slug": %w`, err)}
 		}
 	}
+	if v, ok := _u.mutation.OrgType(); ok {
+		if err := organization.OrgTypeValidator(v); err != nil {
+			return &ValidationError{Name: "org_type", err: fmt.Errorf(`ent: validator failed for field "Organization.org_type": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.Plan(); ok {
 		if err := organization.PlanValidator(v); err != nil {
 			return &ValidationError{Name: "plan", err: fmt.Errorf(`ent: validator failed for field "Organization.plan": %w`, err)}
@@ -353,11 +568,26 @@ func (_u *OrganizationUpdate) sqlSave(ctx context.Context) (_node int, err error
 	if value, ok := _u.mutation.Slug(); ok {
 		_spec.SetField(organization.FieldSlug, field.TypeString, value)
 	}
+	if value, ok := _u.mutation.OrgType(); ok {
+		_spec.SetField(organization.FieldOrgType, field.TypeEnum, value)
+	}
 	if value, ok := _u.mutation.LogoURL(); ok {
 		_spec.SetField(organization.FieldLogoURL, field.TypeString, value)
 	}
 	if _u.mutation.LogoURLCleared() {
 		_spec.ClearField(organization.FieldLogoURL, field.TypeString)
+	}
+	if value, ok := _u.mutation.Description(); ok {
+		_spec.SetField(organization.FieldDescription, field.TypeString, value)
+	}
+	if _u.mutation.DescriptionCleared() {
+		_spec.ClearField(organization.FieldDescription, field.TypeString)
+	}
+	if value, ok := _u.mutation.WebsiteURL(); ok {
+		_spec.SetField(organization.FieldWebsiteURL, field.TypeString, value)
+	}
+	if _u.mutation.WebsiteURLCleared() {
+		_spec.ClearField(organization.FieldWebsiteURL, field.TypeString)
 	}
 	if value, ok := _u.mutation.Settings(); ok {
 		_spec.SetField(organization.FieldSettings, field.TypeJSON, value)
@@ -551,6 +781,170 @@ func (_u *OrganizationUpdate) sqlSave(ctx context.Context) (_node int, err error
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if _u.mutation.PrincipalsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalsTable,
+			Columns: []string{organization.PrincipalsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principal.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedPrincipalsIDs(); len(nodes) > 0 && !_u.mutation.PrincipalsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalsTable,
+			Columns: []string{organization.PrincipalsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principal.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.PrincipalsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalsTable,
+			Columns: []string{organization.PrincipalsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principal.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.PrincipalMembershipsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalMembershipsTable,
+			Columns: []string{organization.PrincipalMembershipsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principalmembership.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedPrincipalMembershipsIDs(); len(nodes) > 0 && !_u.mutation.PrincipalMembershipsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalMembershipsTable,
+			Columns: []string{organization.PrincipalMembershipsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principalmembership.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.PrincipalMembershipsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalMembershipsTable,
+			Columns: []string{organization.PrincipalMembershipsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principalmembership.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.OwnerCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   organization.OwnerTable,
+			Columns: []string{organization.OwnerColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principal.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.OwnerIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   organization.OwnerTable,
+			Columns: []string{organization.OwnerColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principal.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.InvitesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.InvitesTable,
+			Columns: []string{organization.InvitesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(invite.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedInvitesIDs(); len(nodes) > 0 && !_u.mutation.InvitesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.InvitesTable,
+			Columns: []string{organization.InvitesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(invite.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.InvitesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.InvitesTable,
+			Columns: []string{organization.InvitesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(invite.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{organization.Label}
@@ -605,6 +999,40 @@ func (_u *OrganizationUpdateOne) SetNillableSlug(v *string) *OrganizationUpdateO
 	return _u
 }
 
+// SetOrgType sets the "org_type" field.
+func (_u *OrganizationUpdateOne) SetOrgType(v organization.OrgType) *OrganizationUpdateOne {
+	_u.mutation.SetOrgType(v)
+	return _u
+}
+
+// SetNillableOrgType sets the "org_type" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableOrgType(v *organization.OrgType) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetOrgType(*v)
+	}
+	return _u
+}
+
+// SetOwnerPrincipalID sets the "owner_principal_id" field.
+func (_u *OrganizationUpdateOne) SetOwnerPrincipalID(v uuid.UUID) *OrganizationUpdateOne {
+	_u.mutation.SetOwnerPrincipalID(v)
+	return _u
+}
+
+// SetNillableOwnerPrincipalID sets the "owner_principal_id" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableOwnerPrincipalID(v *uuid.UUID) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetOwnerPrincipalID(*v)
+	}
+	return _u
+}
+
+// ClearOwnerPrincipalID clears the value of the "owner_principal_id" field.
+func (_u *OrganizationUpdateOne) ClearOwnerPrincipalID() *OrganizationUpdateOne {
+	_u.mutation.ClearOwnerPrincipalID()
+	return _u
+}
+
 // SetLogoURL sets the "logo_url" field.
 func (_u *OrganizationUpdateOne) SetLogoURL(v string) *OrganizationUpdateOne {
 	_u.mutation.SetLogoURL(v)
@@ -622,6 +1050,46 @@ func (_u *OrganizationUpdateOne) SetNillableLogoURL(v *string) *OrganizationUpda
 // ClearLogoURL clears the value of the "logo_url" field.
 func (_u *OrganizationUpdateOne) ClearLogoURL() *OrganizationUpdateOne {
 	_u.mutation.ClearLogoURL()
+	return _u
+}
+
+// SetDescription sets the "description" field.
+func (_u *OrganizationUpdateOne) SetDescription(v string) *OrganizationUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableDescription(v *string) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
+	}
+	return _u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (_u *OrganizationUpdateOne) ClearDescription() *OrganizationUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
+}
+
+// SetWebsiteURL sets the "website_url" field.
+func (_u *OrganizationUpdateOne) SetWebsiteURL(v string) *OrganizationUpdateOne {
+	_u.mutation.SetWebsiteURL(v)
+	return _u
+}
+
+// SetNillableWebsiteURL sets the "website_url" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableWebsiteURL(v *string) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetWebsiteURL(*v)
+	}
+	return _u
+}
+
+// ClearWebsiteURL clears the value of the "website_url" field.
+func (_u *OrganizationUpdateOne) ClearWebsiteURL() *OrganizationUpdateOne {
+	_u.mutation.ClearWebsiteURL()
 	return _u
 }
 
@@ -725,6 +1193,70 @@ func (_u *OrganizationUpdateOne) AddServiceAccounts(v ...*ServiceAccount) *Organ
 	return _u.AddServiceAccountIDs(ids...)
 }
 
+// AddPrincipalIDs adds the "principals" edge to the Principal entity by IDs.
+func (_u *OrganizationUpdateOne) AddPrincipalIDs(ids ...uuid.UUID) *OrganizationUpdateOne {
+	_u.mutation.AddPrincipalIDs(ids...)
+	return _u
+}
+
+// AddPrincipals adds the "principals" edges to the Principal entity.
+func (_u *OrganizationUpdateOne) AddPrincipals(v ...*Principal) *OrganizationUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddPrincipalIDs(ids...)
+}
+
+// AddPrincipalMembershipIDs adds the "principal_memberships" edge to the PrincipalMembership entity by IDs.
+func (_u *OrganizationUpdateOne) AddPrincipalMembershipIDs(ids ...uuid.UUID) *OrganizationUpdateOne {
+	_u.mutation.AddPrincipalMembershipIDs(ids...)
+	return _u
+}
+
+// AddPrincipalMemberships adds the "principal_memberships" edges to the PrincipalMembership entity.
+func (_u *OrganizationUpdateOne) AddPrincipalMemberships(v ...*PrincipalMembership) *OrganizationUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddPrincipalMembershipIDs(ids...)
+}
+
+// SetOwnerID sets the "owner" edge to the Principal entity by ID.
+func (_u *OrganizationUpdateOne) SetOwnerID(id uuid.UUID) *OrganizationUpdateOne {
+	_u.mutation.SetOwnerID(id)
+	return _u
+}
+
+// SetNillableOwnerID sets the "owner" edge to the Principal entity by ID if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableOwnerID(id *uuid.UUID) *OrganizationUpdateOne {
+	if id != nil {
+		_u = _u.SetOwnerID(*id)
+	}
+	return _u
+}
+
+// SetOwner sets the "owner" edge to the Principal entity.
+func (_u *OrganizationUpdateOne) SetOwner(v *Principal) *OrganizationUpdateOne {
+	return _u.SetOwnerID(v.ID)
+}
+
+// AddInviteIDs adds the "invites" edge to the Invite entity by IDs.
+func (_u *OrganizationUpdateOne) AddInviteIDs(ids ...uuid.UUID) *OrganizationUpdateOne {
+	_u.mutation.AddInviteIDs(ids...)
+	return _u
+}
+
+// AddInvites adds the "invites" edges to the Invite entity.
+func (_u *OrganizationUpdateOne) AddInvites(v ...*Invite) *OrganizationUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddInviteIDs(ids...)
+}
+
 // Mutation returns the OrganizationMutation object of the builder.
 func (_u *OrganizationUpdateOne) Mutation() *OrganizationMutation {
 	return _u.mutation
@@ -814,6 +1346,75 @@ func (_u *OrganizationUpdateOne) RemoveServiceAccounts(v ...*ServiceAccount) *Or
 	return _u.RemoveServiceAccountIDs(ids...)
 }
 
+// ClearPrincipals clears all "principals" edges to the Principal entity.
+func (_u *OrganizationUpdateOne) ClearPrincipals() *OrganizationUpdateOne {
+	_u.mutation.ClearPrincipals()
+	return _u
+}
+
+// RemovePrincipalIDs removes the "principals" edge to Principal entities by IDs.
+func (_u *OrganizationUpdateOne) RemovePrincipalIDs(ids ...uuid.UUID) *OrganizationUpdateOne {
+	_u.mutation.RemovePrincipalIDs(ids...)
+	return _u
+}
+
+// RemovePrincipals removes "principals" edges to Principal entities.
+func (_u *OrganizationUpdateOne) RemovePrincipals(v ...*Principal) *OrganizationUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemovePrincipalIDs(ids...)
+}
+
+// ClearPrincipalMemberships clears all "principal_memberships" edges to the PrincipalMembership entity.
+func (_u *OrganizationUpdateOne) ClearPrincipalMemberships() *OrganizationUpdateOne {
+	_u.mutation.ClearPrincipalMemberships()
+	return _u
+}
+
+// RemovePrincipalMembershipIDs removes the "principal_memberships" edge to PrincipalMembership entities by IDs.
+func (_u *OrganizationUpdateOne) RemovePrincipalMembershipIDs(ids ...uuid.UUID) *OrganizationUpdateOne {
+	_u.mutation.RemovePrincipalMembershipIDs(ids...)
+	return _u
+}
+
+// RemovePrincipalMemberships removes "principal_memberships" edges to PrincipalMembership entities.
+func (_u *OrganizationUpdateOne) RemovePrincipalMemberships(v ...*PrincipalMembership) *OrganizationUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemovePrincipalMembershipIDs(ids...)
+}
+
+// ClearOwner clears the "owner" edge to the Principal entity.
+func (_u *OrganizationUpdateOne) ClearOwner() *OrganizationUpdateOne {
+	_u.mutation.ClearOwner()
+	return _u
+}
+
+// ClearInvites clears all "invites" edges to the Invite entity.
+func (_u *OrganizationUpdateOne) ClearInvites() *OrganizationUpdateOne {
+	_u.mutation.ClearInvites()
+	return _u
+}
+
+// RemoveInviteIDs removes the "invites" edge to Invite entities by IDs.
+func (_u *OrganizationUpdateOne) RemoveInviteIDs(ids ...uuid.UUID) *OrganizationUpdateOne {
+	_u.mutation.RemoveInviteIDs(ids...)
+	return _u
+}
+
+// RemoveInvites removes "invites" edges to Invite entities.
+func (_u *OrganizationUpdateOne) RemoveInvites(v ...*Invite) *OrganizationUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveInviteIDs(ids...)
+}
+
 // Where appends a list predicates to the OrganizationUpdate builder.
 func (_u *OrganizationUpdateOne) Where(ps ...predicate.Organization) *OrganizationUpdateOne {
 	_u.mutation.Where(ps...)
@@ -875,6 +1476,11 @@ func (_u *OrganizationUpdateOne) check() error {
 			return &ValidationError{Name: "slug", err: fmt.Errorf(`ent: validator failed for field "Organization.slug": %w`, err)}
 		}
 	}
+	if v, ok := _u.mutation.OrgType(); ok {
+		if err := organization.OrgTypeValidator(v); err != nil {
+			return &ValidationError{Name: "org_type", err: fmt.Errorf(`ent: validator failed for field "Organization.org_type": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.Plan(); ok {
 		if err := organization.PlanValidator(v); err != nil {
 			return &ValidationError{Name: "plan", err: fmt.Errorf(`ent: validator failed for field "Organization.plan": %w`, err)}
@@ -921,11 +1527,26 @@ func (_u *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organizati
 	if value, ok := _u.mutation.Slug(); ok {
 		_spec.SetField(organization.FieldSlug, field.TypeString, value)
 	}
+	if value, ok := _u.mutation.OrgType(); ok {
+		_spec.SetField(organization.FieldOrgType, field.TypeEnum, value)
+	}
 	if value, ok := _u.mutation.LogoURL(); ok {
 		_spec.SetField(organization.FieldLogoURL, field.TypeString, value)
 	}
 	if _u.mutation.LogoURLCleared() {
 		_spec.ClearField(organization.FieldLogoURL, field.TypeString)
+	}
+	if value, ok := _u.mutation.Description(); ok {
+		_spec.SetField(organization.FieldDescription, field.TypeString, value)
+	}
+	if _u.mutation.DescriptionCleared() {
+		_spec.ClearField(organization.FieldDescription, field.TypeString)
+	}
+	if value, ok := _u.mutation.WebsiteURL(); ok {
+		_spec.SetField(organization.FieldWebsiteURL, field.TypeString, value)
+	}
+	if _u.mutation.WebsiteURLCleared() {
+		_spec.ClearField(organization.FieldWebsiteURL, field.TypeString)
 	}
 	if value, ok := _u.mutation.Settings(); ok {
 		_spec.SetField(organization.FieldSettings, field.TypeJSON, value)
@@ -1112,6 +1733,170 @@ func (_u *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organizati
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(serviceaccount.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.PrincipalsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalsTable,
+			Columns: []string{organization.PrincipalsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principal.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedPrincipalsIDs(); len(nodes) > 0 && !_u.mutation.PrincipalsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalsTable,
+			Columns: []string{organization.PrincipalsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principal.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.PrincipalsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalsTable,
+			Columns: []string{organization.PrincipalsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principal.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.PrincipalMembershipsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalMembershipsTable,
+			Columns: []string{organization.PrincipalMembershipsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principalmembership.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedPrincipalMembershipsIDs(); len(nodes) > 0 && !_u.mutation.PrincipalMembershipsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalMembershipsTable,
+			Columns: []string{organization.PrincipalMembershipsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principalmembership.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.PrincipalMembershipsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.PrincipalMembershipsTable,
+			Columns: []string{organization.PrincipalMembershipsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principalmembership.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.OwnerCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   organization.OwnerTable,
+			Columns: []string{organization.OwnerColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principal.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.OwnerIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   organization.OwnerTable,
+			Columns: []string{organization.OwnerColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(principal.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.InvitesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.InvitesTable,
+			Columns: []string{organization.InvitesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(invite.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedInvitesIDs(); len(nodes) > 0 && !_u.mutation.InvitesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.InvitesTable,
+			Columns: []string{organization.InvitesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(invite.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.InvitesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.InvitesTable,
+			Columns: []string{organization.InvitesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(invite.FieldID, field.TypeUUID),
 			},
 		}
 		for _, k := range nodes {

@@ -14,24 +14,31 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/google/uuid"
 	"github.com/grokify/coreforge/identity/ent/apikey"
+	"github.com/grokify/coreforge/identity/ent/invite"
 	"github.com/grokify/coreforge/identity/ent/membership"
 	"github.com/grokify/coreforge/identity/ent/oauthapp"
 	"github.com/grokify/coreforge/identity/ent/organization"
 	"github.com/grokify/coreforge/identity/ent/predicate"
+	"github.com/grokify/coreforge/identity/ent/principal"
+	"github.com/grokify/coreforge/identity/ent/principalmembership"
 	"github.com/grokify/coreforge/identity/ent/serviceaccount"
 )
 
 // OrganizationQuery is the builder for querying Organization entities.
 type OrganizationQuery struct {
 	config
-	ctx                 *QueryContext
-	order               []organization.OrderOption
-	inters              []Interceptor
-	predicates          []predicate.Organization
-	withMemberships     *MembershipQuery
-	withAPIKeys         *APIKeyQuery
-	withOauthApps       *OAuthAppQuery
-	withServiceAccounts *ServiceAccountQuery
+	ctx                      *QueryContext
+	order                    []organization.OrderOption
+	inters                   []Interceptor
+	predicates               []predicate.Organization
+	withMemberships          *MembershipQuery
+	withAPIKeys              *APIKeyQuery
+	withOauthApps            *OAuthAppQuery
+	withServiceAccounts      *ServiceAccountQuery
+	withPrincipals           *PrincipalQuery
+	withPrincipalMemberships *PrincipalMembershipQuery
+	withOwner                *PrincipalQuery
+	withInvites              *InviteQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -149,6 +156,94 @@ func (_q *OrganizationQuery) QueryServiceAccounts() *ServiceAccountQuery {
 			sqlgraph.From(organization.Table, organization.FieldID, selector),
 			sqlgraph.To(serviceaccount.Table, serviceaccount.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, organization.ServiceAccountsTable, organization.ServiceAccountsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryPrincipals chains the current query on the "principals" edge.
+func (_q *OrganizationQuery) QueryPrincipals() *PrincipalQuery {
+	query := (&PrincipalClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(organization.Table, organization.FieldID, selector),
+			sqlgraph.To(principal.Table, principal.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, organization.PrincipalsTable, organization.PrincipalsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryPrincipalMemberships chains the current query on the "principal_memberships" edge.
+func (_q *OrganizationQuery) QueryPrincipalMemberships() *PrincipalMembershipQuery {
+	query := (&PrincipalMembershipClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(organization.Table, organization.FieldID, selector),
+			sqlgraph.To(principalmembership.Table, principalmembership.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, organization.PrincipalMembershipsTable, organization.PrincipalMembershipsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryOwner chains the current query on the "owner" edge.
+func (_q *OrganizationQuery) QueryOwner() *PrincipalQuery {
+	query := (&PrincipalClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(organization.Table, organization.FieldID, selector),
+			sqlgraph.To(principal.Table, principal.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, organization.OwnerTable, organization.OwnerColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryInvites chains the current query on the "invites" edge.
+func (_q *OrganizationQuery) QueryInvites() *InviteQuery {
+	query := (&InviteClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(organization.Table, organization.FieldID, selector),
+			sqlgraph.To(invite.Table, invite.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, organization.InvitesTable, organization.InvitesColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
@@ -343,15 +438,19 @@ func (_q *OrganizationQuery) Clone() *OrganizationQuery {
 		return nil
 	}
 	return &OrganizationQuery{
-		config:              _q.config,
-		ctx:                 _q.ctx.Clone(),
-		order:               append([]organization.OrderOption{}, _q.order...),
-		inters:              append([]Interceptor{}, _q.inters...),
-		predicates:          append([]predicate.Organization{}, _q.predicates...),
-		withMemberships:     _q.withMemberships.Clone(),
-		withAPIKeys:         _q.withAPIKeys.Clone(),
-		withOauthApps:       _q.withOauthApps.Clone(),
-		withServiceAccounts: _q.withServiceAccounts.Clone(),
+		config:                   _q.config,
+		ctx:                      _q.ctx.Clone(),
+		order:                    append([]organization.OrderOption{}, _q.order...),
+		inters:                   append([]Interceptor{}, _q.inters...),
+		predicates:               append([]predicate.Organization{}, _q.predicates...),
+		withMemberships:          _q.withMemberships.Clone(),
+		withAPIKeys:              _q.withAPIKeys.Clone(),
+		withOauthApps:            _q.withOauthApps.Clone(),
+		withServiceAccounts:      _q.withServiceAccounts.Clone(),
+		withPrincipals:           _q.withPrincipals.Clone(),
+		withPrincipalMemberships: _q.withPrincipalMemberships.Clone(),
+		withOwner:                _q.withOwner.Clone(),
+		withInvites:              _q.withInvites.Clone(),
 		// clone intermediate query.
 		sql:  _q.sql.Clone(),
 		path: _q.path,
@@ -399,6 +498,50 @@ func (_q *OrganizationQuery) WithServiceAccounts(opts ...func(*ServiceAccountQue
 		opt(query)
 	}
 	_q.withServiceAccounts = query
+	return _q
+}
+
+// WithPrincipals tells the query-builder to eager-load the nodes that are connected to
+// the "principals" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *OrganizationQuery) WithPrincipals(opts ...func(*PrincipalQuery)) *OrganizationQuery {
+	query := (&PrincipalClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withPrincipals = query
+	return _q
+}
+
+// WithPrincipalMemberships tells the query-builder to eager-load the nodes that are connected to
+// the "principal_memberships" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *OrganizationQuery) WithPrincipalMemberships(opts ...func(*PrincipalMembershipQuery)) *OrganizationQuery {
+	query := (&PrincipalMembershipClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withPrincipalMemberships = query
+	return _q
+}
+
+// WithOwner tells the query-builder to eager-load the nodes that are connected to
+// the "owner" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *OrganizationQuery) WithOwner(opts ...func(*PrincipalQuery)) *OrganizationQuery {
+	query := (&PrincipalClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withOwner = query
+	return _q
+}
+
+// WithInvites tells the query-builder to eager-load the nodes that are connected to
+// the "invites" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *OrganizationQuery) WithInvites(opts ...func(*InviteQuery)) *OrganizationQuery {
+	query := (&InviteClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withInvites = query
 	return _q
 }
 
@@ -480,11 +623,15 @@ func (_q *OrganizationQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 	var (
 		nodes       = []*Organization{}
 		_spec       = _q.querySpec()
-		loadedTypes = [4]bool{
+		loadedTypes = [8]bool{
 			_q.withMemberships != nil,
 			_q.withAPIKeys != nil,
 			_q.withOauthApps != nil,
 			_q.withServiceAccounts != nil,
+			_q.withPrincipals != nil,
+			_q.withPrincipalMemberships != nil,
+			_q.withOwner != nil,
+			_q.withInvites != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
@@ -530,6 +677,35 @@ func (_q *OrganizationQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 		if err := _q.loadServiceAccounts(ctx, query, nodes,
 			func(n *Organization) { n.Edges.ServiceAccounts = []*ServiceAccount{} },
 			func(n *Organization, e *ServiceAccount) { n.Edges.ServiceAccounts = append(n.Edges.ServiceAccounts, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withPrincipals; query != nil {
+		if err := _q.loadPrincipals(ctx, query, nodes,
+			func(n *Organization) { n.Edges.Principals = []*Principal{} },
+			func(n *Organization, e *Principal) { n.Edges.Principals = append(n.Edges.Principals, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withPrincipalMemberships; query != nil {
+		if err := _q.loadPrincipalMemberships(ctx, query, nodes,
+			func(n *Organization) { n.Edges.PrincipalMemberships = []*PrincipalMembership{} },
+			func(n *Organization, e *PrincipalMembership) {
+				n.Edges.PrincipalMemberships = append(n.Edges.PrincipalMemberships, e)
+			}); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withOwner; query != nil {
+		if err := _q.loadOwner(ctx, query, nodes, nil,
+			func(n *Organization, e *Principal) { n.Edges.Owner = e }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withInvites; query != nil {
+		if err := _q.loadInvites(ctx, query, nodes,
+			func(n *Organization) { n.Edges.Invites = []*Invite{} },
+			func(n *Organization, e *Invite) { n.Edges.Invites = append(n.Edges.Invites, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -660,6 +836,131 @@ func (_q *OrganizationQuery) loadServiceAccounts(ctx context.Context, query *Ser
 	}
 	return nil
 }
+func (_q *OrganizationQuery) loadPrincipals(ctx context.Context, query *PrincipalQuery, nodes []*Organization, init func(*Organization), assign func(*Organization, *Principal)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[uuid.UUID]*Organization)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(principal.FieldOrganizationID)
+	}
+	query.Where(predicate.Principal(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(organization.PrincipalsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.OrganizationID
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "organization_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "organization_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *OrganizationQuery) loadPrincipalMemberships(ctx context.Context, query *PrincipalMembershipQuery, nodes []*Organization, init func(*Organization), assign func(*Organization, *PrincipalMembership)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[uuid.UUID]*Organization)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(principalmembership.FieldOrganizationID)
+	}
+	query.Where(predicate.PrincipalMembership(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(organization.PrincipalMembershipsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.OrganizationID
+		node, ok := nodeids[fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "organization_id" returned %v for node %v`, fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *OrganizationQuery) loadOwner(ctx context.Context, query *PrincipalQuery, nodes []*Organization, init func(*Organization), assign func(*Organization, *Principal)) error {
+	ids := make([]uuid.UUID, 0, len(nodes))
+	nodeids := make(map[uuid.UUID][]*Organization)
+	for i := range nodes {
+		if nodes[i].OwnerPrincipalID == nil {
+			continue
+		}
+		fk := *nodes[i].OwnerPrincipalID
+		if _, ok := nodeids[fk]; !ok {
+			ids = append(ids, fk)
+		}
+		nodeids[fk] = append(nodeids[fk], nodes[i])
+	}
+	if len(ids) == 0 {
+		return nil
+	}
+	query.Where(principal.IDIn(ids...))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		nodes, ok := nodeids[n.ID]
+		if !ok {
+			return fmt.Errorf(`unexpected foreign-key "owner_principal_id" returned %v`, n.ID)
+		}
+		for i := range nodes {
+			assign(nodes[i], n)
+		}
+	}
+	return nil
+}
+func (_q *OrganizationQuery) loadInvites(ctx context.Context, query *InviteQuery, nodes []*Organization, init func(*Organization), assign func(*Organization, *Invite)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[uuid.UUID]*Organization)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(invite.FieldOrganizationID)
+	}
+	query.Where(predicate.Invite(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(organization.InvitesColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.OrganizationID
+		node, ok := nodeids[fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "organization_id" returned %v for node %v`, fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
 
 func (_q *OrganizationQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := _q.querySpec()
@@ -685,6 +986,9 @@ func (_q *OrganizationQuery) querySpec() *sqlgraph.QuerySpec {
 			if fields[i] != organization.FieldID {
 				_spec.Node.Columns = append(_spec.Node.Columns, fields[i])
 			}
+		}
+		if _q.withOwner != nil {
+			_spec.Node.AddColumnOnce(organization.FieldOwnerPrincipalID)
 		}
 	}
 	if ps := _q.predicates; len(ps) > 0 {

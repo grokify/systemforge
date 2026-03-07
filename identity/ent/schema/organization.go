@@ -7,6 +7,7 @@ import (
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
+	"github.com/google/uuid"
 )
 
 // Organization holds the schema definition for the Organization entity.
@@ -37,9 +38,30 @@ func (Organization) Fields() []ent.Field {
 			NotEmpty().
 			Unique().
 			Comment("URL-safe identifier"),
+
+		// Organization type: personal (auto-created for users), team, or enterprise
+		field.Enum("org_type").
+			Values("personal", "team", "enterprise").
+			Default("team").
+			Comment("personal=user namespace, team=shared org, enterprise=large org"),
+
+		// Owner principal for personal orgs (the user who owns this namespace)
+		field.UUID("owner_principal_id", uuid.UUID{}).
+			Optional().
+			Nillable().
+			Comment("For personal orgs, the principal who owns this namespace"),
+
 		field.String("logo_url").
 			Optional().
 			Nillable(),
+		field.String("description").
+			Optional().
+			Nillable().
+			Comment("Organization description"),
+		field.String("website_url").
+			Optional().
+			Nillable().
+			Comment("Organization website"),
 		field.JSON("settings", map[string]any{}).
 			Optional().
 			Comment("App-specific configuration"),
@@ -60,6 +82,21 @@ func (Organization) Edges() []ent.Edge {
 		// OAuth 2.0 edges
 		edge.To("oauth_apps", OAuthApp.Type),
 		edge.To("service_accounts", ServiceAccount.Type),
+
+		// Principal-centric edges
+		edge.To("principals", Principal.Type),
+		edge.To("principal_memberships", PrincipalMembership.Type),
+
+		// Owner edge for personal orgs
+		edge.From("owner", Principal.Type).
+			Ref("owned_organizations").
+			Field("owner_principal_id").
+			Unique().
+			Comment("Owner principal for personal organizations"),
+
+		// Invites to this organization
+		edge.To("invites", Invite.Type).
+			Comment("Pending invitations to join this organization"),
 	}
 }
 
@@ -69,5 +106,8 @@ func (Organization) Indexes() []ent.Index {
 		index.Fields("slug").
 			Unique(),
 		index.Fields("active"),
+		index.Fields("org_type"),
+		index.Fields("owner_principal_id"),
+		index.Fields("org_type", "active"),
 	}
 }

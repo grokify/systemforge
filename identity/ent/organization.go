@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/google/uuid"
 	"github.com/grokify/coreforge/identity/ent/organization"
+	"github.com/grokify/coreforge/identity/ent/principal"
 )
 
 // Organization is the model entity for the Organization schema.
@@ -27,8 +28,16 @@ type Organization struct {
 	Name string `json:"name,omitempty"`
 	// URL-safe identifier
 	Slug string `json:"slug,omitempty"`
+	// personal=user namespace, team=shared org, enterprise=large org
+	OrgType organization.OrgType `json:"org_type,omitempty"`
+	// For personal orgs, the principal who owns this namespace
+	OwnerPrincipalID *uuid.UUID `json:"owner_principal_id,omitempty"`
 	// LogoURL holds the value of the "logo_url" field.
 	LogoURL *string `json:"logo_url,omitempty"`
+	// Organization description
+	Description *string `json:"description,omitempty"`
+	// Organization website
+	WebsiteURL *string `json:"website_url,omitempty"`
 	// App-specific configuration
 	Settings map[string]interface{} `json:"settings,omitempty"`
 	// Plan holds the value of the "plan" field.
@@ -51,9 +60,17 @@ type OrganizationEdges struct {
 	OauthApps []*OAuthApp `json:"oauth_apps,omitempty"`
 	// ServiceAccounts holds the value of the service_accounts edge.
 	ServiceAccounts []*ServiceAccount `json:"service_accounts,omitempty"`
+	// Principals holds the value of the principals edge.
+	Principals []*Principal `json:"principals,omitempty"`
+	// PrincipalMemberships holds the value of the principal_memberships edge.
+	PrincipalMemberships []*PrincipalMembership `json:"principal_memberships,omitempty"`
+	// Owner principal for personal organizations
+	Owner *Principal `json:"owner,omitempty"`
+	// Pending invitations to join this organization
+	Invites []*Invite `json:"invites,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [4]bool
+	loadedTypes [8]bool
 }
 
 // MembershipsOrErr returns the Memberships value or an error if the edge
@@ -92,16 +109,56 @@ func (e OrganizationEdges) ServiceAccountsOrErr() ([]*ServiceAccount, error) {
 	return nil, &NotLoadedError{edge: "service_accounts"}
 }
 
+// PrincipalsOrErr returns the Principals value or an error if the edge
+// was not loaded in eager-loading.
+func (e OrganizationEdges) PrincipalsOrErr() ([]*Principal, error) {
+	if e.loadedTypes[4] {
+		return e.Principals, nil
+	}
+	return nil, &NotLoadedError{edge: "principals"}
+}
+
+// PrincipalMembershipsOrErr returns the PrincipalMemberships value or an error if the edge
+// was not loaded in eager-loading.
+func (e OrganizationEdges) PrincipalMembershipsOrErr() ([]*PrincipalMembership, error) {
+	if e.loadedTypes[5] {
+		return e.PrincipalMemberships, nil
+	}
+	return nil, &NotLoadedError{edge: "principal_memberships"}
+}
+
+// OwnerOrErr returns the Owner value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e OrganizationEdges) OwnerOrErr() (*Principal, error) {
+	if e.Owner != nil {
+		return e.Owner, nil
+	} else if e.loadedTypes[6] {
+		return nil, &NotFoundError{label: principal.Label}
+	}
+	return nil, &NotLoadedError{edge: "owner"}
+}
+
+// InvitesOrErr returns the Invites value or an error if the edge
+// was not loaded in eager-loading.
+func (e OrganizationEdges) InvitesOrErr() ([]*Invite, error) {
+	if e.loadedTypes[7] {
+		return e.Invites, nil
+	}
+	return nil, &NotLoadedError{edge: "invites"}
+}
+
 // scanValues returns the types for scanning values from sql.Rows.
 func (*Organization) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case organization.FieldOwnerPrincipalID:
+			values[i] = &sql.NullScanner{S: new(uuid.UUID)}
 		case organization.FieldSettings:
 			values[i] = new([]byte)
 		case organization.FieldActive:
 			values[i] = new(sql.NullBool)
-		case organization.FieldName, organization.FieldSlug, organization.FieldLogoURL, organization.FieldPlan:
+		case organization.FieldName, organization.FieldSlug, organization.FieldOrgType, organization.FieldLogoURL, organization.FieldDescription, organization.FieldWebsiteURL, organization.FieldPlan:
 			values[i] = new(sql.NullString)
 		case organization.FieldCreatedAt, organization.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -152,12 +209,39 @@ func (_m *Organization) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.Slug = value.String
 			}
+		case organization.FieldOrgType:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field org_type", values[i])
+			} else if value.Valid {
+				_m.OrgType = organization.OrgType(value.String)
+			}
+		case organization.FieldOwnerPrincipalID:
+			if value, ok := values[i].(*sql.NullScanner); !ok {
+				return fmt.Errorf("unexpected type %T for field owner_principal_id", values[i])
+			} else if value.Valid {
+				_m.OwnerPrincipalID = new(uuid.UUID)
+				*_m.OwnerPrincipalID = *value.S.(*uuid.UUID)
+			}
 		case organization.FieldLogoURL:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field logo_url", values[i])
 			} else if value.Valid {
 				_m.LogoURL = new(string)
 				*_m.LogoURL = value.String
+			}
+		case organization.FieldDescription:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field description", values[i])
+			} else if value.Valid {
+				_m.Description = new(string)
+				*_m.Description = value.String
+			}
+		case organization.FieldWebsiteURL:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field website_url", values[i])
+			} else if value.Valid {
+				_m.WebsiteURL = new(string)
+				*_m.WebsiteURL = value.String
 			}
 		case organization.FieldSettings:
 			if value, ok := values[i].(*[]byte); !ok {
@@ -212,6 +296,26 @@ func (_m *Organization) QueryServiceAccounts() *ServiceAccountQuery {
 	return NewOrganizationClient(_m.config).QueryServiceAccounts(_m)
 }
 
+// QueryPrincipals queries the "principals" edge of the Organization entity.
+func (_m *Organization) QueryPrincipals() *PrincipalQuery {
+	return NewOrganizationClient(_m.config).QueryPrincipals(_m)
+}
+
+// QueryPrincipalMemberships queries the "principal_memberships" edge of the Organization entity.
+func (_m *Organization) QueryPrincipalMemberships() *PrincipalMembershipQuery {
+	return NewOrganizationClient(_m.config).QueryPrincipalMemberships(_m)
+}
+
+// QueryOwner queries the "owner" edge of the Organization entity.
+func (_m *Organization) QueryOwner() *PrincipalQuery {
+	return NewOrganizationClient(_m.config).QueryOwner(_m)
+}
+
+// QueryInvites queries the "invites" edge of the Organization entity.
+func (_m *Organization) QueryInvites() *InviteQuery {
+	return NewOrganizationClient(_m.config).QueryInvites(_m)
+}
+
 // Update returns a builder for updating this Organization.
 // Note that you need to call Organization.Unwrap() before calling this method if this Organization
 // was returned from a transaction, and the transaction was committed or rolled back.
@@ -247,8 +351,26 @@ func (_m *Organization) String() string {
 	builder.WriteString("slug=")
 	builder.WriteString(_m.Slug)
 	builder.WriteString(", ")
+	builder.WriteString("org_type=")
+	builder.WriteString(fmt.Sprintf("%v", _m.OrgType))
+	builder.WriteString(", ")
+	if v := _m.OwnerPrincipalID; v != nil {
+		builder.WriteString("owner_principal_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
 	if v := _m.LogoURL; v != nil {
 		builder.WriteString("logo_url=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.Description; v != nil {
+		builder.WriteString("description=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.WebsiteURL; v != nil {
+		builder.WriteString("website_url=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")

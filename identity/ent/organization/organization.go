@@ -24,8 +24,16 @@ const (
 	FieldName = "name"
 	// FieldSlug holds the string denoting the slug field in the database.
 	FieldSlug = "slug"
+	// FieldOrgType holds the string denoting the org_type field in the database.
+	FieldOrgType = "org_type"
+	// FieldOwnerPrincipalID holds the string denoting the owner_principal_id field in the database.
+	FieldOwnerPrincipalID = "owner_principal_id"
 	// FieldLogoURL holds the string denoting the logo_url field in the database.
 	FieldLogoURL = "logo_url"
+	// FieldDescription holds the string denoting the description field in the database.
+	FieldDescription = "description"
+	// FieldWebsiteURL holds the string denoting the website_url field in the database.
+	FieldWebsiteURL = "website_url"
 	// FieldSettings holds the string denoting the settings field in the database.
 	FieldSettings = "settings"
 	// FieldPlan holds the string denoting the plan field in the database.
@@ -40,6 +48,14 @@ const (
 	EdgeOauthApps = "oauth_apps"
 	// EdgeServiceAccounts holds the string denoting the service_accounts edge name in mutations.
 	EdgeServiceAccounts = "service_accounts"
+	// EdgePrincipals holds the string denoting the principals edge name in mutations.
+	EdgePrincipals = "principals"
+	// EdgePrincipalMemberships holds the string denoting the principal_memberships edge name in mutations.
+	EdgePrincipalMemberships = "principal_memberships"
+	// EdgeOwner holds the string denoting the owner edge name in mutations.
+	EdgeOwner = "owner"
+	// EdgeInvites holds the string denoting the invites edge name in mutations.
+	EdgeInvites = "invites"
 	// Table holds the table name of the organization in the database.
 	Table = "cf_organizations"
 	// MembershipsTable is the table that holds the memberships relation/edge.
@@ -70,6 +86,34 @@ const (
 	ServiceAccountsInverseTable = "cf_service_accounts"
 	// ServiceAccountsColumn is the table column denoting the service_accounts relation/edge.
 	ServiceAccountsColumn = "organization_id"
+	// PrincipalsTable is the table that holds the principals relation/edge.
+	PrincipalsTable = "cf_principals"
+	// PrincipalsInverseTable is the table name for the Principal entity.
+	// It exists in this package in order to avoid circular dependency with the "principal" package.
+	PrincipalsInverseTable = "cf_principals"
+	// PrincipalsColumn is the table column denoting the principals relation/edge.
+	PrincipalsColumn = "organization_id"
+	// PrincipalMembershipsTable is the table that holds the principal_memberships relation/edge.
+	PrincipalMembershipsTable = "cf_principal_memberships"
+	// PrincipalMembershipsInverseTable is the table name for the PrincipalMembership entity.
+	// It exists in this package in order to avoid circular dependency with the "principalmembership" package.
+	PrincipalMembershipsInverseTable = "cf_principal_memberships"
+	// PrincipalMembershipsColumn is the table column denoting the principal_memberships relation/edge.
+	PrincipalMembershipsColumn = "organization_id"
+	// OwnerTable is the table that holds the owner relation/edge.
+	OwnerTable = "cf_organizations"
+	// OwnerInverseTable is the table name for the Principal entity.
+	// It exists in this package in order to avoid circular dependency with the "principal" package.
+	OwnerInverseTable = "cf_principals"
+	// OwnerColumn is the table column denoting the owner relation/edge.
+	OwnerColumn = "owner_principal_id"
+	// InvitesTable is the table that holds the invites relation/edge.
+	InvitesTable = "cf_invites"
+	// InvitesInverseTable is the table name for the Invite entity.
+	// It exists in this package in order to avoid circular dependency with the "invite" package.
+	InvitesInverseTable = "cf_invites"
+	// InvitesColumn is the table column denoting the invites relation/edge.
+	InvitesColumn = "organization_id"
 )
 
 // Columns holds all SQL columns for organization fields.
@@ -79,7 +123,11 @@ var Columns = []string{
 	FieldUpdatedAt,
 	FieldName,
 	FieldSlug,
+	FieldOrgType,
+	FieldOwnerPrincipalID,
 	FieldLogoURL,
+	FieldDescription,
+	FieldWebsiteURL,
 	FieldSettings,
 	FieldPlan,
 	FieldActive,
@@ -111,6 +159,33 @@ var (
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() uuid.UUID
 )
+
+// OrgType defines the type for the "org_type" enum field.
+type OrgType string
+
+// OrgTypeTeam is the default value of the OrgType enum.
+const DefaultOrgType = OrgTypeTeam
+
+// OrgType values.
+const (
+	OrgTypePersonal   OrgType = "personal"
+	OrgTypeTeam       OrgType = "team"
+	OrgTypeEnterprise OrgType = "enterprise"
+)
+
+func (ot OrgType) String() string {
+	return string(ot)
+}
+
+// OrgTypeValidator is a validator for the "org_type" field enum values. It is called by the builders before save.
+func OrgTypeValidator(ot OrgType) error {
+	switch ot {
+	case OrgTypePersonal, OrgTypeTeam, OrgTypeEnterprise:
+		return nil
+	default:
+		return fmt.Errorf("organization: invalid enum value for org_type field: %q", ot)
+	}
+}
 
 // Plan defines the type for the "plan" enum field.
 type Plan string
@@ -168,9 +243,29 @@ func BySlug(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSlug, opts...).ToFunc()
 }
 
+// ByOrgType orders the results by the org_type field.
+func ByOrgType(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOrgType, opts...).ToFunc()
+}
+
+// ByOwnerPrincipalID orders the results by the owner_principal_id field.
+func ByOwnerPrincipalID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOwnerPrincipalID, opts...).ToFunc()
+}
+
 // ByLogoURL orders the results by the logo_url field.
 func ByLogoURL(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldLogoURL, opts...).ToFunc()
+}
+
+// ByDescription orders the results by the description field.
+func ByDescription(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDescription, opts...).ToFunc()
+}
+
+// ByWebsiteURL orders the results by the website_url field.
+func ByWebsiteURL(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldWebsiteURL, opts...).ToFunc()
 }
 
 // ByPlan orders the results by the plan field.
@@ -238,6 +333,55 @@ func ByServiceAccounts(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newServiceAccountsStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
+
+// ByPrincipalsCount orders the results by principals count.
+func ByPrincipalsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newPrincipalsStep(), opts...)
+	}
+}
+
+// ByPrincipals orders the results by principals terms.
+func ByPrincipals(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newPrincipalsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByPrincipalMembershipsCount orders the results by principal_memberships count.
+func ByPrincipalMembershipsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newPrincipalMembershipsStep(), opts...)
+	}
+}
+
+// ByPrincipalMemberships orders the results by principal_memberships terms.
+func ByPrincipalMemberships(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newPrincipalMembershipsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByOwnerField orders the results by owner field.
+func ByOwnerField(field string, opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newOwnerStep(), sql.OrderByField(field, opts...))
+	}
+}
+
+// ByInvitesCount orders the results by invites count.
+func ByInvitesCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newInvitesStep(), opts...)
+	}
+}
+
+// ByInvites orders the results by invites terms.
+func ByInvites(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newInvitesStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
 func newMembershipsStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
@@ -264,5 +408,33 @@ func newServiceAccountsStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(ServiceAccountsInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, ServiceAccountsTable, ServiceAccountsColumn),
+	)
+}
+func newPrincipalsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(PrincipalsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, PrincipalsTable, PrincipalsColumn),
+	)
+}
+func newPrincipalMembershipsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(PrincipalMembershipsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, PrincipalMembershipsTable, PrincipalMembershipsColumn),
+	)
+}
+func newOwnerStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(OwnerInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, true, OwnerTable, OwnerColumn),
+	)
+}
+func newInvitesStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(InvitesInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, InvitesTable, InvitesColumn),
 	)
 }
