@@ -30,3 +30,4 @@ Thumbs.db
 # identity/ent/*.go
 # !identity/ent/generate.go
 # !identity/ent/schema/
+coreauth
