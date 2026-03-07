@@ -72,12 +72,11 @@ import (
 cfg := oauth.DefaultConfig("https://api.example.com", []byte("secret"))
 provider, _ := oauth.NewProvider(entClient, cfg)
 
-// Create handlers
-handler := oauth.NewHandler(provider)
+// Create API (all endpoints auto-registered)
+api, _ := oauth.NewAPI(provider)
 
-// Mount endpoints
-http.HandleFunc("/oauth/authorize", handler.AuthorizeEndpoint)
-http.HandleFunc("/oauth/token", handler.TokenEndpoint)
+// Mount router (includes all OAuth and discovery endpoints)
+http.Handle("/", api.Router())
 ```
 
 ## Security Features

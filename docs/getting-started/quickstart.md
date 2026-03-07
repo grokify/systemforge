@@ -42,19 +42,17 @@ func main() {
         log.Fatalf("failed to create provider: %v", err)
     }
 
-    // Create handlers
-    oauthHandler := oauth.NewHandler(provider)
+    // Create OAuth API (endpoints auto-registered)
+    oauthAPI, err := oauth.NewAPI(provider)
+    if err != nil {
+        log.Fatalf("failed to create oauth api: %v", err)
+    }
 
-    // Register routes
-    http.HandleFunc("GET /oauth/authorize", oauthHandler.AuthorizeEndpoint)
-    http.HandleFunc("POST /oauth/authorize", oauthHandler.AuthorizeEndpoint)
-    http.HandleFunc("POST /oauth/token", oauthHandler.TokenEndpoint)
-    http.HandleFunc("POST /oauth/introspect", oauthHandler.IntrospectionEndpoint)
-    http.HandleFunc("POST /oauth/revoke", oauthHandler.RevocationEndpoint)
-    http.HandleFunc("GET /.well-known/openid-configuration", oauthHandler.WellKnownEndpoint)
+    // Mount OAuth router (includes all OAuth and discovery endpoints)
+    http.Handle("/", oauthAPI.Router())
 
     // Protected API endpoint
-    http.Handle("GET /api/me", oauthHandler.Middleware(http.HandlerFunc(meHandler)))
+    http.Handle("GET /api/me", oauthAPI.Middleware(http.HandlerFunc(meHandler)))
 
     log.Println("Server starting on :8080")
     log.Fatal(http.ListenAndServe(":8080", nil))

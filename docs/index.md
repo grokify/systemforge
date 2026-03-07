@@ -31,11 +31,12 @@ func main() {
     cfg := oauth.DefaultConfig("https://api.example.com", []byte("secret"))
     provider, _ := oauth.NewProvider(client, cfg)
 
-    // Use the provider for OAuth endpoints
-    handler := oauth.NewHandler(provider)
+    // Create OAuth API (Huma/Chi)
+    api, _ := oauth.NewAPI(provider)
 
-    http.HandleFunc("/oauth/authorize", handler.AuthorizeEndpoint)
-    http.HandleFunc("/oauth/token", handler.TokenEndpoint)
+    // Mount the API router
+    http.Handle("/", api.Router())
+    http.ListenAndServe(":8080", nil)
 }
 ```
 

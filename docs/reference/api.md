@@ -216,21 +216,23 @@ storage := provider.Storage()
 session := provider.Session("user-id")
 ```
 
-### OAuth Handler
+### OAuth API
 
 ```go
-handler := oauth.NewHandler(provider)
+// Create API with Huma/Chi router
+api, err := oauth.NewAPI(provider)
 
-// Endpoints
-http.HandleFunc("/oauth/authorize", handler.AuthorizeEndpoint)
-http.HandleFunc("/oauth/token", handler.TokenEndpoint)
-http.HandleFunc("/oauth/introspect", handler.IntrospectionEndpoint)
-http.HandleFunc("/oauth/revoke", handler.RevocationEndpoint)
-http.HandleFunc("/.well-known/openid-configuration", handler.WellKnownEndpoint)
-http.HandleFunc("/.well-known/jwks.json", handler.JWKSEndpoint)
+// Mount the router - all endpoints are automatically registered:
+// - /oauth/authorize (GET/POST)
+// - /oauth/token (POST)
+// - /oauth/introspect (POST)
+// - /oauth/revoke (POST)
+// - /.well-known/openid-configuration (GET)
+// - /.well-known/jwks.json (GET)
+http.Handle("/", api.Router())
 
-// Middleware
-protected := handler.Middleware(myHandler)
+// Middleware for protected routes
+protected := api.Middleware(myHandler)
 ```
 
 ### Context Helpers

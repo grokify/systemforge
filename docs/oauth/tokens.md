@@ -142,12 +142,12 @@ import "github.com/grokify/coreforge/identity/oauth"
 
 func main() {
     provider, _ := oauth.NewProvider(entClient, cfg)
-    handler := oauth.NewHandler(provider)
+    api, _ := oauth.NewAPI(provider)
 
     // Protected routes
     mux := http.NewServeMux()
     mux.Handle("/api/",
-        handler.Middleware(
+        api.Middleware(
             http.HandlerFunc(apiHandler),
         ),
     )

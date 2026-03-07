@@ -208,12 +208,11 @@ func setupAuth(entClient *ent.Client) {
     cfg := oauth.DefaultConfig("https://api.example.com", []byte("secret"))
     provider, _ := oauth.NewProvider(entClient, cfg)
 
-    // Create handler
-    handler := oauth.NewHandler(provider)
+    // Create OAuth API (endpoints auto-registered)
+    api, _ := oauth.NewAPI(provider)
 
-    // Add to existing router
-    router.HandleFunc("/oauth/authorize", handler.AuthorizeEndpoint)
-    router.HandleFunc("/oauth/token", handler.TokenEndpoint)
+    // Mount to existing router
+    router.Mount("/", api.Router())
 }
 ```
 
