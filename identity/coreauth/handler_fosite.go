@@ -192,6 +192,9 @@ func (s *Server) tokenEndpoint(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	logger := LoggerFromContext(ctx)
 
+	// Limit request body size to prevent memory exhaustion (1MB max for token requests)
+	r.Body = http.MaxBytesReader(w, r.Body, 1<<20)
+
 	// Create session (will be populated by the grant handler)
 	session := s.Session("")
 	grantType := r.FormValue("grant_type")

@@ -61,8 +61,8 @@ func TestRefresher_RefreshSession(t *testing.T) {
 			t.Errorf("Content-Type = %s, want application/x-www-form-urlencoded", r.Header.Get("Content-Type"))
 		}
 
-		// Parse form
-		if err := r.ParseForm(); err != nil {
+		// Parse form (test mock server, body size not a concern)
+		if err := r.ParseForm(); err != nil { //nolint:gosec // G120: Test mock server
 			t.Fatalf("ParseForm() error: %v", err)
 		}
 
@@ -76,6 +76,7 @@ func TestRefresher_RefreshSession(t *testing.T) {
 
 		// Return token response
 		w.Header().Set("Content-Type", "application/json")
+		//nolint:gosec // G117: Test mock OAuth token response
 		_ = json.NewEncoder(w).Encode(TokenResponse{
 			AccessToken:  "new-access-token",
 			TokenType:    "Bearer",
@@ -121,6 +122,7 @@ func TestRefresher_RefreshSession_WithDPoP(t *testing.T) {
 		receivedDPoP = r.Header.Get("DPoP")
 
 		w.Header().Set("Content-Type", "application/json")
+		//nolint:gosec // G117: Test mock OAuth token response
 		_ = json.NewEncoder(w).Encode(TokenResponse{
 			AccessToken: "dpop-bound-token",
 			TokenType:   "DPoP",
@@ -257,6 +259,7 @@ func TestRefresher_Middleware_TokenNeedsRefresh(t *testing.T) {
 	tokenServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		refreshCalled = true
 		w.Header().Set("Content-Type", "application/json")
+		//nolint:gosec // G117: Test mock OAuth token response
 		_ = json.NewEncoder(w).Encode(TokenResponse{
 			AccessToken: "refreshed-token",
 			TokenType:   "Bearer",
@@ -297,6 +300,7 @@ func TestRefresher_Middleware_TokenNeedsRefresh(t *testing.T) {
 func TestRefreshHandler_Success(t *testing.T) {
 	tokenServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
+		//nolint:gosec // G117: Test mock OAuth token response
 		_ = json.NewEncoder(w).Encode(TokenResponse{
 			AccessToken: "refreshed-token",
 			TokenType:   "Bearer",
@@ -444,6 +448,7 @@ func TestRefresher_OnRefreshSuccess(t *testing.T) {
 	successCalled := false
 	tokenServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
+		//nolint:gosec // G117: Test mock OAuth token response
 		_ = json.NewEncoder(w).Encode(TokenResponse{
 			AccessToken: "new-token",
 			TokenType:   "Bearer",

@@ -43,6 +43,7 @@ func (f *AttributeFilter) FilterUser(user *User) *User {
 	}
 
 	// Convert to map, filter, convert back
+	//nolint:gosec // G117: SCIM protocol requires password field serialization
 	data, err := json.Marshal(user)
 	if err != nil {
 		return user

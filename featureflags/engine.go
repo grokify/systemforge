@@ -163,7 +163,7 @@ func (e *Engine) evaluateFlag(flag *Flag, evalCtx *EvaluationContext) bool {
 func hashString(s string) uint32 {
 	var hash uint32
 	for _, c := range s {
-		hash = hash*31 + uint32(c)
+		hash = hash*31 + uint32(c) //nolint:gosec // G115: Safe for hash computation
 	}
 	return hash
 }

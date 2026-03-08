@@ -401,7 +401,7 @@ func TestTokenResponse(t *testing.T) {
 		Scope:        "openid profile",
 	}
 
-	data, err := json.Marshal(resp)
+	data, err := json.Marshal(resp) //nolint:gosec // G117: Testing OAuth token serialization
 	if err != nil {
 		t.Fatalf("failed to marshal token response: %v", err)
 	}

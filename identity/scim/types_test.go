@@ -37,7 +37,7 @@ func TestUserJSONMarshal(t *testing.T) {
 		},
 	}
 
-	data, err := json.Marshal(user)
+	data, err := json.Marshal(user) //nolint:gosec // G117: Testing SCIM user serialization
 	if err != nil {
 		t.Fatalf("failed to marshal user: %v", err)
 	}
@@ -195,7 +195,7 @@ func TestEnterpriseUserExtension(t *testing.T) {
 		},
 	}
 
-	data, err := json.Marshal(user)
+	data, err := json.Marshal(user) //nolint:gosec // G117: Testing SCIM user serialization
 	if err != nil {
 		t.Fatalf("failed to marshal user with enterprise extension: %v", err)
 	}

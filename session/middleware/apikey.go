@@ -163,6 +163,7 @@ func APIKeyMiddleware(config APIKeyMiddlewareConfig) func(http.Handler) http.Han
 			if config.RecordUsage {
 				ip := extractIP(r, config)
 				// Fire and forget - don't block the request
+				//nolint:gosec // G118: Background context intentional for fire-and-forget usage recording
 				go func() {
 					_ = config.Service.RecordUsage(context.Background(), validatedKey.ID, ip)
 				}()
@@ -329,6 +330,7 @@ func OptionalAPIKey(service *apikey.Service) func(http.Handler) http.Handler {
 			// Record usage
 			if config.RecordUsage {
 				ip := extractIP(r, config)
+				//nolint:gosec // G118: Background context intentional for fire-and-forget usage recording
 				go func() {
 					_ = config.Service.RecordUsage(context.Background(), validatedKey.ID, ip)
 				}()
