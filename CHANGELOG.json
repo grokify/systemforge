@@ -7,6 +7,42 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.2.0",
+      "date": "2026-03-08",
+      "highlights": [
+        { "description": "SpiceDB authorization provider for Zanzibar-style relationship-based access control (ReBAC)" },
+        { "description": "Principal-based identity model supporting humans, agents, applications, and service principals" },
+        { "description": "SCIM 2.0 user provisioning with CoreForge-compliant patch operations" },
+        { "description": "Identity-authorization sync automatically maintains SpiceDB relationships on identity changes" }
+      ],
+      "added": [
+        { "description": "SpiceDB authorization provider with embedded and remote modes", "commit": "a7d4f61" },
+        { "description": "Principal identity model with type-specific extensions (Human, Agent, Application, ServicePrincipal)", "commit": "0deab0a" },
+        { "description": "GitHub-style organization system with owner, admin, member roles", "commit": "b3471b6" },
+        { "description": "SCIM 2.0 user provisioning endpoints with filter, patch, and bulk operations", "commit": "1f78ff0" },
+        { "description": "Coreauth authentication server with Fosite-based OAuth 2.0", "commit": "d46d626" },
+        { "description": "Credential and token management service for principals", "commit": "a3b02b2" },
+        { "description": "Standardized API contract module with consistent error handling", "commit": "55be5d3" },
+        { "description": "Coreauth CLI for server and key management operations", "commit": "803d5b1" },
+        { "description": "User schema extended with profile fields (locale, timezone, avatar)", "commit": "a303ca5" },
+        { "description": "RelationshipSyncer interface for identity-authorization integration", "commit": "963b3d3" },
+        { "description": "No-op syncer for deployments without SpiceDB", "commit": "963b3d3" },
+        { "description": "SpiceDB integration tests with embedded server", "commit": "be09d6c" }
+      ],
+      "changed": [
+        { "description": "OAuth 2.0 implementation refactored for principal-based identity", "commit": "ffff607" }
+      ],
+      "removed": [
+        { "description": "Casbin authorization provider (replaced by SpiceDB)", "commit": "dde3392" }
+      ],
+      "documentation": [
+        { "description": "SpiceDB setup guide for embedded and remote modes", "commit": "a7d4f61" },
+        { "description": "SpiceDB schema reference with permission inheritance model", "commit": "a7d4f61" },
+        { "description": "Authorization integration patterns and middleware examples", "commit": "963b3d3" },
+        { "description": "Updated module documentation for v0.2.0", "commit": "8436f16" }
+      ]
+    },
+    {
       "version": "v0.1.0",
       "date": "2026-02-28",
       "highlights": [
