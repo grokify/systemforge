@@ -10,13 +10,9 @@
       
       
       
-        <link rel="canonical" href="https://grokify.github.io/coreforge/design/PRD_OAUTH/">
+        <link rel="canonical" href="https://grokify.github.io/coreforge/design/FEAT_SCIM2_TASKS/">
       
       
-        <link rel="prev" href="../PRD_AUTHN/">
-      
-      
-        <link rel="next" href="../TRD_AUTHN/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +20,7 @@
     
     
       
-        <title>OAuth PRD - CoreForge</title>
+        <title>SCIM 2.0 Implementation Tasks - CoreForge</title>
       
     
     
@@ -76,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#coreforge-oauth-20-server-product-requirements-document" class="md-skip">
+        <a href="#scim-20-implementation-tasks" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              OAuth PRD
+              SCIM 2.0 Implementation Tasks
             
           </span>
         </div>
@@ -318,13 +314,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../PRD_AUTHN/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../PRD_AUTHN.md" class="md-tabs__link">
           
   
   
@@ -1023,31 +1017,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -1060,7 +1051,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Design
@@ -1074,7 +1065,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../PRD_AUTHN/" class="md-nav__link">
+      <a href="../PRD_AUTHN.md" class="md-nav__link">
         
   
   
@@ -1094,32 +1085,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    OAuth PRD
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../PRD_OAUTH.md" class="md-nav__link">
         
   
   
@@ -1130,269 +1099,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      Overview
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#goals" class="md-nav__link">
-    <span class="md-ellipsis">
-      Goals
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#user-personas" class="md-nav__link">
-    <span class="md-ellipsis">
-      User Personas
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="User Personas">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-platform-developer-first-party" class="md-nav__link">
-    <span class="md-ellipsis">
-      1. Platform Developer (First-Party)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-integration-developer-third-party" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. Integration Developer (Third-Party)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-devopsautomation-engineer" class="md-nav__link">
-    <span class="md-ellipsis">
-      3. DevOps/Automation Engineer
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-platform-administrator" class="md-nav__link">
-    <span class="md-ellipsis">
-      4. Platform Administrator
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    <span class="md-ellipsis">
-      Features
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Features">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#f1-oauth-app-management" class="md-nav__link">
-    <span class="md-ellipsis">
-      F1: OAuth App Management
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f2-service-accounts" class="md-nav__link">
-    <span class="md-ellipsis">
-      F2: Service Accounts
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f3-oauth-20-grants" class="md-nav__link">
-    <span class="md-ellipsis">
-      F3: OAuth 2.0 Grants
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f4-token-management" class="md-nav__link">
-    <span class="md-ellipsis">
-      F4: Token Management
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f5-openid-connect" class="md-nav__link">
-    <span class="md-ellipsis">
-      F5: OpenID Connect
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f6-scopes" class="md-nav__link">
-    <span class="md-ellipsis">
-      F6: Scopes
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f7-security" class="md-nav__link">
-    <span class="md-ellipsis">
-      F7: Security
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#user-flows" class="md-nav__link">
-    <span class="md-ellipsis">
-      User Flows
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="User Flows">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#flow-1-developer-creates-oauth-app" class="md-nav__link">
-    <span class="md-ellipsis">
-      Flow 1: Developer Creates OAuth App
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#flow-2-spa-user-login-authorization-code-pkce" class="md-nav__link">
-    <span class="md-ellipsis">
-      Flow 2: SPA User Login (Authorization Code + PKCE)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#flow-3-service-account-access-jwt-bearer" class="md-nav__link">
-    <span class="md-ellipsis">
-      Flow 3: Service Account Access (JWT Bearer)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#flow-4-third-party-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Flow 4: Third-Party Integration
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#success-metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      Success Metrics
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#non-goals-v1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Non-Goals (v1)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#timeline" class="md-nav__link">
-    <span class="md-ellipsis">
-      Timeline
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#open-questions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Open Questions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#appendix-scope-definitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Appendix: Scope Definitions
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1405,7 +1111,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TRD_AUTHN/" class="md-nav__link">
+      <a href="../TRD_AUTHN.md" class="md-nav__link">
         
   
   
@@ -1428,7 +1134,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TRD_OAUTH/" class="md-nav__link">
+      <a href="../TRD_OAUTH.md" class="md-nav__link">
         
   
   
@@ -1451,7 +1157,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TRD_TASKS/" class="md-nav__link">
+      <a href="../TRD_TASKS.md" class="md-nav__link">
         
   
   
@@ -1674,64 +1380,100 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#completed-tasks" class="md-nav__link">
     <span class="md-ellipsis">
-      Overview
+      Completed Tasks
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#goals" class="md-nav__link">
-    <span class="md-ellipsis">
-      Goals
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#user-personas" class="md-nav__link">
-    <span class="md-ellipsis">
-      User Personas
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="User Personas">
+    <nav class="md-nav" aria-label="Completed Tasks">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-platform-developer-first-party" class="md-nav__link">
+  <a href="#1-ent-store-implementation" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Platform Developer (First-Party)
+      1. Ent Store Implementation
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-integration-developer-third-party" class="md-nav__link">
+  <a href="#2-mapper-tests" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Integration Developer (Third-Party)
+      2. Mapper Tests
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-devopsautomation-engineer" class="md-nav__link">
+  <a href="#3-integration-tests" class="md-nav__link">
     <span class="md-ellipsis">
-      3. DevOps/Automation Engineer
+      3. Integration Tests
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-platform-administrator" class="md-nav__link">
+  <a href="#4-authorization-hook-implementation" class="md-nav__link">
     <span class="md-ellipsis">
-      4. Platform Administrator
+      4. Authorization Hook Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-bulk-operations-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Bulk Operations Fix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-filter-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Filter Enhancements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-attribute-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Attribute Filtering
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-post-search-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. POST /.search Endpoint
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-bulkid-cross-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. BulkId Cross-References
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-password-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Password Operations
     </span>
   </a>
   
@@ -1739,180 +1481,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    <span class="md-ellipsis">
-      Features
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Features">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#f1-oauth-app-management" class="md-nav__link">
-    <span class="md-ellipsis">
-      F1: OAuth App Management
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f2-service-accounts" class="md-nav__link">
-    <span class="md-ellipsis">
-      F2: Service Accounts
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f3-oauth-20-grants" class="md-nav__link">
-    <span class="md-ellipsis">
-      F3: OAuth 2.0 Grants
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f4-token-management" class="md-nav__link">
-    <span class="md-ellipsis">
-      F4: Token Management
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f5-openid-connect" class="md-nav__link">
-    <span class="md-ellipsis">
-      F5: OpenID Connect
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f6-scopes" class="md-nav__link">
-    <span class="md-ellipsis">
-      F6: Scopes
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f7-security" class="md-nav__link">
-    <span class="md-ellipsis">
-      F7: Security
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#user-flows" class="md-nav__link">
-    <span class="md-ellipsis">
-      User Flows
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="User Flows">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#flow-1-developer-creates-oauth-app" class="md-nav__link">
-    <span class="md-ellipsis">
-      Flow 1: Developer Creates OAuth App
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#flow-2-spa-user-login-authorization-code-pkce" class="md-nav__link">
-    <span class="md-ellipsis">
-      Flow 2: SPA User Login (Authorization Code + PKCE)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#flow-3-service-account-access-jwt-bearer" class="md-nav__link">
-    <span class="md-ellipsis">
-      Flow 3: Service Account Access (JWT Bearer)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#flow-4-third-party-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Flow 4: Third-Party Integration
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#success-metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      Success Metrics
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#non-goals-v1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Non-Goals (v1)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#timeline" class="md-nav__link">
-    <span class="md-ellipsis">
-      Timeline
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#open-questions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Open Questions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#appendix-scope-definitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Appendix: Scope Definitions
-    </span>
-  </a>
   
 </li>
       
@@ -1935,321 +1503,83 @@
   
 
 
-<h1 id="coreforge-oauth-20-server-product-requirements-document">CoreForge OAuth 2.0 Server - Product Requirements Document<a class="headerlink" href="#coreforge-oauth-20-server-product-requirements-document" title="Permanent link">&para;</a></h1>
-<blockquote>
-<p><strong>Status</strong>: Implemented in v0.1.0</p>
-<p>This PRD defined the requirements for CoreForge OAuth 2.0 server. The features described below have been implemented in the following modules:</p>
+<h1 id="scim-20-implementation-tasks">SCIM 2.0 Implementation Tasks<a class="headerlink" href="#scim-20-implementation-tasks" title="Permanent link">&para;</a></h1>
+<h2 id="completed-tasks">Completed Tasks<a class="headerlink" href="#completed-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="1-ent-store-implementation">1. Ent Store Implementation<a class="headerlink" href="#1-ent-store-implementation" title="Permanent link">&para;</a></h3>
 <ul>
-<li><code>identity/oauth/</code> - OAuth 2.0 server with Fosite</li>
-<li><code>identity/ent/schema/</code> - OAuth-related Ent schemas (oauth_app, oauth_token, service_account, etc.)</li>
+<li>[x] Create <code>identity/scim/store/ent.go</code> - Concrete Store implementation using Ent</li>
+<li>[x] Implement user operations (GetUserByID, ListUsers, CreateUser, UpdateUser, DeleteUser)</li>
+<li>[x] Implement group operations (GetGroupByID, ListGroups, CreateGroup, UpdateGroup, DeleteGroup)</li>
+<li>[x] Implement membership operations (GetGroupsForUser, GetMembersForGroup, AddMemberToGroup, RemoveMemberFromGroup)</li>
+<li>[x] Add filter-to-Ent predicate translation for ListUsers/ListGroups</li>
 </ul>
-<p><strong>Implemented Grants:</strong>
-- Authorization Code + PKCE
-- Client Credentials
-- Refresh Token with rotation
-- JWT Bearer (RFC 7523)</p>
-</blockquote>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>CoreForge OAuth Server provides a complete OAuth 2.0 and OpenID Connect implementation for multi-tenant SaaS applications. It enables first-party applications (SPAs, mobile apps) and third-party integrations to securely access APIs.</p>
-<h2 id="goals">Goals<a class="headerlink" href="#goals" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>Developer Self-Service</strong>: Developers can create OAuth apps and service accounts without admin intervention</li>
-<li><strong>Security First</strong>: Implement modern OAuth 2.0 best practices (PKCE, token rotation, short-lived tokens)</li>
-<li><strong>Multi-Tenant</strong>: OAuth apps can be scoped to organizations or platform-wide</li>
-<li><strong>Batteries Included</strong>: Works out of the box with sensible defaults</li>
-</ol>
-<h2 id="user-personas">User Personas<a class="headerlink" href="#user-personas" title="Permanent link">&para;</a></h2>
-<h3 id="1-platform-developer-first-party">1. Platform Developer (First-Party)<a class="headerlink" href="#1-platform-developer-first-party" title="Permanent link">&para;</a></h3>
+<h3 id="2-mapper-tests">2. Mapper Tests<a class="headerlink" href="#2-mapper-tests" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Building the React SPA frontend</li>
-<li>Needs secure authentication without exposing tokens to JavaScript</li>
-<li>Uses BFF pattern or Authorization Code + PKCE</li>
+<li>[x] Create <code>identity/scim/mapper/user_test.go</code> - Tests for User mapper</li>
+<li>[x] Create <code>identity/scim/mapper/group_test.go</code> - Tests for Group mapper</li>
+<li>[x] Create <code>identity/scim/mapper/extension_test.go</code> - Tests for Enterprise extension mapper</li>
 </ul>
-<h3 id="2-integration-developer-third-party">2. Integration Developer (Third-Party)<a class="headerlink" href="#2-integration-developer-third-party" title="Permanent link">&para;</a></h3>
+<h3 id="3-integration-tests">3. Integration Tests<a class="headerlink" href="#3-integration-tests" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Building integrations with the platform</li>
-<li>Creates OAuth apps to get client credentials</li>
-<li>Uses Authorization Code flow for user-context or Client Credentials for service-context</li>
+<li>[x] Create <code>identity/scim/scim_test.go</code> - Integration tests with mock store</li>
+<li>[x] Test full CRUD workflows for Users</li>
+<li>[x] Test full CRUD workflows for Groups</li>
+<li>[x] Test filter queries</li>
+<li>[x] Test PATCH operations</li>
+<li>[x] Test bulk operations (endpoint accessibility)</li>
 </ul>
-<h3 id="3-devopsautomation-engineer">3. DevOps/Automation Engineer<a class="headerlink" href="#3-devopsautomation-engineer" title="Permanent link">&para;</a></h3>
+<h3 id="4-authorization-hook-implementation">4. Authorization Hook Implementation<a class="headerlink" href="#4-authorization-hook-implementation" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Running CI/CD pipelines, cron jobs, scripts</li>
-<li>Creates service accounts with key pairs</li>
-<li>Uses JWT Bearer grant for secure, keyless authentication</li>
+<li>[x] Create <code>identity/scim/auth.go</code> - Authorization hook using CoreForge's permission system</li>
+<li>[x] Implement scope-based authorization (scim:users:read, scim:users:write, etc.)</li>
+<li>[x] Integrate with OAuth token scopes from context</li>
+<li>[x] Add role-based authorization hook as alternative</li>
+<li>[x] Add composite authorization hook for combining multiple hooks</li>
 </ul>
-<h3 id="4-platform-administrator">4. Platform Administrator<a class="headerlink" href="#4-platform-administrator" title="Permanent link">&para;</a></h3>
+<h3 id="5-bulk-operations-fix">5. Bulk Operations Fix<a class="headerlink" href="#5-bulk-operations-fix" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Manages OAuth apps and service accounts across the platform</li>
-<li>Reviews API access and usage</li>
-<li>Revokes compromised credentials</li>
+<li>[x] Fix JSON unmarshaling for bulk operation data (map[string]any → typed structs)</li>
+<li>[x] Add convertToUser, convertToGroup, convertToPatchRequest helper functions</li>
+<li>[x] Add comprehensive bulk operation tests (create user, create group, multiple operations, validation errors)</li>
 </ul>
-<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
-<h3 id="f1-oauth-app-management">F1: OAuth App Management<a class="headerlink" href="#f1-oauth-app-management" title="Permanent link">&para;</a></h3>
-<p><strong>F1.1: Create OAuth App</strong>
-- Developer provides: name, description, redirect URIs, app type
-- System generates: client_id, client_secret
-- App types: <code>web</code> (confidential), <code>spa</code> (public), <code>native</code> (public), <code>service</code> (confidential)</p>
-<p><strong>F1.2: App Settings</strong>
-- Allowed grant types (based on app type)
-- Allowed scopes
-- Token lifetimes (access, refresh)
-- Redirect URI validation (exact match or wildcard for subdomains)</p>
-<p><strong>F1.3: Secret Management</strong>
-- Rotate client secret (generates new, old valid for grace period)
-- View secret only at creation (hashed storage)
-- Multiple active secrets during rotation</p>
-<p><strong>F1.4: Organization Scoping</strong>
-- Apps can be organization-scoped (only org members can authorize)
-- Apps can be platform-wide (any user can authorize)</p>
-<h3 id="f2-service-accounts">F2: Service Accounts<a class="headerlink" href="#f2-service-accounts" title="Permanent link">&para;</a></h3>
-<p><strong>F2.1: Create Service Account</strong>
-- Name, description, scopes
-- No human user - represents a service/automation
-- Tied to an organization or platform-wide</p>
-<p><strong>F2.2: Key Pair Management</strong>
-- Generate RSA or EC key pairs
-- Download private key (shown once)
-- Public key stored for JWT verification
-- Multiple keys for rotation (max 10)
-- Key expiration dates</p>
-<p><strong>F2.3: Impersonation (Optional)</strong>
-- Service account can impersonate users (with admin grant)
-- Useful for admin tools, migrations</p>
-<h3 id="f3-oauth-20-grants">F3: OAuth 2.0 Grants<a class="headerlink" href="#f3-oauth-20-grants" title="Permanent link">&para;</a></h3>
-<p><strong>F3.1: Authorization Code + PKCE</strong>
-- Required for all public clients (SPAs, mobile, CLI)
-- Optional for confidential clients
-- S256 challenge method required</p>
-<p><strong>F3.2: Client Credentials</strong>
-- For confidential clients only
-- No user context - service-to-service
-- Scopes limited to what app is granted</p>
-<p><strong>F3.3: Refresh Token</strong>
-- Rotation on use (new refresh token each time)
-- Absolute expiration (max lifetime)
-- Revocation on reuse (theft detection)</p>
-<p><strong>F3.4: JWT Bearer (RFC 7523)</strong>
-- For service accounts
-- Client creates signed JWT assertion
-- Server verifies signature with stored public key
-- Short-lived assertions (max 1 hour)</p>
-<h3 id="f4-token-management">F4: Token Management<a class="headerlink" href="#f4-token-management" title="Permanent link">&para;</a></h3>
-<p><strong>F4.1: Access Tokens</strong>
-- JWT format with standard claims
-- Short-lived (15 minutes default)
-- Contains: sub, aud, scope, org_id, client_id</p>
-<p><strong>F4.2: Refresh Tokens</strong>
-- Opaque tokens (database lookup)
-- Longer-lived (7 days default, 90 days max)
-- Tied to client and user</p>
-<p><strong>F4.3: Token Introspection (RFC 7662)</strong>
-- Check if token is active
-- Get token metadata
-- For resource servers</p>
-<p><strong>F4.4: Token Revocation (RFC 7009)</strong>
-- Revoke access or refresh token
-- Revoke all tokens for user/client</p>
-<h3 id="f5-openid-connect">F5: OpenID Connect<a class="headerlink" href="#f5-openid-connect" title="Permanent link">&para;</a></h3>
-<p><strong>F5.1: Discovery</strong>
-- <code>/.well-known/openid-configuration</code>
-- Advertises supported features</p>
-<p><strong>F5.2: JWKS</strong>
-- <code>/.well-known/jwks.json</code>
-- Public keys for token verification</p>
-<p><strong>F5.3: UserInfo</strong>
-- <code>/oauth/userinfo</code>
-- Returns user profile based on scopes</p>
-<p><strong>F5.4: ID Tokens</strong>
-- JWT with user identity
-- Returned alongside access token
-- Standard OIDC claims</p>
-<h3 id="f6-scopes">F6: Scopes<a class="headerlink" href="#f6-scopes" title="Permanent link">&para;</a></h3>
-<p><strong>F6.1: Standard Scopes</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>openid        - Required for OIDC
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>profile       - User profile (name, picture)
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>email         - User email
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>offline_access - Request refresh token
-</code></pre></div></p>
-<p><strong>F6.2: API Scopes</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>read:users         - Read user data
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>write:users        - Modify user data
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>read:organizations - Read org data
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>write:organizations - Modify org data
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>admin:*            - Full admin access
-</code></pre></div></p>
-<p><strong>F6.3: Scope Consent</strong>
-- First-party apps: auto-approve configured scopes
-- Third-party apps: user consent screen
-- Remember consent (don't ask again)</p>
-<h3 id="f7-security">F7: Security<a class="headerlink" href="#f7-security" title="Permanent link">&para;</a></h3>
-<p><strong>F7.1: Rate Limiting</strong>
-- Token endpoint: 100 req/min per client
-- Authorization endpoint: 20 req/min per IP
-- Failed auth lockout: 5 failures = 15 min lockout</p>
-<p><strong>F7.2: Audit Logging</strong>
-- All token grants logged
-- Failed attempts logged
-- Token revocations logged</p>
-<p><strong>F7.3: Threat Detection</strong>
-- Refresh token reuse detection
-- Unusual grant patterns
-- Geographic anomalies (optional)</p>
-<h2 id="user-flows">User Flows<a class="headerlink" href="#user-flows" title="Permanent link">&para;</a></h2>
-<h3 id="flow-1-developer-creates-oauth-app">Flow 1: Developer Creates OAuth App<a class="headerlink" href="#flow-1-developer-creates-oauth-app" title="Permanent link">&para;</a></h3>
-<ol>
-<li>Developer logs into Developer Portal</li>
-<li>Navigates to "OAuth Apps" → "Create App"</li>
-<li>Fills form: name, type (SPA), redirect URIs</li>
-<li>System generates client_id</li>
-<li>For confidential apps: shows client_secret once</li>
-<li>Developer copies credentials to their app config</li>
-</ol>
-<h3 id="flow-2-spa-user-login-authorization-code-pkce">Flow 2: SPA User Login (Authorization Code + PKCE)<a class="headerlink" href="#flow-2-spa-user-login-authorization-code-pkce" title="Permanent link">&para;</a></h3>
-<ol>
-<li>User clicks "Login" in React SPA</li>
-<li>SPA generates code_verifier and code_challenge</li>
-<li>SPA redirects to <code>/oauth/authorize?...&amp;code_challenge=xxx</code></li>
-<li>User sees login page, authenticates</li>
-<li>User sees consent screen (if third-party)</li>
-<li>CoreForge redirects to SPA with authorization code</li>
-<li>SPA exchanges code + code_verifier for tokens</li>
-<li>SPA stores access token, uses for API calls</li>
-</ol>
-<h3 id="flow-3-service-account-access-jwt-bearer">Flow 3: Service Account Access (JWT Bearer)<a class="headerlink" href="#flow-3-service-account-access-jwt-bearer" title="Permanent link">&para;</a></h3>
-<ol>
-<li>DevOps creates service account in portal</li>
-<li>Generates key pair, downloads private key</li>
-<li>CI/CD pipeline creates JWT signed with private key</li>
-<li>Pipeline calls <code>/oauth/token</code> with JWT assertion</li>
-<li>CoreForge verifies signature, issues access token</li>
-<li>Pipeline uses access token for API calls</li>
-</ol>
-<h3 id="flow-4-third-party-integration">Flow 4: Third-Party Integration<a class="headerlink" href="#flow-4-third-party-integration" title="Permanent link">&para;</a></h3>
-<ol>
-<li>Third-party developer creates OAuth app</li>
-<li>Their users click "Connect to [Platform]"</li>
-<li>User authorizes access on consent screen</li>
-<li>Third-party receives tokens</li>
-<li>Third-party stores refresh token, uses access token</li>
-<li>Third-party refreshes tokens as needed</li>
-</ol>
-<h2 id="success-metrics">Success Metrics<a class="headerlink" href="#success-metrics" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>Adoption</strong>: Number of OAuth apps created</li>
-<li><strong>Security</strong>: Zero token leaks, low failed auth rate</li>
-<li><strong>Reliability</strong>: Token endpoint 99.9% uptime</li>
-<li><strong>Performance</strong>: Token issuance &lt; 100ms p99</li>
-<li><strong>Developer Experience</strong>: &lt; 30 min to first successful API call</li>
-</ol>
-<h2 id="non-goals-v1">Non-Goals (v1)<a class="headerlink" href="#non-goals-v1" title="Permanent link">&para;</a></h2>
+<h3 id="6-filter-enhancements">6. Filter Enhancements<a class="headerlink" href="#6-filter-enhancements" title="Permanent link">&para;</a></h3>
 <ul>
-<li>SAML support</li>
-<li>Social login providers (handled separately)</li>
-<li>Fine-grained consent (scope-by-scope)</li>
-<li>Dynamic client registration (RFC 7591)</li>
-<li>Pushed Authorization Requests (RFC 9126)</li>
+<li>[x] Add ID filter support for users (id eq "uuid")</li>
+<li>[x] Add ID filter support for groups (id eq "uuid")</li>
+<li>[x] Add filter query tests to integration tests (userName, displayName, active, logical operators)</li>
 </ul>
-<h2 id="timeline">Timeline<a class="headerlink" href="#timeline" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Phase</th>
-<th>Features</th>
-<th>Target</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Phase 1</td>
-<td>OAuth App CRUD, Client Credentials, PKCE</td>
-<td>Week 1-2</td>
-</tr>
-<tr>
-<td>Phase 2</td>
-<td>Service Accounts, JWT Bearer</td>
-<td>Week 3</td>
-</tr>
-<tr>
-<td>Phase 3</td>
-<td>OpenID Connect, Discovery</td>
-<td>Week 4</td>
-</tr>
-<tr>
-<td>Phase 4</td>
-<td>Consent UI, Third-party flows</td>
-<td>Week 5</td>
-</tr>
-<tr>
-<td>Phase 5</td>
-<td>Audit logging, Rate limiting</td>
-<td>Week 6</td>
-</tr>
-</tbody>
-</table>
-<h2 id="open-questions">Open Questions<a class="headerlink" href="#open-questions" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Should we support PAR (Pushed Authorization Requests) for enhanced security?</li>
-<li>Should service accounts support organization impersonation?</li>
-<li>What's the maximum number of OAuth apps per organization?</li>
-<li>Should we implement DPoP for access tokens (beyond BFF)?</li>
-</ol>
-<h2 id="appendix-scope-definitions">Appendix: Scope Definitions<a class="headerlink" href="#appendix-scope-definitions" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Scope</th>
-<th>Description</th>
-<th>Grants Access To</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>openid</code></td>
-<td>OpenID Connect</td>
-<td>ID token</td>
-</tr>
-<tr>
-<td><code>profile</code></td>
-<td>Basic profile</td>
-<td>name, picture, locale</td>
-</tr>
-<tr>
-<td><code>email</code></td>
-<td>Email address</td>
-<td>email, email_verified</td>
-</tr>
-<tr>
-<td><code>offline_access</code></td>
-<td>Refresh tokens</td>
-<td>refresh_token in response</td>
-</tr>
-<tr>
-<td><code>read:users</code></td>
-<td>Read users</td>
-<td>GET /api/v1/users/*</td>
-</tr>
-<tr>
-<td><code>write:users</code></td>
-<td>Write users</td>
-<td>POST/PATCH/DELETE /api/v1/users/*</td>
-</tr>
-<tr>
-<td><code>read:courses</code></td>
-<td>Read courses</td>
-<td>GET /api/v1/courses/*</td>
-</tr>
-<tr>
-<td><code>write:courses</code></td>
-<td>Write courses</td>
-<td>POST/PATCH/DELETE /api/v1/courses/*</td>
-</tr>
-<tr>
-<td><code>admin:*</code></td>
-<td>Full admin</td>
-<td>All endpoints</td>
-</tr>
-</tbody>
-</table>
+<h3 id="7-attribute-filtering">7. Attribute Filtering<a class="headerlink" href="#7-attribute-filtering" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[x] Create <code>identity/scim/attributes.go</code> - Attribute filtering logic</li>
+<li>[x] Implement <code>attributes</code> query parameter support (include only specified attributes)</li>
+<li>[x] Implement <code>excludedAttributes</code> query parameter support (exclude specified attributes)</li>
+<li>[x] Apply attribute filtering to single resource and list responses</li>
+<li>[x] Always include required fields (schemas, id, meta) regardless of filtering</li>
+</ul>
+<h3 id="8-post-search-endpoint">8. POST /.search Endpoint<a class="headerlink" href="#8-post-search-endpoint" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[x] Add <code>SearchRequest</code> type for search request body</li>
+<li>[x] Implement <code>UsersSearchEndpoint</code> for POST /Users/.search</li>
+<li>[x] Implement <code>GroupsSearchEndpoint</code> for POST /Groups/.search</li>
+<li>[x] Support filter, attributes, excludedAttributes, sortBy, sortOrder, startIndex, count in search body</li>
+</ul>
+<h3 id="9-bulkid-cross-references">9. BulkId Cross-References<a class="headerlink" href="#9-bulkid-cross-references" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[x] Track bulkId → resourceID mappings during bulk processing</li>
+<li>[x] Resolve <code>bulkId:xxx</code> references in operation paths (e.g., /Groups/bulkId:group1)</li>
+<li>[x] Resolve <code>bulkId:xxx</code> references in operation data (e.g., member values)</li>
+<li>[x] Add extractResourceID helper to get created resource IDs</li>
+</ul>
+<h3 id="10-password-operations">10. Password Operations<a class="headerlink" href="#10-password-operations" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[x] Create <code>identity/scim/password.go</code> - Password hasher interface and implementations</li>
+<li>[x] Implement BcryptHasher for secure password hashing</li>
+<li>[x] Add PasswordHasher to Provider with WithPasswordHasher option</li>
+<li>[x] Hash passwords on user creation</li>
+<li>[x] Hash passwords on PATCH operations</li>
+<li>[x] Never return password hashes in responses</li>
+<li>[x] Add password PATCH support in applyUserAddReplace</li>
+</ul>
 
 
 

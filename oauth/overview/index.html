@@ -324,7 +324,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../design/PRD_AUTHN/" class="md-tabs__link">
+        <a href="../../design/PRD_AUTHN.md" class="md-tabs__link">
           
   
   
@@ -1230,7 +1230,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../design/PRD_AUTHN/" class="md-nav__link">
+      <a href="../../design/PRD_AUTHN.md" class="md-nav__link">
         
   
   
@@ -1253,7 +1253,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../design/PRD_OAUTH/" class="md-nav__link">
+      <a href="../../design/PRD_OAUTH.md" class="md-nav__link">
         
   
   
@@ -1276,7 +1276,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../design/TRD_AUTHN/" class="md-nav__link">
+      <a href="../../design/TRD_AUTHN.md" class="md-nav__link">
         
   
   
@@ -1299,7 +1299,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../design/TRD_OAUTH/" class="md-nav__link">
+      <a href="../../design/TRD_OAUTH.md" class="md-nav__link">
         
   
   
@@ -1322,7 +1322,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../design/TRD_TASKS/" class="md-nav__link">
+      <a href="../../design/TRD_TASKS.md" class="md-nav__link">
         
   
   
@@ -1825,12 +1825,11 @@
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nx">cfg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">oauth</span><span class="p">.</span><span class="nx">DefaultConfig</span><span class="p">(</span><span class="s">&quot;https://api.example.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;secret&quot;</span><span class="p">))</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">oauth</span><span class="p">.</span><span class="nx">NewProvider</span><span class="p">(</span><span class="nx">entClient</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="p">)</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1">// Create handlers</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="nx">handler</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">oauth</span><span class="p">.</span><span class="nx">NewHandler</span><span class="p">(</span><span class="nx">provider</span><span class="p">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1">// Create API (all endpoints auto-registered)</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="nx">api</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">oauth</span><span class="p">.</span><span class="nx">NewAPI</span><span class="p">(</span><span class="nx">provider</span><span class="p">)</span>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1">// Mount endpoints</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="nx">http</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&quot;/oauth/authorize&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">.</span><span class="nx">AuthorizeEndpoint</span><span class="p">)</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="nx">http</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&quot;/oauth/token&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">.</span><span class="nx">TokenEndpoint</span><span class="p">)</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1">// Mount router (includes all OAuth and discovery endpoints)</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="nx">http</span><span class="p">.</span><span class="nx">Handle</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">api</span><span class="p">.</span><span class="nx">Router</span><span class="p">())</span>
 </code></pre></div>
 <h2 id="security-features">Security Features<a class="headerlink" href="#security-features" title="Permanent link">&para;</a></h2>
 <h3 id="pkce-enforcement">PKCE Enforcement<a class="headerlink" href="#pkce-enforcement" title="Permanent link">&para;</a></h3>

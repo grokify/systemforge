@@ -10,13 +10,9 @@
       
       
       
-        <link rel="canonical" href="https://grokify.github.io/coreforge/design/TRD_OAUTH/">
+        <link rel="canonical" href="https://grokify.github.io/coreforge/design/FEAT_OAUTH_TRD/">
       
       
-        <link rel="prev" href="../TRD_AUTHN/">
-      
-      
-        <link rel="next" href="../TRD_TASKS/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +20,7 @@
     
     
       
-        <title>OAuth TRD - CoreForge</title>
+        <title>CoreForge OAuth 2.0 Server - Technical Requirements Document - CoreForge</title>
       
     
     
@@ -110,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              OAuth TRD
+              CoreForge OAuth 2.0 Server - Technical Requirements Document
             
           </span>
         </div>
@@ -318,13 +314,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../PRD_AUTHN/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../PRD_AUTHN.md" class="md-tabs__link">
           
   
   
@@ -1023,31 +1017,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -1060,7 +1051,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Design
@@ -1074,7 +1065,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../PRD_AUTHN/" class="md-nav__link">
+      <a href="../PRD_AUTHN.md" class="md-nav__link">
         
   
   
@@ -1097,7 +1088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../PRD_OAUTH/" class="md-nav__link">
+      <a href="../PRD_OAUTH.md" class="md-nav__link">
         
   
   
@@ -1120,7 +1111,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TRD_AUTHN/" class="md-nav__link">
+      <a href="../TRD_AUTHN.md" class="md-nav__link">
         
   
   
@@ -1140,32 +1131,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    OAuth TRD
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../TRD_OAUTH.md" class="md-nav__link">
         
   
   
@@ -1176,395 +1145,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#architecture-overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      Architecture Overview
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      Module Structure
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ent-schemas" class="md-nav__link">
-    <span class="md-ellipsis">
-      Ent Schemas
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Ent Schemas">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#oauthapp" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthApp
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#appsecret" class="md-nav__link">
-    <span class="md-ellipsis">
-      AppSecret
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#serviceaccount" class="md-nav__link">
-    <span class="md-ellipsis">
-      ServiceAccount
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sakeypair" class="md-nav__link">
-    <span class="md-ellipsis">
-      SAKeyPair
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#authcode" class="md-nav__link">
-    <span class="md-ellipsis">
-      AuthCode
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthtoken" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthToken
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tokenfamily" class="md-nav__link">
-    <span class="md-ellipsis">
-      TokenFamily
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#consent" class="md-nav__link">
-    <span class="md-ellipsis">
-      Consent
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#token-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      Token Service
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Token Service">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#access-token-format-jwt" class="md-nav__link">
-    <span class="md-ellipsis">
-      Access Token Format (JWT)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#grant-handlers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Grant Handlers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#authorization-code-pkce" class="md-nav__link">
-    <span class="md-ellipsis">
-      Authorization Code + PKCE
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#jwt-bearer-grant" class="md-nav__link">
-    <span class="md-ellipsis">
-      JWT Bearer Grant
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#http-handlers" class="md-nav__link">
-    <span class="md-ellipsis">
-      HTTP Handlers
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="HTTP Handlers">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#token-endpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      Token Endpoint
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#authorization-endpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      Authorization Endpoint
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#implementation-tasks" class="md-nav__link">
-    <span class="md-ellipsis">
-      Implementation Tasks
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Implementation Tasks">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#phase-1-foundation-week-1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Phase 1: Foundation (Week 1)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-2-core-grants-week-2" class="md-nav__link">
-    <span class="md-ellipsis">
-      Phase 2: Core Grants (Week 2)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-3-service-accounts-week-3" class="md-nav__link">
-    <span class="md-ellipsis">
-      Phase 3: Service Accounts (Week 3)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-4-openid-connect-week-4" class="md-nav__link">
-    <span class="md-ellipsis">
-      Phase 4: OpenID Connect (Week 4)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-5-security-polish-week-5" class="md-nav__link">
-    <span class="md-ellipsis">
-      Phase 5: Security &amp; Polish (Week 5)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-6-academyos-integration-week-6" class="md-nav__link">
-    <span class="md-ellipsis">
-      Phase 6: AcademyOS Integration (Week 6)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#security-considerations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Security Considerations
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Security Considerations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#token-security" class="md-nav__link">
-    <span class="md-ellipsis">
-      Token Security
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pkce-requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      PKCE Requirements
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#client-authentication" class="md-nav__link">
-    <span class="md-ellipsis">
-      Client Authentication
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#refresh-token-rotation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Refresh Token Rotation
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#rate-limiting" class="md-nav__link">
-    <span class="md-ellipsis">
-      Rate Limiting
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#testing-strategy" class="md-nav__link">
-    <span class="md-ellipsis">
-      Testing Strategy
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Testing Strategy">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#unit-tests" class="md-nav__link">
-    <span class="md-ellipsis">
-      Unit Tests
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#integration-tests" class="md-nav__link">
-    <span class="md-ellipsis">
-      Integration Tests
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#security-tests" class="md-nav__link">
-    <span class="md-ellipsis">
-      Security Tests
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#open-questions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Open Questions
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1577,7 +1157,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TRD_TASKS/" class="md-nav__link">
+      <a href="../TRD_TASKS.md" class="md-nav__link">
         
   
   

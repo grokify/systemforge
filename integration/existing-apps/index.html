@@ -324,7 +324,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../design/PRD_AUTHN/" class="md-tabs__link">
+        <a href="../../design/PRD_AUTHN.md" class="md-tabs__link">
           
   
   
@@ -1302,7 +1302,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../design/PRD_AUTHN/" class="md-nav__link">
+      <a href="../../design/PRD_AUTHN.md" class="md-nav__link">
         
   
   
@@ -1325,7 +1325,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../design/PRD_OAUTH/" class="md-nav__link">
+      <a href="../../design/PRD_OAUTH.md" class="md-nav__link">
         
   
   
@@ -1348,7 +1348,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../design/TRD_AUTHN/" class="md-nav__link">
+      <a href="../../design/TRD_AUTHN.md" class="md-nav__link">
         
   
   
@@ -1371,7 +1371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../design/TRD_OAUTH/" class="md-nav__link">
+      <a href="../../design/TRD_OAUTH.md" class="md-nav__link">
         
   
   
@@ -1394,7 +1394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../design/TRD_TASKS/" class="md-nav__link">
+      <a href="../../design/TRD_TASKS.md" class="md-nav__link">
         
   
   
@@ -1989,13 +1989,12 @@
 <a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nx">cfg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">oauth</span><span class="p">.</span><span class="nx">DefaultConfig</span><span class="p">(</span><span class="s">&quot;https://api.example.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;secret&quot;</span><span class="p">))</span>
 <a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">oauth</span><span class="p">.</span><span class="nx">NewProvider</span><span class="p">(</span><span class="nx">entClient</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="p">)</span>
 <a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="c1">// Create handler</span>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="nx">handler</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">oauth</span><span class="p">.</span><span class="nx">NewHandler</span><span class="p">(</span><span class="nx">provider</span><span class="p">)</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="c1">// Create OAuth API (endpoints auto-registered)</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="nx">api</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">oauth</span><span class="p">.</span><span class="nx">NewAPI</span><span class="p">(</span><span class="nx">provider</span><span class="p">)</span>
 <a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="c1">// Add to existing router</span>
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="nx">router</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&quot;/oauth/authorize&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">.</span><span class="nx">AuthorizeEndpoint</span><span class="p">)</span>
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">    </span><span class="nx">router</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&quot;/oauth/token&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">.</span><span class="nx">TokenEndpoint</span><span class="p">)</span>
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="p">}</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="c1">// Mount to existing router</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="nx">router</span><span class="p">.</span><span class="nx">Mount</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">api</span><span class="p">.</span><span class="nx">Router</span><span class="p">())</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="link-existing-sessions">Link Existing Sessions<a class="headerlink" href="#link-existing-sessions" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">linkSession</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>

@@ -10,13 +10,9 @@
       
       
       
-        <link rel="canonical" href="https://grokify.github.io/coreforge/design/TRD_AUTHN/">
+        <link rel="canonical" href="https://grokify.github.io/coreforge/design/FEAT_AUTHN_TRD/">
       
       
-        <link rel="prev" href="../PRD_OAUTH/">
-      
-      
-        <link rel="next" href="../TRD_OAUTH/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +20,7 @@
     
     
       
-        <title>Authentication TRD - CoreForge</title>
+        <title>TRD: CoreForge Authentication & Authorization - CoreForge</title>
       
     
     
@@ -110,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Authentication TRD
+              TRD: CoreForge Authentication &amp; Authorization
             
           </span>
         </div>
@@ -318,13 +314,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../PRD_AUTHN/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../PRD_AUTHN.md" class="md-tabs__link">
           
   
   
@@ -1023,31 +1017,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -1060,7 +1051,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Design
@@ -1074,7 +1065,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../PRD_AUTHN/" class="md-nav__link">
+      <a href="../PRD_AUTHN.md" class="md-nav__link">
         
   
   
@@ -1097,7 +1088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../PRD_OAUTH/" class="md-nav__link">
+      <a href="../PRD_OAUTH.md" class="md-nav__link">
         
   
   
@@ -1117,32 +1108,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Authentication TRD
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../TRD_AUTHN.md" class="md-nav__link">
         
   
   
@@ -1153,329 +1122,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      Overview
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      Architecture
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Architecture">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#system-components" class="md-nav__link">
-    <span class="md-ellipsis">
-      System Components
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#module-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      Module Structure
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dpop-implementation" class="md-nav__link">
-    <span class="md-ellipsis">
-      DPoP Implementation
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="DPoP Implementation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#dpop-proof-structure-rfc-9449" class="md-nav__link">
-    <span class="md-ellipsis">
-      DPoP Proof Structure (RFC 9449)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dpop-key-generation" class="md-nav__link">
-    <span class="md-ellipsis">
-      DPoP Key Generation
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dpop-proof-creation-bff-side" class="md-nav__link">
-    <span class="md-ellipsis">
-      DPoP Proof Creation (BFF Side)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dpop-verification-api-side" class="md-nav__link">
-    <span class="md-ellipsis">
-      DPoP Verification (API Side)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#bff-session-management" class="md-nav__link">
-    <span class="md-ellipsis">
-      BFF Session Management
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="BFF Session Management">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#session-store-interface" class="md-nav__link">
-    <span class="md-ellipsis">
-      Session Store Interface
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#bff-middleware-stack" class="md-nav__link">
-    <span class="md-ellipsis">
-      BFF Middleware Stack
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#bff-api-proxy" class="md-nav__link">
-    <span class="md-ellipsis">
-      BFF API Proxy
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dpop-bound-token-claims" class="md-nav__link">
-    <span class="md-ellipsis">
-      DPoP-Bound Token Claims
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#developer-api-keys" class="md-nav__link">
-    <span class="md-ellipsis">
-      Developer API Keys
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Developer API Keys">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#api-key-schema" class="md-nav__link">
-    <span class="md-ellipsis">
-      API Key Schema
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#testing-strategy" class="md-nav__link">
-    <span class="md-ellipsis">
-      Testing Strategy
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Testing Strategy">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#unit-tests" class="md-nav__link">
-    <span class="md-ellipsis">
-      Unit Tests
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#integration-tests" class="md-nav__link">
-    <span class="md-ellipsis">
-      Integration Tests
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#security-considerations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Security Considerations
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Security Considerations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#key-storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      Key Storage
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#replay-prevention" class="md-nav__link">
-    <span class="md-ellipsis">
-      Replay Prevention
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cookie-security" class="md-nav__link">
-    <span class="md-ellipsis">
-      Cookie Security
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#rate-limiting" class="md-nav__link">
-    <span class="md-ellipsis">
-      Rate Limiting
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#migration-path" class="md-nav__link">
-    <span class="md-ellipsis">
-      Migration Path
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Migration Path">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#dashforge-migration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Dashforge Migration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#data-migration-sql" class="md-nav__link">
-    <span class="md-ellipsis">
-      Data Migration SQL
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#performance-targets" class="md-nav__link">
-    <span class="md-ellipsis">
-      Performance Targets
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    <span class="md-ellipsis">
-      References
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1488,7 +1134,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TRD_OAUTH/" class="md-nav__link">
+      <a href="../TRD_OAUTH.md" class="md-nav__link">
         
   
   
@@ -1511,7 +1157,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TRD_TASKS/" class="md-nav__link">
+      <a href="../TRD_TASKS.md" class="md-nav__link">
         
   
   
