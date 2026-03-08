@@ -3,9 +3,12 @@ package principal
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/grokify/coreforge/authz"
+	"github.com/grokify/coreforge/authz/noop"
 	"github.com/grokify/coreforge/identity/ent"
 	"github.com/grokify/coreforge/identity/ent/application"
 	"github.com/grokify/coreforge/identity/ent/principal"
@@ -13,12 +16,48 @@ import (
 
 // DefaultService implements the Service interface.
 type DefaultService struct {
-	client *ent.Client
+	client   *ent.Client
+	syncer   authz.RelationshipSyncer
+	syncMode authz.SyncMode
+	logger   *slog.Logger
+}
+
+// ServiceOption configures a DefaultService.
+type ServiceOption func(*DefaultService)
+
+// WithAuthzSyncer sets the authorization syncer for keeping authz in sync with identity changes.
+func WithAuthzSyncer(syncer authz.RelationshipSyncer) ServiceOption {
+	return func(s *DefaultService) {
+		s.syncer = syncer
+	}
+}
+
+// WithSyncMode sets the sync mode (strict or eventual).
+func WithSyncMode(mode authz.SyncMode) ServiceOption {
+	return func(s *DefaultService) {
+		s.syncMode = mode
+	}
+}
+
+// WithLogger sets the logger for the service.
+func WithLogger(logger *slog.Logger) ServiceOption {
+	return func(s *DefaultService) {
+		s.logger = logger
+	}
 }
 
 // NewService creates a new PrincipalService.
-func NewService(client *ent.Client) Service {
-	return &DefaultService{client: client}
+func NewService(client *ent.Client, opts ...ServiceOption) Service {
+	s := &DefaultService{
+		client:   client,
+		syncer:   noop.NewSyncer(),
+		syncMode: authz.SyncModeEventual,
+		logger:   slog.Default(),
+	}
+	for _, opt := range opts {
+		opt(s)
+	}
+	return s
 }
 
 // GetByID retrieves a principal by ID.
@@ -125,6 +164,24 @@ func (s *DefaultService) CreateHuman(ctx context.Context, input CreateHumanInput
 
 	if err = tx.Commit(); err != nil {
 		return nil, fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	// Sync to authorization backend
+	if syncErr := s.syncer.RegisterPrincipal(ctx, p.ID); syncErr != nil {
+		if s.syncMode == authz.SyncModeStrict {
+			return nil, fmt.Errorf("failed to sync principal to authz: %w", syncErr)
+		}
+		s.logger.Warn("failed to sync principal to authz", "principal_id", p.ID, "error", syncErr)
+	}
+
+	// Set platform admin if applicable
+	if input.IsPlatformAdmin {
+		if syncErr := s.syncer.SetPlatformAdmin(ctx, p.ID, true); syncErr != nil {
+			if s.syncMode == authz.SyncModeStrict {
+				return nil, fmt.Errorf("failed to sync platform admin to authz: %w", syncErr)
+			}
+			s.logger.Warn("failed to sync platform admin to authz", "principal_id", p.ID, "error", syncErr)
+		}
 	}
 
 	// Build result
@@ -235,6 +292,14 @@ func (s *DefaultService) CreateApplication(ctx context.Context, input CreateAppl
 		return nil, fmt.Errorf("failed to commit transaction: %w", err)
 	}
 
+	// Sync to authorization backend
+	if syncErr := s.syncer.RegisterPrincipal(ctx, p.ID); syncErr != nil {
+		if s.syncMode == authz.SyncModeStrict {
+			return nil, fmt.Errorf("failed to sync principal to authz: %w", syncErr)
+		}
+		s.logger.Warn("failed to sync principal to authz", "principal_id", p.ID, "error", syncErr)
+	}
+
 	// Build result
 	result := &Principal{
 		ID:            p.ID,
@@ -340,6 +405,14 @@ func (s *DefaultService) CreateAgent(ctx context.Context, input CreateAgentInput
 		return nil, fmt.Errorf("failed to commit transaction: %w", err)
 	}
 
+	// Sync to authorization backend
+	if syncErr := s.syncer.RegisterPrincipal(ctx, p.ID); syncErr != nil {
+		if s.syncMode == authz.SyncModeStrict {
+			return nil, fmt.Errorf("failed to sync principal to authz: %w", syncErr)
+		}
+		s.logger.Warn("failed to sync principal to authz", "principal_id", p.ID, "error", syncErr)
+	}
+
 	// Build result
 	result := &Principal{
 		ID:            p.ID,
@@ -427,6 +500,14 @@ func (s *DefaultService) CreateService(ctx context.Context, input CreateServiceI
 
 	if err = tx.Commit(); err != nil {
 		return nil, fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	// Sync to authorization backend
+	if syncErr := s.syncer.RegisterPrincipal(ctx, p.ID); syncErr != nil {
+		if s.syncMode == authz.SyncModeStrict {
+			return nil, fmt.Errorf("failed to sync principal to authz: %w", syncErr)
+		}
+		s.logger.Warn("failed to sync principal to authz", "principal_id", p.ID, "error", syncErr)
 	}
 
 	// Build result

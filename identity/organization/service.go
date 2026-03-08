@@ -3,10 +3,13 @@ package organization
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"regexp"
 	"strings"
 
 	"github.com/google/uuid"
+	"github.com/grokify/coreforge/authz"
+	"github.com/grokify/coreforge/authz/noop"
 	"github.com/grokify/coreforge/identity/ent"
 	"github.com/grokify/coreforge/identity/ent/organization"
 	"github.com/grokify/coreforge/identity/ent/principalmembership"
@@ -65,12 +68,48 @@ type Service interface {
 
 // DefaultService implements the Service interface.
 type DefaultService struct {
-	client *ent.Client
+	client   *ent.Client
+	syncer   authz.RelationshipSyncer
+	syncMode authz.SyncMode
+	logger   *slog.Logger
+}
+
+// ServiceOption configures a DefaultService.
+type ServiceOption func(*DefaultService)
+
+// WithAuthzSyncer sets the authorization syncer for keeping authz in sync with identity changes.
+func WithAuthzSyncer(syncer authz.RelationshipSyncer) ServiceOption {
+	return func(s *DefaultService) {
+		s.syncer = syncer
+	}
+}
+
+// WithSyncMode sets the sync mode (strict or eventual).
+func WithSyncMode(mode authz.SyncMode) ServiceOption {
+	return func(s *DefaultService) {
+		s.syncMode = mode
+	}
+}
+
+// WithLogger sets the logger for the service.
+func WithLogger(logger *slog.Logger) ServiceOption {
+	return func(s *DefaultService) {
+		s.logger = logger
+	}
 }
 
 // NewService creates a new organization service.
-func NewService(client *ent.Client) Service {
-	return &DefaultService{client: client}
+func NewService(client *ent.Client, opts ...ServiceOption) Service {
+	s := &DefaultService{
+		client:   client,
+		syncer:   noop.NewSyncer(),
+		syncMode: authz.SyncModeEventual,
+		logger:   slog.Default(),
+	}
+	for _, opt := range opts {
+		opt(s)
+	}
+	return s
 }
 
 // Create creates a new organization.
@@ -149,6 +188,16 @@ func (s *DefaultService) Create(ctx context.Context, input CreateOrganizationInp
 
 	if err = tx.Commit(); err != nil {
 		return nil, fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	// Sync to authorization backend
+	if input.OwnerPrincipalID != nil {
+		if syncErr := s.syncer.RegisterOrganization(ctx, org.ID, *input.OwnerPrincipalID); syncErr != nil {
+			if s.syncMode == authz.SyncModeStrict {
+				return nil, fmt.Errorf("failed to sync organization to authz: %w", syncErr)
+			}
+			s.logger.Warn("failed to sync organization to authz", "org_id", org.ID, "error", syncErr)
+		}
 	}
 
 	return entOrgToModel(org), nil
@@ -254,6 +303,15 @@ func (s *DefaultService) Delete(ctx context.Context, id uuid.UUID) error {
 		}
 		return fmt.Errorf("failed to delete organization: %w", err)
 	}
+
+	// Sync to authorization backend
+	if syncErr := s.syncer.UnregisterOrganization(ctx, id); syncErr != nil {
+		if s.syncMode == authz.SyncModeStrict {
+			return fmt.Errorf("failed to sync organization deletion to authz: %w", syncErr)
+		}
+		s.logger.Warn("failed to sync organization deletion to authz", "org_id", id, "error", syncErr)
+	}
+
 	return nil
 }
 
@@ -310,11 +368,36 @@ func (s *DefaultService) AddMember(ctx context.Context, input AddMemberInput) (*
 		return nil, fmt.Errorf("failed to create membership: %w", err)
 	}
 
+	// Sync to authorization backend
+	if syncErr := s.syncer.AddOrgMembership(ctx, input.PrincipalID, input.OrganizationID, input.Role); syncErr != nil {
+		if s.syncMode == authz.SyncModeStrict {
+			return nil, fmt.Errorf("failed to sync membership to authz: %w", syncErr)
+		}
+		s.logger.Warn("failed to sync membership to authz",
+			"principal_id", input.PrincipalID,
+			"org_id", input.OrganizationID,
+			"role", input.Role,
+			"error", syncErr)
+	}
+
 	return entMembershipToModel(membership), nil
 }
 
 // UpdateMember updates a membership.
 func (s *DefaultService) UpdateMember(ctx context.Context, membershipID uuid.UUID, input UpdateMemberInput) (*Membership, error) {
+	// Get current membership for role change detection
+	var oldRole string
+	if input.Role != nil {
+		current, err := s.client.PrincipalMembership.Get(ctx, membershipID)
+		if err != nil {
+			if ent.IsNotFound(err) {
+				return nil, fmt.Errorf("membership not found: %s", membershipID)
+			}
+			return nil, fmt.Errorf("failed to get membership: %w", err)
+		}
+		oldRole = current.Role
+	}
+
 	update := s.client.PrincipalMembership.UpdateOneID(membershipID)
 
 	if input.Role != nil {
@@ -335,12 +418,33 @@ func (s *DefaultService) UpdateMember(ctx context.Context, membershipID uuid.UUI
 		return nil, fmt.Errorf("failed to update membership: %w", err)
 	}
 
+	// Sync role change to authorization backend
+	if input.Role != nil && oldRole != *input.Role {
+		if syncErr := s.syncer.UpdateOrgMembership(ctx, membership.PrincipalID, membership.OrganizationID, oldRole, *input.Role); syncErr != nil {
+			if s.syncMode == authz.SyncModeStrict {
+				return nil, fmt.Errorf("failed to sync role change to authz: %w", syncErr)
+			}
+			s.logger.Warn("failed to sync role change to authz",
+				"principal_id", membership.PrincipalID,
+				"org_id", membership.OrganizationID,
+				"old_role", oldRole,
+				"new_role", *input.Role,
+				"error", syncErr)
+		}
+	}
+
 	return entMembershipToModel(membership), nil
 }
 
 // RemoveMember removes a principal from an organization.
 func (s *DefaultService) RemoveMember(ctx context.Context, organizationID, principalID uuid.UUID) error {
-	_, err := s.client.PrincipalMembership.Delete().
+	// Get membership to know the role for authz sync
+	membership, err := s.GetMembership(ctx, organizationID, principalID)
+	if err != nil {
+		return fmt.Errorf("membership not found: %w", err)
+	}
+
+	_, err = s.client.PrincipalMembership.Delete().
 		Where(
 			principalmembership.OrganizationID(organizationID),
 			principalmembership.PrincipalID(principalID),
@@ -349,6 +453,19 @@ func (s *DefaultService) RemoveMember(ctx context.Context, organizationID, princ
 	if err != nil {
 		return fmt.Errorf("failed to remove membership: %w", err)
 	}
+
+	// Sync to authorization backend
+	if syncErr := s.syncer.RemoveOrgMembership(ctx, principalID, organizationID, membership.Role); syncErr != nil {
+		if s.syncMode == authz.SyncModeStrict {
+			return fmt.Errorf("failed to sync membership removal to authz: %w", syncErr)
+		}
+		s.logger.Warn("failed to sync membership removal to authz",
+			"principal_id", principalID,
+			"org_id", organizationID,
+			"role", membership.Role,
+			"error", syncErr)
+	}
+
 	return nil
 }
 

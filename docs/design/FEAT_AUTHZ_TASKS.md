@@ -6,9 +6,9 @@
 
 | Task Group | Status |
 |------------|--------|
-| 1. AuthZ Provider Interface | Pending |
-| 2. Organization → SpiceDB Sync | Pending |
-| 3. Principal → SpiceDB Sync | Pending |
+| 1. AuthZ Provider Interface | ✅ Complete |
+| 2. Organization → SpiceDB Sync | ✅ Complete |
+| 3. Principal → SpiceDB Sync | ✅ Complete |
 | 4. Integration Tests | Pending |
 | 5. SpiceDB Documentation | Pending |
 
@@ -19,7 +19,7 @@
 Create an injectable authorization sync interface that identity services can use.
 
 ### 1.1 Define AuthZ Sync Interface
-- [ ] Create `authz/sync.go` with `RelationshipSyncer` interface:
+- [x] Create `authz/sync.go` with `RelationshipSyncer` interface:
   ```go
   type RelationshipSyncer interface {
       // Organization membership
@@ -38,13 +38,13 @@ Create an injectable authorization sync interface that identity services can use
   ```
 
 ### 1.2 Implement SpiceDB Syncer
-- [ ] Create `authz/spicedb/syncer.go` implementing `RelationshipSyncer`
-- [ ] Use existing `Provider.AddOrgMember()` / `RemoveOrgMember()` methods
-- [ ] Add batch operations for efficiency
+- [x] Create `authz/spicedb/syncer.go` implementing `RelationshipSyncer`
+- [x] Use existing `Provider.AddOrgMember()` / `RemoveOrgMember()` methods
+- [ ] Add batch operations for efficiency (deferred)
 
 ### 1.3 Implement No-Op Syncer
-- [ ] Create `authz/noop/syncer.go` for deployments without SpiceDB
-- [ ] All methods return nil (silent no-op)
+- [x] Create `authz/noop/syncer.go` for deployments without SpiceDB
+- [x] All methods return nil (silent no-op)
 
 ---
 
@@ -53,23 +53,23 @@ Create an injectable authorization sync interface that identity services can use
 Wire organization service to sync membership changes to SpiceDB.
 
 ### 2.1 Inject Syncer into Organization Service
-- [ ] Add `RelationshipSyncer` field to `organization.Service` struct
-- [ ] Add `WithAuthzSyncer(syncer)` option to service constructor
-- [ ] Default to no-op syncer if not provided
+- [x] Add `RelationshipSyncer` field to `organization.Service` struct
+- [x] Add `WithAuthzSyncer(syncer)` option to service constructor
+- [x] Default to no-op syncer if not provided
 
 ### 2.2 Sync on Membership Changes
-- [ ] `AddMember()`: Call `syncer.AddOrgMembership()` after DB write
-- [ ] `RemoveMember()`: Call `syncer.RemoveOrgMembership()` after DB delete
-- [ ] `UpdateMemberRole()`: Call `syncer.UpdateOrgMembership()` after DB update
+- [x] `AddMember()`: Call `syncer.AddOrgMembership()` after DB write
+- [x] `RemoveMember()`: Call `syncer.RemoveOrgMembership()` after DB delete
+- [x] `UpdateMemberRole()`: Call `syncer.UpdateOrgMembership()` after DB update
 
 ### 2.3 Sync on Organization Lifecycle
-- [ ] `CreateOrganization()`: Call `syncer.RegisterOrganization()` with creator as owner
-- [ ] `DeleteOrganization()`: Call `syncer.UnregisterOrganization()` before/after DB delete
+- [x] `CreateOrganization()`: Call `syncer.RegisterOrganization()` with creator as owner
+- [x] `DeleteOrganization()`: Call `syncer.UnregisterOrganization()` before/after DB delete
 
 ### 2.4 Handle Sync Failures
-- [ ] Define error handling strategy (log and continue vs. rollback)
-- [ ] Add `SyncMode` config: `"strict"` (fail on sync error) vs `"eventual"` (log and continue)
-- [ ] Consider background retry queue for eventual consistency
+- [x] Define error handling strategy (log and continue vs. rollback)
+- [x] Add `SyncMode` config: `"strict"` (fail on sync error) vs `"eventual"` (log and continue)
+- [ ] Consider background retry queue for eventual consistency (deferred)
 
 ---
 
@@ -78,19 +78,19 @@ Wire organization service to sync membership changes to SpiceDB.
 Wire principal service to register/unregister principals in SpiceDB.
 
 ### 3.1 Inject Syncer into Principal Service
-- [ ] Add `RelationshipSyncer` field to `principal.Service` struct
-- [ ] Add `WithAuthzSyncer(syncer)` option to service constructor
+- [x] Add `RelationshipSyncer` field to `principal.Service` struct
+- [x] Add `WithAuthzSyncer(syncer)` option to service constructor
 
 ### 3.2 Sync on Principal Lifecycle
-- [ ] `CreateHuman()`: Call `syncer.RegisterPrincipal()` after DB write
-- [ ] `CreateApplication()`: Call `syncer.RegisterPrincipal()` after DB write
-- [ ] `CreateAgent()`: Call `syncer.RegisterPrincipal()` after DB write
-- [ ] `CreateServicePrincipal()`: Call `syncer.RegisterPrincipal()` after DB write
-- [ ] `DeletePrincipal()`: Call `syncer.UnregisterPrincipal()` before DB delete
+- [x] `CreateHuman()`: Call `syncer.RegisterPrincipal()` after DB write
+- [x] `CreateApplication()`: Call `syncer.RegisterPrincipal()` after DB write
+- [x] `CreateAgent()`: Call `syncer.RegisterPrincipal()` after DB write
+- [x] `CreateServicePrincipal()`: Call `syncer.RegisterPrincipal()` after DB write
+- [ ] `DeletePrincipal()`: Call `syncer.UnregisterPrincipal()` before DB delete (not yet implemented)
 
 ### 3.3 Platform Admin Registration
-- [ ] Add method to register principal as platform admin in SpiceDB
-- [ ] Wire to principal service or separate admin management
+- [x] Add method to register principal as platform admin in SpiceDB
+- [x] Wire to principal service (CreateHuman with IsPlatformAdmin=true)
 
 ---
 
