@@ -39,8 +39,8 @@ CoreForge is a batteries-included Go platform module providing reusable identity
 
 ### Authorization Module
 
-- 👥 **RBAC** - Role-based access control with org-scoped permissions
-- ⚖️ **Casbin Provider** - Advanced policy rules with Casbin integration
+- 👥 **RBAC/ReBAC** - Role and relationship-based access control
+- 🔐 **SpiceDB Provider** - Zanzibar-style fine-grained authorization
 - ✨ **Simple Provider** - Lightweight permission checking
 - 🚧 **HTTP Middleware** - Route protection for Chi and stdlib
 
@@ -244,7 +244,8 @@ github.com/grokify/coreforge/
 │
 ├── authz/                 # Authorization
 │   ├── simple/            # Simple RBAC provider
-│   ├── casbin/            # Casbin adapter
+│   ├── spicedb/           # SpiceDB ReBAC provider
+│   ├── noop/              # No-op syncer for testing
 │   ├── providertest/      # Provider test suite
 │   └── middleware.go      # HTTP middleware
 │

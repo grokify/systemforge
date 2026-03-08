@@ -4,8 +4,7 @@
 // with multiple backend implementations available:
 //
 //   - simple: Role hierarchy and permission mappings (no external dependencies)
-//   - casbin: Casbin-based RBAC/ABAC (flexible policy engine)
-//   - cedar: Cedar-based policy language (advanced, analyzable policies)
+//   - spicedb: SpiceDB-based ReBAC (Zanzibar-style relationship-based access control)
 //
 // Applications depend only on the Authorizer interface, allowing backends to be swapped
 // without changing application code.
