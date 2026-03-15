@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://grokify.github.io/coreforge/reference/schemas/">
+        <link rel="canonical" href="https://grokify.github.io/coreforge/coreapi/policies/">
       
       
-        <link rel="prev" href="../../releases/v0.1.0/">
+        <link rel="prev" href="../overview/">
       
       
-        <link rel="next" href="../api/">
+        <link rel="next" href="../ratelimit/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>Ent Schemas - CoreForge</title>
+        <title>Policies - CoreForge</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ent-schema-reference" class="md-skip">
+        <a href="#rate-limit-policies" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Ent Schemas
+              Policies
             
           </span>
         </div>
@@ -318,11 +318,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../coreapi/overview/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
           
   
   
@@ -418,13 +420,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../reference/schemas/" class="md-tabs__link">
           
   
   
@@ -1083,28 +1083,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
             
   
   
@@ -1117,7 +1120,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             CoreAPI
@@ -1131,7 +1134,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../coreapi/overview/" class="md-nav__link">
+      <a href="../overview/" class="md-nav__link">
         
   
   
@@ -1151,10 +1154,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../coreapi/policies/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Policies
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1165,6 +1190,149 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#policy-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Policy Structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predefined-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Predefined Policies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Predefined Policies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#freepolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      FreePolicy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standardpolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      StandardPolicy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#premiumpolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      PremiumPolicy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enterprisepolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      EnterprisePolicy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#internalpolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      InternalPolicy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-custom-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating Custom Policies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endpoint-overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      Endpoint Overrides
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#policy-store-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Policy Store Interface
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-policy-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Policy Store
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lookup-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lookup Behavior
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1177,7 +1345,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../coreapi/ratelimit/" class="md-nav__link">
+      <a href="../ratelimit/" class="md-nav__link">
         
   
   
@@ -1665,31 +1833,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked>
         
           
-          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
             
   
   
@@ -1702,7 +1867,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             Reference
@@ -1713,32 +1878,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Ent Schemas
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../reference/schemas/" class="md-nav__link">
         
   
   
@@ -1749,164 +1892,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#identity-schemas" class="md-nav__link">
-    <span class="md-ellipsis">
-      Identity Schemas
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Identity Schemas">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#user" class="md-nav__link">
-    <span class="md-ellipsis">
-      User
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#organization" class="md-nav__link">
-    <span class="md-ellipsis">
-      Organization
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#membership" class="md-nav__link">
-    <span class="md-ellipsis">
-      Membership
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthaccount" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthAccount
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#apikey" class="md-nav__link">
-    <span class="md-ellipsis">
-      APIKey
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#oauth-schemas" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuth Schemas
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="OAuth Schemas">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#oauthapp" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthApp
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthappsecret" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthAppSecret
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthtoken" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthToken
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthauthcode" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthAuthCode
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthconsent" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthConsent
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#serviceaccount" class="md-nav__link">
-    <span class="md-ellipsis">
-      ServiceAccount
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#serviceaccountkeypair" class="md-nav__link">
-    <span class="md-ellipsis">
-      ServiceAccountKeyPair
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1919,7 +1904,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/" class="md-nav__link">
+      <a href="../../reference/api/" class="md-nav__link">
         
   
   
@@ -1969,55 +1954,64 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#identity-schemas" class="md-nav__link">
+  <a href="#policy-structure" class="md-nav__link">
     <span class="md-ellipsis">
-      Identity Schemas
+      Policy Structure
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Identity Schemas">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predefined-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Predefined Policies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Predefined Policies">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#user" class="md-nav__link">
+  <a href="#freepolicy" class="md-nav__link">
     <span class="md-ellipsis">
-      User
+      FreePolicy
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#organization" class="md-nav__link">
+  <a href="#standardpolicy" class="md-nav__link">
     <span class="md-ellipsis">
-      Organization
+      StandardPolicy
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#membership" class="md-nav__link">
+  <a href="#premiumpolicy" class="md-nav__link">
     <span class="md-ellipsis">
-      Membership
+      PremiumPolicy
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#oauthaccount" class="md-nav__link">
+  <a href="#enterprisepolicy" class="md-nav__link">
     <span class="md-ellipsis">
-      OAuthAccount
+      EnterprisePolicy
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#apikey" class="md-nav__link">
+  <a href="#internalpolicy" class="md-nav__link">
     <span class="md-ellipsis">
-      APIKey
+      InternalPolicy
     </span>
   </a>
   
@@ -2029,80 +2023,56 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#oauth-schemas" class="md-nav__link">
+  <a href="#creating-custom-policies" class="md-nav__link">
     <span class="md-ellipsis">
-      OAuth Schemas
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="OAuth Schemas">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#oauthapp" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthApp
+      Creating Custom Policies
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthappsecret" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#endpoint-overrides" class="md-nav__link">
     <span class="md-ellipsis">
-      OAuthAppSecret
+      Endpoint Overrides
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthtoken" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#policy-store-interface" class="md-nav__link">
     <span class="md-ellipsis">
-      OAuthToken
+      Policy Store Interface
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthauthcode" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#memory-policy-store" class="md-nav__link">
     <span class="md-ellipsis">
-      OAuthAuthCode
+      Memory Policy Store
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthconsent" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#lookup-behavior" class="md-nav__link">
     <span class="md-ellipsis">
-      OAuthConsent
+      Lookup Behavior
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#serviceaccount" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
     <span class="md-ellipsis">
-      ServiceAccount
+      Next Steps
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#serviceaccountkeypair" class="md-nav__link">
-    <span class="md-ellipsis">
-      ServiceAccountKeyPair
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2125,1115 +2095,137 @@
   
 
 
-<h1 id="ent-schema-reference">Ent Schema Reference<a class="headerlink" href="#ent-schema-reference" title="Permanent link">&para;</a></h1>
-<p>Complete reference for all CoreForge Ent schemas.</p>
-<h2 id="identity-schemas">Identity Schemas<a class="headerlink" href="#identity-schemas" title="Permanent link">&para;</a></h2>
-<h3 id="user">User<a class="headerlink" href="#user" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_users</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>email</code></td>
-<td>string</td>
-<td>unique, not empty</td>
-<td>User email</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>string</td>
-<td>not empty</td>
-<td>Display name</td>
-</tr>
-<tr>
-<td><code>avatar_url</code></td>
-<td>string</td>
-<td>optional, nillable</td>
-<td>Profile picture</td>
-</tr>
-<tr>
-<td><code>password_hash</code></td>
-<td>string</td>
-<td>optional, sensitive</td>
-<td>Argon2id hash</td>
-</tr>
-<tr>
-<td><code>is_platform_admin</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Cross-org admin</td>
-</tr>
-<tr>
-<td><code>active</code></td>
-<td>bool</td>
-<td>default: true</td>
-<td>Account status</td>
-</tr>
-<tr>
-<td><code>last_login_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Last login</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-<tr>
-<td><code>updated_at</code></td>
-<td>time</td>
-<td>auto-update</td>
-<td>Modification time</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Edges</strong>:</p>
+<h1 id="rate-limit-policies">Rate Limit Policies<a class="headerlink" href="#rate-limit-policies" title="Permanent link">&para;</a></h1>
+<p>Policies define rate limits that can be assigned to OAuth clients. Each policy specifies limits across multiple time windows.</p>
+<h2 id="policy-structure">Policy Structure<a class="headerlink" href="#policy-structure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">type</span><span class="w"> </span><span class="nx">RateLimitPolicy</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nx">ID</span><span class="w">                </span><span class="kt">string</span><span class="w">                  </span><span class="c1">// Unique identifier (e.g., &quot;premium&quot;)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nx">Name</span><span class="w">              </span><span class="kt">string</span><span class="w">                  </span><span class="c1">// Display name</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nx">Limits</span><span class="w">            </span><span class="nx">RateLimits</span><span class="w">              </span><span class="c1">// Default limits</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nx">EndpointOverrides</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">RateLimits</span><span class="w">   </span><span class="c1">// Per-endpoint limits</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nx">Enabled</span><span class="w">           </span><span class="kt">bool</span><span class="w">                    </span><span class="c1">// Whether policy is active</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">}</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="kd">type</span><span class="w"> </span><span class="nx">RateLimits</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="nx">PerSecond</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="c1">// Requests per second (0 = unlimited)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nx">PerMinute</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="c1">// Requests per minute</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="nx">PerHour</span><span class="w">   </span><span class="kt">int</span><span class="w"> </span><span class="c1">// Requests per hour</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="nx">PerDay</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="c1">// Requests per day</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="predefined-policies">Predefined Policies<a class="headerlink" href="#predefined-policies" title="Permanent link">&para;</a></h2>
+<p>CoreAPI includes predefined policies for common use cases:</p>
+<h3 id="freepolicy">FreePolicy<a class="headerlink" href="#freepolicy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nx">coreapi</span><span class="p">.</span><span class="nx">FreePolicy</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1">// Per-Minute: 10, Per-Hour: 100, Per-Day: 500</span>
+</code></pre></div>
+<p>For anonymous users or free tier accounts. Very restrictive limits.</p>
+<h3 id="standardpolicy">StandardPolicy<a class="headerlink" href="#standardpolicy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nx">coreapi</span><span class="p">.</span><span class="nx">StandardPolicy</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">// Per-Minute: 100, Per-Hour: 1,000, Per-Day: 10,000</span>
+</code></pre></div>
+<p>For paid individual users. Suitable for typical API usage.</p>
+<h3 id="premiumpolicy">PremiumPolicy<a class="headerlink" href="#premiumpolicy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nx">coreapi</span><span class="p">.</span><span class="nx">PremiumPolicy</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">// Per-Minute: 1,000, Per-Hour: 10,000, Per-Day: 100,000</span>
+</code></pre></div>
+<p>For premium tier users. Higher limits for power users.</p>
+<h3 id="enterprisepolicy">EnterprisePolicy<a class="headerlink" href="#enterprisepolicy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nx">coreapi</span><span class="p">.</span><span class="nx">EnterprisePolicy</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1">// Per-Minute: 10,000, Per-Hour: 100,000, Per-Day: 1,000,000</span>
+</code></pre></div>
+<p>For enterprise customers with high-volume needs.</p>
+<h3 id="internalpolicy">InternalPolicy<a class="headerlink" href="#internalpolicy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nx">coreapi</span><span class="p">.</span><span class="nx">InternalPolicy</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1">// Per-Second: 10,000, no other limits</span>
+</code></pre></div>
+<p>For internal service-to-service communication. Very high limits.</p>
+<h2 id="creating-custom-policies">Creating Custom Policies<a class="headerlink" href="#creating-custom-policies" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nx">customPolicy</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">coreapi</span><span class="p">.</span><span class="nx">RateLimitPolicy</span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="nx">ID</span><span class="p">:</span><span class="w">      </span><span class="s">&quot;startup-tier&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nx">Name</span><span class="p">:</span><span class="w">    </span><span class="s">&quot;Startup Plan&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nx">Enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="nx">Limits</span><span class="p">:</span><span class="w"> </span><span class="nx">coreapi</span><span class="p">.</span><span class="nx">RateLimits</span><span class="p">{</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">        </span><span class="nx">PerMinute</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">        </span><span class="nx">PerHour</span><span class="p">:</span><span class="w">   </span><span class="mi">5000</span><span class="p">,</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">        </span><span class="nx">PerDay</span><span class="p">:</span><span class="w">    </span><span class="mi">50000</span><span class="p">,</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="p">}</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="nx">policyStore</span><span class="p">.</span><span class="nx">CreatePolicy</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">customPolicy</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="endpoint-overrides">Endpoint Overrides<a class="headerlink" href="#endpoint-overrides" title="Permanent link">&para;</a></h2>
+<p>Apply different limits to specific endpoints:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nx">policy</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">coreapi</span><span class="p">.</span><span class="nx">RateLimitPolicy</span><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="nx">ID</span><span class="p">:</span><span class="w">      </span><span class="s">&quot;with-overrides&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nx">Name</span><span class="p">:</span><span class="w">    </span><span class="s">&quot;Custom with Overrides&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nx">Enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="nx">Limits</span><span class="p">:</span><span class="w"> </span><span class="nx">coreapi</span><span class="p">.</span><span class="nx">RateLimits</span><span class="p">{</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">        </span><span class="nx">PerMinute</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="nx">EndpointOverrides</span><span class="p">:</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">coreapi</span><span class="p">.</span><span class="nx">RateLimits</span><span class="p">{</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">        </span><span class="c1">// Expensive search endpoint gets stricter limits</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">        </span><span class="s">&quot;/api/v1/search&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">            </span><span class="nx">PerMinute</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">        </span><span class="p">},</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">        </span><span class="c1">// Health check is unlimited</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">        </span><span class="s">&quot;/health&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">            </span><span class="nx">PerMinute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="c1">// 0 = unlimited</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">        </span><span class="p">},</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="policy-store-interface">Policy Store Interface<a class="headerlink" href="#policy-store-interface" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">type</span><span class="w"> </span><span class="nx">PolicyStore</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="c1">// CRUD operations</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nx">CreatePolicy</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">policy</span><span class="w"> </span><span class="o">*</span><span class="nx">RateLimitPolicy</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nx">GetPolicy</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">policyID</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">RateLimitPolicy</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="nx">UpdatePolicy</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">policy</span><span class="w"> </span><span class="o">*</span><span class="nx">RateLimitPolicy</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="nx">DeletePolicy</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">policyID</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="nx">ListPolicies</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="o">*</span><span class="nx">RateLimitPolicy</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="c1">// Client bindings</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="nx">GetPolicyForClient</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">clientID</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">RateLimitPolicy</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="nx">BindClientToPolicy</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">clientID</span><span class="p">,</span><span class="w"> </span><span class="nx">policyID</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="nx">UnbindClient</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">clientID</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">    </span><span class="c1">// Defaults</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="nx">GetDefaultPolicy</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">RateLimitPolicy</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="nx">SetDefaultPolicy</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">policyID</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="memory-policy-store">Memory Policy Store<a class="headerlink" href="#memory-policy-store" title="Permanent link">&para;</a></h2>
+<p>For development and testing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nx">store</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">coreapi</span><span class="p">.</span><span class="nx">NewMemoryPolicyStore</span><span class="p">()</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1">// Add predefined policies</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nx">store</span><span class="p">.</span><span class="nx">CreatePolicy</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">coreapi</span><span class="p">.</span><span class="nx">StandardPolicy</span><span class="p">)</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="nx">store</span><span class="p">.</span><span class="nx">CreatePolicy</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">coreapi</span><span class="p">.</span><span class="nx">PremiumPolicy</span><span class="p">)</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1">// Set default</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="nx">store</span><span class="p">.</span><span class="nx">SetDefaultPolicy</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;standard&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="c1">// Bind clients</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="nx">store</span><span class="p">.</span><span class="nx">BindClientToPolicy</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;mobile-app&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;standard&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="nx">store</span><span class="p">.</span><span class="nx">BindClientToPolicy</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;partner-api&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;premium&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="lookup-behavior">Lookup Behavior<a class="headerlink" href="#lookup-behavior" title="Permanent link">&para;</a></h2>
+<p>When looking up a policy for a client:</p>
+<ol>
+<li>Check if client has explicit binding → return bound policy</li>
+<li>If no binding, return default policy</li>
+<li>If no default, return error</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nx">policy</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">store</span><span class="p">.</span><span class="nx">GetPolicyForClient</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;mobile-app&quot;</span><span class="p">)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">coreapi</span><span class="p">.</span><span class="nx">ErrNoPolicy</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="c1">// No policy found, decide how to handle</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>memberships</code> → Membership (O2M)</li>
-<li><code>oauth_accounts</code> → OAuthAccount (O2M)</li>
-<li><code>refresh_tokens</code> → RefreshToken (O2M)</li>
-<li><code>api_keys</code> → APIKey (O2M)</li>
-<li><code>oauth_apps</code> → OAuthApp (O2M)</li>
-<li><code>oauth_tokens</code> → OAuthToken (O2M)</li>
-<li><code>oauth_auth_codes</code> → OAuthAuthCode (O2M)</li>
-<li><code>oauth_consents</code> → OAuthConsent (O2M)</li>
-<li><code>created_service_accounts</code> → ServiceAccount (O2M)</li>
+<li><a href="../ratelimit/">Rate Limiting</a> - Apply policies with middleware</li>
+<li><a href="../overview/">Overview</a> - CoreAPI architecture</li>
 </ul>
-<hr />
-<h3 id="organization">Organization<a class="headerlink" href="#organization" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_organizations</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>string</td>
-<td>not empty</td>
-<td>Display name</td>
-</tr>
-<tr>
-<td><code>slug</code></td>
-<td>string</td>
-<td>unique, not empty</td>
-<td>URL identifier</td>
-</tr>
-<tr>
-<td><code>logo_url</code></td>
-<td>string</td>
-<td>optional, nillable</td>
-<td>Logo URL</td>
-</tr>
-<tr>
-<td><code>settings</code></td>
-<td>JSON</td>
-<td>optional</td>
-<td>Custom config</td>
-</tr>
-<tr>
-<td><code>plan</code></td>
-<td>enum</td>
-<td>default: free</td>
-<td>Subscription tier</td>
-</tr>
-<tr>
-<td><code>active</code></td>
-<td>bool</td>
-<td>default: true</td>
-<td>Org status</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-<tr>
-<td><code>updated_at</code></td>
-<td>time</td>
-<td>auto-update</td>
-<td>Modification time</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Plan Values</strong>: <code>free</code>, <code>starter</code>, <code>pro</code>, <code>enterprise</code></p>
-<p><strong>Edges</strong>:</p>
-<ul>
-<li><code>memberships</code> → Membership (O2M)</li>
-<li><code>api_keys</code> → APIKey (O2M)</li>
-<li><code>oauth_apps</code> → OAuthApp (O2M)</li>
-<li><code>service_accounts</code> → ServiceAccount (O2M)</li>
-</ul>
-<hr />
-<h3 id="membership">Membership<a class="headerlink" href="#membership" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_memberships</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>user_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>User reference</td>
-</tr>
-<tr>
-<td><code>organization_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Org reference</td>
-</tr>
-<tr>
-<td><code>role</code></td>
-<td>string</td>
-<td>not empty</td>
-<td>Role name</td>
-</tr>
-<tr>
-<td><code>permissions</code></td>
-<td>JSON</td>
-<td>optional</td>
-<td>Fine-grained perms</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-<tr>
-<td><code>updated_at</code></td>
-<td>time</td>
-<td>auto-update</td>
-<td>Modification time</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Unique Constraint</strong>: <code>(user_id, organization_id)</code></p>
-<p><strong>Edges</strong>:</p>
-<ul>
-<li><code>user</code> → User (M2O)</li>
-<li><code>organization</code> → Organization (M2O)</li>
-</ul>
-<hr />
-<h3 id="oauthaccount">OAuthAccount<a class="headerlink" href="#oauthaccount" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_oauth_accounts</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>user_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>User reference</td>
-</tr>
-<tr>
-<td><code>provider</code></td>
-<td>string</td>
-<td>not empty</td>
-<td>Provider name</td>
-</tr>
-<tr>
-<td><code>provider_user_id</code></td>
-<td>string</td>
-<td>not empty</td>
-<td>External ID</td>
-</tr>
-<tr>
-<td><code>access_token</code></td>
-<td>string</td>
-<td>sensitive</td>
-<td>Encrypted token</td>
-</tr>
-<tr>
-<td><code>refresh_token</code></td>
-<td>string</td>
-<td>optional, sensitive</td>
-<td>Encrypted token</td>
-</tr>
-<tr>
-<td><code>expires_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Token expiry</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-<tr>
-<td><code>updated_at</code></td>
-<td>time</td>
-<td>auto-update</td>
-<td>Modification time</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Unique Constraint</strong>: <code>(provider, provider_user_id)</code></p>
-<hr />
-<h3 id="apikey">APIKey<a class="headerlink" href="#apikey" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_api_keys</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>string</td>
-<td>not empty</td>
-<td>Key name</td>
-</tr>
-<tr>
-<td><code>key_prefix</code></td>
-<td>string</td>
-<td>max: 12</td>
-<td>First chars</td>
-</tr>
-<tr>
-<td><code>key_hash</code></td>
-<td>string</td>
-<td>unique, sensitive</td>
-<td>SHA256 hash</td>
-</tr>
-<tr>
-<td><code>user_id</code></td>
-<td>UUID</td>
-<td>FK, optional</td>
-<td>Owner user</td>
-</tr>
-<tr>
-<td><code>organization_id</code></td>
-<td>UUID</td>
-<td>FK, optional</td>
-<td>Owner org</td>
-</tr>
-<tr>
-<td><code>scopes</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Allowed scopes</td>
-</tr>
-<tr>
-<td><code>expires_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Expiration</td>
-</tr>
-<tr>
-<td><code>last_used_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Last usage</td>
-</tr>
-<tr>
-<td><code>revoked</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Revocation status</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="oauth-schemas">OAuth Schemas<a class="headerlink" href="#oauth-schemas" title="Permanent link">&para;</a></h2>
-<h3 id="oauthapp">OAuthApp<a class="headerlink" href="#oauthapp" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_oauth_apps</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>client_id</code></td>
-<td>string</td>
-<td>unique, immutable</td>
-<td>Public ID</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>string</td>
-<td>not empty, max: 255</td>
-<td>App name</td>
-</tr>
-<tr>
-<td><code>description</code></td>
-<td>string</td>
-<td>optional, max: 1000</td>
-<td>Description</td>
-</tr>
-<tr>
-<td><code>logo_url</code></td>
-<td>string</td>
-<td>optional</td>
-<td>App logo</td>
-</tr>
-<tr>
-<td><code>app_type</code></td>
-<td>enum</td>
-<td>default: web</td>
-<td>Client type</td>
-</tr>
-<tr>
-<td><code>owner_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Creating user</td>
-</tr>
-<tr>
-<td><code>organization_id</code></td>
-<td>UUID</td>
-<td>FK, optional</td>
-<td>Owning org</td>
-</tr>
-<tr>
-<td><code>redirect_uris</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Allowed URIs</td>
-</tr>
-<tr>
-<td><code>allowed_scopes</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Allowed scopes</td>
-</tr>
-<tr>
-<td><code>allowed_grants</code></td>
-<td>JSON</td>
-<td>default: [auth_code, refresh]</td>
-<td>Grant types</td>
-</tr>
-<tr>
-<td><code>allowed_response_types</code></td>
-<td>JSON</td>
-<td>default: [code]</td>
-<td>Response types</td>
-</tr>
-<tr>
-<td><code>access_token_ttl</code></td>
-<td>int</td>
-<td>default: 900</td>
-<td>Token TTL (sec)</td>
-</tr>
-<tr>
-<td><code>refresh_token_ttl</code></td>
-<td>int</td>
-<td>default: 604800</td>
-<td>Refresh TTL (sec)</td>
-</tr>
-<tr>
-<td><code>refresh_token_rotation</code></td>
-<td>bool</td>
-<td>default: true</td>
-<td>Enable rotation</td>
-</tr>
-<tr>
-<td><code>first_party</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Skip consent</td>
-</tr>
-<tr>
-<td><code>public</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>No secret</td>
-</tr>
-<tr>
-<td><code>active</code></td>
-<td>bool</td>
-<td>default: true</td>
-<td>App status</td>
-</tr>
-<tr>
-<td><code>revoked_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Revocation time</td>
-</tr>
-<tr>
-<td><code>metadata</code></td>
-<td>JSON</td>
-<td>optional</td>
-<td>Custom data</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-<tr>
-<td><code>updated_at</code></td>
-<td>time</td>
-<td>auto-update</td>
-<td>Modification time</td>
-</tr>
-</tbody>
-</table>
-<p><strong>App Types</strong>: <code>web</code>, <code>spa</code>, <code>native</code>, <code>service</code>, <code>machine</code></p>
-<hr />
-<h3 id="oauthappsecret">OAuthAppSecret<a class="headerlink" href="#oauthappsecret" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_oauth_app_secrets</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>app_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Parent app</td>
-</tr>
-<tr>
-<td><code>secret_hash</code></td>
-<td>string</td>
-<td>sensitive, not empty</td>
-<td>Argon2id hash</td>
-</tr>
-<tr>
-<td><code>secret_prefix</code></td>
-<td>string</td>
-<td>max: 12</td>
-<td>First chars</td>
-</tr>
-<tr>
-<td><code>expires_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Expiration</td>
-</tr>
-<tr>
-<td><code>last_used_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Last usage</td>
-</tr>
-<tr>
-<td><code>revoked</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Revocation status</td>
-</tr>
-<tr>
-<td><code>revoked_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Revocation time</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="oauthtoken">OAuthToken<a class="headerlink" href="#oauthtoken" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_oauth_tokens</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>app_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Issuing app</td>
-</tr>
-<tr>
-<td><code>user_id</code></td>
-<td>UUID</td>
-<td>FK, optional</td>
-<td>Token owner</td>
-</tr>
-<tr>
-<td><code>service_account_id</code></td>
-<td>UUID</td>
-<td>FK, optional</td>
-<td>SA owner</td>
-</tr>
-<tr>
-<td><code>access_token_signature</code></td>
-<td>string</td>
-<td>unique</td>
-<td>Token hash</td>
-</tr>
-<tr>
-<td><code>refresh_token_signature</code></td>
-<td>string</td>
-<td>unique, optional</td>
-<td>Refresh hash</td>
-</tr>
-<tr>
-<td><code>family_id</code></td>
-<td>UUID</td>
-<td>default: new</td>
-<td>Rotation family</td>
-</tr>
-<tr>
-<td><code>scopes</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Granted scopes</td>
-</tr>
-<tr>
-<td><code>audience</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Token audience</td>
-</tr>
-<tr>
-<td><code>session_id</code></td>
-<td>string</td>
-<td>optional</td>
-<td>BFF session</td>
-</tr>
-<tr>
-<td><code>request_data</code></td>
-<td>text</td>
-<td>optional</td>
-<td>Fosite data</td>
-</tr>
-<tr>
-<td><code>access_expires_at</code></td>
-<td>time</td>
-<td>required</td>
-<td>Access expiry</td>
-</tr>
-<tr>
-<td><code>refresh_expires_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Refresh expiry</td>
-</tr>
-<tr>
-<td><code>revoked</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Revocation status</td>
-</tr>
-<tr>
-<td><code>revoked_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Revocation time</td>
-</tr>
-<tr>
-<td><code>revoked_reason</code></td>
-<td>string</td>
-<td>optional</td>
-<td>Reason</td>
-</tr>
-<tr>
-<td><code>client_ip</code></td>
-<td>string</td>
-<td>optional</td>
-<td>Request IP</td>
-</tr>
-<tr>
-<td><code>user_agent</code></td>
-<td>string</td>
-<td>optional</td>
-<td>User agent</td>
-</tr>
-<tr>
-<td><code>last_used_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Last usage</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="oauthauthcode">OAuthAuthCode<a class="headerlink" href="#oauthauthcode" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_oauth_auth_codes</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>code_signature</code></td>
-<td>string</td>
-<td>unique</td>
-<td>Code hash</td>
-</tr>
-<tr>
-<td><code>app_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Requesting app</td>
-</tr>
-<tr>
-<td><code>user_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Authorizing user</td>
-</tr>
-<tr>
-<td><code>code_challenge</code></td>
-<td>string</td>
-<td>optional</td>
-<td>PKCE challenge</td>
-</tr>
-<tr>
-<td><code>code_challenge_method</code></td>
-<td>string</td>
-<td>optional, default: S256</td>
-<td>PKCE method</td>
-</tr>
-<tr>
-<td><code>redirect_uri</code></td>
-<td>string</td>
-<td>required</td>
-<td>Redirect URI</td>
-</tr>
-<tr>
-<td><code>scopes</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Requested scopes</td>
-</tr>
-<tr>
-<td><code>state</code></td>
-<td>string</td>
-<td>optional</td>
-<td>State param</td>
-</tr>
-<tr>
-<td><code>nonce</code></td>
-<td>string</td>
-<td>optional</td>
-<td>OIDC nonce</td>
-</tr>
-<tr>
-<td><code>request_data</code></td>
-<td>text</td>
-<td>optional</td>
-<td>Fosite data</td>
-</tr>
-<tr>
-<td><code>expires_at</code></td>
-<td>time</td>
-<td>required</td>
-<td>Code expiry</td>
-</tr>
-<tr>
-<td><code>used</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Exchange status</td>
-</tr>
-<tr>
-<td><code>used_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Exchange time</td>
-</tr>
-<tr>
-<td><code>client_ip</code></td>
-<td>string</td>
-<td>optional</td>
-<td>Request IP</td>
-</tr>
-<tr>
-<td><code>user_agent</code></td>
-<td>string</td>
-<td>optional</td>
-<td>User agent</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="oauthconsent">OAuthConsent<a class="headerlink" href="#oauthconsent" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_oauth_consents</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>user_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Consenting user</td>
-</tr>
-<tr>
-<td><code>app_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Consented app</td>
-</tr>
-<tr>
-<td><code>scopes</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Consented scopes</td>
-</tr>
-<tr>
-<td><code>granted</code></td>
-<td>bool</td>
-<td>default: true</td>
-<td>Active status</td>
-</tr>
-<tr>
-<td><code>granted_at</code></td>
-<td>time</td>
-<td>required</td>
-<td>Consent time</td>
-</tr>
-<tr>
-<td><code>last_used_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Last use</td>
-</tr>
-<tr>
-<td><code>revoked</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Revocation status</td>
-</tr>
-<tr>
-<td><code>revoked_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Revocation time</td>
-</tr>
-<tr>
-<td><code>revoked_reason</code></td>
-<td>string</td>
-<td>optional</td>
-<td>Reason</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-<tr>
-<td><code>updated_at</code></td>
-<td>time</td>
-<td>auto-update</td>
-<td>Modification time</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Unique Constraint</strong>: <code>(user_id, app_id)</code></p>
-<hr />
-<h3 id="serviceaccount">ServiceAccount<a class="headerlink" href="#serviceaccount" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_service_accounts</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>string</td>
-<td>not empty, max: 255</td>
-<td>Display name</td>
-</tr>
-<tr>
-<td><code>description</code></td>
-<td>string</td>
-<td>optional, max: 1000</td>
-<td>Description</td>
-</tr>
-<tr>
-<td><code>email</code></td>
-<td>string</td>
-<td>unique, not empty</td>
-<td>Unique identifier</td>
-</tr>
-<tr>
-<td><code>organization_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Owning org</td>
-</tr>
-<tr>
-<td><code>created_by</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Creating user</td>
-</tr>
-<tr>
-<td><code>allowed_scopes</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Allowed scopes</td>
-</tr>
-<tr>
-<td><code>active</code></td>
-<td>bool</td>
-<td>default: true</td>
-<td>Account status</td>
-</tr>
-<tr>
-<td><code>last_used_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Last usage</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-<tr>
-<td><code>updated_at</code></td>
-<td>time</td>
-<td>auto-update</td>
-<td>Modification time</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="serviceaccountkeypair">ServiceAccountKeyPair<a class="headerlink" href="#serviceaccountkeypair" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_service_account_key_pairs</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>service_account_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Parent SA</td>
-</tr>
-<tr>
-<td><code>key_id</code></td>
-<td>string</td>
-<td>not empty</td>
-<td>JWK kid</td>
-</tr>
-<tr>
-<td><code>key_type</code></td>
-<td>enum</td>
-<td>default: rsa</td>
-<td>Key type</td>
-</tr>
-<tr>
-<td><code>algorithm</code></td>
-<td>enum</td>
-<td>default: RS256</td>
-<td>JWT algorithm</td>
-</tr>
-<tr>
-<td><code>public_key_pem</code></td>
-<td>text</td>
-<td>not empty</td>
-<td>PEM public key</td>
-</tr>
-<tr>
-<td><code>expires_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Key expiry</td>
-</tr>
-<tr>
-<td><code>active</code></td>
-<td>bool</td>
-<td>default: true</td>
-<td>Key status</td>
-</tr>
-<tr>
-<td><code>last_used_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Last usage</td>
-</tr>
-<tr>
-<td><code>revoked</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Revocation status</td>
-</tr>
-<tr>
-<td><code>revoked_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Revocation time</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Key Types</strong>: <code>rsa</code>, <code>ec</code></p>
-<p><strong>Algorithms</strong>: <code>RS256</code>, <code>RS384</code>, <code>RS512</code>, <code>ES256</code>, <code>ES384</code>, <code>ES512</code></p>
-<p><strong>Unique Constraint</strong>: <code>(service_account_id, key_id)</code></p>
 
 
 

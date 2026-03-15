@@ -10,9 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://grokify.github.io/coreforge/design/FEAT_AUTHN_PRD/">
+        <link rel="canonical" href="https://grokify.github.io/coreforge/observability/overview/">
       
       
+        <link rel="prev" href="../../coreapi/ratelimit/">
+      
+      
+        <link rel="next" href="../../integration/existing-apps/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +24,7 @@
     
     
       
-        <title>PRD: CoreForge Authentication & Authorization - CoreForge</title>
+        <title>Overview - CoreForge</title>
       
     
     
@@ -72,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#prd-coreforge-authentication-authorization" class="md-skip">
+        <a href="#observability" class="md-skip">
           Skip to content
         </a>
       
@@ -106,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              PRD: CoreForge Authentication &amp; Authorization
+              Overview
             
           </span>
         </div>
@@ -334,11 +338,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../observability/overview/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
   
@@ -378,7 +384,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../PRD_AUTHN.md" class="md-tabs__link">
+        <a href="../../design/PRD_AUTHN.md" class="md-tabs__link">
           
   
   
@@ -1198,28 +1204,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
-        
-          
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
             
   
   
@@ -1232,7 +1241,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             Observability
@@ -1243,10 +1252,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../observability/overview/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1257,6 +1288,272 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#supported-backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Backends
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Start
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-import-the-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Import the Provider
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-create-observability-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Create Observability Instance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-integrate-with-coreforge-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Integrate with CoreForge Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Integrate with CoreForge Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#coreauth-oauth-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      CoreAuth (OAuth Server)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rate-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rate Limiting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      JWT Middleware
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-key-middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Key Middleware
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-request-tracing" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP Request Tracing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slog-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      slog Integration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-from-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration from Environment
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metrics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#coreauth-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      CoreAuth Metrics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rate-limiting-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rate Limiting Metrics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session-middleware-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Session Middleware Metrics
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#traces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Traces
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Traces">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#span-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      Span Names
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-with-jaeger" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing with Jaeger
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recording-custom-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recording Custom Metrics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-custom-spans" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating Custom Spans
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disabling-observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disabling Observability
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1419,7 +1716,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../PRD_AUTHN.md" class="md-nav__link">
+      <a href="../../design/PRD_AUTHN.md" class="md-nav__link">
         
   
   
@@ -1442,7 +1739,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../PRD_OAUTH.md" class="md-nav__link">
+      <a href="../../design/PRD_OAUTH.md" class="md-nav__link">
         
   
   
@@ -1465,7 +1762,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TRD_AUTHN.md" class="md-nav__link">
+      <a href="../../design/TRD_AUTHN.md" class="md-nav__link">
         
   
   
@@ -1488,7 +1785,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TRD_OAUTH.md" class="md-nav__link">
+      <a href="../../design/TRD_OAUTH.md" class="md-nav__link">
         
   
   
@@ -1511,7 +1808,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TRD_TASKS.md" class="md-nav__link">
+      <a href="../../design/TRD_TASKS.md" class="md-nav__link">
         
   
   
@@ -1780,64 +2077,139 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#supported-backends" class="md-nav__link">
     <span class="md-ellipsis">
-      Overview
+      Supported Backends
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#goals" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
-      Goals
+      Quick Start
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#target-applications" class="md-nav__link">
-    <span class="md-ellipsis">
-      Target Applications
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#user-stories" class="md-nav__link">
-    <span class="md-ellipsis">
-      User Stories
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="User Stories">
+    <nav class="md-nav" aria-label="Quick Start">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#webui-authentication" class="md-nav__link">
+  <a href="#1-import-the-provider" class="md-nav__link">
     <span class="md-ellipsis">
-      WebUI Authentication
+      1. Import the Provider
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#developer-api-authentication" class="md-nav__link">
+  <a href="#2-create-observability-instance" class="md-nav__link">
     <span class="md-ellipsis">
-      Developer API Authentication
+      2. Create Observability Instance
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#organization-management" class="md-nav__link">
+  <a href="#3-integrate-with-coreforge-components" class="md-nav__link">
     <span class="md-ellipsis">
-      Organization Management
+      3. Integrate with CoreForge Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Integrate with CoreForge Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#coreauth-oauth-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      CoreAuth (OAuth Server)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rate-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rate Limiting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      JWT Middleware
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-key-middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Key Middleware
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-request-tracing" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP Request Tracing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slog-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      slog Integration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-from-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration from Environment
     </span>
   </a>
   
@@ -1849,28 +2221,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#authentication-flows" class="md-nav__link">
+  <a href="#metrics" class="md-nav__link">
     <span class="md-ellipsis">
-      Authentication Flows
+      Metrics
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Authentication Flows">
+    <nav class="md-nav" aria-label="Metrics">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#flow-1-webui-login-spa" class="md-nav__link">
+  <a href="#coreauth-metrics" class="md-nav__link">
     <span class="md-ellipsis">
-      Flow 1: WebUI Login (SPA)
+      CoreAuth Metrics
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#flow-2-developer-api-authentication" class="md-nav__link">
+  <a href="#rate-limiting-metrics" class="md-nav__link">
     <span class="md-ellipsis">
-      Flow 2: Developer API Authentication
+      Rate Limiting Metrics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session-middleware-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Session Middleware Metrics
     </span>
   </a>
   
@@ -1882,55 +2263,19 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#token-types" class="md-nav__link">
+  <a href="#traces" class="md-nav__link">
     <span class="md-ellipsis">
-      Token Types
+      Traces
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#oauth-grant-types" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuth Grant Types
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#security-requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      Security Requirements
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Security Requirements">
+    <nav class="md-nav" aria-label="Traces">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#token-binding-strategy-dpop-bff" class="md-nav__link">
+  <a href="#span-names" class="md-nav__link">
     <span class="md-ellipsis">
-      Token Binding Strategy: DPoP + BFF
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#defense-in-depth-layers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Defense in Depth Layers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#attack-prevention-matrix" class="md-nav__link">
-    <span class="md-ellipsis">
-      Attack Prevention Matrix
+      Span Names
     </span>
   </a>
   
@@ -1942,69 +2287,36 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#multi-tenancy-model" class="md-nav__link">
+  <a href="#testing-with-jaeger" class="md-nav__link">
     <span class="md-ellipsis">
-      Multi-Tenancy Model
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Multi-Tenancy Model">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#current-tenant-per-user-dashforge" class="md-nav__link">
-    <span class="md-ellipsis">
-      Current: Tenant-per-User (Dashforge)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#target-organization-based-coreforge" class="md-nav__link">
-    <span class="md-ellipsis">
-      Target: Organization-based (CoreForge)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#success-metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      Success Metrics
+      Testing with Jaeger
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#out-of-scope-v1" class="md-nav__link">
+  <a href="#recording-custom-metrics" class="md-nav__link">
     <span class="md-ellipsis">
-      Out of Scope (v1)
+      Recording Custom Metrics
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#dependencies" class="md-nav__link">
+  <a href="#creating-custom-spans" class="md-nav__link">
     <span class="md-ellipsis">
-      Dependencies
+      Creating Custom Spans
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#timeline" class="md-nav__link">
+  <a href="#disabling-observability" class="md-nav__link">
     <span class="md-ellipsis">
-      Timeline
+      Disabling Observability
     </span>
   </a>
   
@@ -2029,379 +2341,321 @@
   
 
 
-<h1 id="prd-coreforge-authentication-authorization">PRD: CoreForge Authentication &amp; Authorization<a class="headerlink" href="#prd-coreforge-authentication-authorization" title="Permanent link">&para;</a></h1>
-<blockquote>
-<p><strong>Status</strong>: Implemented in v0.1.0</p>
-<p>This PRD defined the requirements for CoreForge authentication. The features described below have been implemented in the following modules:</p>
+<h1 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h1>
+<p>CoreForge integrates with <a href="https://github.com/plexusone/omniobserve">omniobserve</a> to provide vendor-agnostic observability including metrics, traces, and logs with support for multiple backends.</p>
+<h2 id="supported-backends">Supported Backends<a class="headerlink" href="#supported-backends" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>session/dpop/</code> - DPoP proof-of-possession (RFC 9449)</li>
-<li><code>session/bff/</code> - Backend for Frontend pattern</li>
-<li><code>session/jwt/</code> - JWT service with DPoP claims</li>
-<li><code>session/middleware/</code> - Authentication middleware</li>
-<li><code>identity/apikey/</code> - API key service</li>
-<li><code>authz/</code> - RBAC with Casbin and simple providers</li>
+<li><strong>OTLP</strong> - OpenTelemetry Protocol (vendor-agnostic)</li>
+<li><strong>Datadog</strong></li>
+<li><strong>New Relic</strong></li>
+<li><strong>Dynatrace</strong></li>
 </ul>
-</blockquote>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>This document defines the product requirements for CoreForge's authentication and authorization system, designed to support multi-tenant SaaS applications with both WebUI (SPA) and Developer API access patterns.</p>
-<h2 id="goals">Goals<a class="headerlink" href="#goals" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>Unified Identity Model</strong>: Organizations where users can be members of multiple orgs (replacing tenant-per-user)</li>
-<li><strong>Secure SPA Authentication</strong>: Prevent token hijacking for direct API abuse</li>
-<li><strong>Developer API Support</strong>: Enable 3rd party integrations via Developer Program</li>
-<li><strong>Extensible Architecture</strong>: Pluggable providers for OAuth, token binding, and authorization</li>
-</ol>
-<h2 id="target-applications">Target Applications<a class="headerlink" href="#target-applications" title="Permanent link">&para;</a></h2>
+<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<h3 id="1-import-the-provider">1. Import the Provider<a class="headerlink" href="#1-import-the-provider" title="Permanent link">&para;</a></h3>
+<p>Import the observability package and the provider you want to use:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="s">&quot;github.com/grokify/coreforge/observability&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omniobserve/observops/otlp&quot;</span><span class="w">     </span><span class="c1">// OTLP</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="c1">// or</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omniobserve/observops/datadog&quot;</span><span class="w">  </span><span class="c1">// Datadog</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="c1">// or</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/omniobserve/observops/newrelic&quot;</span><span class="w"> </span><span class="c1">// New Relic</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
+</code></pre></div>
+<h3 id="2-create-observability-instance">2. Create Observability Instance<a class="headerlink" href="#2-create-observability-instance" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nx">obs</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">observability</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">observability</span><span class="p">.</span><span class="nx">Config</span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nx">Provider</span><span class="p">:</span><span class="w">       </span><span class="s">&quot;otlp&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nx">ServiceName</span><span class="p">:</span><span class="w">    </span><span class="s">&quot;my-app&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nx">ServiceVersion</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.0.0&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nx">Endpoint</span><span class="p">:</span><span class="w">       </span><span class="s">&quot;localhost:4317&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">})</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p">}</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">defer</span><span class="w"> </span><span class="nx">obs</span><span class="p">.</span><span class="nx">Shutdown</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">())</span>
+</code></pre></div>
+<h3 id="3-integrate-with-coreforge-components">3. Integrate with CoreForge Components<a class="headerlink" href="#3-integrate-with-coreforge-components" title="Permanent link">&para;</a></h3>
+<h4 id="coreauth-oauth-server">CoreAuth (OAuth Server)<a class="headerlink" href="#coreauth-oauth-server" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nx">server</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">coreauth</span><span class="p">.</span><span class="nx">NewEmbedded</span><span class="p">(</span><span class="nx">cfg</span><span class="p">,</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nx">coreauth</span><span class="p">.</span><span class="nx">WithObservability</span><span class="p">(</span><span class="nx">obs</span><span class="p">),</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">)</span>
+</code></pre></div>
+<h4 id="rate-limiting">Rate Limiting<a class="headerlink" href="#rate-limiting" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nx">limiter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">ratelimit</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">storage</span><span class="p">,</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="nx">ratelimit</span><span class="p">.</span><span class="nx">WithObservability</span><span class="p">(</span><span class="nx">obs</span><span class="p">),</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nx">router</span><span class="p">.</span><span class="nx">Use</span><span class="p">(</span><span class="nx">limiter</span><span class="p">.</span><span class="nx">Middleware</span><span class="p">())</span>
+</code></pre></div>
+<h4 id="jwt-middleware">JWT Middleware<a class="headerlink" href="#jwt-middleware" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nx">router</span><span class="p">.</span><span class="nx">Use</span><span class="p">(</span><span class="nx">middleware</span><span class="p">.</span><span class="nx">HTTPAuthWithObservability</span><span class="p">(</span><span class="nx">jwtService</span><span class="p">,</span><span class="w"> </span><span class="nx">obs</span><span class="p">))</span>
+</code></pre></div>
+<h4 id="api-key-middleware">API Key Middleware<a class="headerlink" href="#api-key-middleware" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">middleware</span><span class="p">.</span><span class="nx">DefaultAPIKeyMiddlewareConfig</span><span class="p">()</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nx">config</span><span class="p">.</span><span class="nx">Service</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">apikeyService</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nx">config</span><span class="p">.</span><span class="nx">Observability</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">obs</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nx">router</span><span class="p">.</span><span class="nx">Use</span><span class="p">(</span><span class="nx">middleware</span><span class="p">.</span><span class="nx">APIKeyMiddleware</span><span class="p">(</span><span class="nx">config</span><span class="p">))</span>
+</code></pre></div>
+<h4 id="http-request-tracing">HTTP Request Tracing<a class="headerlink" href="#http-request-tracing" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nx">router</span><span class="p">.</span><span class="nx">Use</span><span class="p">(</span><span class="nx">obs</span><span class="p">.</span><span class="nx">Middleware</span><span class="p">())</span>
+</code></pre></div>
+<h4 id="slog-integration">slog Integration<a class="headerlink" href="#slog-integration" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// Use observability-integrated logging</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nx">handler</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">obs</span><span class="p">.</span><span class="nx">SlogHandler</span><span class="p">(</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nx">observops</span><span class="p">.</span><span class="nx">WithSlogLocalHandler</span><span class="p">(</span><span class="nx">slog</span><span class="p">.</span><span class="nx">NewJSONHandler</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)),</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">)</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nx">slog</span><span class="p">.</span><span class="nx">SetDefault</span><span class="p">(</span><span class="nx">slog</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">handler</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<h3 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Application</th>
-<th>Current State</th>
-<th>Target State</th>
+<th>Variable</th>
+<th>Description</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>AcademyOS</strong></td>
-<td>CoreForge integrated</td>
-<td>Add DPoP + BFF</td>
+<td><code>OBSERVABILITY_PROVIDER</code></td>
+<td>Backend provider</td>
+<td><code>otlp</code>, <code>datadog</code>, <code>newrelic</code>, <code>dynatrace</code></td>
 </tr>
 <tr>
-<td><strong>Dashforge</strong></td>
-<td>Custom auth, tenant-per-user</td>
-<td>Full CoreForge migration</td>
+<td><code>OBSERVABILITY_ENDPOINT</code></td>
+<td>Backend endpoint</td>
+<td><code>localhost:4317</code></td>
 </tr>
 <tr>
-<td><strong>Future Apps</strong></td>
-<td>-</td>
-<td>CoreForge from day one</td>
+<td><code>OBSERVABILITY_API_KEY</code></td>
+<td>API key (if required)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>OBSERVABILITY_SERVICE_NAME</code></td>
+<td>Service name</td>
+<td><code>my-app</code></td>
+</tr>
+<tr>
+<td><code>OBSERVABILITY_SERVICE_VERSION</code></td>
+<td>Service version</td>
+<td><code>1.0.0</code></td>
+</tr>
+<tr>
+<td><code>OBSERVABILITY_DISABLED</code></td>
+<td>Disable observability</td>
+<td><code>true</code>, <code>false</code></td>
+</tr>
+<tr>
+<td><code>OBSERVABILITY_INSECURE</code></td>
+<td>Disable TLS</td>
+<td><code>true</code>, <code>false</code></td>
+</tr>
+<tr>
+<td><code>OBSERVABILITY_DEBUG</code></td>
+<td>Enable debug logging</td>
+<td><code>true</code>, <code>false</code></td>
 </tr>
 </tbody>
 </table>
-<h2 id="user-stories">User Stories<a class="headerlink" href="#user-stories" title="Permanent link">&para;</a></h2>
-<h3 id="webui-authentication">WebUI Authentication<a class="headerlink" href="#webui-authentication" title="Permanent link">&para;</a></h3>
-<p><strong>US-1</strong>: As a user, I can sign in via OAuth (GitHub, Google) through the web application.</p>
-<p><strong>US-2</strong>: As a user, my session is secure even if an attacker intercepts network traffic.</p>
-<p><strong>US-3</strong>: As a user, tokens stolen from my browser cannot be used outside the web application context.</p>
-<p><strong>US-4</strong>: As a user, I can belong to multiple organizations and switch between them.</p>
-<h3 id="developer-api-authentication">Developer API Authentication<a class="headerlink" href="#developer-api-authentication" title="Permanent link">&para;</a></h3>
-<p><strong>US-5</strong>: As a developer, I can create API keys for server-to-server integration.</p>
-<p><strong>US-6</strong>: As a developer, I can use OAuth to access APIs on behalf of users (with their consent).</p>
-<p><strong>US-7</strong>: As an admin, I can revoke developer API keys without affecting WebUI sessions.</p>
-<h3 id="organization-management">Organization Management<a class="headerlink" href="#organization-management" title="Permanent link">&para;</a></h3>
-<p><strong>US-8</strong>: As an org owner, I can invite users to my organization with specific roles.</p>
-<p><strong>US-9</strong>: As a user, I can accept invitations to join organizations.</p>
-<p><strong>US-10</strong>: As a platform admin, I can manage all organizations and users.</p>
-<h2 id="authentication-flows">Authentication Flows<a class="headerlink" href="#authentication-flows" title="Permanent link">&para;</a></h2>
-<h3 id="flow-1-webui-login-spa">Flow 1: WebUI Login (SPA)<a class="headerlink" href="#flow-1-webui-login-spa" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────┐     ┌─────────┐     ┌─────────┐     ┌─────────┐
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│  User   │     │  React  │     │   BFF   │     │  Auth   │
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│         │     │   SPA   │     │         │     │ Server  │
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>└────┬────┘     └────┬────┘     └────┬────┘     └────┬────┘
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>     │               │               │               │
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>     │  Click Login  │               │               │
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>     │──────────────▶│               │               │
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>     │               │  Start OAuth  │               │
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>     │               │──────────────▶│               │
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>     │               │               │  Auth URL     │
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>     │               │               │──────────────▶│
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>     │               │               │               │
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>     │◀──────────────────────────────────────────────│
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>     │           Redirect to OAuth Provider          │
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>     │               │               │               │
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>     │  Authenticate │               │               │
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>     │──────────────▶│               │               │
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>     │               │               │               │
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>     │◀──────────────────────────────────────────────│
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>     │         Redirect with auth code               │
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>     │               │               │               │
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>     │               │  Code + PKCE  │               │
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>     │               │──────────────▶│               │
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>     │               │               │  Exchange     │
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>     │               │               │──────────────▶│
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>     │               │               │  Tokens       │
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>     │               │               │◀──────────────│
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>     │               │               │               │
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>     │               │  Session Cookie (HTTP-only)   │
-<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>     │               │◀──────────────│               │
-<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>     │               │               │               │
-<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>     │  Logged In    │               │               │
-<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>     │◀──────────────│               │               │
+<h3 id="configuration-from-environment">Configuration from Environment<a class="headerlink" href="#configuration-from-environment" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nx">obs</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">observability</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">observability</span><span class="p">.</span><span class="nx">ConfigFromEnv</span><span class="p">())</span>
 </code></pre></div>
-<h3 id="flow-2-developer-api-authentication">Flow 2: Developer API Authentication<a class="headerlink" href="#flow-2-developer-api-authentication" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>┌─────────┐     ┌─────────┐     ┌─────────┐
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│Developer│     │  Their  │     │CoreForge│
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>│         │     │ Server  │     │   API   │
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>└────┬────┘     └────┬────┘     └────┬────┘
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>     │               │               │
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>     │ Create API Key│               │
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>     │ (via WebUI)   │               │
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>     │──────────────▶│               │
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>     │               │               │
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>     │  API Key      │               │
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>     │◀──────────────│               │
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>     │               │               │
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>     │  Configure    │               │
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>     │──────────────▶│               │
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>     │               │               │
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>     │               │  Client Creds │
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>     │               │──────────────▶│
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>     │               │  Access Token │
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>     │               │◀──────────────│
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>     │               │               │
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>     │               │  API Request  │
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>     │               │  + Bearer Token│
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>     │               │──────────────▶│
-<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>     │               │  Response     │
-<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>     │               │◀──────────────│
-</code></pre></div>
-<h2 id="token-types">Token Types<a class="headerlink" href="#token-types" title="Permanent link">&para;</a></h2>
+<h2 id="metrics">Metrics<a class="headerlink" href="#metrics" title="Permanent link">&para;</a></h2>
+<h3 id="coreauth-metrics">CoreAuth Metrics<a class="headerlink" href="#coreauth-metrics" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Token Type</th>
-<th>Purpose</th>
-<th>Lifetime</th>
-<th>Binding</th>
-<th>Audience</th>
+<th>Metric</th>
+<th>Type</th>
+<th>Labels</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>WebUI Access</td>
-<td>SPA API calls via BFF</td>
-<td>15 min</td>
-<td>DPoP (BFF-held)</td>
-<td><code>webui</code></td>
+<td><code>coreforge.coreauth.auth_requests_total</code></td>
+<td>Counter</td>
+<td>grant_type, client_id, status</td>
+<td>Authentication requests</td>
 </tr>
 <tr>
-<td>WebUI Refresh</td>
-<td>Renew WebUI access</td>
-<td>7 days</td>
-<td>HTTP-only cookie</td>
-<td><code>webui</code></td>
+<td><code>coreforge.coreauth.auth_latency_ms</code></td>
+<td>Histogram</td>
+<td>grant_type, endpoint</td>
+<td>Request latency</td>
 </tr>
 <tr>
-<td>Developer Access</td>
-<td>Server-to-server API</td>
-<td>1 hour</td>
-<td>None (server-side)</td>
-<td><code>api</code></td>
+<td><code>coreforge.coreauth.tokens_issued_total</code></td>
+<td>Counter</td>
+<td>grant_type, client_id</td>
+<td>Tokens issued</td>
 </tr>
 <tr>
-<td>Developer Refresh</td>
-<td>Renew developer access</td>
-<td>30 days</td>
-<td>Secure storage</td>
-<td><code>api</code></td>
+<td><code>coreforge.coreauth.token_validations_total</code></td>
+<td>Counter</td>
+<td>result</td>
+<td>Token validations</td>
+</tr>
+<tr>
+<td><code>coreforge.coreauth.sessions_active</code></td>
+<td>Gauge</td>
+<td></td>
+<td>Active sessions</td>
 </tr>
 </tbody>
 </table>
-<h2 id="oauth-grant-types">OAuth Grant Types<a class="headerlink" href="#oauth-grant-types" title="Permanent link">&para;</a></h2>
+<h3 id="rate-limiting-metrics">Rate Limiting Metrics<a class="headerlink" href="#rate-limiting-metrics" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Use Case</th>
-<th>Grant Type</th>
-<th>PKCE Required</th>
-<th>Client Type</th>
+<th>Metric</th>
+<th>Type</th>
+<th>Labels</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>WebUI (SPA via BFF)</td>
-<td>Authorization Code</td>
-<td>Yes</td>
-<td>Confidential (BFF)</td>
+<td><code>coreforge.coreapi.ratelimit_requests_total</code></td>
+<td>Counter</td>
+<td>policy_id, client_id, allowed</td>
+<td>Rate limit checks</td>
 </tr>
 <tr>
-<td>Developer (server)</td>
-<td>Client Credentials</td>
-<td>No</td>
-<td>Confidential</td>
-</tr>
-<tr>
-<td>Developer (user context)</td>
-<td>Authorization Code</td>
-<td>Yes</td>
-<td>Confidential</td>
-</tr>
-<tr>
-<td>Mobile App (future)</td>
-<td>Authorization Code</td>
-<td>Yes</td>
-<td>Public</td>
+<td><code>coreforge.coreapi.ratelimit_quota_usage</code></td>
+<td>Gauge</td>
+<td>policy_id, client_id, window</td>
+<td>Current usage ratio</td>
 </tr>
 </tbody>
 </table>
-<h2 id="security-requirements">Security Requirements<a class="headerlink" href="#security-requirements" title="Permanent link">&para;</a></h2>
-<h3 id="token-binding-strategy-dpop-bff">Token Binding Strategy: DPoP + BFF<a class="headerlink" href="#token-binding-strategy-dpop-bff" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>┌─────────────────────────────────────────────────────────────────────────┐
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>│                              BROWSER                                     │
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>│  ┌─────────────────────────────────────────────────────────────────┐    │
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>│  │                         React SPA                                │    │
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>│  │                                                                  │    │
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>│  │  • NO access tokens                                              │    │
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>│  │  • NO refresh tokens                                             │    │
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>│  │  • NO DPoP keys                                                  │    │
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>│  │  • Only HTTP-only session cookie                                 │    │
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>│  └──────────────────────────┬──────────────────────────────────────┘    │
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>│                             │                                            │
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>│              Cookie: session=abc123 (HTTP-only, Secure, SameSite=Strict) │
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>└─────────────────────────────┼───────────────────────────────────────────┘
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>                              │
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>                              ▼
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>┌─────────────────────────────────────────────────────────────────────────┐
-<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>│                         BFF (Backend for Frontend)                       │
-<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>│                         same origin as SPA                               │
-<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>│  ┌─────────────────────────────────────────────────────────────────┐    │
-<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>│  │                                                                  │    │
-<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>│  │  • Validates session cookie                                      │    │
-<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>│  │  • Validates Origin/Referer header                               │    │
-<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>│  │  • Holds access + refresh tokens (server-side session store)     │    │
-<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>│  │  • Holds DPoP private key (per-session)                          │    │
-<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>│  │  • Signs DPoP proofs for API calls                               │    │
-<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>│  │                                                                  │    │
-<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>│  └──────────────────────────┬──────────────────────────────────────┘    │
-<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>│                             │                                            │
-<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>│              Authorization: DPoP &lt;access_token&gt;                          │
-<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>│              DPoP: &lt;signed_proof_jwt&gt;                                    │
-<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>└─────────────────────────────┼───────────────────────────────────────────┘
-<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>                              │
-<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>                              ▼
-<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>┌─────────────────────────────────────────────────────────────────────────┐
-<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>│                         CoreForge API Backend                            │
-<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>│  ┌─────────────────────────────────────────────────────────────────┐    │
-<a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>│  │                                                                  │    │
-<a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>│  │  • Validates DPoP proof signature                                │    │
-<a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a>│  │  • Validates token is bound to proof key (cnf.jkt claim)         │    │
-<a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a>│  │  • Validates audience = &quot;api&quot;                                    │    │
-<a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a>│  │  • Processes request                                             │    │
-<a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a>│  │                                                                  │    │
-<a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a>│  └─────────────────────────────────────────────────────────────────┘    │
-<a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a>└─────────────────────────────────────────────────────────────────────────┘
-</code></pre></div>
-<h3 id="defense-in-depth-layers">Defense in Depth Layers<a class="headerlink" href="#defense-in-depth-layers" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>┌────────────────────────────────────────────────────────────┐
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>│                    Defense in Depth                         │
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├────────────────────────────────────────────────────────────┤
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│  Layer 1: HTTP-only Secure Cookies (SPA ↔ BFF)              │
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│           └─ Tokens never exposed to JavaScript             │
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│                                                             │
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│  Layer 2: Origin Validation                                 │
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│           └─ BFF rejects requests without valid Origin      │
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>│                                                             │
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>│  Layer 3: DPoP Token Binding (BFF ↔ API)                    │
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>│           └─ Stolen tokens useless without private key      │
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>│                                                             │
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>│  Layer 4: Short Token Lifetime (15 min access)              │
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>│           └─ Limits attack window                           │
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>│                                                             │
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>│  Layer 5: Audience Separation                               │
-<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>│           └─ WebUI tokens can&#39;t access Developer API        │
-<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>│                                                             │
-<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>│  Layer 6: Strict CSP + XSS Prevention                       │
-<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>│           └─ Prevents attacker code from running            │
-<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>└────────────────────────────────────────────────────────────┘
-</code></pre></div>
-<h3 id="attack-prevention-matrix">Attack Prevention Matrix<a class="headerlink" href="#attack-prevention-matrix" title="Permanent link">&para;</a></h3>
+<h3 id="session-middleware-metrics">Session Middleware Metrics<a class="headerlink" href="#session-middleware-metrics" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Attack Vector</th>
-<th>Cookie (SPA↔BFF)</th>
-<th>Origin Check</th>
-<th>DPoP (BFF↔API)</th>
+<th>Metric</th>
+<th>Type</th>
+<th>Labels</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>XSS steals token from browser</td>
-<td>✅ No token to steal</td>
-<td>-</td>
-<td>-</td>
+<td><code>coreforge.session.jwt_validations_total</code></td>
+<td>Counter</td>
+<td>result</td>
+<td>JWT validations</td>
 </tr>
 <tr>
-<td>XSS makes API calls via browser</td>
-<td>✅ Must go through BFF</td>
-<td>✅ BFF validates origin</td>
-<td>-</td>
+<td><code>coreforge.session.jwt_validation_latency_ms</code></td>
+<td>Histogram</td>
+<td></td>
+<td>Validation latency</td>
 </tr>
 <tr>
-<td>CSRF attack</td>
-<td>✅ SameSite cookie</td>
-<td>✅ Origin mismatch</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Token stolen from BFF logs</td>
-<td>-</td>
-<td>-</td>
-<td>✅ Can't sign proofs</td>
-</tr>
-<tr>
-<td>Token intercepted BFF↔API</td>
-<td>-</td>
-<td>-</td>
-<td>✅ Can't sign proofs</td>
-</tr>
-<tr>
-<td>curl/Postman with stolen cookie</td>
-<td>✅ No Origin header</td>
-<td>✅ Origin validation</td>
-<td>-</td>
-</tr>
-<tr>
-<td>curl/Postman with stolen token</td>
-<td>-</td>
-<td>-</td>
-<td>✅ No private key</td>
+<td><code>coreforge.session.apikey_validations_total</code></td>
+<td>Counter</td>
+<td>result</td>
+<td>API key validations</td>
 </tr>
 </tbody>
 </table>
-<h2 id="multi-tenancy-model">Multi-Tenancy Model<a class="headerlink" href="#multi-tenancy-model" title="Permanent link">&para;</a></h2>
-<h3 id="current-tenant-per-user-dashforge">Current: Tenant-per-User (Dashforge)<a class="headerlink" href="#current-tenant-per-user-dashforge" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>┌─────────┐     ┌─────────┐
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>│  User   │────▶│ Tenant  │  One user = One tenant
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>└─────────┘     └─────────┘
+<h2 id="traces">Traces<a class="headerlink" href="#traces" title="Permanent link">&para;</a></h2>
+<h3 id="span-names">Span Names<a class="headerlink" href="#span-names" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Span</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>coreforge.coreauth.authorize</code></td>
+<td>OAuth authorization endpoint</td>
+</tr>
+<tr>
+<td><code>coreforge.coreauth.token</code></td>
+<td>OAuth token endpoint</td>
+</tr>
+<tr>
+<td><code>coreforge.coreauth.introspect</code></td>
+<td>Token introspection</td>
+</tr>
+<tr>
+<td><code>coreforge.coreauth.revoke</code></td>
+<td>Token revocation</td>
+</tr>
+<tr>
+<td><code>coreforge.http.request</code></td>
+<td>HTTP request</td>
+</tr>
+<tr>
+<td><code>coreforge.session.jwt_validation</code></td>
+<td>JWT validation</td>
+</tr>
+<tr>
+<td><code>coreforge.session.apikey_validation</code></td>
+<td>API key validation</td>
+</tr>
+<tr>
+<td><code>coreforge.ratelimit.check</code></td>
+<td>Rate limit check</td>
+</tr>
+</tbody>
+</table>
+<h2 id="testing-with-jaeger">Testing with Jaeger<a class="headerlink" href="#testing-with-jaeger" title="Permanent link">&para;</a></h2>
+<p>Run Jaeger locally to test OTLP integration:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>jaeger<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>-p<span class="w"> </span><span class="m">16686</span>:16686<span class="w"> </span>-p<span class="w"> </span><span class="m">4317</span>:4317<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>jaegertracing/all-in-one:latest
 </code></pre></div>
-<h3 id="target-organization-based-coreforge">Target: Organization-based (CoreForge)<a class="headerlink" href="#target-organization-based-coreforge" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>┌─────────┐     ┌────────────┐     ┌──────────────┐
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>│  User   │────▶│ Membership │────▶│ Organization │
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>└─────────┘     │  (role)    │     └──────────────┘
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>                └────────────┘
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>     │                                    ▲
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>     │          ┌────────────┐            │
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>     └─────────▶│ Membership │────────────┘
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>                │  (role)    │
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>                └────────────┘
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>One user can belong to multiple organizations with different roles
+<p>Configure your app:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nv">OBSERVABILITY_PROVIDER</span><span class="o">=</span>otlp<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nv">OBSERVABILITY_ENDPOINT</span><span class="o">=</span>localhost:4317<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nv">OBSERVABILITY_INSECURE</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>go<span class="w"> </span>run<span class="w"> </span>./cmd/server
 </code></pre></div>
-<h2 id="success-metrics">Success Metrics<a class="headerlink" href="#success-metrics" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>Security</strong>: Zero token hijacking incidents</li>
-<li><strong>Performance</strong>: &lt; 50ms overhead for DPoP validation</li>
-<li><strong>Developer Experience</strong>: &lt; 30 min to integrate Developer API</li>
-<li><strong>Migration</strong>: Dashforge migrated with zero data loss</li>
-</ol>
-<h2 id="out-of-scope-v1">Out of Scope (v1)<a class="headerlink" href="#out-of-scope-v1" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Mobile app native authentication (future)</li>
-<li>SAML/OIDC enterprise SSO (future)</li>
-<li>Hardware security key (WebAuthn) binding (future)</li>
-<li>Cedar authorization provider (future)</li>
-</ul>
-<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
-<ul>
-<li>CoreForge identity module (existing)</li>
-<li>CoreForge session/JWT module (existing)</li>
-<li>CoreForge authz module (existing)</li>
-<li>PostgreSQL for session storage</li>
-<li>Redis for session caching (optional)</li>
-</ul>
-<h2 id="timeline">Timeline<a class="headerlink" href="#timeline" title="Permanent link">&para;</a></h2>
-<p>See TRD_TASKS.md for implementation phases and priorities.</p>
+<p>View traces at http://localhost:16686</p>
+<h2 id="recording-custom-metrics">Recording Custom Metrics<a class="headerlink" href="#recording-custom-metrics" title="Permanent link">&para;</a></h2>
+<p>Use the underlying observops.Provider for custom metrics:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nx">meter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">obs</span><span class="p">.</span><span class="nx">Meter</span><span class="p">()</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nx">counter</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">meter</span><span class="p">.</span><span class="nx">Counter</span><span class="p">(</span><span class="s">&quot;my_custom_counter&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="nx">observops</span><span class="p">.</span><span class="nx">WithDescription</span><span class="p">(</span><span class="s">&quot;My custom counter&quot;</span><span class="p">),</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="p">)</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="nx">counter</span><span class="p">.</span><span class="nx">Add</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nx">observops</span><span class="p">.</span><span class="nx">WithAttributes</span><span class="p">(</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="nx">observops</span><span class="p">.</span><span class="nx">Attribute</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value&quot;</span><span class="p">),</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="p">))</span>
+</code></pre></div>
+<h2 id="creating-custom-spans">Creating Custom Spans<a class="headerlink" href="#creating-custom-spans" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">obs</span><span class="p">.</span><span class="nx">StartSpan</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my.custom.operation&quot;</span><span class="p">,</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="nx">observops</span><span class="p">.</span><span class="nx">WithSpanKind</span><span class="p">(</span><span class="nx">observops</span><span class="p">.</span><span class="nx">SpanKindInternal</span><span class="p">),</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="nx">observops</span><span class="p">.</span><span class="nx">WithSpanAttributes</span><span class="p">(</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">        </span><span class="nx">observops</span><span class="p">.</span><span class="nx">Attribute</span><span class="p">(</span><span class="s">&quot;user.id&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">userID</span><span class="p">),</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="p">),</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="p">)</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="k">defer</span><span class="w"> </span><span class="nx">span</span><span class="p">.</span><span class="nx">End</span><span class="p">()</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="c1">// ... your code here ...</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">    </span><span class="nx">span</span><span class="p">.</span><span class="nx">RecordError</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">    </span><span class="nx">span</span><span class="p">.</span><span class="nx">SetStatus</span><span class="p">(</span><span class="nx">observops</span><span class="p">.</span><span class="nx">StatusCodeError</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="disabling-observability">Disabling Observability<a class="headerlink" href="#disabling-observability" title="Permanent link">&para;</a></h2>
+<p>To disable observability entirely:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nx">obs</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">observability</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">observability</span><span class="p">.</span><span class="nx">Config</span><span class="p">{</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="nx">Disabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="p">})</span>
+</code></pre></div>
+<p>Or via environment:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nv">OBSERVABILITY_DISABLED</span><span class="o">=</span><span class="nb">true</span>
+</code></pre></div>
+<p>When disabled, all operations are no-ops with minimal overhead.</p>
 
 
 
