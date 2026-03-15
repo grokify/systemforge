@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -254,12 +255,20 @@ func (h *DefaultIdentitySyncHandler) SyncIdentity(ctx context.Context, req *Iden
 	}
 }
 
-// User represents a local user for federation sync.
+// User represents a local user identity.
 type User struct {
 	ID           uuid.UUID  `json:"id"`
 	Email        string     `json:"email"`
+	EmailVerified bool      `json:"email_verified,omitempty"`
 	Name         string     `json:"name"`
+	GivenName    string     `json:"given_name,omitempty"`
+	FamilyName   string     `json:"family_name,omitempty"`
+	Picture      string     `json:"picture,omitempty"`
+	Locale       string     `json:"locale,omitempty"`
 	Active       bool       `json:"active"`
 	Federated    bool       `json:"federated"`
 	FederationID *uuid.UUID `json:"federation_id,omitempty"`
+	Metadata     map[string]any `json:"metadata,omitempty"`
+	CreatedAt    time.Time  `json:"created_at,omitzero"`
+	UpdatedAt    time.Time  `json:"updated_at,omitzero"`
 }

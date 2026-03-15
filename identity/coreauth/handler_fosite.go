@@ -4,8 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/danielgtaylor/huma/v2"
+	"github.com/grokify/coreforge/observability"
+	"github.com/plexusone/omniobserve/observops"
 )
 
 // fositeInterceptor intercepts OAuth requests and delegates to Fosite handlers.
@@ -120,11 +123,22 @@ func (s *Server) revokeOpenAPI(_ context.Context, _ *RevokeInput) (*RevokeOutput
 func (s *Server) authorizeEndpoint(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	logger := LoggerFromContext(ctx)
+	start := time.Now()
+
+	// Start span if observability is configured
+	if s.observability != nil {
+		var span observops.Span
+		ctx, span = s.observability.StartSpan(ctx, observability.SpanAuthorize,
+			observops.WithSpanKind(observops.SpanKindServer),
+		)
+		defer span.End()
+	}
 
 	// Parse the authorization request
 	ar, err := s.oauth2.NewAuthorizeRequest(ctx, r)
 	if err != nil {
 		logger.Warn("authorize request failed", "error", err)
+		s.recordAuthMetrics(ctx, "authorize", "", observability.StatusError, start)
 		s.oauth2.WriteAuthorizeError(ctx, w, ar, err)
 		return
 	}
@@ -173,6 +187,7 @@ func (s *Server) authorizeEndpoint(w http.ResponseWriter, r *http.Request) {
 	response, err := s.oauth2.NewAuthorizeResponse(ctx, ar, session)
 	if err != nil {
 		logger.Warn("authorize response failed", "error", err)
+		s.recordAuthMetrics(ctx, "authorize", clientID, observability.StatusError, start)
 		s.oauth2.WriteAuthorizeError(ctx, w, ar, err)
 		return
 	}
@@ -183,6 +198,9 @@ func (s *Server) authorizeEndpoint(w http.ResponseWriter, r *http.Request) {
 		"scopes", requestedScopes,
 	)
 
+	// Record success metrics
+	s.recordAuthMetrics(ctx, "authorize", clientID, observability.StatusSuccess, start)
+
 	// Write the response (redirect with code)
 	s.oauth2.WriteAuthorizeResponse(ctx, w, ar, response)
 }
@@ -191,19 +209,34 @@ func (s *Server) authorizeEndpoint(w http.ResponseWriter, r *http.Request) {
 func (s *Server) tokenEndpoint(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	logger := LoggerFromContext(ctx)
+	start := time.Now()
+
+	grantType := r.FormValue("grant_type")
+
+	// Start span if observability is configured
+	if s.observability != nil {
+		var span observops.Span
+		ctx, span = s.observability.StartSpan(ctx, observability.SpanToken,
+			observops.WithSpanKind(observops.SpanKindServer),
+			observops.WithSpanAttributes(
+				observops.Attribute("oauth.grant_type", grantType),
+			),
+		)
+		defer span.End()
+	}
 
 	// Limit request body size to prevent memory exhaustion (1MB max for token requests)
 	r.Body = http.MaxBytesReader(w, r.Body, 1<<20)
 
 	// Create session (will be populated by the grant handler)
 	session := s.Session("")
-	grantType := r.FormValue("grant_type")
 	logger.Debug("token request", "grant_type", grantType)
 
 	// Process the token request
 	ar, err := s.oauth2.NewAccessRequest(ctx, r, session)
 	if err != nil {
 		logger.Warn("token request failed", "grant_type", grantType, "error", err)
+		s.recordAuthMetrics(ctx, grantType, "", observability.StatusError, start)
 		s.oauth2.WriteAccessError(ctx, w, ar, err)
 		return
 	}
@@ -223,6 +256,7 @@ func (s *Server) tokenEndpoint(w http.ResponseWriter, r *http.Request) {
 			"client_id", clientID,
 			"error", err,
 		)
+		s.recordAuthMetrics(ctx, grantType, clientID, observability.StatusError, start)
 		s.oauth2.WriteAccessError(ctx, w, ar, err)
 		return
 	}
@@ -233,6 +267,12 @@ func (s *Server) tokenEndpoint(w http.ResponseWriter, r *http.Request) {
 		"scopes", ar.GetGrantedScopes(),
 	)
 
+	// Record success metrics
+	s.recordAuthMetrics(ctx, grantType, clientID, observability.StatusSuccess, start)
+	if s.observability != nil {
+		s.observability.RecordTokenIssued(ctx, grantType, clientID)
+	}
+
 	// Write the response
 	s.oauth2.WriteAccessResponse(ctx, w, ar, response)
 }
@@ -240,16 +280,33 @@ func (s *Server) tokenEndpoint(w http.ResponseWriter, r *http.Request) {
 // introspectionEndpoint handles POST /oauth/introspect.
 func (s *Server) introspectionEndpoint(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
+
+	// Start span if observability is configured
+	if s.observability != nil {
+		var span observops.Span
+		ctx, span = s.observability.StartSpan(ctx, observability.SpanIntrospect,
+			observops.WithSpanKind(observops.SpanKindServer),
+		)
+		defer span.End()
+	}
+
 	session := s.Session("")
 
 	ir, err := s.oauth2.NewIntrospectionRequest(ctx, r, session)
 	if err != nil {
 		// Introspection MUST return 200 even for invalid tokens
+		if s.observability != nil {
+			s.observability.RecordTokenValidation(ctx, observability.ResultInvalid)
+		}
 		w.Header().Set("Content-Type", "application/json")
 		_ = json.NewEncoder(w).Encode(map[string]interface{}{
 			"active": false,
 		})
 		return
+	}
+
+	if s.observability != nil {
+		s.observability.RecordTokenValidation(ctx, observability.ResultValid)
 	}
 
 	s.oauth2.WriteIntrospectionResponse(ctx, w, ir)
@@ -258,6 +315,15 @@ func (s *Server) introspectionEndpoint(w http.ResponseWriter, r *http.Request) {
 // revocationEndpoint handles POST /oauth/revoke.
 func (s *Server) revocationEndpoint(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
+
+	// Start span if observability is configured
+	if s.observability != nil {
+		var span observops.Span
+		ctx, span = s.observability.StartSpan(ctx, observability.SpanRevoke,
+			observops.WithSpanKind(observops.SpanKindServer),
+		)
+		defer span.End()
+	}
 
 	err := s.oauth2.NewRevocationRequest(ctx, r)
 	if err != nil {
@@ -271,4 +337,13 @@ func (s *Server) revocationEndpoint(w http.ResponseWriter, r *http.Request) {
 // SessionProvider returns the session provider.
 func (s *Server) SessionProvider() SessionProvider {
 	return s.sessionProvider
+}
+
+// recordAuthMetrics records authentication metrics if observability is configured.
+func (s *Server) recordAuthMetrics(ctx context.Context, grantType, clientID, status string, start time.Time) {
+	if s.observability == nil {
+		return
+	}
+	s.observability.RecordAuthRequest(ctx, grantType, clientID, status)
+	s.observability.RecordAuthLatency(ctx, grantType, "/oauth/token", float64(time.Since(start).Milliseconds()))
 }

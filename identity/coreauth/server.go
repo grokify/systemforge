@@ -12,6 +12,7 @@ import (
 	"github.com/danielgtaylor/huma/v2/adapters/humachi"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/grokify/coreforge/observability"
 	"github.com/ory/fosite"
 	"github.com/ory/fosite/compose"
 	"github.com/ory/fosite/handler/openid"
@@ -28,6 +29,7 @@ type Server struct {
 	huma            huma.API
 	router          chi.Router
 	logger          *slog.Logger
+	observability   *observability.Observability
 }
 
 // Option configures a Server.
@@ -51,6 +53,13 @@ func WithStorage(storage Storage) Option {
 func WithSessionProvider(provider SessionProvider) Option {
 	return func(s *Server) {
 		s.sessionProvider = provider
+	}
+}
+
+// WithObservability sets the observability provider for metrics and tracing.
+func WithObservability(obs *observability.Observability) Option {
+	return func(s *Server) {
+		s.observability = obs
 	}
 }
 
@@ -244,6 +253,11 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 // Logger returns the server's logger.
 func (s *Server) Logger() *slog.Logger {
 	return s.logger
+}
+
+// Observability returns the observability provider, or nil if not configured.
+func (s *Server) Observability() *observability.Observability {
+	return s.observability
 }
 
 // OAuth2Provider returns the underlying Fosite provider.
