@@ -1,0 +1,121 @@
+package ratelimit
+
+import (
+	"net/http"
+
+	"github.com/google/uuid"
+	"github.com/grokify/coreforge/session/middleware"
+)
+
+// Common key function builders for rate limiting based on JWT claims.
+
+// PrincipalKey returns a KeyFunc that extracts the principal ID from JWT claims.
+// Falls back to IP address if no principal is authenticated.
+func PrincipalKey() KeyFunc {
+	return func(r *http.Request) string {
+		principalID := middleware.PrincipalIDFromContext(r.Context())
+		if principalID != uuid.Nil {
+			return "pid:" + principalID.String()
+		}
+		// Fallback to IP for unauthenticated requests
+		return "ip:" + extractIP(r)
+	}
+}
+
+// ClientKey returns a KeyFunc that extracts the OAuth client ID (azp) from JWT claims.
+// Falls back to IP address if no client ID is present.
+func ClientKey() KeyFunc {
+	return func(r *http.Request) string {
+		claims := middleware.ClaimsFromContext(r.Context())
+		if claims != nil && claims.ClientID != "" {
+			return "client:" + claims.ClientID
+		}
+		// Fallback to IP for requests without client ID
+		return "ip:" + extractIP(r)
+	}
+}
+
+// CompositeKey returns a KeyFunc that combines principal and client IDs.
+// Format: "pid:{principal_id}:client:{client_id}" or fallback to IP.
+func CompositeKey() KeyFunc {
+	return func(r *http.Request) string {
+		claims := middleware.ClaimsFromContext(r.Context())
+		if claims == nil {
+			return "ip:" + extractIP(r)
+		}
+
+		var key string
+		if claims.PrincipalID != uuid.Nil {
+			key = "pid:" + claims.PrincipalID.String()
+		}
+		if claims.ClientID != "" {
+			if key != "" {
+				key += ":"
+			}
+			key += "client:" + claims.ClientID
+		}
+		if key == "" {
+			return "ip:" + extractIP(r)
+		}
+		return key
+	}
+}
+
+// EndpointKey wraps another KeyFunc to add endpoint-specific rate limiting.
+// Format: "{inner_key}:path:{path}:method:{method}"
+func EndpointKey(inner KeyFunc) KeyFunc {
+	return func(r *http.Request) string {
+		key := inner(r)
+		return key + ":path:" + r.URL.Path + ":method:" + r.Method
+	}
+}
+
+// PrincipalEndpointKey is a convenience function combining PrincipalKey with EndpointKey.
+func PrincipalEndpointKey() KeyFunc {
+	return EndpointKey(PrincipalKey())
+}
+
+// ClientEndpointKey is a convenience function combining ClientKey with EndpointKey.
+func ClientEndpointKey() KeyFunc {
+	return EndpointKey(ClientKey())
+}
+
+// IPKey returns a KeyFunc that uses the client's IP address.
+func IPKey() KeyFunc {
+	return func(r *http.Request) string {
+		return "ip:" + extractIP(r)
+	}
+}
+
+// extractIP extracts the client IP from a request, considering X-Forwarded-For.
+func extractIP(r *http.Request) string {
+	// Check X-Forwarded-For header (set by proxies/load balancers)
+	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
+		// First IP in the list is the original client
+		for i := 0; i < len(xff); i++ {
+			if xff[i] == ',' {
+				return xff[:i]
+			}
+		}
+		return xff
+	}
+
+	// Check X-Real-IP header
+	if xri := r.Header.Get("X-Real-IP"); xri != "" {
+		return xri
+	}
+
+	// Fall back to RemoteAddr
+	// Remove port if present
+	addr := r.RemoteAddr
+	for i := len(addr) - 1; i >= 0; i-- {
+		if addr[i] == ':' {
+			return addr[:i]
+		}
+		if addr[i] == ']' {
+			// IPv6 with brackets
+			return addr
+		}
+	}
+	return addr
+}
