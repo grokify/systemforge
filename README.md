@@ -44,6 +44,14 @@ CoreForge is a batteries-included Go platform module providing reusable identity
 - ✨ **Simple Provider** - Lightweight permission checking
 - 🚧 **HTTP Middleware** - Route protection for Chi and stdlib
 
+### Observability
+
+- 📊 **Vendor-Agnostic** - Integrates with [omniobserve](https://github.com/plexusone/omniobserve)
+- 🔌 **Multiple Backends** - OTLP, Datadog, New Relic, Dynatrace
+- 📈 **Pre-Built Metrics** - CoreAuth, rate limiting, JWT/API key validation
+- 🔍 **Distributed Tracing** - Automatic span creation for OAuth flows
+- 📝 **slog Integration** - Trace-correlated structured logging
+
 ### Feature Flags
 
 - 🚩 **Flag Engine** - Boolean, percentage, and user list flags
@@ -240,7 +248,13 @@ github.com/grokify/coreforge/
 │   ├── dpop/              # DPoP proof-of-possession
 │   ├── bff/               # Backend for Frontend pattern
 │   ├── oauth/             # Social login handlers
-│   └── middleware/        # Auth middleware
+│   ├── middleware/        # Auth middleware
+│   └── ratelimit/         # Rate limiting with observability
+│
+├── observability/         # Vendor-agnostic observability
+│   ├── observability.go   # Core wrapper for omniobserve
+│   ├── middleware.go      # HTTP request tracing
+│   └── metrics.go         # Pre-defined metric names
 │
 ├── authz/                 # Authorization
 │   ├── simple/            # Simple RBAC provider

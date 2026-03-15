@@ -62,6 +62,15 @@ nav:
     - Client Credentials: oauth/client-credentials.md
     - Service Accounts: oauth/service-accounts.md
     - Token Management: oauth/tokens.md
+  - CoreAuth:
+    - Overview: coreauth/overview.md
+    - Providers: coreauth/providers.md
+  - CoreAPI:
+    - Overview: coreapi/overview.md
+    - Policies: coreapi/policies.md
+    - Rate Limiting: coreapi/ratelimit.md
+  - Observability:
+    - Overview: observability/overview.md
   - Integration:
     - With Existing Apps: integration/existing-apps.md
     - Migration Guide: integration/migration.md
