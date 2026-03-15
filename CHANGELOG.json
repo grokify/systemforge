@@ -7,6 +7,37 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.3.0",
+      "date": "2026-03-14",
+      "highlights": [
+        { "description": "Vendor-agnostic observability integration with OmniObserve (Datadog, New Relic, Dynatrace, OTLP)" },
+        { "description": "SaaS marketplace infrastructure with Stripe billing and seat-based licensing" },
+        { "description": "Redis-backed rate limiting with sliding window and token bucket algorithms" },
+        { "description": "OAuth client management and provider abstraction for CoreAuth" }
+      ],
+      "added": [
+        { "description": "Observability package with OmniObserve integration for metrics, traces, and logs", "commit": "ea139a6" },
+        { "description": "Marketplace package with Stripe subscription and seat-based licensing", "commit": "c0ba5bd" },
+        { "description": "OAuth client management service in `identity/oauthclient`", "commit": "2da5d87" },
+        { "description": "CoreAPI rate limiting package with policy-based controls", "commit": "3771a54" },
+        { "description": "Redis-backed rate limiter with sliding window algorithm", "commit": "0269db8" },
+        { "description": "Marketplace Ent entities: License, Listing, Subscription, SeatAssignment", "commit": "db60b3c" },
+        { "description": "CoreAuth provider abstraction layer for pluggable authentication", "commit": "bf5a90a" },
+        { "description": "JWT claims enhancement with audience and issuer validation", "commit": "087d8dd" },
+        { "description": "Session middleware improvements with context utilities", "commit": "cb60d99" }
+      ],
+      "documentation": [
+        { "description": "Authorization PRD and TRD design documents", "commit": "95d1352" },
+        { "description": "Marketplace PRD design document", "commit": "95d1352" },
+        { "description": "CoreAPI and CoreAuth documentation", "commit": "95d1352" }
+      ],
+      "dependencies": [
+        { "description": "Upgraded OmniObserve to v0.8.0 with unified entry point", "commit": "9a7280b" },
+        { "description": "Added Stripe Go SDK v82 for payment processing", "commit": "9a7280b" },
+        { "description": "Added Redis client for rate limiting", "commit": "9a7280b" }
+      ]
+    },
+    {
       "version": "v0.2.0",
       "date": "2026-03-08",
       "highlights": [
