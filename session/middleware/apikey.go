@@ -8,6 +8,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/grokify/coreforge/identity/apikey"
+	"github.com/grokify/coreforge/observability"
 )
 
 const (
@@ -106,6 +107,10 @@ type APIKeyMiddlewareConfig struct {
 	// IPExtractor extracts the client IP from the request.
 	// If nil, uses r.RemoteAddr.
 	IPExtractor func(r *http.Request) string
+
+	// Observability is the observability provider for metrics.
+	// If nil, no metrics are recorded.
+	Observability *observability.Observability
 }
 
 // DefaultAPIKeyMiddlewareConfig returns default configuration.
@@ -129,16 +134,30 @@ func APIKeyMiddleware(config APIKeyMiddlewareConfig) func(http.Handler) http.Han
 
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			ctx := r.Context()
+
 			// Extract API key from request
 			key := extractAPIKey(r, config)
 			if key == "" {
+				if config.Observability != nil {
+					config.Observability.RecordAPIKeyValidation(ctx, observability.ResultMissing)
+				}
 				handleAPIKeyError(w, r, config, apikey.ErrInvalidKey)
 				return
 			}
 
 			// Validate the key
-			validatedKey, err := config.Service.Validate(r.Context(), key)
+			validatedKey, err := config.Service.Validate(ctx, key)
 			if err != nil {
+				if config.Observability != nil {
+					result := observability.ResultInvalid
+					if err == apikey.ErrKeyExpired {
+						result = observability.ResultExpired
+					} else if err == apikey.ErrKeyRevoked {
+						result = observability.ResultRevoked
+					}
+					config.Observability.RecordAPIKeyValidation(ctx, result)
+				}
 				handleAPIKeyError(w, r, config, err)
 				return
 			}
@@ -146,6 +165,9 @@ func APIKeyMiddleware(config APIKeyMiddlewareConfig) func(http.Handler) http.Han
 			// Check required scopes
 			if len(config.RequiredScopes) > 0 {
 				if !validatedKey.HasAllScopes(config.RequiredScopes...) {
+					if config.Observability != nil {
+						config.Observability.RecordAPIKeyValidation(ctx, observability.ResultDenied)
+					}
 					handleAPIKeyError(w, r, config, apikey.ErrScopeNotAllowed)
 					return
 				}
@@ -154,9 +176,17 @@ func APIKeyMiddleware(config APIKeyMiddlewareConfig) func(http.Handler) http.Han
 			// Check any scopes
 			if len(config.AnyScopes) > 0 {
 				if !validatedKey.HasAnyScope(config.AnyScopes...) {
+					if config.Observability != nil {
+						config.Observability.RecordAPIKeyValidation(ctx, observability.ResultDenied)
+					}
 					handleAPIKeyError(w, r, config, apikey.ErrScopeNotAllowed)
 					return
 				}
+			}
+
+			// Record successful validation
+			if config.Observability != nil {
+				config.Observability.RecordAPIKeyValidation(ctx, observability.ResultValid)
 			}
 
 			// Record usage
@@ -186,7 +216,7 @@ func APIKeyMiddleware(config APIKeyMiddlewareConfig) func(http.Handler) http.Han
 			}
 
 			// Add to context
-			ctx := context.WithValue(r.Context(), ContextKeyAPIKey, validatedKey)
+			ctx = context.WithValue(ctx, ContextKeyAPIKey, validatedKey)
 			ctx = context.WithValue(ctx, ContextKeyPrincipal, principal)
 
 			next.ServeHTTP(w, r.WithContext(ctx))

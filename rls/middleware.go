@@ -57,11 +57,11 @@ func (m *Middleware) SetRLSContext() func(http.Handler) http.Handler {
 			}
 
 			// Set user context
-			if err := m.helper.SetUser(ctx, m.db, claims.UserID.String()); err != nil {
+			if err := m.helper.SetUser(ctx, m.db, claims.PrincipalID.String()); err != nil {
 				http.Error(w, "failed to set user context", http.StatusInternalServerError)
 				return
 			}
-			ctx = ContextWithUser(ctx, claims.UserID)
+			ctx = ContextWithUser(ctx, claims.PrincipalID)
 
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})

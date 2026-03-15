@@ -29,7 +29,7 @@ func (m *Middleware) RequireAction(resourceType ResourceType, action Action) fun
 				return
 			}
 
-			principal := NewUserPrincipal(claims.UserID)
+			principal := NewUserPrincipal(claims.PrincipalID)
 			resource := NewResource(resourceType)
 			if claims.OrganizationID != nil {
 				resource = resource.WithOrg(*claims.OrganizationID)
@@ -74,7 +74,7 @@ func (m *Middleware) requireActions(resourceType ResourceType, actions []Action,
 				return
 			}
 
-			principal := NewUserPrincipal(claims.UserID)
+			principal := NewUserPrincipal(claims.PrincipalID)
 			resource := NewResource(resourceType)
 			if claims.OrganizationID != nil {
 				resource = resource.WithOrg(*claims.OrganizationID)
@@ -128,7 +128,7 @@ func (m *OrgMiddleware) RequireMembership() func(http.Handler) http.Handler {
 				return
 			}
 
-			principal := NewUserPrincipal(claims.UserID)
+			principal := NewUserPrincipal(claims.PrincipalID)
 			isMember, err := m.authorizer.IsMember(r.Context(), principal, *claims.OrganizationID)
 			if err != nil {
 				writeError(w, http.StatusInternalServerError, "membership check failed")
@@ -161,7 +161,7 @@ func (m *OrgMiddleware) RequireRole(role string, hierarchy RoleHierarchy) func(h
 				return
 			}
 
-			principal := NewUserPrincipal(claims.UserID)
+			principal := NewUserPrincipal(claims.PrincipalID)
 			userRole, err := m.authorizer.GetRole(r.Context(), principal, *claims.OrganizationID)
 			if err != nil {
 				writeError(w, http.StatusInternalServerError, "role check failed")
@@ -203,7 +203,7 @@ func (m *PlatformMiddleware) RequirePlatformAdmin() func(http.Handler) http.Hand
 				return
 			}
 
-			principal := NewUserPrincipal(claims.UserID)
+			principal := NewUserPrincipal(claims.PrincipalID)
 			isAdmin, err := m.authorizer.IsPlatformAdmin(r.Context(), principal)
 			if err != nil {
 				writeError(w, http.StatusInternalServerError, "admin check failed")
@@ -246,7 +246,7 @@ func (m *Middleware) RequireResourceAction(extractor ResourceExtractor, action A
 				resource = resource.WithOrg(*claims.OrganizationID)
 			}
 
-			principal := NewUserPrincipal(claims.UserID)
+			principal := NewUserPrincipal(claims.PrincipalID)
 			allowed, err := m.authorizer.Can(r.Context(), principal, action, resource)
 			if err != nil {
 				writeError(w, http.StatusInternalServerError, "authorization check failed")

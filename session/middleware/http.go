@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+	"time"
 
+	"github.com/grokify/coreforge/observability"
 	"github.com/grokify/coreforge/session/jwt"
 )
 
@@ -12,21 +14,42 @@ import (
 // It extracts the token from the Authorization header (Bearer scheme) and
 // attaches the claims to the request context.
 func HTTPAuth(jwtService *jwt.Service) func(http.Handler) http.Handler {
+	return HTTPAuthWithObservability(jwtService, nil)
+}
+
+// HTTPAuthWithObservability returns JWT validation middleware with observability.
+// If obs is nil, metrics are not recorded.
+func HTTPAuthWithObservability(jwtService *jwt.Service, obs *observability.Observability) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			ctx := r.Context()
+			start := time.Now()
+
 			token := extractBearerToken(r)
 			if token == "" {
+				if obs != nil {
+					obs.RecordJWTValidation(ctx, observability.ResultMissing)
+				}
 				writeUnauthorized(w, "missing authorization header")
 				return
 			}
 
 			claims, err := jwtService.ValidateAccessToken(token)
 			if err != nil {
+				if obs != nil {
+					obs.RecordJWTValidation(ctx, observability.ResultInvalid)
+					obs.RecordJWTLatency(ctx, float64(time.Since(start).Milliseconds()))
+				}
 				writeUnauthorized(w, err.Error())
 				return
 			}
 
-			ctx := ContextWithClaims(r.Context(), claims)
+			if obs != nil {
+				obs.RecordJWTValidation(ctx, observability.ResultValid)
+				obs.RecordJWTLatency(ctx, float64(time.Since(start).Milliseconds()))
+			}
+
+			ctx = ContextWithClaims(ctx, claims)
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
@@ -35,14 +58,30 @@ func HTTPAuth(jwtService *jwt.Service) func(http.Handler) http.Handler {
 // HTTPAuthOptional returns middleware that validates JWT tokens if present,
 // but allows requests without tokens to proceed.
 func HTTPAuthOptional(jwtService *jwt.Service) func(http.Handler) http.Handler {
+	return HTTPAuthOptionalWithObservability(jwtService, nil)
+}
+
+// HTTPAuthOptionalWithObservability returns optional JWT validation middleware with observability.
+// If obs is nil, metrics are not recorded.
+func HTTPAuthOptionalWithObservability(jwtService *jwt.Service, obs *observability.Observability) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			ctx := r.Context()
+			start := time.Now()
+
 			token := extractBearerToken(r)
 			if token != "" {
 				claims, err := jwtService.ValidateAccessToken(token)
 				if err == nil {
-					ctx := ContextWithClaims(r.Context(), claims)
+					if obs != nil {
+						obs.RecordJWTValidation(ctx, observability.ResultValid)
+						obs.RecordJWTLatency(ctx, float64(time.Since(start).Milliseconds()))
+					}
+					ctx = ContextWithClaims(ctx, claims)
 					r = r.WithContext(ctx)
+				} else if obs != nil {
+					obs.RecordJWTValidation(ctx, observability.ResultInvalid)
+					obs.RecordJWTLatency(ctx, float64(time.Since(start).Milliseconds()))
 				}
 			}
 			next.ServeHTTP(w, r)

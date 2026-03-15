@@ -27,14 +27,30 @@ func ClaimsFromContext(ctx context.Context) *jwt.Claims {
 	return claims
 }
 
-// UserIDFromContext extracts the user ID from the context.
-// Returns uuid.Nil if no claims or user ID is present.
-func UserIDFromContext(ctx context.Context) uuid.UUID {
+// PrincipalIDFromContext extracts the principal ID from the context.
+// Returns uuid.Nil if no claims or principal ID is present.
+func PrincipalIDFromContext(ctx context.Context) uuid.UUID {
 	claims := ClaimsFromContext(ctx)
 	if claims == nil {
 		return uuid.Nil
 	}
-	return claims.UserID
+	return claims.PrincipalID
+}
+
+// PrincipalTypeFromContext extracts the principal type from the context.
+// Returns empty string if no claims are present.
+func PrincipalTypeFromContext(ctx context.Context) string {
+	claims := ClaimsFromContext(ctx)
+	if claims == nil {
+		return ""
+	}
+	return claims.PrincipalType
+}
+
+// UserIDFromContext extracts the principal ID from the context.
+// Deprecated: Use PrincipalIDFromContext instead.
+func UserIDFromContext(ctx context.Context) uuid.UUID {
+	return PrincipalIDFromContext(ctx)
 }
 
 // OrganizationIDFromContext extracts the organization ID from the context.
