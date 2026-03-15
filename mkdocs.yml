@@ -69,6 +69,8 @@ nav:
     - Overview: coreapi/overview.md
     - Policies: coreapi/policies.md
     - Rate Limiting: coreapi/ratelimit.md
+  - Marketplace:
+    - Overview: marketplace/overview.md
   - Observability:
     - Overview: observability/overview.md
   - Integration:

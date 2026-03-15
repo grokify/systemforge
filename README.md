@@ -52,6 +52,13 @@ CoreForge is a batteries-included Go platform module providing reusable identity
 - 🔍 **Distributed Tracing** - Automatic span creation for OAuth flows
 - 📝 **slog Integration** - Trace-correlated structured logging
 
+### Marketplace
+
+- 🛒 **Listings** - Product catalog with tiers and pricing
+- 💳 **Stripe Integration** - Subscription billing and webhooks
+- 📜 **Licensing** - Per-seat, unlimited, and time-limited licenses
+- 👥 **Seat Management** - Assign and revoke user access
+
 ### Feature Flags
 
 - 🚩 **Flag Engine** - Boolean, percentage, and user list flags
@@ -262,6 +269,12 @@ github.com/grokify/coreforge/
 │   ├── noop/              # No-op syncer for testing
 │   ├── providertest/      # Provider test suite
 │   └── middleware.go      # HTTP middleware
+│
+├── marketplace/           # SaaS marketplace
+│   ├── listing.go         # Product listings and tiers
+│   ├── license.go         # License management
+│   ├── subscription.go    # Subscription handling
+│   └── stripe/            # Stripe billing integration
 │
 ├── featureflags/          # Feature flag engine
 │   └── stores/            # Flag stores
