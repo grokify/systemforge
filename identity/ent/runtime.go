@@ -12,6 +12,8 @@ import (
 	"github.com/grokify/coreforge/identity/ent/credential"
 	"github.com/grokify/coreforge/identity/ent/human"
 	"github.com/grokify/coreforge/identity/ent/invite"
+	"github.com/grokify/coreforge/identity/ent/license"
+	"github.com/grokify/coreforge/identity/ent/listing"
 	"github.com/grokify/coreforge/identity/ent/membership"
 	"github.com/grokify/coreforge/identity/ent/oauthaccount"
 	"github.com/grokify/coreforge/identity/ent/oauthapp"
@@ -25,9 +27,11 @@ import (
 	"github.com/grokify/coreforge/identity/ent/principaltoken"
 	"github.com/grokify/coreforge/identity/ent/refreshtoken"
 	"github.com/grokify/coreforge/identity/ent/schema"
+	"github.com/grokify/coreforge/identity/ent/seatassignment"
 	"github.com/grokify/coreforge/identity/ent/serviceaccount"
 	"github.com/grokify/coreforge/identity/ent/serviceaccountkeypair"
 	"github.com/grokify/coreforge/identity/ent/serviceprincipal"
+	"github.com/grokify/coreforge/identity/ent/subscription"
 	"github.com/grokify/coreforge/identity/ent/user"
 )
 
@@ -276,6 +280,84 @@ func init() {
 	inviteDescID := inviteMixinFields0[0].Descriptor()
 	// invite.DefaultID holds the default value on creation for the id field.
 	invite.DefaultID = inviteDescID.Default.(func() uuid.UUID)
+	licenseMixin := schema.License{}.Mixin()
+	licenseMixinFields0 := licenseMixin[0].Fields()
+	_ = licenseMixinFields0
+	licenseFields := schema.License{}.Fields()
+	_ = licenseFields
+	// licenseDescUsedSeats is the schema descriptor for used_seats field.
+	licenseDescUsedSeats := licenseMixinFields0[6].Descriptor()
+	// license.DefaultUsedSeats holds the default value on creation for the used_seats field.
+	license.DefaultUsedSeats = licenseDescUsedSeats.Default.(int)
+	// licenseDescValidFrom is the schema descriptor for valid_from field.
+	licenseDescValidFrom := licenseMixinFields0[7].Descriptor()
+	// license.DefaultValidFrom holds the default value on creation for the valid_from field.
+	license.DefaultValidFrom = licenseDescValidFrom.Default.(func() time.Time)
+	// licenseDescCreatedAt is the schema descriptor for created_at field.
+	licenseDescCreatedAt := licenseMixinFields0[10].Descriptor()
+	// license.DefaultCreatedAt holds the default value on creation for the created_at field.
+	license.DefaultCreatedAt = licenseDescCreatedAt.Default.(func() time.Time)
+	// licenseDescUpdatedAt is the schema descriptor for updated_at field.
+	licenseDescUpdatedAt := licenseMixinFields0[11].Descriptor()
+	// license.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	license.DefaultUpdatedAt = licenseDescUpdatedAt.Default.(func() time.Time)
+	// license.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	license.UpdateDefaultUpdatedAt = licenseDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// licenseDescID is the schema descriptor for id field.
+	licenseDescID := licenseMixinFields0[0].Descriptor()
+	// license.DefaultID holds the default value on creation for the id field.
+	license.DefaultID = licenseDescID.Default.(func() uuid.UUID)
+	listingMixin := schema.Listing{}.Mixin()
+	listingMixinFields0 := listingMixin[0].Fields()
+	_ = listingMixinFields0
+	listingFields := schema.Listing{}.Fields()
+	_ = listingFields
+	// listingDescProductType is the schema descriptor for product_type field.
+	listingDescProductType := listingMixinFields0[3].Descriptor()
+	// listing.ProductTypeValidator is a validator for the "product_type" field. It is called by the builders before save.
+	listing.ProductTypeValidator = listingDescProductType.Validators[0].(func(string) error)
+	// listingDescTitle is the schema descriptor for title field.
+	listingDescTitle := listingMixinFields0[5].Descriptor()
+	// listing.TitleValidator is a validator for the "title" field. It is called by the builders before save.
+	listing.TitleValidator = func() func(string) error {
+		validators := listingDescTitle.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(title string) error {
+			for _, fn := range fns {
+				if err := fn(title); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// listingDescPriceCents is the schema descriptor for price_cents field.
+	listingDescPriceCents := listingMixinFields0[8].Descriptor()
+	// listing.DefaultPriceCents holds the default value on creation for the price_cents field.
+	listing.DefaultPriceCents = listingDescPriceCents.Default.(int64)
+	// listingDescCurrency is the schema descriptor for currency field.
+	listingDescCurrency := listingMixinFields0[9].Descriptor()
+	// listing.DefaultCurrency holds the default value on creation for the currency field.
+	listing.DefaultCurrency = listingDescCurrency.Default.(string)
+	// listing.CurrencyValidator is a validator for the "currency" field. It is called by the builders before save.
+	listing.CurrencyValidator = listingDescCurrency.Validators[0].(func(string) error)
+	// listingDescCreatedAt is the schema descriptor for created_at field.
+	listingDescCreatedAt := listingMixinFields0[12].Descriptor()
+	// listing.DefaultCreatedAt holds the default value on creation for the created_at field.
+	listing.DefaultCreatedAt = listingDescCreatedAt.Default.(func() time.Time)
+	// listingDescUpdatedAt is the schema descriptor for updated_at field.
+	listingDescUpdatedAt := listingMixinFields0[13].Descriptor()
+	// listing.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	listing.DefaultUpdatedAt = listingDescUpdatedAt.Default.(func() time.Time)
+	// listing.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	listing.UpdateDefaultUpdatedAt = listingDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// listingDescID is the schema descriptor for id field.
+	listingDescID := listingMixinFields0[0].Descriptor()
+	// listing.DefaultID holds the default value on creation for the id field.
+	listing.DefaultID = listingDescID.Default.(func() uuid.UUID)
 	membershipMixin := schema.Membership{}.Mixin()
 	membershipMixinFields0 := membershipMixin[0].Fields()
 	_ = membershipMixinFields0
@@ -672,6 +754,19 @@ func init() {
 	refreshtokenDescID := refreshtokenMixinFields0[0].Descriptor()
 	// refreshtoken.DefaultID holds the default value on creation for the id field.
 	refreshtoken.DefaultID = refreshtokenDescID.Default.(func() uuid.UUID)
+	seatassignmentMixin := schema.SeatAssignment{}.Mixin()
+	seatassignmentMixinFields0 := seatassignmentMixin[0].Fields()
+	_ = seatassignmentMixinFields0
+	seatassignmentFields := schema.SeatAssignment{}.Fields()
+	_ = seatassignmentFields
+	// seatassignmentDescAssignedAt is the schema descriptor for assigned_at field.
+	seatassignmentDescAssignedAt := seatassignmentMixinFields0[4].Descriptor()
+	// seatassignment.DefaultAssignedAt holds the default value on creation for the assigned_at field.
+	seatassignment.DefaultAssignedAt = seatassignmentDescAssignedAt.Default.(func() time.Time)
+	// seatassignmentDescID is the schema descriptor for id field.
+	seatassignmentDescID := seatassignmentMixinFields0[0].Descriptor()
+	// seatassignment.DefaultID holds the default value on creation for the id field.
+	seatassignment.DefaultID = seatassignmentDescID.Default.(func() uuid.UUID)
 	serviceaccountFields := schema.ServiceAccount{}.Fields()
 	_ = serviceaccountFields
 	// serviceaccountDescName is the schema descriptor for name field.
@@ -779,6 +874,39 @@ func init() {
 	serviceprincipalDescID := serviceprincipalMixinFields0[0].Descriptor()
 	// serviceprincipal.DefaultID holds the default value on creation for the id field.
 	serviceprincipal.DefaultID = serviceprincipalDescID.Default.(func() uuid.UUID)
+	subscriptionMixin := schema.Subscription{}.Mixin()
+	subscriptionMixinFields0 := subscriptionMixin[0].Fields()
+	_ = subscriptionMixinFields0
+	subscriptionFields := schema.Subscription{}.Fields()
+	_ = subscriptionFields
+	// subscriptionDescPlanTier is the schema descriptor for plan_tier field.
+	subscriptionDescPlanTier := subscriptionMixinFields0[2].Descriptor()
+	// subscription.DefaultPlanTier holds the default value on creation for the plan_tier field.
+	subscription.DefaultPlanTier = subscriptionDescPlanTier.Default.(string)
+	// subscription.PlanTierValidator is a validator for the "plan_tier" field. It is called by the builders before save.
+	subscription.PlanTierValidator = subscriptionDescPlanTier.Validators[0].(func(string) error)
+	// subscriptionDescCurrentPeriodStart is the schema descriptor for current_period_start field.
+	subscriptionDescCurrentPeriodStart := subscriptionMixinFields0[4].Descriptor()
+	// subscription.DefaultCurrentPeriodStart holds the default value on creation for the current_period_start field.
+	subscription.DefaultCurrentPeriodStart = subscriptionDescCurrentPeriodStart.Default.(func() time.Time)
+	// subscriptionDescCancelAtPeriodEnd is the schema descriptor for cancel_at_period_end field.
+	subscriptionDescCancelAtPeriodEnd := subscriptionMixinFields0[8].Descriptor()
+	// subscription.DefaultCancelAtPeriodEnd holds the default value on creation for the cancel_at_period_end field.
+	subscription.DefaultCancelAtPeriodEnd = subscriptionDescCancelAtPeriodEnd.Default.(bool)
+	// subscriptionDescCreatedAt is the schema descriptor for created_at field.
+	subscriptionDescCreatedAt := subscriptionMixinFields0[9].Descriptor()
+	// subscription.DefaultCreatedAt holds the default value on creation for the created_at field.
+	subscription.DefaultCreatedAt = subscriptionDescCreatedAt.Default.(func() time.Time)
+	// subscriptionDescUpdatedAt is the schema descriptor for updated_at field.
+	subscriptionDescUpdatedAt := subscriptionMixinFields0[10].Descriptor()
+	// subscription.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	subscription.DefaultUpdatedAt = subscriptionDescUpdatedAt.Default.(func() time.Time)
+	// subscription.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	subscription.UpdateDefaultUpdatedAt = subscriptionDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// subscriptionDescID is the schema descriptor for id field.
+	subscriptionDescID := subscriptionMixinFields0[0].Descriptor()
+	// subscription.DefaultID holds the default value on creation for the id field.
+	subscription.DefaultID = subscriptionDescID.Default.(func() uuid.UUID)
 	userMixin := schema.User{}.Mixin()
 	userMixinFields0 := userMixin[0].Fields()
 	_ = userMixinFields0

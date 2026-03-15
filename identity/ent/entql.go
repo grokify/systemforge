@@ -9,6 +9,8 @@ import (
 	"github.com/grokify/coreforge/identity/ent/credential"
 	"github.com/grokify/coreforge/identity/ent/human"
 	"github.com/grokify/coreforge/identity/ent/invite"
+	"github.com/grokify/coreforge/identity/ent/license"
+	"github.com/grokify/coreforge/identity/ent/listing"
 	"github.com/grokify/coreforge/identity/ent/membership"
 	"github.com/grokify/coreforge/identity/ent/oauthaccount"
 	"github.com/grokify/coreforge/identity/ent/oauthapp"
@@ -22,9 +24,11 @@ import (
 	"github.com/grokify/coreforge/identity/ent/principalmembership"
 	"github.com/grokify/coreforge/identity/ent/principaltoken"
 	"github.com/grokify/coreforge/identity/ent/refreshtoken"
+	"github.com/grokify/coreforge/identity/ent/seatassignment"
 	"github.com/grokify/coreforge/identity/ent/serviceaccount"
 	"github.com/grokify/coreforge/identity/ent/serviceaccountkeypair"
 	"github.com/grokify/coreforge/identity/ent/serviceprincipal"
+	"github.com/grokify/coreforge/identity/ent/subscription"
 	"github.com/grokify/coreforge/identity/ent/user"
 
 	"entgo.io/ent/dialect/sql"
@@ -35,7 +39,7 @@ import (
 
 // schemaGraph holds a representation of ent/schema at runtime.
 var schemaGraph = func() *sqlgraph.Schema {
-	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 22)}
+	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 26)}
 	graph.Nodes[0] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   apikey.Table,
@@ -206,6 +210,57 @@ var schemaGraph = func() *sqlgraph.Schema {
 	}
 	graph.Nodes[6] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
+			Table:   license.Table,
+			Columns: license.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUUID,
+				Column: license.FieldID,
+			},
+		},
+		Type: "License",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			license.FieldListingID:            {Type: field.TypeUUID, Column: license.FieldListingID},
+			license.FieldOrganizationID:       {Type: field.TypeUUID, Column: license.FieldOrganizationID},
+			license.FieldPurchasedBy:          {Type: field.TypeUUID, Column: license.FieldPurchasedBy},
+			license.FieldLicenseType:          {Type: field.TypeEnum, Column: license.FieldLicenseType},
+			license.FieldSeats:                {Type: field.TypeInt, Column: license.FieldSeats},
+			license.FieldUsedSeats:            {Type: field.TypeInt, Column: license.FieldUsedSeats},
+			license.FieldValidFrom:            {Type: field.TypeTime, Column: license.FieldValidFrom},
+			license.FieldValidUntil:           {Type: field.TypeTime, Column: license.FieldValidUntil},
+			license.FieldStripeSubscriptionID: {Type: field.TypeString, Column: license.FieldStripeSubscriptionID},
+			license.FieldCreatedAt:            {Type: field.TypeTime, Column: license.FieldCreatedAt},
+			license.FieldUpdatedAt:            {Type: field.TypeTime, Column: license.FieldUpdatedAt},
+		},
+	}
+	graph.Nodes[7] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   listing.Table,
+			Columns: listing.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUUID,
+				Column: listing.FieldID,
+			},
+		},
+		Type: "Listing",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			listing.FieldCreatorOrgID: {Type: field.TypeUUID, Column: listing.FieldCreatorOrgID},
+			listing.FieldOwnerID:      {Type: field.TypeUUID, Column: listing.FieldOwnerID},
+			listing.FieldProductType:  {Type: field.TypeString, Column: listing.FieldProductType},
+			listing.FieldProductID:    {Type: field.TypeUUID, Column: listing.FieldProductID},
+			listing.FieldTitle:        {Type: field.TypeString, Column: listing.FieldTitle},
+			listing.FieldDescription:  {Type: field.TypeString, Column: listing.FieldDescription},
+			listing.FieldPricingModel: {Type: field.TypeEnum, Column: listing.FieldPricingModel},
+			listing.FieldPriceCents:   {Type: field.TypeInt64, Column: listing.FieldPriceCents},
+			listing.FieldCurrency:     {Type: field.TypeString, Column: listing.FieldCurrency},
+			listing.FieldStatus:       {Type: field.TypeEnum, Column: listing.FieldStatus},
+			listing.FieldMetadata:     {Type: field.TypeJSON, Column: listing.FieldMetadata},
+			listing.FieldCreatedAt:    {Type: field.TypeTime, Column: listing.FieldCreatedAt},
+			listing.FieldUpdatedAt:    {Type: field.TypeTime, Column: listing.FieldUpdatedAt},
+			listing.FieldPublishedAt:  {Type: field.TypeTime, Column: listing.FieldPublishedAt},
+		},
+	}
+	graph.Nodes[8] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
 			Table:   membership.Table,
 			Columns: membership.Columns,
 			ID: &sqlgraph.FieldSpec{
@@ -223,7 +278,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			membership.FieldPermissions:    {Type: field.TypeJSON, Column: membership.FieldPermissions},
 		},
 	}
-	graph.Nodes[7] = &sqlgraph.Node{
+	graph.Nodes[9] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   oauthaccount.Table,
 			Columns: oauthaccount.Columns,
@@ -244,7 +299,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			oauthaccount.FieldTokenExpiresAt: {Type: field.TypeTime, Column: oauthaccount.FieldTokenExpiresAt},
 		},
 	}
-	graph.Nodes[8] = &sqlgraph.Node{
+	graph.Nodes[10] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   oauthapp.Table,
 			Columns: oauthapp.Columns,
@@ -278,7 +333,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			oauthapp.FieldUpdatedAt:            {Type: field.TypeTime, Column: oauthapp.FieldUpdatedAt},
 		},
 	}
-	graph.Nodes[9] = &sqlgraph.Node{
+	graph.Nodes[11] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   oauthappsecret.Table,
 			Columns: oauthappsecret.Columns,
@@ -299,7 +354,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			oauthappsecret.FieldCreatedAt:    {Type: field.TypeTime, Column: oauthappsecret.FieldCreatedAt},
 		},
 	}
-	graph.Nodes[10] = &sqlgraph.Node{
+	graph.Nodes[12] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   oauthauthcode.Table,
 			Columns: oauthauthcode.Columns,
@@ -328,7 +383,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			oauthauthcode.FieldCreatedAt:           {Type: field.TypeTime, Column: oauthauthcode.FieldCreatedAt},
 		},
 	}
-	graph.Nodes[11] = &sqlgraph.Node{
+	graph.Nodes[13] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   oauthconsent.Table,
 			Columns: oauthconsent.Columns,
@@ -352,7 +407,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			oauthconsent.FieldUpdatedAt:     {Type: field.TypeTime, Column: oauthconsent.FieldUpdatedAt},
 		},
 	}
-	graph.Nodes[12] = &sqlgraph.Node{
+	graph.Nodes[14] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   oauthtoken.Table,
 			Columns: oauthtoken.Columns,
@@ -384,7 +439,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			oauthtoken.FieldCreatedAt:             {Type: field.TypeTime, Column: oauthtoken.FieldCreatedAt},
 		},
 	}
-	graph.Nodes[13] = &sqlgraph.Node{
+	graph.Nodes[15] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   organization.Table,
 			Columns: organization.Columns,
@@ -409,7 +464,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			organization.FieldActive:           {Type: field.TypeBool, Column: organization.FieldActive},
 		},
 	}
-	graph.Nodes[14] = &sqlgraph.Node{
+	graph.Nodes[16] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   principal.Table,
 			Columns: principal.Columns,
@@ -432,7 +487,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			principal.FieldMetadata:       {Type: field.TypeJSON, Column: principal.FieldMetadata},
 		},
 	}
-	graph.Nodes[15] = &sqlgraph.Node{
+	graph.Nodes[17] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   principalmembership.Table,
 			Columns: principalmembership.Columns,
@@ -452,7 +507,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			principalmembership.FieldActive:         {Type: field.TypeBool, Column: principalmembership.FieldActive},
 		},
 	}
-	graph.Nodes[16] = &sqlgraph.Node{
+	graph.Nodes[18] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   principaltoken.Table,
 			Columns: principaltoken.Columns,
@@ -488,7 +543,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			principaltoken.FieldCreatedAt:             {Type: field.TypeTime, Column: principaltoken.FieldCreatedAt},
 		},
 	}
-	graph.Nodes[17] = &sqlgraph.Node{
+	graph.Nodes[19] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   refreshtoken.Table,
 			Columns: refreshtoken.Columns,
@@ -510,7 +565,24 @@ var schemaGraph = func() *sqlgraph.Schema {
 			refreshtoken.FieldIPAddress: {Type: field.TypeString, Column: refreshtoken.FieldIPAddress},
 		},
 	}
-	graph.Nodes[18] = &sqlgraph.Node{
+	graph.Nodes[20] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   seatassignment.Table,
+			Columns: seatassignment.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUUID,
+				Column: seatassignment.FieldID,
+			},
+		},
+		Type: "SeatAssignment",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			seatassignment.FieldLicenseID:   {Type: field.TypeUUID, Column: seatassignment.FieldLicenseID},
+			seatassignment.FieldPrincipalID: {Type: field.TypeUUID, Column: seatassignment.FieldPrincipalID},
+			seatassignment.FieldAssignedBy:  {Type: field.TypeUUID, Column: seatassignment.FieldAssignedBy},
+			seatassignment.FieldAssignedAt:  {Type: field.TypeTime, Column: seatassignment.FieldAssignedAt},
+		},
+	}
+	graph.Nodes[21] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   serviceaccount.Table,
 			Columns: serviceaccount.Columns,
@@ -533,7 +605,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			serviceaccount.FieldUpdatedAt:      {Type: field.TypeTime, Column: serviceaccount.FieldUpdatedAt},
 		},
 	}
-	graph.Nodes[19] = &sqlgraph.Node{
+	graph.Nodes[22] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   serviceaccountkeypair.Table,
 			Columns: serviceaccountkeypair.Columns,
@@ -557,7 +629,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			serviceaccountkeypair.FieldCreatedAt:        {Type: field.TypeTime, Column: serviceaccountkeypair.FieldCreatedAt},
 		},
 	}
-	graph.Nodes[20] = &sqlgraph.Node{
+	graph.Nodes[23] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   serviceprincipal.Table,
 			Columns: serviceprincipal.Columns,
@@ -578,7 +650,30 @@ var schemaGraph = func() *sqlgraph.Schema {
 			serviceprincipal.FieldAllowedIps:  {Type: field.TypeJSON, Column: serviceprincipal.FieldAllowedIps},
 		},
 	}
-	graph.Nodes[21] = &sqlgraph.Node{
+	graph.Nodes[24] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   subscription.Table,
+			Columns: subscription.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUUID,
+				Column: subscription.FieldID,
+			},
+		},
+		Type: "Subscription",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			subscription.FieldOrganizationID:       {Type: field.TypeUUID, Column: subscription.FieldOrganizationID},
+			subscription.FieldPlanTier:             {Type: field.TypeString, Column: subscription.FieldPlanTier},
+			subscription.FieldStatus:               {Type: field.TypeEnum, Column: subscription.FieldStatus},
+			subscription.FieldCurrentPeriodStart:   {Type: field.TypeTime, Column: subscription.FieldCurrentPeriodStart},
+			subscription.FieldCurrentPeriodEnd:     {Type: field.TypeTime, Column: subscription.FieldCurrentPeriodEnd},
+			subscription.FieldStripeSubscriptionID: {Type: field.TypeString, Column: subscription.FieldStripeSubscriptionID},
+			subscription.FieldStripeCustomerID:     {Type: field.TypeString, Column: subscription.FieldStripeCustomerID},
+			subscription.FieldCancelAtPeriodEnd:    {Type: field.TypeBool, Column: subscription.FieldCancelAtPeriodEnd},
+			subscription.FieldCreatedAt:            {Type: field.TypeTime, Column: subscription.FieldCreatedAt},
+			subscription.FieldUpdatedAt:            {Type: field.TypeTime, Column: subscription.FieldUpdatedAt},
+		},
+	}
+	graph.Nodes[25] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   user.Table,
 			Columns: user.Columns,
@@ -720,6 +815,90 @@ var schemaGraph = func() *sqlgraph.Schema {
 		},
 		"Invite",
 		"Principal",
+	)
+	graph.MustAddE(
+		"listing",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   license.ListingTable,
+			Columns: []string{license.ListingColumn},
+			Bidi:    false,
+		},
+		"License",
+		"Listing",
+	)
+	graph.MustAddE(
+		"organization",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   license.OrganizationTable,
+			Columns: []string{license.OrganizationColumn},
+			Bidi:    false,
+		},
+		"License",
+		"Organization",
+	)
+	graph.MustAddE(
+		"purchaser",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   license.PurchaserTable,
+			Columns: []string{license.PurchaserColumn},
+			Bidi:    false,
+		},
+		"License",
+		"Principal",
+	)
+	graph.MustAddE(
+		"seat_assignments",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   license.SeatAssignmentsTable,
+			Columns: []string{license.SeatAssignmentsColumn},
+			Bidi:    false,
+		},
+		"License",
+		"SeatAssignment",
+	)
+	graph.MustAddE(
+		"creator_org",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   listing.CreatorOrgTable,
+			Columns: []string{listing.CreatorOrgColumn},
+			Bidi:    false,
+		},
+		"Listing",
+		"Organization",
+	)
+	graph.MustAddE(
+		"owner",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   listing.OwnerTable,
+			Columns: []string{listing.OwnerColumn},
+			Bidi:    false,
+		},
+		"Listing",
+		"Principal",
+	)
+	graph.MustAddE(
+		"licenses",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   listing.LicensesTable,
+			Columns: []string{listing.LicensesColumn},
+			Bidi:    false,
+		},
+		"Listing",
+		"License",
 	)
 	graph.MustAddE(
 		"user",
@@ -1010,6 +1189,42 @@ var schemaGraph = func() *sqlgraph.Schema {
 		"Invite",
 	)
 	graph.MustAddE(
+		"listings",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.ListingsTable,
+			Columns: []string{organization.ListingsColumn},
+			Bidi:    false,
+		},
+		"Organization",
+		"Listing",
+	)
+	graph.MustAddE(
+		"licenses",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.LicensesTable,
+			Columns: []string{organization.LicensesColumn},
+			Bidi:    false,
+		},
+		"Organization",
+		"License",
+	)
+	graph.MustAddE(
+		"subscription",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: false,
+			Table:   organization.SubscriptionTable,
+			Columns: []string{organization.SubscriptionColumn},
+			Bidi:    false,
+		},
+		"Organization",
+		"Subscription",
+	)
+	graph.MustAddE(
 		"organization",
 		&sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -1130,6 +1345,54 @@ var schemaGraph = func() *sqlgraph.Schema {
 		"Invite",
 	)
 	graph.MustAddE(
+		"owned_listings",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.OwnedListingsTable,
+			Columns: []string{principal.OwnedListingsColumn},
+			Bidi:    false,
+		},
+		"Principal",
+		"Listing",
+	)
+	graph.MustAddE(
+		"purchased_licenses",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.PurchasedLicensesTable,
+			Columns: []string{principal.PurchasedLicensesColumn},
+			Bidi:    false,
+		},
+		"Principal",
+		"License",
+	)
+	graph.MustAddE(
+		"seat_assignments",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.SeatAssignmentsTable,
+			Columns: []string{principal.SeatAssignmentsColumn},
+			Bidi:    false,
+		},
+		"Principal",
+		"SeatAssignment",
+	)
+	graph.MustAddE(
+		"assigned_seats",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.AssignedSeatsTable,
+			Columns: []string{principal.AssignedSeatsColumn},
+			Bidi:    false,
+		},
+		"Principal",
+		"SeatAssignment",
+	)
+	graph.MustAddE(
 		"principal",
 		&sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -1214,6 +1477,42 @@ var schemaGraph = func() *sqlgraph.Schema {
 		"User",
 	)
 	graph.MustAddE(
+		"license",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   seatassignment.LicenseTable,
+			Columns: []string{seatassignment.LicenseColumn},
+			Bidi:    false,
+		},
+		"SeatAssignment",
+		"License",
+	)
+	graph.MustAddE(
+		"principal",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   seatassignment.PrincipalTable,
+			Columns: []string{seatassignment.PrincipalColumn},
+			Bidi:    false,
+		},
+		"SeatAssignment",
+		"Principal",
+	)
+	graph.MustAddE(
+		"assigner",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   seatassignment.AssignerTable,
+			Columns: []string{seatassignment.AssignerColumn},
+			Bidi:    false,
+		},
+		"SeatAssignment",
+		"Principal",
+	)
+	graph.MustAddE(
 		"organization",
 		&sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -1284,6 +1583,18 @@ var schemaGraph = func() *sqlgraph.Schema {
 		},
 		"ServicePrincipal",
 		"Principal",
+	)
+	graph.MustAddE(
+		"organization",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: true,
+			Table:   subscription.OrganizationTable,
+			Columns: []string{subscription.OrganizationColumn},
+			Bidi:    false,
+		},
+		"Subscription",
+		"Organization",
 	)
 	graph.MustAddE(
 		"memberships",
@@ -2233,6 +2544,309 @@ func (f *InviteFilter) WhereHasInviterWith(preds ...predicate.Principal) {
 }
 
 // addPredicate implements the predicateAdder interface.
+func (_q *LicenseQuery) addPredicate(pred func(s *sql.Selector)) {
+	_q.predicates = append(_q.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the LicenseQuery builder.
+func (_q *LicenseQuery) Filter() *LicenseFilter {
+	return &LicenseFilter{config: _q.config, predicateAdder: _q}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *LicenseMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the LicenseMutation builder.
+func (m *LicenseMutation) Filter() *LicenseFilter {
+	return &LicenseFilter{config: m.config, predicateAdder: m}
+}
+
+// LicenseFilter provides a generic filtering capability at runtime for LicenseQuery.
+type LicenseFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *LicenseFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[6].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql [16]byte predicate on the id field.
+func (f *LicenseFilter) WhereID(p entql.ValueP) {
+	f.Where(p.Field(license.FieldID))
+}
+
+// WhereListingID applies the entql [16]byte predicate on the listing_id field.
+func (f *LicenseFilter) WhereListingID(p entql.ValueP) {
+	f.Where(p.Field(license.FieldListingID))
+}
+
+// WhereOrganizationID applies the entql [16]byte predicate on the organization_id field.
+func (f *LicenseFilter) WhereOrganizationID(p entql.ValueP) {
+	f.Where(p.Field(license.FieldOrganizationID))
+}
+
+// WherePurchasedBy applies the entql [16]byte predicate on the purchased_by field.
+func (f *LicenseFilter) WherePurchasedBy(p entql.ValueP) {
+	f.Where(p.Field(license.FieldPurchasedBy))
+}
+
+// WhereLicenseType applies the entql string predicate on the license_type field.
+func (f *LicenseFilter) WhereLicenseType(p entql.StringP) {
+	f.Where(p.Field(license.FieldLicenseType))
+}
+
+// WhereSeats applies the entql int predicate on the seats field.
+func (f *LicenseFilter) WhereSeats(p entql.IntP) {
+	f.Where(p.Field(license.FieldSeats))
+}
+
+// WhereUsedSeats applies the entql int predicate on the used_seats field.
+func (f *LicenseFilter) WhereUsedSeats(p entql.IntP) {
+	f.Where(p.Field(license.FieldUsedSeats))
+}
+
+// WhereValidFrom applies the entql time.Time predicate on the valid_from field.
+func (f *LicenseFilter) WhereValidFrom(p entql.TimeP) {
+	f.Where(p.Field(license.FieldValidFrom))
+}
+
+// WhereValidUntil applies the entql time.Time predicate on the valid_until field.
+func (f *LicenseFilter) WhereValidUntil(p entql.TimeP) {
+	f.Where(p.Field(license.FieldValidUntil))
+}
+
+// WhereStripeSubscriptionID applies the entql string predicate on the stripe_subscription_id field.
+func (f *LicenseFilter) WhereStripeSubscriptionID(p entql.StringP) {
+	f.Where(p.Field(license.FieldStripeSubscriptionID))
+}
+
+// WhereCreatedAt applies the entql time.Time predicate on the created_at field.
+func (f *LicenseFilter) WhereCreatedAt(p entql.TimeP) {
+	f.Where(p.Field(license.FieldCreatedAt))
+}
+
+// WhereUpdatedAt applies the entql time.Time predicate on the updated_at field.
+func (f *LicenseFilter) WhereUpdatedAt(p entql.TimeP) {
+	f.Where(p.Field(license.FieldUpdatedAt))
+}
+
+// WhereHasListing applies a predicate to check if query has an edge listing.
+func (f *LicenseFilter) WhereHasListing() {
+	f.Where(entql.HasEdge("listing"))
+}
+
+// WhereHasListingWith applies a predicate to check if query has an edge listing with a given conditions (other predicates).
+func (f *LicenseFilter) WhereHasListingWith(preds ...predicate.Listing) {
+	f.Where(entql.HasEdgeWith("listing", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasOrganization applies a predicate to check if query has an edge organization.
+func (f *LicenseFilter) WhereHasOrganization() {
+	f.Where(entql.HasEdge("organization"))
+}
+
+// WhereHasOrganizationWith applies a predicate to check if query has an edge organization with a given conditions (other predicates).
+func (f *LicenseFilter) WhereHasOrganizationWith(preds ...predicate.Organization) {
+	f.Where(entql.HasEdgeWith("organization", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasPurchaser applies a predicate to check if query has an edge purchaser.
+func (f *LicenseFilter) WhereHasPurchaser() {
+	f.Where(entql.HasEdge("purchaser"))
+}
+
+// WhereHasPurchaserWith applies a predicate to check if query has an edge purchaser with a given conditions (other predicates).
+func (f *LicenseFilter) WhereHasPurchaserWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("purchaser", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasSeatAssignments applies a predicate to check if query has an edge seat_assignments.
+func (f *LicenseFilter) WhereHasSeatAssignments() {
+	f.Where(entql.HasEdge("seat_assignments"))
+}
+
+// WhereHasSeatAssignmentsWith applies a predicate to check if query has an edge seat_assignments with a given conditions (other predicates).
+func (f *LicenseFilter) WhereHasSeatAssignmentsWith(preds ...predicate.SeatAssignment) {
+	f.Where(entql.HasEdgeWith("seat_assignments", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (_q *ListingQuery) addPredicate(pred func(s *sql.Selector)) {
+	_q.predicates = append(_q.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the ListingQuery builder.
+func (_q *ListingQuery) Filter() *ListingFilter {
+	return &ListingFilter{config: _q.config, predicateAdder: _q}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *ListingMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the ListingMutation builder.
+func (m *ListingMutation) Filter() *ListingFilter {
+	return &ListingFilter{config: m.config, predicateAdder: m}
+}
+
+// ListingFilter provides a generic filtering capability at runtime for ListingQuery.
+type ListingFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *ListingFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[7].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql [16]byte predicate on the id field.
+func (f *ListingFilter) WhereID(p entql.ValueP) {
+	f.Where(p.Field(listing.FieldID))
+}
+
+// WhereCreatorOrgID applies the entql [16]byte predicate on the creator_org_id field.
+func (f *ListingFilter) WhereCreatorOrgID(p entql.ValueP) {
+	f.Where(p.Field(listing.FieldCreatorOrgID))
+}
+
+// WhereOwnerID applies the entql [16]byte predicate on the owner_id field.
+func (f *ListingFilter) WhereOwnerID(p entql.ValueP) {
+	f.Where(p.Field(listing.FieldOwnerID))
+}
+
+// WhereProductType applies the entql string predicate on the product_type field.
+func (f *ListingFilter) WhereProductType(p entql.StringP) {
+	f.Where(p.Field(listing.FieldProductType))
+}
+
+// WhereProductID applies the entql [16]byte predicate on the product_id field.
+func (f *ListingFilter) WhereProductID(p entql.ValueP) {
+	f.Where(p.Field(listing.FieldProductID))
+}
+
+// WhereTitle applies the entql string predicate on the title field.
+func (f *ListingFilter) WhereTitle(p entql.StringP) {
+	f.Where(p.Field(listing.FieldTitle))
+}
+
+// WhereDescription applies the entql string predicate on the description field.
+func (f *ListingFilter) WhereDescription(p entql.StringP) {
+	f.Where(p.Field(listing.FieldDescription))
+}
+
+// WherePricingModel applies the entql string predicate on the pricing_model field.
+func (f *ListingFilter) WherePricingModel(p entql.StringP) {
+	f.Where(p.Field(listing.FieldPricingModel))
+}
+
+// WherePriceCents applies the entql int64 predicate on the price_cents field.
+func (f *ListingFilter) WherePriceCents(p entql.Int64P) {
+	f.Where(p.Field(listing.FieldPriceCents))
+}
+
+// WhereCurrency applies the entql string predicate on the currency field.
+func (f *ListingFilter) WhereCurrency(p entql.StringP) {
+	f.Where(p.Field(listing.FieldCurrency))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *ListingFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(listing.FieldStatus))
+}
+
+// WhereMetadata applies the entql json.RawMessage predicate on the metadata field.
+func (f *ListingFilter) WhereMetadata(p entql.BytesP) {
+	f.Where(p.Field(listing.FieldMetadata))
+}
+
+// WhereCreatedAt applies the entql time.Time predicate on the created_at field.
+func (f *ListingFilter) WhereCreatedAt(p entql.TimeP) {
+	f.Where(p.Field(listing.FieldCreatedAt))
+}
+
+// WhereUpdatedAt applies the entql time.Time predicate on the updated_at field.
+func (f *ListingFilter) WhereUpdatedAt(p entql.TimeP) {
+	f.Where(p.Field(listing.FieldUpdatedAt))
+}
+
+// WherePublishedAt applies the entql time.Time predicate on the published_at field.
+func (f *ListingFilter) WherePublishedAt(p entql.TimeP) {
+	f.Where(p.Field(listing.FieldPublishedAt))
+}
+
+// WhereHasCreatorOrg applies a predicate to check if query has an edge creator_org.
+func (f *ListingFilter) WhereHasCreatorOrg() {
+	f.Where(entql.HasEdge("creator_org"))
+}
+
+// WhereHasCreatorOrgWith applies a predicate to check if query has an edge creator_org with a given conditions (other predicates).
+func (f *ListingFilter) WhereHasCreatorOrgWith(preds ...predicate.Organization) {
+	f.Where(entql.HasEdgeWith("creator_org", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasOwner applies a predicate to check if query has an edge owner.
+func (f *ListingFilter) WhereHasOwner() {
+	f.Where(entql.HasEdge("owner"))
+}
+
+// WhereHasOwnerWith applies a predicate to check if query has an edge owner with a given conditions (other predicates).
+func (f *ListingFilter) WhereHasOwnerWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("owner", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasLicenses applies a predicate to check if query has an edge licenses.
+func (f *ListingFilter) WhereHasLicenses() {
+	f.Where(entql.HasEdge("licenses"))
+}
+
+// WhereHasLicensesWith applies a predicate to check if query has an edge licenses with a given conditions (other predicates).
+func (f *ListingFilter) WhereHasLicensesWith(preds ...predicate.License) {
+	f.Where(entql.HasEdgeWith("licenses", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
 func (_q *MembershipQuery) addPredicate(pred func(s *sql.Selector)) {
 	_q.predicates = append(_q.predicates, pred)
 }
@@ -2261,7 +2875,7 @@ type MembershipFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *MembershipFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[6].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[8].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2359,7 +2973,7 @@ type OAuthAccountFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OAuthAccountFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[7].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[9].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2453,7 +3067,7 @@ type OAuthAppFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OAuthAppFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[8].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[10].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2682,7 +3296,7 @@ type OAuthAppSecretFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OAuthAppSecretFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[9].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[11].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2776,7 +3390,7 @@ type OAuthAuthCodeFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OAuthAuthCodeFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[10].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[12].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2924,7 +3538,7 @@ type OAuthConsentFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OAuthConsentFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[11].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[13].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -3047,7 +3661,7 @@ type OAuthTokenFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OAuthTokenFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[12].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[14].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -3210,7 +3824,7 @@ type OrganizationFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OrganizationFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[13].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[15].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -3393,6 +4007,48 @@ func (f *OrganizationFilter) WhereHasInvitesWith(preds ...predicate.Invite) {
 	})))
 }
 
+// WhereHasListings applies a predicate to check if query has an edge listings.
+func (f *OrganizationFilter) WhereHasListings() {
+	f.Where(entql.HasEdge("listings"))
+}
+
+// WhereHasListingsWith applies a predicate to check if query has an edge listings with a given conditions (other predicates).
+func (f *OrganizationFilter) WhereHasListingsWith(preds ...predicate.Listing) {
+	f.Where(entql.HasEdgeWith("listings", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasLicenses applies a predicate to check if query has an edge licenses.
+func (f *OrganizationFilter) WhereHasLicenses() {
+	f.Where(entql.HasEdge("licenses"))
+}
+
+// WhereHasLicensesWith applies a predicate to check if query has an edge licenses with a given conditions (other predicates).
+func (f *OrganizationFilter) WhereHasLicensesWith(preds ...predicate.License) {
+	f.Where(entql.HasEdgeWith("licenses", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasSubscription applies a predicate to check if query has an edge subscription.
+func (f *OrganizationFilter) WhereHasSubscription() {
+	f.Where(entql.HasEdge("subscription"))
+}
+
+// WhereHasSubscriptionWith applies a predicate to check if query has an edge subscription with a given conditions (other predicates).
+func (f *OrganizationFilter) WhereHasSubscriptionWith(preds ...predicate.Subscription) {
+	f.Where(entql.HasEdgeWith("subscription", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
 // addPredicate implements the predicateAdder interface.
 func (_q *PrincipalQuery) addPredicate(pred func(s *sql.Selector)) {
 	_q.predicates = append(_q.predicates, pred)
@@ -3422,7 +4078,7 @@ type PrincipalFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *PrincipalFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[14].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[16].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -3623,6 +4279,62 @@ func (f *PrincipalFilter) WhereHasSentInvitesWith(preds ...predicate.Invite) {
 	})))
 }
 
+// WhereHasOwnedListings applies a predicate to check if query has an edge owned_listings.
+func (f *PrincipalFilter) WhereHasOwnedListings() {
+	f.Where(entql.HasEdge("owned_listings"))
+}
+
+// WhereHasOwnedListingsWith applies a predicate to check if query has an edge owned_listings with a given conditions (other predicates).
+func (f *PrincipalFilter) WhereHasOwnedListingsWith(preds ...predicate.Listing) {
+	f.Where(entql.HasEdgeWith("owned_listings", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasPurchasedLicenses applies a predicate to check if query has an edge purchased_licenses.
+func (f *PrincipalFilter) WhereHasPurchasedLicenses() {
+	f.Where(entql.HasEdge("purchased_licenses"))
+}
+
+// WhereHasPurchasedLicensesWith applies a predicate to check if query has an edge purchased_licenses with a given conditions (other predicates).
+func (f *PrincipalFilter) WhereHasPurchasedLicensesWith(preds ...predicate.License) {
+	f.Where(entql.HasEdgeWith("purchased_licenses", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasSeatAssignments applies a predicate to check if query has an edge seat_assignments.
+func (f *PrincipalFilter) WhereHasSeatAssignments() {
+	f.Where(entql.HasEdge("seat_assignments"))
+}
+
+// WhereHasSeatAssignmentsWith applies a predicate to check if query has an edge seat_assignments with a given conditions (other predicates).
+func (f *PrincipalFilter) WhereHasSeatAssignmentsWith(preds ...predicate.SeatAssignment) {
+	f.Where(entql.HasEdgeWith("seat_assignments", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasAssignedSeats applies a predicate to check if query has an edge assigned_seats.
+func (f *PrincipalFilter) WhereHasAssignedSeats() {
+	f.Where(entql.HasEdge("assigned_seats"))
+}
+
+// WhereHasAssignedSeatsWith applies a predicate to check if query has an edge assigned_seats with a given conditions (other predicates).
+func (f *PrincipalFilter) WhereHasAssignedSeatsWith(preds ...predicate.SeatAssignment) {
+	f.Where(entql.HasEdgeWith("assigned_seats", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
 // addPredicate implements the predicateAdder interface.
 func (_q *PrincipalMembershipQuery) addPredicate(pred func(s *sql.Selector)) {
 	_q.predicates = append(_q.predicates, pred)
@@ -3652,7 +4364,7 @@ type PrincipalMembershipFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *PrincipalMembershipFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[15].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[17].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -3755,7 +4467,7 @@ type PrincipalTokenFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *PrincipalTokenFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[16].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[18].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -3966,7 +4678,7 @@ type RefreshTokenFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *RefreshTokenFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[17].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[19].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -4037,6 +4749,108 @@ func (f *RefreshTokenFilter) WhereHasUserWith(preds ...predicate.User) {
 }
 
 // addPredicate implements the predicateAdder interface.
+func (_q *SeatAssignmentQuery) addPredicate(pred func(s *sql.Selector)) {
+	_q.predicates = append(_q.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the SeatAssignmentQuery builder.
+func (_q *SeatAssignmentQuery) Filter() *SeatAssignmentFilter {
+	return &SeatAssignmentFilter{config: _q.config, predicateAdder: _q}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *SeatAssignmentMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the SeatAssignmentMutation builder.
+func (m *SeatAssignmentMutation) Filter() *SeatAssignmentFilter {
+	return &SeatAssignmentFilter{config: m.config, predicateAdder: m}
+}
+
+// SeatAssignmentFilter provides a generic filtering capability at runtime for SeatAssignmentQuery.
+type SeatAssignmentFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *SeatAssignmentFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[20].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql [16]byte predicate on the id field.
+func (f *SeatAssignmentFilter) WhereID(p entql.ValueP) {
+	f.Where(p.Field(seatassignment.FieldID))
+}
+
+// WhereLicenseID applies the entql [16]byte predicate on the license_id field.
+func (f *SeatAssignmentFilter) WhereLicenseID(p entql.ValueP) {
+	f.Where(p.Field(seatassignment.FieldLicenseID))
+}
+
+// WherePrincipalID applies the entql [16]byte predicate on the principal_id field.
+func (f *SeatAssignmentFilter) WherePrincipalID(p entql.ValueP) {
+	f.Where(p.Field(seatassignment.FieldPrincipalID))
+}
+
+// WhereAssignedBy applies the entql [16]byte predicate on the assigned_by field.
+func (f *SeatAssignmentFilter) WhereAssignedBy(p entql.ValueP) {
+	f.Where(p.Field(seatassignment.FieldAssignedBy))
+}
+
+// WhereAssignedAt applies the entql time.Time predicate on the assigned_at field.
+func (f *SeatAssignmentFilter) WhereAssignedAt(p entql.TimeP) {
+	f.Where(p.Field(seatassignment.FieldAssignedAt))
+}
+
+// WhereHasLicense applies a predicate to check if query has an edge license.
+func (f *SeatAssignmentFilter) WhereHasLicense() {
+	f.Where(entql.HasEdge("license"))
+}
+
+// WhereHasLicenseWith applies a predicate to check if query has an edge license with a given conditions (other predicates).
+func (f *SeatAssignmentFilter) WhereHasLicenseWith(preds ...predicate.License) {
+	f.Where(entql.HasEdgeWith("license", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasPrincipal applies a predicate to check if query has an edge principal.
+func (f *SeatAssignmentFilter) WhereHasPrincipal() {
+	f.Where(entql.HasEdge("principal"))
+}
+
+// WhereHasPrincipalWith applies a predicate to check if query has an edge principal with a given conditions (other predicates).
+func (f *SeatAssignmentFilter) WhereHasPrincipalWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("principal", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasAssigner applies a predicate to check if query has an edge assigner.
+func (f *SeatAssignmentFilter) WhereHasAssigner() {
+	f.Where(entql.HasEdge("assigner"))
+}
+
+// WhereHasAssignerWith applies a predicate to check if query has an edge assigner with a given conditions (other predicates).
+func (f *SeatAssignmentFilter) WhereHasAssignerWith(preds ...predicate.Principal) {
+	f.Where(entql.HasEdgeWith("assigner", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
 func (_q *ServiceAccountQuery) addPredicate(pred func(s *sql.Selector)) {
 	_q.predicates = append(_q.predicates, pred)
 }
@@ -4065,7 +4879,7 @@ type ServiceAccountFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *ServiceAccountFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[18].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[21].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -4197,7 +5011,7 @@ type ServiceAccountKeyPairFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *ServiceAccountKeyPairFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[19].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[22].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -4306,7 +5120,7 @@ type ServicePrincipalFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *ServicePrincipalFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[20].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[23].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -4386,6 +5200,110 @@ func (f *ServicePrincipalFilter) WhereHasCreatorWith(preds ...predicate.Principa
 }
 
 // addPredicate implements the predicateAdder interface.
+func (_q *SubscriptionQuery) addPredicate(pred func(s *sql.Selector)) {
+	_q.predicates = append(_q.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the SubscriptionQuery builder.
+func (_q *SubscriptionQuery) Filter() *SubscriptionFilter {
+	return &SubscriptionFilter{config: _q.config, predicateAdder: _q}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *SubscriptionMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the SubscriptionMutation builder.
+func (m *SubscriptionMutation) Filter() *SubscriptionFilter {
+	return &SubscriptionFilter{config: m.config, predicateAdder: m}
+}
+
+// SubscriptionFilter provides a generic filtering capability at runtime for SubscriptionQuery.
+type SubscriptionFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *SubscriptionFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[24].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql [16]byte predicate on the id field.
+func (f *SubscriptionFilter) WhereID(p entql.ValueP) {
+	f.Where(p.Field(subscription.FieldID))
+}
+
+// WhereOrganizationID applies the entql [16]byte predicate on the organization_id field.
+func (f *SubscriptionFilter) WhereOrganizationID(p entql.ValueP) {
+	f.Where(p.Field(subscription.FieldOrganizationID))
+}
+
+// WherePlanTier applies the entql string predicate on the plan_tier field.
+func (f *SubscriptionFilter) WherePlanTier(p entql.StringP) {
+	f.Where(p.Field(subscription.FieldPlanTier))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *SubscriptionFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(subscription.FieldStatus))
+}
+
+// WhereCurrentPeriodStart applies the entql time.Time predicate on the current_period_start field.
+func (f *SubscriptionFilter) WhereCurrentPeriodStart(p entql.TimeP) {
+	f.Where(p.Field(subscription.FieldCurrentPeriodStart))
+}
+
+// WhereCurrentPeriodEnd applies the entql time.Time predicate on the current_period_end field.
+func (f *SubscriptionFilter) WhereCurrentPeriodEnd(p entql.TimeP) {
+	f.Where(p.Field(subscription.FieldCurrentPeriodEnd))
+}
+
+// WhereStripeSubscriptionID applies the entql string predicate on the stripe_subscription_id field.
+func (f *SubscriptionFilter) WhereStripeSubscriptionID(p entql.StringP) {
+	f.Where(p.Field(subscription.FieldStripeSubscriptionID))
+}
+
+// WhereStripeCustomerID applies the entql string predicate on the stripe_customer_id field.
+func (f *SubscriptionFilter) WhereStripeCustomerID(p entql.StringP) {
+	f.Where(p.Field(subscription.FieldStripeCustomerID))
+}
+
+// WhereCancelAtPeriodEnd applies the entql bool predicate on the cancel_at_period_end field.
+func (f *SubscriptionFilter) WhereCancelAtPeriodEnd(p entql.BoolP) {
+	f.Where(p.Field(subscription.FieldCancelAtPeriodEnd))
+}
+
+// WhereCreatedAt applies the entql time.Time predicate on the created_at field.
+func (f *SubscriptionFilter) WhereCreatedAt(p entql.TimeP) {
+	f.Where(p.Field(subscription.FieldCreatedAt))
+}
+
+// WhereUpdatedAt applies the entql time.Time predicate on the updated_at field.
+func (f *SubscriptionFilter) WhereUpdatedAt(p entql.TimeP) {
+	f.Where(p.Field(subscription.FieldUpdatedAt))
+}
+
+// WhereHasOrganization applies a predicate to check if query has an edge organization.
+func (f *SubscriptionFilter) WhereHasOrganization() {
+	f.Where(entql.HasEdge("organization"))
+}
+
+// WhereHasOrganizationWith applies a predicate to check if query has an edge organization with a given conditions (other predicates).
+func (f *SubscriptionFilter) WhereHasOrganizationWith(preds ...predicate.Organization) {
+	f.Where(entql.HasEdgeWith("organization", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
 func (_q *UserQuery) addPredicate(pred func(s *sql.Selector)) {
 	_q.predicates = append(_q.predicates, pred)
 }
@@ -4414,7 +5332,7 @@ type UserFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *UserFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[21].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[25].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})

@@ -13,6 +13,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/grokify/coreforge/identity/ent/organization"
 	"github.com/grokify/coreforge/identity/ent/principal"
+	"github.com/grokify/coreforge/identity/ent/subscription"
 )
 
 // Organization is the model entity for the Organization schema.
@@ -68,9 +69,15 @@ type OrganizationEdges struct {
 	Owner *Principal `json:"owner,omitempty"`
 	// Pending invitations to join this organization
 	Invites []*Invite `json:"invites,omitempty"`
+	// Marketplace listings created by this organization
+	Listings []*Listing `json:"listings,omitempty"`
+	// Marketplace licenses held by this organization
+	Licenses []*License `json:"licenses,omitempty"`
+	// Platform subscription for this organization
+	Subscription *Subscription `json:"subscription,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [8]bool
+	loadedTypes [11]bool
 }
 
 // MembershipsOrErr returns the Memberships value or an error if the edge
@@ -145,6 +152,35 @@ func (e OrganizationEdges) InvitesOrErr() ([]*Invite, error) {
 		return e.Invites, nil
 	}
 	return nil, &NotLoadedError{edge: "invites"}
+}
+
+// ListingsOrErr returns the Listings value or an error if the edge
+// was not loaded in eager-loading.
+func (e OrganizationEdges) ListingsOrErr() ([]*Listing, error) {
+	if e.loadedTypes[8] {
+		return e.Listings, nil
+	}
+	return nil, &NotLoadedError{edge: "listings"}
+}
+
+// LicensesOrErr returns the Licenses value or an error if the edge
+// was not loaded in eager-loading.
+func (e OrganizationEdges) LicensesOrErr() ([]*License, error) {
+	if e.loadedTypes[9] {
+		return e.Licenses, nil
+	}
+	return nil, &NotLoadedError{edge: "licenses"}
+}
+
+// SubscriptionOrErr returns the Subscription value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e OrganizationEdges) SubscriptionOrErr() (*Subscription, error) {
+	if e.Subscription != nil {
+		return e.Subscription, nil
+	} else if e.loadedTypes[10] {
+		return nil, &NotFoundError{label: subscription.Label}
+	}
+	return nil, &NotLoadedError{edge: "subscription"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -314,6 +350,21 @@ func (_m *Organization) QueryOwner() *PrincipalQuery {
 // QueryInvites queries the "invites" edge of the Organization entity.
 func (_m *Organization) QueryInvites() *InviteQuery {
 	return NewOrganizationClient(_m.config).QueryInvites(_m)
+}
+
+// QueryListings queries the "listings" edge of the Organization entity.
+func (_m *Organization) QueryListings() *ListingQuery {
+	return NewOrganizationClient(_m.config).QueryListings(_m)
+}
+
+// QueryLicenses queries the "licenses" edge of the Organization entity.
+func (_m *Organization) QueryLicenses() *LicenseQuery {
+	return NewOrganizationClient(_m.config).QueryLicenses(_m)
+}
+
+// QuerySubscription queries the "subscription" edge of the Organization entity.
+func (_m *Organization) QuerySubscription() *SubscriptionQuery {
+	return NewOrganizationClient(_m.config).QuerySubscription(_m)
 }
 
 // Update returns a builder for updating this Organization.

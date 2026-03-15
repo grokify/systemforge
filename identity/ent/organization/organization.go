@@ -56,6 +56,12 @@ const (
 	EdgeOwner = "owner"
 	// EdgeInvites holds the string denoting the invites edge name in mutations.
 	EdgeInvites = "invites"
+	// EdgeListings holds the string denoting the listings edge name in mutations.
+	EdgeListings = "listings"
+	// EdgeLicenses holds the string denoting the licenses edge name in mutations.
+	EdgeLicenses = "licenses"
+	// EdgeSubscription holds the string denoting the subscription edge name in mutations.
+	EdgeSubscription = "subscription"
 	// Table holds the table name of the organization in the database.
 	Table = "cf_organizations"
 	// MembershipsTable is the table that holds the memberships relation/edge.
@@ -114,6 +120,27 @@ const (
 	InvitesInverseTable = "cf_invites"
 	// InvitesColumn is the table column denoting the invites relation/edge.
 	InvitesColumn = "organization_id"
+	// ListingsTable is the table that holds the listings relation/edge.
+	ListingsTable = "cf_listings"
+	// ListingsInverseTable is the table name for the Listing entity.
+	// It exists in this package in order to avoid circular dependency with the "listing" package.
+	ListingsInverseTable = "cf_listings"
+	// ListingsColumn is the table column denoting the listings relation/edge.
+	ListingsColumn = "creator_org_id"
+	// LicensesTable is the table that holds the licenses relation/edge.
+	LicensesTable = "cf_licenses"
+	// LicensesInverseTable is the table name for the License entity.
+	// It exists in this package in order to avoid circular dependency with the "license" package.
+	LicensesInverseTable = "cf_licenses"
+	// LicensesColumn is the table column denoting the licenses relation/edge.
+	LicensesColumn = "organization_id"
+	// SubscriptionTable is the table that holds the subscription relation/edge.
+	SubscriptionTable = "cf_subscriptions"
+	// SubscriptionInverseTable is the table name for the Subscription entity.
+	// It exists in this package in order to avoid circular dependency with the "subscription" package.
+	SubscriptionInverseTable = "cf_subscriptions"
+	// SubscriptionColumn is the table column denoting the subscription relation/edge.
+	SubscriptionColumn = "organization_id"
 )
 
 // Columns holds all SQL columns for organization fields.
@@ -382,6 +409,41 @@ func ByInvites(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newInvitesStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
+
+// ByListingsCount orders the results by listings count.
+func ByListingsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newListingsStep(), opts...)
+	}
+}
+
+// ByListings orders the results by listings terms.
+func ByListings(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newListingsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByLicensesCount orders the results by licenses count.
+func ByLicensesCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newLicensesStep(), opts...)
+	}
+}
+
+// ByLicenses orders the results by licenses terms.
+func ByLicenses(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newLicensesStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// BySubscriptionField orders the results by subscription field.
+func BySubscriptionField(field string, opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newSubscriptionStep(), sql.OrderByField(field, opts...))
+	}
+}
 func newMembershipsStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
@@ -436,5 +498,26 @@ func newInvitesStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(InvitesInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, InvitesTable, InvitesColumn),
+	)
+}
+func newListingsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(ListingsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, ListingsTable, ListingsColumn),
+	)
+}
+func newLicensesStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(LicensesInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, LicensesTable, LicensesColumn),
+	)
+}
+func newSubscriptionStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(SubscriptionInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2O, false, SubscriptionTable, SubscriptionColumn),
 	)
 }

@@ -24,6 +24,10 @@ type Tx struct {
 	Human *HumanClient
 	// Invite is the client for interacting with the Invite builders.
 	Invite *InviteClient
+	// License is the client for interacting with the License builders.
+	License *LicenseClient
+	// Listing is the client for interacting with the Listing builders.
+	Listing *ListingClient
 	// Membership is the client for interacting with the Membership builders.
 	Membership *MembershipClient
 	// OAuthAccount is the client for interacting with the OAuthAccount builders.
@@ -48,12 +52,16 @@ type Tx struct {
 	PrincipalToken *PrincipalTokenClient
 	// RefreshToken is the client for interacting with the RefreshToken builders.
 	RefreshToken *RefreshTokenClient
+	// SeatAssignment is the client for interacting with the SeatAssignment builders.
+	SeatAssignment *SeatAssignmentClient
 	// ServiceAccount is the client for interacting with the ServiceAccount builders.
 	ServiceAccount *ServiceAccountClient
 	// ServiceAccountKeyPair is the client for interacting with the ServiceAccountKeyPair builders.
 	ServiceAccountKeyPair *ServiceAccountKeyPairClient
 	// ServicePrincipal is the client for interacting with the ServicePrincipal builders.
 	ServicePrincipal *ServicePrincipalClient
+	// Subscription is the client for interacting with the Subscription builders.
+	Subscription *SubscriptionClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 
@@ -193,6 +201,8 @@ func (tx *Tx) init() {
 	tx.Credential = NewCredentialClient(tx.config)
 	tx.Human = NewHumanClient(tx.config)
 	tx.Invite = NewInviteClient(tx.config)
+	tx.License = NewLicenseClient(tx.config)
+	tx.Listing = NewListingClient(tx.config)
 	tx.Membership = NewMembershipClient(tx.config)
 	tx.OAuthAccount = NewOAuthAccountClient(tx.config)
 	tx.OAuthApp = NewOAuthAppClient(tx.config)
@@ -205,9 +215,11 @@ func (tx *Tx) init() {
 	tx.PrincipalMembership = NewPrincipalMembershipClient(tx.config)
 	tx.PrincipalToken = NewPrincipalTokenClient(tx.config)
 	tx.RefreshToken = NewRefreshTokenClient(tx.config)
+	tx.SeatAssignment = NewSeatAssignmentClient(tx.config)
 	tx.ServiceAccount = NewServiceAccountClient(tx.config)
 	tx.ServiceAccountKeyPair = NewServiceAccountKeyPairClient(tx.config)
 	tx.ServicePrincipal = NewServicePrincipalClient(tx.config)
+	tx.Subscription = NewSubscriptionClient(tx.config)
 	tx.User = NewUserClient(tx.config)
 }
 

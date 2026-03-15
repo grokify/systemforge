@@ -18,10 +18,13 @@ import (
 	"github.com/grokify/coreforge/identity/ent/credential"
 	"github.com/grokify/coreforge/identity/ent/human"
 	"github.com/grokify/coreforge/identity/ent/invite"
+	"github.com/grokify/coreforge/identity/ent/license"
+	"github.com/grokify/coreforge/identity/ent/listing"
 	"github.com/grokify/coreforge/identity/ent/organization"
 	"github.com/grokify/coreforge/identity/ent/principal"
 	"github.com/grokify/coreforge/identity/ent/principalmembership"
 	"github.com/grokify/coreforge/identity/ent/principaltoken"
+	"github.com/grokify/coreforge/identity/ent/seatassignment"
 	"github.com/grokify/coreforge/identity/ent/serviceprincipal"
 )
 
@@ -293,6 +296,66 @@ func (_c *PrincipalCreate) AddSentInvites(v ...*Invite) *PrincipalCreate {
 		ids[i] = v[i].ID
 	}
 	return _c.AddSentInviteIDs(ids...)
+}
+
+// AddOwnedListingIDs adds the "owned_listings" edge to the Listing entity by IDs.
+func (_c *PrincipalCreate) AddOwnedListingIDs(ids ...uuid.UUID) *PrincipalCreate {
+	_c.mutation.AddOwnedListingIDs(ids...)
+	return _c
+}
+
+// AddOwnedListings adds the "owned_listings" edges to the Listing entity.
+func (_c *PrincipalCreate) AddOwnedListings(v ...*Listing) *PrincipalCreate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddOwnedListingIDs(ids...)
+}
+
+// AddPurchasedLicenseIDs adds the "purchased_licenses" edge to the License entity by IDs.
+func (_c *PrincipalCreate) AddPurchasedLicenseIDs(ids ...uuid.UUID) *PrincipalCreate {
+	_c.mutation.AddPurchasedLicenseIDs(ids...)
+	return _c
+}
+
+// AddPurchasedLicenses adds the "purchased_licenses" edges to the License entity.
+func (_c *PrincipalCreate) AddPurchasedLicenses(v ...*License) *PrincipalCreate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddPurchasedLicenseIDs(ids...)
+}
+
+// AddSeatAssignmentIDs adds the "seat_assignments" edge to the SeatAssignment entity by IDs.
+func (_c *PrincipalCreate) AddSeatAssignmentIDs(ids ...uuid.UUID) *PrincipalCreate {
+	_c.mutation.AddSeatAssignmentIDs(ids...)
+	return _c
+}
+
+// AddSeatAssignments adds the "seat_assignments" edges to the SeatAssignment entity.
+func (_c *PrincipalCreate) AddSeatAssignments(v ...*SeatAssignment) *PrincipalCreate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddSeatAssignmentIDs(ids...)
+}
+
+// AddAssignedSeatIDs adds the "assigned_seats" edge to the SeatAssignment entity by IDs.
+func (_c *PrincipalCreate) AddAssignedSeatIDs(ids ...uuid.UUID) *PrincipalCreate {
+	_c.mutation.AddAssignedSeatIDs(ids...)
+	return _c
+}
+
+// AddAssignedSeats adds the "assigned_seats" edges to the SeatAssignment entity.
+func (_c *PrincipalCreate) AddAssignedSeats(v ...*SeatAssignment) *PrincipalCreate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddAssignedSeatIDs(ids...)
 }
 
 // Mutation returns the PrincipalMutation object of the builder.
@@ -623,6 +686,70 @@ func (_c *PrincipalCreate) createSpec() (*Principal, *sqlgraph.CreateSpec) {
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(invite.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.OwnedListingsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.OwnedListingsTable,
+			Columns: []string{principal.OwnedListingsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(listing.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.PurchasedLicensesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.PurchasedLicensesTable,
+			Columns: []string{principal.PurchasedLicensesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(license.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.SeatAssignmentsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.SeatAssignmentsTable,
+			Columns: []string{principal.SeatAssignmentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(seatassignment.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.AssignedSeatsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.AssignedSeatsTable,
+			Columns: []string{principal.AssignedSeatsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(seatassignment.FieldID, field.TypeUUID),
 			},
 		}
 		for _, k := range nodes {

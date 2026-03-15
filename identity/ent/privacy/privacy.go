@@ -255,6 +255,54 @@ func (f InviteMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.InviteMutation", m)
 }
 
+// The LicenseQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type LicenseQueryRuleFunc func(context.Context, *ent.LicenseQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f LicenseQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.LicenseQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.LicenseQuery", q)
+}
+
+// The LicenseMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type LicenseMutationRuleFunc func(context.Context, *ent.LicenseMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f LicenseMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.LicenseMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.LicenseMutation", m)
+}
+
+// The ListingQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type ListingQueryRuleFunc func(context.Context, *ent.ListingQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f ListingQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.ListingQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.ListingQuery", q)
+}
+
+// The ListingMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type ListingMutationRuleFunc func(context.Context, *ent.ListingMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f ListingMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.ListingMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.ListingMutation", m)
+}
+
 // The MembershipQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
 type MembershipQueryRuleFunc func(context.Context, *ent.MembershipQuery) error
@@ -543,6 +591,30 @@ func (f RefreshTokenMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mu
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.RefreshTokenMutation", m)
 }
 
+// The SeatAssignmentQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type SeatAssignmentQueryRuleFunc func(context.Context, *ent.SeatAssignmentQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f SeatAssignmentQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.SeatAssignmentQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.SeatAssignmentQuery", q)
+}
+
+// The SeatAssignmentMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type SeatAssignmentMutationRuleFunc func(context.Context, *ent.SeatAssignmentMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f SeatAssignmentMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.SeatAssignmentMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.SeatAssignmentMutation", m)
+}
+
 // The ServiceAccountQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
 type ServiceAccountQueryRuleFunc func(context.Context, *ent.ServiceAccountQuery) error
@@ -613,6 +685,30 @@ func (f ServicePrincipalMutationRuleFunc) EvalMutation(ctx context.Context, m en
 		return f(ctx, m)
 	}
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.ServicePrincipalMutation", m)
+}
+
+// The SubscriptionQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type SubscriptionQueryRuleFunc func(context.Context, *ent.SubscriptionQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f SubscriptionQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.SubscriptionQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.SubscriptionQuery", q)
+}
+
+// The SubscriptionMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type SubscriptionMutationRuleFunc func(context.Context, *ent.SubscriptionMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f SubscriptionMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.SubscriptionMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.SubscriptionMutation", m)
 }
 
 // The UserQueryRuleFunc type is an adapter to allow the use of ordinary
@@ -686,6 +782,10 @@ func queryFilter(q ent.Query) (Filter, error) {
 		return q.Filter(), nil
 	case *ent.InviteQuery:
 		return q.Filter(), nil
+	case *ent.LicenseQuery:
+		return q.Filter(), nil
+	case *ent.ListingQuery:
+		return q.Filter(), nil
 	case *ent.MembershipQuery:
 		return q.Filter(), nil
 	case *ent.OAuthAccountQuery:
@@ -710,11 +810,15 @@ func queryFilter(q ent.Query) (Filter, error) {
 		return q.Filter(), nil
 	case *ent.RefreshTokenQuery:
 		return q.Filter(), nil
+	case *ent.SeatAssignmentQuery:
+		return q.Filter(), nil
 	case *ent.ServiceAccountQuery:
 		return q.Filter(), nil
 	case *ent.ServiceAccountKeyPairQuery:
 		return q.Filter(), nil
 	case *ent.ServicePrincipalQuery:
+		return q.Filter(), nil
+	case *ent.SubscriptionQuery:
 		return q.Filter(), nil
 	case *ent.UserQuery:
 		return q.Filter(), nil
@@ -736,6 +840,10 @@ func mutationFilter(m ent.Mutation) (Filter, error) {
 	case *ent.HumanMutation:
 		return m.Filter(), nil
 	case *ent.InviteMutation:
+		return m.Filter(), nil
+	case *ent.LicenseMutation:
+		return m.Filter(), nil
+	case *ent.ListingMutation:
 		return m.Filter(), nil
 	case *ent.MembershipMutation:
 		return m.Filter(), nil
@@ -761,11 +869,15 @@ func mutationFilter(m ent.Mutation) (Filter, error) {
 		return m.Filter(), nil
 	case *ent.RefreshTokenMutation:
 		return m.Filter(), nil
+	case *ent.SeatAssignmentMutation:
+		return m.Filter(), nil
 	case *ent.ServiceAccountMutation:
 		return m.Filter(), nil
 	case *ent.ServiceAccountKeyPairMutation:
 		return m.Filter(), nil
 	case *ent.ServicePrincipalMutation:
+		return m.Filter(), nil
+	case *ent.SubscriptionMutation:
 		return m.Filter(), nil
 	case *ent.UserMutation:
 		return m.Filter(), nil

@@ -126,6 +126,22 @@ func (Principal) Edges() []ent.Edge {
 		// Invites sent by this principal
 		edge.To("sent_invites", Invite.Type).
 			Comment("Invitations sent by this principal"),
+
+		// Marketplace: Listings owned by this principal
+		edge.To("owned_listings", Listing.Type).
+			Comment("Marketplace listings owned by this principal"),
+
+		// Marketplace: Licenses purchased by this principal
+		edge.To("purchased_licenses", License.Type).
+			Comment("Licenses purchased by this principal"),
+
+		// Marketplace: Seat assignments for this principal
+		edge.To("seat_assignments", SeatAssignment.Type).
+			Comment("License seats assigned to this principal"),
+
+		// Marketplace: Seats assigned by this principal
+		edge.To("assigned_seats", SeatAssignment.Type).
+			Comment("License seats assigned by this principal"),
 	}
 }
 

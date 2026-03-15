@@ -18,6 +18,8 @@ import (
 	"github.com/grokify/coreforge/identity/ent/credential"
 	"github.com/grokify/coreforge/identity/ent/human"
 	"github.com/grokify/coreforge/identity/ent/invite"
+	"github.com/grokify/coreforge/identity/ent/license"
+	"github.com/grokify/coreforge/identity/ent/listing"
 	"github.com/grokify/coreforge/identity/ent/membership"
 	"github.com/grokify/coreforge/identity/ent/oauthaccount"
 	"github.com/grokify/coreforge/identity/ent/oauthapp"
@@ -30,9 +32,11 @@ import (
 	"github.com/grokify/coreforge/identity/ent/principalmembership"
 	"github.com/grokify/coreforge/identity/ent/principaltoken"
 	"github.com/grokify/coreforge/identity/ent/refreshtoken"
+	"github.com/grokify/coreforge/identity/ent/seatassignment"
 	"github.com/grokify/coreforge/identity/ent/serviceaccount"
 	"github.com/grokify/coreforge/identity/ent/serviceaccountkeypair"
 	"github.com/grokify/coreforge/identity/ent/serviceprincipal"
+	"github.com/grokify/coreforge/identity/ent/subscription"
 	"github.com/grokify/coreforge/identity/ent/user"
 )
 
@@ -100,6 +104,8 @@ func checkColumn(t, c string) error {
 			credential.Table:            credential.ValidColumn,
 			human.Table:                 human.ValidColumn,
 			invite.Table:                invite.ValidColumn,
+			license.Table:               license.ValidColumn,
+			listing.Table:               listing.ValidColumn,
 			membership.Table:            membership.ValidColumn,
 			oauthaccount.Table:          oauthaccount.ValidColumn,
 			oauthapp.Table:              oauthapp.ValidColumn,
@@ -112,9 +118,11 @@ func checkColumn(t, c string) error {
 			principalmembership.Table:   principalmembership.ValidColumn,
 			principaltoken.Table:        principaltoken.ValidColumn,
 			refreshtoken.Table:          refreshtoken.ValidColumn,
+			seatassignment.Table:        seatassignment.ValidColumn,
 			serviceaccount.Table:        serviceaccount.ValidColumn,
 			serviceaccountkeypair.Table: serviceaccountkeypair.ValidColumn,
 			serviceprincipal.Table:      serviceprincipal.ValidColumn,
+			subscription.Table:          subscription.ValidColumn,
 			user.Table:                  user.ValidColumn,
 		})
 	})

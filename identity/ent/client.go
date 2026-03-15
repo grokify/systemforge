@@ -22,6 +22,8 @@ import (
 	"github.com/grokify/coreforge/identity/ent/credential"
 	"github.com/grokify/coreforge/identity/ent/human"
 	"github.com/grokify/coreforge/identity/ent/invite"
+	"github.com/grokify/coreforge/identity/ent/license"
+	"github.com/grokify/coreforge/identity/ent/listing"
 	"github.com/grokify/coreforge/identity/ent/membership"
 	"github.com/grokify/coreforge/identity/ent/oauthaccount"
 	"github.com/grokify/coreforge/identity/ent/oauthapp"
@@ -34,9 +36,11 @@ import (
 	"github.com/grokify/coreforge/identity/ent/principalmembership"
 	"github.com/grokify/coreforge/identity/ent/principaltoken"
 	"github.com/grokify/coreforge/identity/ent/refreshtoken"
+	"github.com/grokify/coreforge/identity/ent/seatassignment"
 	"github.com/grokify/coreforge/identity/ent/serviceaccount"
 	"github.com/grokify/coreforge/identity/ent/serviceaccountkeypair"
 	"github.com/grokify/coreforge/identity/ent/serviceprincipal"
+	"github.com/grokify/coreforge/identity/ent/subscription"
 	"github.com/grokify/coreforge/identity/ent/user"
 )
 
@@ -57,6 +61,10 @@ type Client struct {
 	Human *HumanClient
 	// Invite is the client for interacting with the Invite builders.
 	Invite *InviteClient
+	// License is the client for interacting with the License builders.
+	License *LicenseClient
+	// Listing is the client for interacting with the Listing builders.
+	Listing *ListingClient
 	// Membership is the client for interacting with the Membership builders.
 	Membership *MembershipClient
 	// OAuthAccount is the client for interacting with the OAuthAccount builders.
@@ -81,12 +89,16 @@ type Client struct {
 	PrincipalToken *PrincipalTokenClient
 	// RefreshToken is the client for interacting with the RefreshToken builders.
 	RefreshToken *RefreshTokenClient
+	// SeatAssignment is the client for interacting with the SeatAssignment builders.
+	SeatAssignment *SeatAssignmentClient
 	// ServiceAccount is the client for interacting with the ServiceAccount builders.
 	ServiceAccount *ServiceAccountClient
 	// ServiceAccountKeyPair is the client for interacting with the ServiceAccountKeyPair builders.
 	ServiceAccountKeyPair *ServiceAccountKeyPairClient
 	// ServicePrincipal is the client for interacting with the ServicePrincipal builders.
 	ServicePrincipal *ServicePrincipalClient
+	// Subscription is the client for interacting with the Subscription builders.
+	Subscription *SubscriptionClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 }
@@ -106,6 +118,8 @@ func (c *Client) init() {
 	c.Credential = NewCredentialClient(c.config)
 	c.Human = NewHumanClient(c.config)
 	c.Invite = NewInviteClient(c.config)
+	c.License = NewLicenseClient(c.config)
+	c.Listing = NewListingClient(c.config)
 	c.Membership = NewMembershipClient(c.config)
 	c.OAuthAccount = NewOAuthAccountClient(c.config)
 	c.OAuthApp = NewOAuthAppClient(c.config)
@@ -118,9 +132,11 @@ func (c *Client) init() {
 	c.PrincipalMembership = NewPrincipalMembershipClient(c.config)
 	c.PrincipalToken = NewPrincipalTokenClient(c.config)
 	c.RefreshToken = NewRefreshTokenClient(c.config)
+	c.SeatAssignment = NewSeatAssignmentClient(c.config)
 	c.ServiceAccount = NewServiceAccountClient(c.config)
 	c.ServiceAccountKeyPair = NewServiceAccountKeyPairClient(c.config)
 	c.ServicePrincipal = NewServicePrincipalClient(c.config)
+	c.Subscription = NewSubscriptionClient(c.config)
 	c.User = NewUserClient(c.config)
 }
 
@@ -220,6 +236,8 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		Credential:            NewCredentialClient(cfg),
 		Human:                 NewHumanClient(cfg),
 		Invite:                NewInviteClient(cfg),
+		License:               NewLicenseClient(cfg),
+		Listing:               NewListingClient(cfg),
 		Membership:            NewMembershipClient(cfg),
 		OAuthAccount:          NewOAuthAccountClient(cfg),
 		OAuthApp:              NewOAuthAppClient(cfg),
@@ -232,9 +250,11 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		PrincipalMembership:   NewPrincipalMembershipClient(cfg),
 		PrincipalToken:        NewPrincipalTokenClient(cfg),
 		RefreshToken:          NewRefreshTokenClient(cfg),
+		SeatAssignment:        NewSeatAssignmentClient(cfg),
 		ServiceAccount:        NewServiceAccountClient(cfg),
 		ServiceAccountKeyPair: NewServiceAccountKeyPairClient(cfg),
 		ServicePrincipal:      NewServicePrincipalClient(cfg),
+		Subscription:          NewSubscriptionClient(cfg),
 		User:                  NewUserClient(cfg),
 	}, nil
 }
@@ -261,6 +281,8 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		Credential:            NewCredentialClient(cfg),
 		Human:                 NewHumanClient(cfg),
 		Invite:                NewInviteClient(cfg),
+		License:               NewLicenseClient(cfg),
+		Listing:               NewListingClient(cfg),
 		Membership:            NewMembershipClient(cfg),
 		OAuthAccount:          NewOAuthAccountClient(cfg),
 		OAuthApp:              NewOAuthAppClient(cfg),
@@ -273,9 +295,11 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		PrincipalMembership:   NewPrincipalMembershipClient(cfg),
 		PrincipalToken:        NewPrincipalTokenClient(cfg),
 		RefreshToken:          NewRefreshTokenClient(cfg),
+		SeatAssignment:        NewSeatAssignmentClient(cfg),
 		ServiceAccount:        NewServiceAccountClient(cfg),
 		ServiceAccountKeyPair: NewServiceAccountKeyPairClient(cfg),
 		ServicePrincipal:      NewServicePrincipalClient(cfg),
+		Subscription:          NewSubscriptionClient(cfg),
 		User:                  NewUserClient(cfg),
 	}, nil
 }
@@ -306,11 +330,12 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.APIKey, c.Agent, c.Application, c.Credential, c.Human, c.Invite, c.Membership,
-		c.OAuthAccount, c.OAuthApp, c.OAuthAppSecret, c.OAuthAuthCode, c.OAuthConsent,
-		c.OAuthToken, c.Organization, c.Principal, c.PrincipalMembership,
-		c.PrincipalToken, c.RefreshToken, c.ServiceAccount, c.ServiceAccountKeyPair,
-		c.ServicePrincipal, c.User,
+		c.APIKey, c.Agent, c.Application, c.Credential, c.Human, c.Invite, c.License,
+		c.Listing, c.Membership, c.OAuthAccount, c.OAuthApp, c.OAuthAppSecret,
+		c.OAuthAuthCode, c.OAuthConsent, c.OAuthToken, c.Organization, c.Principal,
+		c.PrincipalMembership, c.PrincipalToken, c.RefreshToken, c.SeatAssignment,
+		c.ServiceAccount, c.ServiceAccountKeyPair, c.ServicePrincipal, c.Subscription,
+		c.User,
 	} {
 		n.Use(hooks...)
 	}
@@ -320,11 +345,12 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.APIKey, c.Agent, c.Application, c.Credential, c.Human, c.Invite, c.Membership,
-		c.OAuthAccount, c.OAuthApp, c.OAuthAppSecret, c.OAuthAuthCode, c.OAuthConsent,
-		c.OAuthToken, c.Organization, c.Principal, c.PrincipalMembership,
-		c.PrincipalToken, c.RefreshToken, c.ServiceAccount, c.ServiceAccountKeyPair,
-		c.ServicePrincipal, c.User,
+		c.APIKey, c.Agent, c.Application, c.Credential, c.Human, c.Invite, c.License,
+		c.Listing, c.Membership, c.OAuthAccount, c.OAuthApp, c.OAuthAppSecret,
+		c.OAuthAuthCode, c.OAuthConsent, c.OAuthToken, c.Organization, c.Principal,
+		c.PrincipalMembership, c.PrincipalToken, c.RefreshToken, c.SeatAssignment,
+		c.ServiceAccount, c.ServiceAccountKeyPair, c.ServicePrincipal, c.Subscription,
+		c.User,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -345,6 +371,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.Human.mutate(ctx, m)
 	case *InviteMutation:
 		return c.Invite.mutate(ctx, m)
+	case *LicenseMutation:
+		return c.License.mutate(ctx, m)
+	case *ListingMutation:
+		return c.Listing.mutate(ctx, m)
 	case *MembershipMutation:
 		return c.Membership.mutate(ctx, m)
 	case *OAuthAccountMutation:
@@ -369,12 +399,16 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.PrincipalToken.mutate(ctx, m)
 	case *RefreshTokenMutation:
 		return c.RefreshToken.mutate(ctx, m)
+	case *SeatAssignmentMutation:
+		return c.SeatAssignment.mutate(ctx, m)
 	case *ServiceAccountMutation:
 		return c.ServiceAccount.mutate(ctx, m)
 	case *ServiceAccountKeyPairMutation:
 		return c.ServiceAccountKeyPair.mutate(ctx, m)
 	case *ServicePrincipalMutation:
 		return c.ServicePrincipal.mutate(ctx, m)
+	case *SubscriptionMutation:
+		return c.Subscription.mutate(ctx, m)
 	case *UserMutation:
 		return c.User.mutate(ctx, m)
 	default:
@@ -1337,6 +1371,384 @@ func (c *InviteClient) mutate(ctx context.Context, m *InviteMutation) (Value, er
 		return (&InviteDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown Invite mutation op: %q", m.Op())
+	}
+}
+
+// LicenseClient is a client for the License schema.
+type LicenseClient struct {
+	config
+}
+
+// NewLicenseClient returns a client for the License from the given config.
+func NewLicenseClient(c config) *LicenseClient {
+	return &LicenseClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `license.Hooks(f(g(h())))`.
+func (c *LicenseClient) Use(hooks ...Hook) {
+	c.hooks.License = append(c.hooks.License, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `license.Intercept(f(g(h())))`.
+func (c *LicenseClient) Intercept(interceptors ...Interceptor) {
+	c.inters.License = append(c.inters.License, interceptors...)
+}
+
+// Create returns a builder for creating a License entity.
+func (c *LicenseClient) Create() *LicenseCreate {
+	mutation := newLicenseMutation(c.config, OpCreate)
+	return &LicenseCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of License entities.
+func (c *LicenseClient) CreateBulk(builders ...*LicenseCreate) *LicenseCreateBulk {
+	return &LicenseCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *LicenseClient) MapCreateBulk(slice any, setFunc func(*LicenseCreate, int)) *LicenseCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &LicenseCreateBulk{err: fmt.Errorf("calling to LicenseClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*LicenseCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &LicenseCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for License.
+func (c *LicenseClient) Update() *LicenseUpdate {
+	mutation := newLicenseMutation(c.config, OpUpdate)
+	return &LicenseUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *LicenseClient) UpdateOne(_m *License) *LicenseUpdateOne {
+	mutation := newLicenseMutation(c.config, OpUpdateOne, withLicense(_m))
+	return &LicenseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *LicenseClient) UpdateOneID(id uuid.UUID) *LicenseUpdateOne {
+	mutation := newLicenseMutation(c.config, OpUpdateOne, withLicenseID(id))
+	return &LicenseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for License.
+func (c *LicenseClient) Delete() *LicenseDelete {
+	mutation := newLicenseMutation(c.config, OpDelete)
+	return &LicenseDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *LicenseClient) DeleteOne(_m *License) *LicenseDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *LicenseClient) DeleteOneID(id uuid.UUID) *LicenseDeleteOne {
+	builder := c.Delete().Where(license.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &LicenseDeleteOne{builder}
+}
+
+// Query returns a query builder for License.
+func (c *LicenseClient) Query() *LicenseQuery {
+	return &LicenseQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeLicense},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a License entity by its id.
+func (c *LicenseClient) Get(ctx context.Context, id uuid.UUID) (*License, error) {
+	return c.Query().Where(license.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *LicenseClient) GetX(ctx context.Context, id uuid.UUID) *License {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryListing queries the listing edge of a License.
+func (c *LicenseClient) QueryListing(_m *License) *ListingQuery {
+	query := (&ListingClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(license.Table, license.FieldID, id),
+			sqlgraph.To(listing.Table, listing.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, license.ListingTable, license.ListingColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryOrganization queries the organization edge of a License.
+func (c *LicenseClient) QueryOrganization(_m *License) *OrganizationQuery {
+	query := (&OrganizationClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(license.Table, license.FieldID, id),
+			sqlgraph.To(organization.Table, organization.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, license.OrganizationTable, license.OrganizationColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryPurchaser queries the purchaser edge of a License.
+func (c *LicenseClient) QueryPurchaser(_m *License) *PrincipalQuery {
+	query := (&PrincipalClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(license.Table, license.FieldID, id),
+			sqlgraph.To(principal.Table, principal.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, license.PurchaserTable, license.PurchaserColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QuerySeatAssignments queries the seat_assignments edge of a License.
+func (c *LicenseClient) QuerySeatAssignments(_m *License) *SeatAssignmentQuery {
+	query := (&SeatAssignmentClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(license.Table, license.FieldID, id),
+			sqlgraph.To(seatassignment.Table, seatassignment.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, license.SeatAssignmentsTable, license.SeatAssignmentsColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *LicenseClient) Hooks() []Hook {
+	return c.hooks.License
+}
+
+// Interceptors returns the client interceptors.
+func (c *LicenseClient) Interceptors() []Interceptor {
+	return c.inters.License
+}
+
+func (c *LicenseClient) mutate(ctx context.Context, m *LicenseMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&LicenseCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&LicenseUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&LicenseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&LicenseDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown License mutation op: %q", m.Op())
+	}
+}
+
+// ListingClient is a client for the Listing schema.
+type ListingClient struct {
+	config
+}
+
+// NewListingClient returns a client for the Listing from the given config.
+func NewListingClient(c config) *ListingClient {
+	return &ListingClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `listing.Hooks(f(g(h())))`.
+func (c *ListingClient) Use(hooks ...Hook) {
+	c.hooks.Listing = append(c.hooks.Listing, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `listing.Intercept(f(g(h())))`.
+func (c *ListingClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Listing = append(c.inters.Listing, interceptors...)
+}
+
+// Create returns a builder for creating a Listing entity.
+func (c *ListingClient) Create() *ListingCreate {
+	mutation := newListingMutation(c.config, OpCreate)
+	return &ListingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Listing entities.
+func (c *ListingClient) CreateBulk(builders ...*ListingCreate) *ListingCreateBulk {
+	return &ListingCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *ListingClient) MapCreateBulk(slice any, setFunc func(*ListingCreate, int)) *ListingCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &ListingCreateBulk{err: fmt.Errorf("calling to ListingClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*ListingCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &ListingCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Listing.
+func (c *ListingClient) Update() *ListingUpdate {
+	mutation := newListingMutation(c.config, OpUpdate)
+	return &ListingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *ListingClient) UpdateOne(_m *Listing) *ListingUpdateOne {
+	mutation := newListingMutation(c.config, OpUpdateOne, withListing(_m))
+	return &ListingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *ListingClient) UpdateOneID(id uuid.UUID) *ListingUpdateOne {
+	mutation := newListingMutation(c.config, OpUpdateOne, withListingID(id))
+	return &ListingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Listing.
+func (c *ListingClient) Delete() *ListingDelete {
+	mutation := newListingMutation(c.config, OpDelete)
+	return &ListingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *ListingClient) DeleteOne(_m *Listing) *ListingDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *ListingClient) DeleteOneID(id uuid.UUID) *ListingDeleteOne {
+	builder := c.Delete().Where(listing.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &ListingDeleteOne{builder}
+}
+
+// Query returns a query builder for Listing.
+func (c *ListingClient) Query() *ListingQuery {
+	return &ListingQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeListing},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Listing entity by its id.
+func (c *ListingClient) Get(ctx context.Context, id uuid.UUID) (*Listing, error) {
+	return c.Query().Where(listing.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *ListingClient) GetX(ctx context.Context, id uuid.UUID) *Listing {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryCreatorOrg queries the creator_org edge of a Listing.
+func (c *ListingClient) QueryCreatorOrg(_m *Listing) *OrganizationQuery {
+	query := (&OrganizationClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(listing.Table, listing.FieldID, id),
+			sqlgraph.To(organization.Table, organization.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, listing.CreatorOrgTable, listing.CreatorOrgColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryOwner queries the owner edge of a Listing.
+func (c *ListingClient) QueryOwner(_m *Listing) *PrincipalQuery {
+	query := (&PrincipalClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(listing.Table, listing.FieldID, id),
+			sqlgraph.To(principal.Table, principal.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, listing.OwnerTable, listing.OwnerColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryLicenses queries the licenses edge of a Listing.
+func (c *ListingClient) QueryLicenses(_m *Listing) *LicenseQuery {
+	query := (&LicenseClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(listing.Table, listing.FieldID, id),
+			sqlgraph.To(license.Table, license.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, listing.LicensesTable, listing.LicensesColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *ListingClient) Hooks() []Hook {
+	return c.hooks.Listing
+}
+
+// Interceptors returns the client interceptors.
+func (c *ListingClient) Interceptors() []Interceptor {
+	return c.inters.Listing
+}
+
+func (c *ListingClient) mutate(ctx context.Context, m *ListingMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&ListingCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&ListingUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&ListingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&ListingDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Listing mutation op: %q", m.Op())
 	}
 }
 
@@ -2763,6 +3175,54 @@ func (c *OrganizationClient) QueryInvites(_m *Organization) *InviteQuery {
 	return query
 }
 
+// QueryListings queries the listings edge of a Organization.
+func (c *OrganizationClient) QueryListings(_m *Organization) *ListingQuery {
+	query := (&ListingClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(organization.Table, organization.FieldID, id),
+			sqlgraph.To(listing.Table, listing.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, organization.ListingsTable, organization.ListingsColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryLicenses queries the licenses edge of a Organization.
+func (c *OrganizationClient) QueryLicenses(_m *Organization) *LicenseQuery {
+	query := (&LicenseClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(organization.Table, organization.FieldID, id),
+			sqlgraph.To(license.Table, license.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, organization.LicensesTable, organization.LicensesColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QuerySubscription queries the subscription edge of a Organization.
+func (c *OrganizationClient) QuerySubscription(_m *Organization) *SubscriptionQuery {
+	query := (&SubscriptionClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(organization.Table, organization.FieldID, id),
+			sqlgraph.To(subscription.Table, subscription.FieldID),
+			sqlgraph.Edge(sqlgraph.O2O, false, organization.SubscriptionTable, organization.SubscriptionColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
 // Hooks returns the client hooks.
 func (c *OrganizationClient) Hooks() []Hook {
 	return c.hooks.Organization
@@ -3049,6 +3509,70 @@ func (c *PrincipalClient) QuerySentInvites(_m *Principal) *InviteQuery {
 			sqlgraph.From(principal.Table, principal.FieldID, id),
 			sqlgraph.To(invite.Table, invite.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, principal.SentInvitesTable, principal.SentInvitesColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryOwnedListings queries the owned_listings edge of a Principal.
+func (c *PrincipalClient) QueryOwnedListings(_m *Principal) *ListingQuery {
+	query := (&ListingClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(principal.Table, principal.FieldID, id),
+			sqlgraph.To(listing.Table, listing.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, principal.OwnedListingsTable, principal.OwnedListingsColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryPurchasedLicenses queries the purchased_licenses edge of a Principal.
+func (c *PrincipalClient) QueryPurchasedLicenses(_m *Principal) *LicenseQuery {
+	query := (&LicenseClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(principal.Table, principal.FieldID, id),
+			sqlgraph.To(license.Table, license.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, principal.PurchasedLicensesTable, principal.PurchasedLicensesColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QuerySeatAssignments queries the seat_assignments edge of a Principal.
+func (c *PrincipalClient) QuerySeatAssignments(_m *Principal) *SeatAssignmentQuery {
+	query := (&SeatAssignmentClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(principal.Table, principal.FieldID, id),
+			sqlgraph.To(seatassignment.Table, seatassignment.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, principal.SeatAssignmentsTable, principal.SeatAssignmentsColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryAssignedSeats queries the assigned_seats edge of a Principal.
+func (c *PrincipalClient) QueryAssignedSeats(_m *Principal) *SeatAssignmentQuery {
+	query := (&SeatAssignmentClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(principal.Table, principal.FieldID, id),
+			sqlgraph.To(seatassignment.Table, seatassignment.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, principal.AssignedSeatsTable, principal.AssignedSeatsColumn),
 		)
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
@@ -3592,6 +4116,187 @@ func (c *RefreshTokenClient) mutate(ctx context.Context, m *RefreshTokenMutation
 	}
 }
 
+// SeatAssignmentClient is a client for the SeatAssignment schema.
+type SeatAssignmentClient struct {
+	config
+}
+
+// NewSeatAssignmentClient returns a client for the SeatAssignment from the given config.
+func NewSeatAssignmentClient(c config) *SeatAssignmentClient {
+	return &SeatAssignmentClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `seatassignment.Hooks(f(g(h())))`.
+func (c *SeatAssignmentClient) Use(hooks ...Hook) {
+	c.hooks.SeatAssignment = append(c.hooks.SeatAssignment, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `seatassignment.Intercept(f(g(h())))`.
+func (c *SeatAssignmentClient) Intercept(interceptors ...Interceptor) {
+	c.inters.SeatAssignment = append(c.inters.SeatAssignment, interceptors...)
+}
+
+// Create returns a builder for creating a SeatAssignment entity.
+func (c *SeatAssignmentClient) Create() *SeatAssignmentCreate {
+	mutation := newSeatAssignmentMutation(c.config, OpCreate)
+	return &SeatAssignmentCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of SeatAssignment entities.
+func (c *SeatAssignmentClient) CreateBulk(builders ...*SeatAssignmentCreate) *SeatAssignmentCreateBulk {
+	return &SeatAssignmentCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *SeatAssignmentClient) MapCreateBulk(slice any, setFunc func(*SeatAssignmentCreate, int)) *SeatAssignmentCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &SeatAssignmentCreateBulk{err: fmt.Errorf("calling to SeatAssignmentClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*SeatAssignmentCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &SeatAssignmentCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for SeatAssignment.
+func (c *SeatAssignmentClient) Update() *SeatAssignmentUpdate {
+	mutation := newSeatAssignmentMutation(c.config, OpUpdate)
+	return &SeatAssignmentUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *SeatAssignmentClient) UpdateOne(_m *SeatAssignment) *SeatAssignmentUpdateOne {
+	mutation := newSeatAssignmentMutation(c.config, OpUpdateOne, withSeatAssignment(_m))
+	return &SeatAssignmentUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *SeatAssignmentClient) UpdateOneID(id uuid.UUID) *SeatAssignmentUpdateOne {
+	mutation := newSeatAssignmentMutation(c.config, OpUpdateOne, withSeatAssignmentID(id))
+	return &SeatAssignmentUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for SeatAssignment.
+func (c *SeatAssignmentClient) Delete() *SeatAssignmentDelete {
+	mutation := newSeatAssignmentMutation(c.config, OpDelete)
+	return &SeatAssignmentDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *SeatAssignmentClient) DeleteOne(_m *SeatAssignment) *SeatAssignmentDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *SeatAssignmentClient) DeleteOneID(id uuid.UUID) *SeatAssignmentDeleteOne {
+	builder := c.Delete().Where(seatassignment.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &SeatAssignmentDeleteOne{builder}
+}
+
+// Query returns a query builder for SeatAssignment.
+func (c *SeatAssignmentClient) Query() *SeatAssignmentQuery {
+	return &SeatAssignmentQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeSeatAssignment},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a SeatAssignment entity by its id.
+func (c *SeatAssignmentClient) Get(ctx context.Context, id uuid.UUID) (*SeatAssignment, error) {
+	return c.Query().Where(seatassignment.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *SeatAssignmentClient) GetX(ctx context.Context, id uuid.UUID) *SeatAssignment {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryLicense queries the license edge of a SeatAssignment.
+func (c *SeatAssignmentClient) QueryLicense(_m *SeatAssignment) *LicenseQuery {
+	query := (&LicenseClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(seatassignment.Table, seatassignment.FieldID, id),
+			sqlgraph.To(license.Table, license.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, seatassignment.LicenseTable, seatassignment.LicenseColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryPrincipal queries the principal edge of a SeatAssignment.
+func (c *SeatAssignmentClient) QueryPrincipal(_m *SeatAssignment) *PrincipalQuery {
+	query := (&PrincipalClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(seatassignment.Table, seatassignment.FieldID, id),
+			sqlgraph.To(principal.Table, principal.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, seatassignment.PrincipalTable, seatassignment.PrincipalColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryAssigner queries the assigner edge of a SeatAssignment.
+func (c *SeatAssignmentClient) QueryAssigner(_m *SeatAssignment) *PrincipalQuery {
+	query := (&PrincipalClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(seatassignment.Table, seatassignment.FieldID, id),
+			sqlgraph.To(principal.Table, principal.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, seatassignment.AssignerTable, seatassignment.AssignerColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *SeatAssignmentClient) Hooks() []Hook {
+	return c.hooks.SeatAssignment
+}
+
+// Interceptors returns the client interceptors.
+func (c *SeatAssignmentClient) Interceptors() []Interceptor {
+	return c.inters.SeatAssignment
+}
+
+func (c *SeatAssignmentClient) mutate(ctx context.Context, m *SeatAssignmentMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&SeatAssignmentCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&SeatAssignmentUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&SeatAssignmentUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&SeatAssignmentDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown SeatAssignment mutation op: %q", m.Op())
+	}
+}
+
 // ServiceAccountClient is a client for the ServiceAccount schema.
 type ServiceAccountClient struct {
 	config
@@ -4087,6 +4792,155 @@ func (c *ServicePrincipalClient) mutate(ctx context.Context, m *ServicePrincipal
 	}
 }
 
+// SubscriptionClient is a client for the Subscription schema.
+type SubscriptionClient struct {
+	config
+}
+
+// NewSubscriptionClient returns a client for the Subscription from the given config.
+func NewSubscriptionClient(c config) *SubscriptionClient {
+	return &SubscriptionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `subscription.Hooks(f(g(h())))`.
+func (c *SubscriptionClient) Use(hooks ...Hook) {
+	c.hooks.Subscription = append(c.hooks.Subscription, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `subscription.Intercept(f(g(h())))`.
+func (c *SubscriptionClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Subscription = append(c.inters.Subscription, interceptors...)
+}
+
+// Create returns a builder for creating a Subscription entity.
+func (c *SubscriptionClient) Create() *SubscriptionCreate {
+	mutation := newSubscriptionMutation(c.config, OpCreate)
+	return &SubscriptionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Subscription entities.
+func (c *SubscriptionClient) CreateBulk(builders ...*SubscriptionCreate) *SubscriptionCreateBulk {
+	return &SubscriptionCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *SubscriptionClient) MapCreateBulk(slice any, setFunc func(*SubscriptionCreate, int)) *SubscriptionCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &SubscriptionCreateBulk{err: fmt.Errorf("calling to SubscriptionClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*SubscriptionCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &SubscriptionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Subscription.
+func (c *SubscriptionClient) Update() *SubscriptionUpdate {
+	mutation := newSubscriptionMutation(c.config, OpUpdate)
+	return &SubscriptionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *SubscriptionClient) UpdateOne(_m *Subscription) *SubscriptionUpdateOne {
+	mutation := newSubscriptionMutation(c.config, OpUpdateOne, withSubscription(_m))
+	return &SubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *SubscriptionClient) UpdateOneID(id uuid.UUID) *SubscriptionUpdateOne {
+	mutation := newSubscriptionMutation(c.config, OpUpdateOne, withSubscriptionID(id))
+	return &SubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Subscription.
+func (c *SubscriptionClient) Delete() *SubscriptionDelete {
+	mutation := newSubscriptionMutation(c.config, OpDelete)
+	return &SubscriptionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *SubscriptionClient) DeleteOne(_m *Subscription) *SubscriptionDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *SubscriptionClient) DeleteOneID(id uuid.UUID) *SubscriptionDeleteOne {
+	builder := c.Delete().Where(subscription.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &SubscriptionDeleteOne{builder}
+}
+
+// Query returns a query builder for Subscription.
+func (c *SubscriptionClient) Query() *SubscriptionQuery {
+	return &SubscriptionQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeSubscription},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Subscription entity by its id.
+func (c *SubscriptionClient) Get(ctx context.Context, id uuid.UUID) (*Subscription, error) {
+	return c.Query().Where(subscription.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *SubscriptionClient) GetX(ctx context.Context, id uuid.UUID) *Subscription {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryOrganization queries the organization edge of a Subscription.
+func (c *SubscriptionClient) QueryOrganization(_m *Subscription) *OrganizationQuery {
+	query := (&OrganizationClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(subscription.Table, subscription.FieldID, id),
+			sqlgraph.To(organization.Table, organization.FieldID),
+			sqlgraph.Edge(sqlgraph.O2O, true, subscription.OrganizationTable, subscription.OrganizationColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *SubscriptionClient) Hooks() []Hook {
+	return c.hooks.Subscription
+}
+
+// Interceptors returns the client interceptors.
+func (c *SubscriptionClient) Interceptors() []Interceptor {
+	return c.inters.Subscription
+}
+
+func (c *SubscriptionClient) mutate(ctx context.Context, m *SubscriptionMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&SubscriptionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&SubscriptionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&SubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&SubscriptionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Subscription mutation op: %q", m.Op())
+	}
+}
+
 // UserClient is a client for the User schema.
 type UserClient struct {
 	config
@@ -4367,15 +5221,17 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		APIKey, Agent, Application, Credential, Human, Invite, Membership, OAuthAccount,
-		OAuthApp, OAuthAppSecret, OAuthAuthCode, OAuthConsent, OAuthToken,
-		Organization, Principal, PrincipalMembership, PrincipalToken, RefreshToken,
-		ServiceAccount, ServiceAccountKeyPair, ServicePrincipal, User []ent.Hook
+		APIKey, Agent, Application, Credential, Human, Invite, License, Listing,
+		Membership, OAuthAccount, OAuthApp, OAuthAppSecret, OAuthAuthCode,
+		OAuthConsent, OAuthToken, Organization, Principal, PrincipalMembership,
+		PrincipalToken, RefreshToken, SeatAssignment, ServiceAccount,
+		ServiceAccountKeyPair, ServicePrincipal, Subscription, User []ent.Hook
 	}
 	inters struct {
-		APIKey, Agent, Application, Credential, Human, Invite, Membership, OAuthAccount,
-		OAuthApp, OAuthAppSecret, OAuthAuthCode, OAuthConsent, OAuthToken,
-		Organization, Principal, PrincipalMembership, PrincipalToken, RefreshToken,
-		ServiceAccount, ServiceAccountKeyPair, ServicePrincipal, User []ent.Interceptor
+		APIKey, Agent, Application, Credential, Human, Invite, License, Listing,
+		Membership, OAuthAccount, OAuthApp, OAuthAppSecret, OAuthAuthCode,
+		OAuthConsent, OAuthToken, Organization, Principal, PrincipalMembership,
+		PrincipalToken, RefreshToken, SeatAssignment, ServiceAccount,
+		ServiceAccountKeyPair, ServicePrincipal, Subscription, User []ent.Interceptor
 	}
 )

@@ -56,6 +56,14 @@ const (
 	EdgeOwnedOrganizations = "owned_organizations"
 	// EdgeSentInvites holds the string denoting the sent_invites edge name in mutations.
 	EdgeSentInvites = "sent_invites"
+	// EdgeOwnedListings holds the string denoting the owned_listings edge name in mutations.
+	EdgeOwnedListings = "owned_listings"
+	// EdgePurchasedLicenses holds the string denoting the purchased_licenses edge name in mutations.
+	EdgePurchasedLicenses = "purchased_licenses"
+	// EdgeSeatAssignments holds the string denoting the seat_assignments edge name in mutations.
+	EdgeSeatAssignments = "seat_assignments"
+	// EdgeAssignedSeats holds the string denoting the assigned_seats edge name in mutations.
+	EdgeAssignedSeats = "assigned_seats"
 	// Table holds the table name of the principal in the database.
 	Table = "cf_principals"
 	// OrganizationTable is the table that holds the organization relation/edge.
@@ -128,6 +136,34 @@ const (
 	SentInvitesInverseTable = "cf_invites"
 	// SentInvitesColumn is the table column denoting the sent_invites relation/edge.
 	SentInvitesColumn = "inviter_principal_id"
+	// OwnedListingsTable is the table that holds the owned_listings relation/edge.
+	OwnedListingsTable = "cf_listings"
+	// OwnedListingsInverseTable is the table name for the Listing entity.
+	// It exists in this package in order to avoid circular dependency with the "listing" package.
+	OwnedListingsInverseTable = "cf_listings"
+	// OwnedListingsColumn is the table column denoting the owned_listings relation/edge.
+	OwnedListingsColumn = "owner_id"
+	// PurchasedLicensesTable is the table that holds the purchased_licenses relation/edge.
+	PurchasedLicensesTable = "cf_licenses"
+	// PurchasedLicensesInverseTable is the table name for the License entity.
+	// It exists in this package in order to avoid circular dependency with the "license" package.
+	PurchasedLicensesInverseTable = "cf_licenses"
+	// PurchasedLicensesColumn is the table column denoting the purchased_licenses relation/edge.
+	PurchasedLicensesColumn = "purchased_by"
+	// SeatAssignmentsTable is the table that holds the seat_assignments relation/edge.
+	SeatAssignmentsTable = "cf_seat_assignments"
+	// SeatAssignmentsInverseTable is the table name for the SeatAssignment entity.
+	// It exists in this package in order to avoid circular dependency with the "seatassignment" package.
+	SeatAssignmentsInverseTable = "cf_seat_assignments"
+	// SeatAssignmentsColumn is the table column denoting the seat_assignments relation/edge.
+	SeatAssignmentsColumn = "principal_id"
+	// AssignedSeatsTable is the table that holds the assigned_seats relation/edge.
+	AssignedSeatsTable = "cf_seat_assignments"
+	// AssignedSeatsInverseTable is the table name for the SeatAssignment entity.
+	// It exists in this package in order to avoid circular dependency with the "seatassignment" package.
+	AssignedSeatsInverseTable = "cf_seat_assignments"
+	// AssignedSeatsColumn is the table column denoting the assigned_seats relation/edge.
+	AssignedSeatsColumn = "assigned_by"
 )
 
 // Columns holds all SQL columns for principal fields.
@@ -348,6 +384,62 @@ func BySentInvites(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newSentInvitesStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
+
+// ByOwnedListingsCount orders the results by owned_listings count.
+func ByOwnedListingsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newOwnedListingsStep(), opts...)
+	}
+}
+
+// ByOwnedListings orders the results by owned_listings terms.
+func ByOwnedListings(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newOwnedListingsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByPurchasedLicensesCount orders the results by purchased_licenses count.
+func ByPurchasedLicensesCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newPurchasedLicensesStep(), opts...)
+	}
+}
+
+// ByPurchasedLicenses orders the results by purchased_licenses terms.
+func ByPurchasedLicenses(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newPurchasedLicensesStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// BySeatAssignmentsCount orders the results by seat_assignments count.
+func BySeatAssignmentsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newSeatAssignmentsStep(), opts...)
+	}
+}
+
+// BySeatAssignments orders the results by seat_assignments terms.
+func BySeatAssignments(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newSeatAssignmentsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByAssignedSeatsCount orders the results by assigned_seats count.
+func ByAssignedSeatsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newAssignedSeatsStep(), opts...)
+	}
+}
+
+// ByAssignedSeats orders the results by assigned_seats terms.
+func ByAssignedSeats(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newAssignedSeatsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
 func newOrganizationStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
@@ -416,5 +508,33 @@ func newSentInvitesStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(SentInvitesInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, false, SentInvitesTable, SentInvitesColumn),
+	)
+}
+func newOwnedListingsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(OwnedListingsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, OwnedListingsTable, OwnedListingsColumn),
+	)
+}
+func newPurchasedLicensesStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(PurchasedLicensesInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, PurchasedLicensesTable, PurchasedLicensesColumn),
+	)
+}
+func newSeatAssignmentsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(SeatAssignmentsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, SeatAssignmentsTable, SeatAssignmentsColumn),
+	)
+}
+func newAssignedSeatsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(AssignedSeatsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, AssignedSeatsTable, AssignedSeatsColumn),
 	)
 }

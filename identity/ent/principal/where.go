@@ -596,6 +596,98 @@ func HasSentInvitesWith(preds ...predicate.Invite) predicate.Principal {
 	})
 }
 
+// HasOwnedListings applies the HasEdge predicate on the "owned_listings" edge.
+func HasOwnedListings() predicate.Principal {
+	return predicate.Principal(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, OwnedListingsTable, OwnedListingsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasOwnedListingsWith applies the HasEdge predicate on the "owned_listings" edge with a given conditions (other predicates).
+func HasOwnedListingsWith(preds ...predicate.Listing) predicate.Principal {
+	return predicate.Principal(func(s *sql.Selector) {
+		step := newOwnedListingsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasPurchasedLicenses applies the HasEdge predicate on the "purchased_licenses" edge.
+func HasPurchasedLicenses() predicate.Principal {
+	return predicate.Principal(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, PurchasedLicensesTable, PurchasedLicensesColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasPurchasedLicensesWith applies the HasEdge predicate on the "purchased_licenses" edge with a given conditions (other predicates).
+func HasPurchasedLicensesWith(preds ...predicate.License) predicate.Principal {
+	return predicate.Principal(func(s *sql.Selector) {
+		step := newPurchasedLicensesStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasSeatAssignments applies the HasEdge predicate on the "seat_assignments" edge.
+func HasSeatAssignments() predicate.Principal {
+	return predicate.Principal(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, SeatAssignmentsTable, SeatAssignmentsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasSeatAssignmentsWith applies the HasEdge predicate on the "seat_assignments" edge with a given conditions (other predicates).
+func HasSeatAssignmentsWith(preds ...predicate.SeatAssignment) predicate.Principal {
+	return predicate.Principal(func(s *sql.Selector) {
+		step := newSeatAssignmentsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasAssignedSeats applies the HasEdge predicate on the "assigned_seats" edge.
+func HasAssignedSeats() predicate.Principal {
+	return predicate.Principal(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, AssignedSeatsTable, AssignedSeatsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasAssignedSeatsWith applies the HasEdge predicate on the "assigned_seats" edge with a given conditions (other predicates).
+func HasAssignedSeatsWith(preds ...predicate.SeatAssignment) predicate.Principal {
+	return predicate.Principal(func(s *sql.Selector) {
+		step := newAssignedSeatsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
 // And groups predicates with the AND operator between them.
 func And(predicates ...predicate.Principal) predicate.Principal {
 	return predicate.Principal(sql.AndPredicates(predicates...))

@@ -24,6 +24,12 @@ type Human func(*sql.Selector)
 // Invite is the predicate function for invite builders.
 type Invite func(*sql.Selector)
 
+// License is the predicate function for license builders.
+type License func(*sql.Selector)
+
+// Listing is the predicate function for listing builders.
+type Listing func(*sql.Selector)
+
 // Membership is the predicate function for membership builders.
 type Membership func(*sql.Selector)
 
@@ -60,6 +66,9 @@ type PrincipalToken func(*sql.Selector)
 // RefreshToken is the predicate function for refreshtoken builders.
 type RefreshToken func(*sql.Selector)
 
+// SeatAssignment is the predicate function for seatassignment builders.
+type SeatAssignment func(*sql.Selector)
+
 // ServiceAccount is the predicate function for serviceaccount builders.
 type ServiceAccount func(*sql.Selector)
 
@@ -68,6 +77,9 @@ type ServiceAccountKeyPair func(*sql.Selector)
 
 // ServicePrincipal is the predicate function for serviceprincipal builders.
 type ServicePrincipal func(*sql.Selector)
+
+// Subscription is the predicate function for subscription builders.
+type Subscription func(*sql.Selector)
 
 // User is the predicate function for user builders.
 type User func(*sql.Selector)

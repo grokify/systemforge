@@ -15,6 +15,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/grokify/coreforge/identity/ent/apikey"
 	"github.com/grokify/coreforge/identity/ent/invite"
+	"github.com/grokify/coreforge/identity/ent/license"
+	"github.com/grokify/coreforge/identity/ent/listing"
 	"github.com/grokify/coreforge/identity/ent/membership"
 	"github.com/grokify/coreforge/identity/ent/oauthapp"
 	"github.com/grokify/coreforge/identity/ent/organization"
@@ -22,6 +24,7 @@ import (
 	"github.com/grokify/coreforge/identity/ent/principal"
 	"github.com/grokify/coreforge/identity/ent/principalmembership"
 	"github.com/grokify/coreforge/identity/ent/serviceaccount"
+	"github.com/grokify/coreforge/identity/ent/subscription"
 )
 
 // OrganizationQuery is the builder for querying Organization entities.
@@ -39,6 +42,9 @@ type OrganizationQuery struct {
 	withPrincipalMemberships *PrincipalMembershipQuery
 	withOwner                *PrincipalQuery
 	withInvites              *InviteQuery
+	withListings             *ListingQuery
+	withLicenses             *LicenseQuery
+	withSubscription         *SubscriptionQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -251,6 +257,72 @@ func (_q *OrganizationQuery) QueryInvites() *InviteQuery {
 	return query
 }
 
+// QueryListings chains the current query on the "listings" edge.
+func (_q *OrganizationQuery) QueryListings() *ListingQuery {
+	query := (&ListingClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(organization.Table, organization.FieldID, selector),
+			sqlgraph.To(listing.Table, listing.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, organization.ListingsTable, organization.ListingsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryLicenses chains the current query on the "licenses" edge.
+func (_q *OrganizationQuery) QueryLicenses() *LicenseQuery {
+	query := (&LicenseClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(organization.Table, organization.FieldID, selector),
+			sqlgraph.To(license.Table, license.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, organization.LicensesTable, organization.LicensesColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QuerySubscription chains the current query on the "subscription" edge.
+func (_q *OrganizationQuery) QuerySubscription() *SubscriptionQuery {
+	query := (&SubscriptionClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(organization.Table, organization.FieldID, selector),
+			sqlgraph.To(subscription.Table, subscription.FieldID),
+			sqlgraph.Edge(sqlgraph.O2O, false, organization.SubscriptionTable, organization.SubscriptionColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
 // First returns the first Organization entity from the query.
 // Returns a *NotFoundError when no Organization was found.
 func (_q *OrganizationQuery) First(ctx context.Context) (*Organization, error) {
@@ -451,6 +523,9 @@ func (_q *OrganizationQuery) Clone() *OrganizationQuery {
 		withPrincipalMemberships: _q.withPrincipalMemberships.Clone(),
 		withOwner:                _q.withOwner.Clone(),
 		withInvites:              _q.withInvites.Clone(),
+		withListings:             _q.withListings.Clone(),
+		withLicenses:             _q.withLicenses.Clone(),
+		withSubscription:         _q.withSubscription.Clone(),
 		// clone intermediate query.
 		sql:  _q.sql.Clone(),
 		path: _q.path,
@@ -545,6 +620,39 @@ func (_q *OrganizationQuery) WithInvites(opts ...func(*InviteQuery)) *Organizati
 	return _q
 }
 
+// WithListings tells the query-builder to eager-load the nodes that are connected to
+// the "listings" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *OrganizationQuery) WithListings(opts ...func(*ListingQuery)) *OrganizationQuery {
+	query := (&ListingClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withListings = query
+	return _q
+}
+
+// WithLicenses tells the query-builder to eager-load the nodes that are connected to
+// the "licenses" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *OrganizationQuery) WithLicenses(opts ...func(*LicenseQuery)) *OrganizationQuery {
+	query := (&LicenseClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withLicenses = query
+	return _q
+}
+
+// WithSubscription tells the query-builder to eager-load the nodes that are connected to
+// the "subscription" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *OrganizationQuery) WithSubscription(opts ...func(*SubscriptionQuery)) *OrganizationQuery {
+	query := (&SubscriptionClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withSubscription = query
+	return _q
+}
+
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
 //
@@ -623,7 +731,7 @@ func (_q *OrganizationQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 	var (
 		nodes       = []*Organization{}
 		_spec       = _q.querySpec()
-		loadedTypes = [8]bool{
+		loadedTypes = [11]bool{
 			_q.withMemberships != nil,
 			_q.withAPIKeys != nil,
 			_q.withOauthApps != nil,
@@ -632,6 +740,9 @@ func (_q *OrganizationQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 			_q.withPrincipalMemberships != nil,
 			_q.withOwner != nil,
 			_q.withInvites != nil,
+			_q.withListings != nil,
+			_q.withLicenses != nil,
+			_q.withSubscription != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
@@ -706,6 +817,26 @@ func (_q *OrganizationQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 		if err := _q.loadInvites(ctx, query, nodes,
 			func(n *Organization) { n.Edges.Invites = []*Invite{} },
 			func(n *Organization, e *Invite) { n.Edges.Invites = append(n.Edges.Invites, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withListings; query != nil {
+		if err := _q.loadListings(ctx, query, nodes,
+			func(n *Organization) { n.Edges.Listings = []*Listing{} },
+			func(n *Organization, e *Listing) { n.Edges.Listings = append(n.Edges.Listings, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withLicenses; query != nil {
+		if err := _q.loadLicenses(ctx, query, nodes,
+			func(n *Organization) { n.Edges.Licenses = []*License{} },
+			func(n *Organization, e *License) { n.Edges.Licenses = append(n.Edges.Licenses, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withSubscription; query != nil {
+		if err := _q.loadSubscription(ctx, query, nodes, nil,
+			func(n *Organization, e *Subscription) { n.Edges.Subscription = e }); err != nil {
 			return nil, err
 		}
 	}
@@ -946,6 +1077,93 @@ func (_q *OrganizationQuery) loadInvites(ctx context.Context, query *InviteQuery
 	}
 	query.Where(predicate.Invite(func(s *sql.Selector) {
 		s.Where(sql.InValues(s.C(organization.InvitesColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.OrganizationID
+		node, ok := nodeids[fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "organization_id" returned %v for node %v`, fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *OrganizationQuery) loadListings(ctx context.Context, query *ListingQuery, nodes []*Organization, init func(*Organization), assign func(*Organization, *Listing)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[uuid.UUID]*Organization)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(listing.FieldCreatorOrgID)
+	}
+	query.Where(predicate.Listing(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(organization.ListingsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.CreatorOrgID
+		node, ok := nodeids[fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "creator_org_id" returned %v for node %v`, fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *OrganizationQuery) loadLicenses(ctx context.Context, query *LicenseQuery, nodes []*Organization, init func(*Organization), assign func(*Organization, *License)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[uuid.UUID]*Organization)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(license.FieldOrganizationID)
+	}
+	query.Where(predicate.License(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(organization.LicensesColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.OrganizationID
+		node, ok := nodeids[fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "organization_id" returned %v for node %v`, fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *OrganizationQuery) loadSubscription(ctx context.Context, query *SubscriptionQuery, nodes []*Organization, init func(*Organization), assign func(*Organization, *Subscription)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[uuid.UUID]*Organization)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(subscription.FieldOrganizationID)
+	}
+	query.Where(predicate.Subscription(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(organization.SubscriptionColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {

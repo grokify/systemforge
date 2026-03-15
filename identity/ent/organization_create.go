@@ -15,12 +15,15 @@ import (
 	"github.com/google/uuid"
 	"github.com/grokify/coreforge/identity/ent/apikey"
 	"github.com/grokify/coreforge/identity/ent/invite"
+	"github.com/grokify/coreforge/identity/ent/license"
+	"github.com/grokify/coreforge/identity/ent/listing"
 	"github.com/grokify/coreforge/identity/ent/membership"
 	"github.com/grokify/coreforge/identity/ent/oauthapp"
 	"github.com/grokify/coreforge/identity/ent/organization"
 	"github.com/grokify/coreforge/identity/ent/principal"
 	"github.com/grokify/coreforge/identity/ent/principalmembership"
 	"github.com/grokify/coreforge/identity/ent/serviceaccount"
+	"github.com/grokify/coreforge/identity/ent/subscription"
 )
 
 // OrganizationCreate is the builder for creating a Organization entity.
@@ -311,6 +314,55 @@ func (_c *OrganizationCreate) AddInvites(v ...*Invite) *OrganizationCreate {
 		ids[i] = v[i].ID
 	}
 	return _c.AddInviteIDs(ids...)
+}
+
+// AddListingIDs adds the "listings" edge to the Listing entity by IDs.
+func (_c *OrganizationCreate) AddListingIDs(ids ...uuid.UUID) *OrganizationCreate {
+	_c.mutation.AddListingIDs(ids...)
+	return _c
+}
+
+// AddListings adds the "listings" edges to the Listing entity.
+func (_c *OrganizationCreate) AddListings(v ...*Listing) *OrganizationCreate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddListingIDs(ids...)
+}
+
+// AddLicenseIDs adds the "licenses" edge to the License entity by IDs.
+func (_c *OrganizationCreate) AddLicenseIDs(ids ...uuid.UUID) *OrganizationCreate {
+	_c.mutation.AddLicenseIDs(ids...)
+	return _c
+}
+
+// AddLicenses adds the "licenses" edges to the License entity.
+func (_c *OrganizationCreate) AddLicenses(v ...*License) *OrganizationCreate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddLicenseIDs(ids...)
+}
+
+// SetSubscriptionID sets the "subscription" edge to the Subscription entity by ID.
+func (_c *OrganizationCreate) SetSubscriptionID(id uuid.UUID) *OrganizationCreate {
+	_c.mutation.SetSubscriptionID(id)
+	return _c
+}
+
+// SetNillableSubscriptionID sets the "subscription" edge to the Subscription entity by ID if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableSubscriptionID(id *uuid.UUID) *OrganizationCreate {
+	if id != nil {
+		_c = _c.SetSubscriptionID(*id)
+	}
+	return _c
+}
+
+// SetSubscription sets the "subscription" edge to the Subscription entity.
+func (_c *OrganizationCreate) SetSubscription(v *Subscription) *OrganizationCreate {
+	return _c.SetSubscriptionID(v.ID)
 }
 
 // Mutation returns the OrganizationMutation object of the builder.
@@ -619,6 +671,54 @@ func (_c *OrganizationCreate) createSpec() (*Organization, *sqlgraph.CreateSpec)
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(invite.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.ListingsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.ListingsTable,
+			Columns: []string{organization.ListingsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(listing.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.LicensesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   organization.LicensesTable,
+			Columns: []string{organization.LicensesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(license.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := _c.mutation.SubscriptionIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: false,
+			Table:   organization.SubscriptionTable,
+			Columns: []string{organization.SubscriptionColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(subscription.FieldID, field.TypeUUID),
 			},
 		}
 		for _, k := range nodes {

@@ -18,11 +18,14 @@ import (
 	"github.com/grokify/coreforge/identity/ent/credential"
 	"github.com/grokify/coreforge/identity/ent/human"
 	"github.com/grokify/coreforge/identity/ent/invite"
+	"github.com/grokify/coreforge/identity/ent/license"
+	"github.com/grokify/coreforge/identity/ent/listing"
 	"github.com/grokify/coreforge/identity/ent/organization"
 	"github.com/grokify/coreforge/identity/ent/predicate"
 	"github.com/grokify/coreforge/identity/ent/principal"
 	"github.com/grokify/coreforge/identity/ent/principalmembership"
 	"github.com/grokify/coreforge/identity/ent/principaltoken"
+	"github.com/grokify/coreforge/identity/ent/seatassignment"
 	"github.com/grokify/coreforge/identity/ent/serviceprincipal"
 )
 
@@ -293,6 +296,66 @@ func (_u *PrincipalUpdate) AddSentInvites(v ...*Invite) *PrincipalUpdate {
 	return _u.AddSentInviteIDs(ids...)
 }
 
+// AddOwnedListingIDs adds the "owned_listings" edge to the Listing entity by IDs.
+func (_u *PrincipalUpdate) AddOwnedListingIDs(ids ...uuid.UUID) *PrincipalUpdate {
+	_u.mutation.AddOwnedListingIDs(ids...)
+	return _u
+}
+
+// AddOwnedListings adds the "owned_listings" edges to the Listing entity.
+func (_u *PrincipalUpdate) AddOwnedListings(v ...*Listing) *PrincipalUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddOwnedListingIDs(ids...)
+}
+
+// AddPurchasedLicenseIDs adds the "purchased_licenses" edge to the License entity by IDs.
+func (_u *PrincipalUpdate) AddPurchasedLicenseIDs(ids ...uuid.UUID) *PrincipalUpdate {
+	_u.mutation.AddPurchasedLicenseIDs(ids...)
+	return _u
+}
+
+// AddPurchasedLicenses adds the "purchased_licenses" edges to the License entity.
+func (_u *PrincipalUpdate) AddPurchasedLicenses(v ...*License) *PrincipalUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddPurchasedLicenseIDs(ids...)
+}
+
+// AddSeatAssignmentIDs adds the "seat_assignments" edge to the SeatAssignment entity by IDs.
+func (_u *PrincipalUpdate) AddSeatAssignmentIDs(ids ...uuid.UUID) *PrincipalUpdate {
+	_u.mutation.AddSeatAssignmentIDs(ids...)
+	return _u
+}
+
+// AddSeatAssignments adds the "seat_assignments" edges to the SeatAssignment entity.
+func (_u *PrincipalUpdate) AddSeatAssignments(v ...*SeatAssignment) *PrincipalUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddSeatAssignmentIDs(ids...)
+}
+
+// AddAssignedSeatIDs adds the "assigned_seats" edge to the SeatAssignment entity by IDs.
+func (_u *PrincipalUpdate) AddAssignedSeatIDs(ids ...uuid.UUID) *PrincipalUpdate {
+	_u.mutation.AddAssignedSeatIDs(ids...)
+	return _u
+}
+
+// AddAssignedSeats adds the "assigned_seats" edges to the SeatAssignment entity.
+func (_u *PrincipalUpdate) AddAssignedSeats(v ...*SeatAssignment) *PrincipalUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddAssignedSeatIDs(ids...)
+}
+
 // Mutation returns the PrincipalMutation object of the builder.
 func (_u *PrincipalUpdate) Mutation() *PrincipalMutation {
 	return _u.mutation
@@ -431,6 +494,90 @@ func (_u *PrincipalUpdate) RemoveSentInvites(v ...*Invite) *PrincipalUpdate {
 		ids[i] = v[i].ID
 	}
 	return _u.RemoveSentInviteIDs(ids...)
+}
+
+// ClearOwnedListings clears all "owned_listings" edges to the Listing entity.
+func (_u *PrincipalUpdate) ClearOwnedListings() *PrincipalUpdate {
+	_u.mutation.ClearOwnedListings()
+	return _u
+}
+
+// RemoveOwnedListingIDs removes the "owned_listings" edge to Listing entities by IDs.
+func (_u *PrincipalUpdate) RemoveOwnedListingIDs(ids ...uuid.UUID) *PrincipalUpdate {
+	_u.mutation.RemoveOwnedListingIDs(ids...)
+	return _u
+}
+
+// RemoveOwnedListings removes "owned_listings" edges to Listing entities.
+func (_u *PrincipalUpdate) RemoveOwnedListings(v ...*Listing) *PrincipalUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveOwnedListingIDs(ids...)
+}
+
+// ClearPurchasedLicenses clears all "purchased_licenses" edges to the License entity.
+func (_u *PrincipalUpdate) ClearPurchasedLicenses() *PrincipalUpdate {
+	_u.mutation.ClearPurchasedLicenses()
+	return _u
+}
+
+// RemovePurchasedLicenseIDs removes the "purchased_licenses" edge to License entities by IDs.
+func (_u *PrincipalUpdate) RemovePurchasedLicenseIDs(ids ...uuid.UUID) *PrincipalUpdate {
+	_u.mutation.RemovePurchasedLicenseIDs(ids...)
+	return _u
+}
+
+// RemovePurchasedLicenses removes "purchased_licenses" edges to License entities.
+func (_u *PrincipalUpdate) RemovePurchasedLicenses(v ...*License) *PrincipalUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemovePurchasedLicenseIDs(ids...)
+}
+
+// ClearSeatAssignments clears all "seat_assignments" edges to the SeatAssignment entity.
+func (_u *PrincipalUpdate) ClearSeatAssignments() *PrincipalUpdate {
+	_u.mutation.ClearSeatAssignments()
+	return _u
+}
+
+// RemoveSeatAssignmentIDs removes the "seat_assignments" edge to SeatAssignment entities by IDs.
+func (_u *PrincipalUpdate) RemoveSeatAssignmentIDs(ids ...uuid.UUID) *PrincipalUpdate {
+	_u.mutation.RemoveSeatAssignmentIDs(ids...)
+	return _u
+}
+
+// RemoveSeatAssignments removes "seat_assignments" edges to SeatAssignment entities.
+func (_u *PrincipalUpdate) RemoveSeatAssignments(v ...*SeatAssignment) *PrincipalUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveSeatAssignmentIDs(ids...)
+}
+
+// ClearAssignedSeats clears all "assigned_seats" edges to the SeatAssignment entity.
+func (_u *PrincipalUpdate) ClearAssignedSeats() *PrincipalUpdate {
+	_u.mutation.ClearAssignedSeats()
+	return _u
+}
+
+// RemoveAssignedSeatIDs removes the "assigned_seats" edge to SeatAssignment entities by IDs.
+func (_u *PrincipalUpdate) RemoveAssignedSeatIDs(ids ...uuid.UUID) *PrincipalUpdate {
+	_u.mutation.RemoveAssignedSeatIDs(ids...)
+	return _u
+}
+
+// RemoveAssignedSeats removes "assigned_seats" edges to SeatAssignment entities.
+func (_u *PrincipalUpdate) RemoveAssignedSeats(v ...*SeatAssignment) *PrincipalUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveAssignedSeatIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -895,6 +1042,186 @@ func (_u *PrincipalUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if _u.mutation.OwnedListingsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.OwnedListingsTable,
+			Columns: []string{principal.OwnedListingsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(listing.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedOwnedListingsIDs(); len(nodes) > 0 && !_u.mutation.OwnedListingsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.OwnedListingsTable,
+			Columns: []string{principal.OwnedListingsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(listing.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.OwnedListingsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.OwnedListingsTable,
+			Columns: []string{principal.OwnedListingsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(listing.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.PurchasedLicensesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.PurchasedLicensesTable,
+			Columns: []string{principal.PurchasedLicensesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(license.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedPurchasedLicensesIDs(); len(nodes) > 0 && !_u.mutation.PurchasedLicensesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.PurchasedLicensesTable,
+			Columns: []string{principal.PurchasedLicensesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(license.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.PurchasedLicensesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.PurchasedLicensesTable,
+			Columns: []string{principal.PurchasedLicensesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(license.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.SeatAssignmentsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.SeatAssignmentsTable,
+			Columns: []string{principal.SeatAssignmentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(seatassignment.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedSeatAssignmentsIDs(); len(nodes) > 0 && !_u.mutation.SeatAssignmentsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.SeatAssignmentsTable,
+			Columns: []string{principal.SeatAssignmentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(seatassignment.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.SeatAssignmentsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.SeatAssignmentsTable,
+			Columns: []string{principal.SeatAssignmentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(seatassignment.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.AssignedSeatsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.AssignedSeatsTable,
+			Columns: []string{principal.AssignedSeatsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(seatassignment.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedAssignedSeatsIDs(); len(nodes) > 0 && !_u.mutation.AssignedSeatsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.AssignedSeatsTable,
+			Columns: []string{principal.AssignedSeatsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(seatassignment.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.AssignedSeatsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.AssignedSeatsTable,
+			Columns: []string{principal.AssignedSeatsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(seatassignment.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{principal.Label}
@@ -1169,6 +1496,66 @@ func (_u *PrincipalUpdateOne) AddSentInvites(v ...*Invite) *PrincipalUpdateOne {
 	return _u.AddSentInviteIDs(ids...)
 }
 
+// AddOwnedListingIDs adds the "owned_listings" edge to the Listing entity by IDs.
+func (_u *PrincipalUpdateOne) AddOwnedListingIDs(ids ...uuid.UUID) *PrincipalUpdateOne {
+	_u.mutation.AddOwnedListingIDs(ids...)
+	return _u
+}
+
+// AddOwnedListings adds the "owned_listings" edges to the Listing entity.
+func (_u *PrincipalUpdateOne) AddOwnedListings(v ...*Listing) *PrincipalUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddOwnedListingIDs(ids...)
+}
+
+// AddPurchasedLicenseIDs adds the "purchased_licenses" edge to the License entity by IDs.
+func (_u *PrincipalUpdateOne) AddPurchasedLicenseIDs(ids ...uuid.UUID) *PrincipalUpdateOne {
+	_u.mutation.AddPurchasedLicenseIDs(ids...)
+	return _u
+}
+
+// AddPurchasedLicenses adds the "purchased_licenses" edges to the License entity.
+func (_u *PrincipalUpdateOne) AddPurchasedLicenses(v ...*License) *PrincipalUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddPurchasedLicenseIDs(ids...)
+}
+
+// AddSeatAssignmentIDs adds the "seat_assignments" edge to the SeatAssignment entity by IDs.
+func (_u *PrincipalUpdateOne) AddSeatAssignmentIDs(ids ...uuid.UUID) *PrincipalUpdateOne {
+	_u.mutation.AddSeatAssignmentIDs(ids...)
+	return _u
+}
+
+// AddSeatAssignments adds the "seat_assignments" edges to the SeatAssignment entity.
+func (_u *PrincipalUpdateOne) AddSeatAssignments(v ...*SeatAssignment) *PrincipalUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddSeatAssignmentIDs(ids...)
+}
+
+// AddAssignedSeatIDs adds the "assigned_seats" edge to the SeatAssignment entity by IDs.
+func (_u *PrincipalUpdateOne) AddAssignedSeatIDs(ids ...uuid.UUID) *PrincipalUpdateOne {
+	_u.mutation.AddAssignedSeatIDs(ids...)
+	return _u
+}
+
+// AddAssignedSeats adds the "assigned_seats" edges to the SeatAssignment entity.
+func (_u *PrincipalUpdateOne) AddAssignedSeats(v ...*SeatAssignment) *PrincipalUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddAssignedSeatIDs(ids...)
+}
+
 // Mutation returns the PrincipalMutation object of the builder.
 func (_u *PrincipalUpdateOne) Mutation() *PrincipalMutation {
 	return _u.mutation
@@ -1307,6 +1694,90 @@ func (_u *PrincipalUpdateOne) RemoveSentInvites(v ...*Invite) *PrincipalUpdateOn
 		ids[i] = v[i].ID
 	}
 	return _u.RemoveSentInviteIDs(ids...)
+}
+
+// ClearOwnedListings clears all "owned_listings" edges to the Listing entity.
+func (_u *PrincipalUpdateOne) ClearOwnedListings() *PrincipalUpdateOne {
+	_u.mutation.ClearOwnedListings()
+	return _u
+}
+
+// RemoveOwnedListingIDs removes the "owned_listings" edge to Listing entities by IDs.
+func (_u *PrincipalUpdateOne) RemoveOwnedListingIDs(ids ...uuid.UUID) *PrincipalUpdateOne {
+	_u.mutation.RemoveOwnedListingIDs(ids...)
+	return _u
+}
+
+// RemoveOwnedListings removes "owned_listings" edges to Listing entities.
+func (_u *PrincipalUpdateOne) RemoveOwnedListings(v ...*Listing) *PrincipalUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveOwnedListingIDs(ids...)
+}
+
+// ClearPurchasedLicenses clears all "purchased_licenses" edges to the License entity.
+func (_u *PrincipalUpdateOne) ClearPurchasedLicenses() *PrincipalUpdateOne {
+	_u.mutation.ClearPurchasedLicenses()
+	return _u
+}
+
+// RemovePurchasedLicenseIDs removes the "purchased_licenses" edge to License entities by IDs.
+func (_u *PrincipalUpdateOne) RemovePurchasedLicenseIDs(ids ...uuid.UUID) *PrincipalUpdateOne {
+	_u.mutation.RemovePurchasedLicenseIDs(ids...)
+	return _u
+}
+
+// RemovePurchasedLicenses removes "purchased_licenses" edges to License entities.
+func (_u *PrincipalUpdateOne) RemovePurchasedLicenses(v ...*License) *PrincipalUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemovePurchasedLicenseIDs(ids...)
+}
+
+// ClearSeatAssignments clears all "seat_assignments" edges to the SeatAssignment entity.
+func (_u *PrincipalUpdateOne) ClearSeatAssignments() *PrincipalUpdateOne {
+	_u.mutation.ClearSeatAssignments()
+	return _u
+}
+
+// RemoveSeatAssignmentIDs removes the "seat_assignments" edge to SeatAssignment entities by IDs.
+func (_u *PrincipalUpdateOne) RemoveSeatAssignmentIDs(ids ...uuid.UUID) *PrincipalUpdateOne {
+	_u.mutation.RemoveSeatAssignmentIDs(ids...)
+	return _u
+}
+
+// RemoveSeatAssignments removes "seat_assignments" edges to SeatAssignment entities.
+func (_u *PrincipalUpdateOne) RemoveSeatAssignments(v ...*SeatAssignment) *PrincipalUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveSeatAssignmentIDs(ids...)
+}
+
+// ClearAssignedSeats clears all "assigned_seats" edges to the SeatAssignment entity.
+func (_u *PrincipalUpdateOne) ClearAssignedSeats() *PrincipalUpdateOne {
+	_u.mutation.ClearAssignedSeats()
+	return _u
+}
+
+// RemoveAssignedSeatIDs removes the "assigned_seats" edge to SeatAssignment entities by IDs.
+func (_u *PrincipalUpdateOne) RemoveAssignedSeatIDs(ids ...uuid.UUID) *PrincipalUpdateOne {
+	_u.mutation.RemoveAssignedSeatIDs(ids...)
+	return _u
+}
+
+// RemoveAssignedSeats removes "assigned_seats" edges to SeatAssignment entities.
+func (_u *PrincipalUpdateOne) RemoveAssignedSeats(v ...*SeatAssignment) *PrincipalUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveAssignedSeatIDs(ids...)
 }
 
 // Where appends a list predicates to the PrincipalUpdate builder.
@@ -1794,6 +2265,186 @@ func (_u *PrincipalUpdateOne) sqlSave(ctx context.Context) (_node *Principal, er
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(invite.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.OwnedListingsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.OwnedListingsTable,
+			Columns: []string{principal.OwnedListingsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(listing.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedOwnedListingsIDs(); len(nodes) > 0 && !_u.mutation.OwnedListingsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.OwnedListingsTable,
+			Columns: []string{principal.OwnedListingsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(listing.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.OwnedListingsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.OwnedListingsTable,
+			Columns: []string{principal.OwnedListingsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(listing.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.PurchasedLicensesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.PurchasedLicensesTable,
+			Columns: []string{principal.PurchasedLicensesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(license.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedPurchasedLicensesIDs(); len(nodes) > 0 && !_u.mutation.PurchasedLicensesCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.PurchasedLicensesTable,
+			Columns: []string{principal.PurchasedLicensesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(license.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.PurchasedLicensesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.PurchasedLicensesTable,
+			Columns: []string{principal.PurchasedLicensesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(license.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.SeatAssignmentsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.SeatAssignmentsTable,
+			Columns: []string{principal.SeatAssignmentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(seatassignment.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedSeatAssignmentsIDs(); len(nodes) > 0 && !_u.mutation.SeatAssignmentsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.SeatAssignmentsTable,
+			Columns: []string{principal.SeatAssignmentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(seatassignment.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.SeatAssignmentsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.SeatAssignmentsTable,
+			Columns: []string{principal.SeatAssignmentsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(seatassignment.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if _u.mutation.AssignedSeatsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.AssignedSeatsTable,
+			Columns: []string{principal.AssignedSeatsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(seatassignment.FieldID, field.TypeUUID),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedAssignedSeatsIDs(); len(nodes) > 0 && !_u.mutation.AssignedSeatsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.AssignedSeatsTable,
+			Columns: []string{principal.AssignedSeatsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(seatassignment.FieldID, field.TypeUUID),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.AssignedSeatsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   principal.AssignedSeatsTable,
+			Columns: []string{principal.AssignedSeatsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(seatassignment.FieldID, field.TypeUUID),
 			},
 		}
 		for _, k := range nodes {

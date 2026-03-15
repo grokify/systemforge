@@ -97,6 +97,19 @@ func (Organization) Edges() []ent.Edge {
 		// Invites to this organization
 		edge.To("invites", Invite.Type).
 			Comment("Pending invitations to join this organization"),
+
+		// Marketplace: Listings created by this organization
+		edge.To("listings", Listing.Type).
+			Comment("Marketplace listings created by this organization"),
+
+		// Marketplace: Licenses held by this organization
+		edge.To("licenses", License.Type).
+			Comment("Marketplace licenses held by this organization"),
+
+		// Marketplace: Platform subscription for this organization
+		edge.To("subscription", Subscription.Type).
+			Unique().
+			Comment("Platform subscription for this organization"),
 	}
 }
 

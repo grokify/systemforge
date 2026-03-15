@@ -399,6 +399,159 @@ var (
 			},
 		},
 	}
+	// CfLicensesColumns holds the columns for the "cf_licenses" table.
+	CfLicensesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "license_type", Type: field.TypeEnum, Enums: []string{"seat_based", "team", "unlimited"}, Default: "unlimited"},
+		{Name: "seats", Type: field.TypeInt, Nullable: true},
+		{Name: "used_seats", Type: field.TypeInt, Default: 0},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_until", Type: field.TypeTime, Nullable: true},
+		{Name: "stripe_subscription_id", Type: field.TypeString, Nullable: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "listing_id", Type: field.TypeUUID},
+		{Name: "organization_id", Type: field.TypeUUID},
+		{Name: "purchased_by", Type: field.TypeUUID},
+	}
+	// CfLicensesTable holds the schema information for the "cf_licenses" table.
+	CfLicensesTable = &schema.Table{
+		Name:       "cf_licenses",
+		Columns:    CfLicensesColumns,
+		PrimaryKey: []*schema.Column{CfLicensesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cf_licenses_cf_listings_licenses",
+				Columns:    []*schema.Column{CfLicensesColumns[9]},
+				RefColumns: []*schema.Column{CfListingsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "cf_licenses_cf_organizations_licenses",
+				Columns:    []*schema.Column{CfLicensesColumns[10]},
+				RefColumns: []*schema.Column{CfOrganizationsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "cf_licenses_cf_principals_purchased_licenses",
+				Columns:    []*schema.Column{CfLicensesColumns[11]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "license_listing_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfLicensesColumns[9]},
+			},
+			{
+				Name:    "license_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfLicensesColumns[10]},
+			},
+			{
+				Name:    "license_purchased_by",
+				Unique:  false,
+				Columns: []*schema.Column{CfLicensesColumns[11]},
+			},
+			{
+				Name:    "license_license_type",
+				Unique:  false,
+				Columns: []*schema.Column{CfLicensesColumns[1]},
+			},
+			{
+				Name:    "license_valid_from_valid_until",
+				Unique:  false,
+				Columns: []*schema.Column{CfLicensesColumns[4], CfLicensesColumns[5]},
+			},
+			{
+				Name:    "license_stripe_subscription_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfLicensesColumns[6]},
+			},
+			{
+				Name:    "license_listing_id_organization_id",
+				Unique:  true,
+				Columns: []*schema.Column{CfLicensesColumns[9], CfLicensesColumns[10]},
+			},
+		},
+	}
+	// CfListingsColumns holds the columns for the "cf_listings" table.
+	CfListingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "product_type", Type: field.TypeString},
+		{Name: "product_id", Type: field.TypeUUID, Nullable: true},
+		{Name: "title", Type: field.TypeString, Size: 200},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "pricing_model", Type: field.TypeEnum, Enums: []string{"free", "one_time", "subscription", "per_seat"}, Default: "free"},
+		{Name: "price_cents", Type: field.TypeInt64, Default: 0},
+		{Name: "currency", Type: field.TypeString, Size: 3, Default: "USD"},
+		{Name: "status", Type: field.TypeEnum, Enums: []string{"draft", "pending_review", "published", "archived"}, Default: "draft"},
+		{Name: "metadata", Type: field.TypeJSON, Nullable: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "published_at", Type: field.TypeTime, Nullable: true},
+		{Name: "creator_org_id", Type: field.TypeUUID},
+		{Name: "owner_id", Type: field.TypeUUID},
+	}
+	// CfListingsTable holds the schema information for the "cf_listings" table.
+	CfListingsTable = &schema.Table{
+		Name:       "cf_listings",
+		Columns:    CfListingsColumns,
+		PrimaryKey: []*schema.Column{CfListingsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cf_listings_cf_organizations_listings",
+				Columns:    []*schema.Column{CfListingsColumns[13]},
+				RefColumns: []*schema.Column{CfOrganizationsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "cf_listings_cf_principals_owned_listings",
+				Columns:    []*schema.Column{CfListingsColumns[14]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "listing_creator_org_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfListingsColumns[13]},
+			},
+			{
+				Name:    "listing_owner_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfListingsColumns[14]},
+			},
+			{
+				Name:    "listing_status",
+				Unique:  false,
+				Columns: []*schema.Column{CfListingsColumns[8]},
+			},
+			{
+				Name:    "listing_pricing_model",
+				Unique:  false,
+				Columns: []*schema.Column{CfListingsColumns[5]},
+			},
+			{
+				Name:    "listing_product_type",
+				Unique:  false,
+				Columns: []*schema.Column{CfListingsColumns[1]},
+			},
+			{
+				Name:    "listing_product_type_product_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfListingsColumns[1], CfListingsColumns[2]},
+			},
+			{
+				Name:    "listing_status_created_at",
+				Unique:  false,
+				Columns: []*schema.Column{CfListingsColumns[8], CfListingsColumns[10]},
+			},
+		},
+	}
 	// CfMembershipsColumns holds the columns for the "cf_memberships" table.
 	CfMembershipsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID},
@@ -1142,6 +1295,62 @@ var (
 			},
 		},
 	}
+	// CfSeatAssignmentsColumns holds the columns for the "cf_seat_assignments" table.
+	CfSeatAssignmentsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "assigned_at", Type: field.TypeTime},
+		{Name: "license_id", Type: field.TypeUUID},
+		{Name: "principal_id", Type: field.TypeUUID},
+		{Name: "assigned_by", Type: field.TypeUUID},
+	}
+	// CfSeatAssignmentsTable holds the schema information for the "cf_seat_assignments" table.
+	CfSeatAssignmentsTable = &schema.Table{
+		Name:       "cf_seat_assignments",
+		Columns:    CfSeatAssignmentsColumns,
+		PrimaryKey: []*schema.Column{CfSeatAssignmentsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cf_seat_assignments_cf_licenses_seat_assignments",
+				Columns:    []*schema.Column{CfSeatAssignmentsColumns[2]},
+				RefColumns: []*schema.Column{CfLicensesColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "cf_seat_assignments_cf_principals_seat_assignments",
+				Columns:    []*schema.Column{CfSeatAssignmentsColumns[3]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "cf_seat_assignments_cf_principals_assigned_seats",
+				Columns:    []*schema.Column{CfSeatAssignmentsColumns[4]},
+				RefColumns: []*schema.Column{CfPrincipalsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "seatassignment_license_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfSeatAssignmentsColumns[2]},
+			},
+			{
+				Name:    "seatassignment_principal_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfSeatAssignmentsColumns[3]},
+			},
+			{
+				Name:    "seatassignment_assigned_by",
+				Unique:  false,
+				Columns: []*schema.Column{CfSeatAssignmentsColumns[4]},
+			},
+			{
+				Name:    "seatassignment_license_id_principal_id",
+				Unique:  true,
+				Columns: []*schema.Column{CfSeatAssignmentsColumns[2], CfSeatAssignmentsColumns[3]},
+			},
+		},
+	}
 	// CfServiceAccountsColumns holds the columns for the "cf_service_accounts" table.
 	CfServiceAccountsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID},
@@ -1293,6 +1502,71 @@ var (
 			},
 		},
 	}
+	// CfSubscriptionsColumns holds the columns for the "cf_subscriptions" table.
+	CfSubscriptionsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "plan_tier", Type: field.TypeString, Default: "free"},
+		{Name: "status", Type: field.TypeEnum, Enums: []string{"active", "trialing", "past_due", "canceled", "unpaid"}, Default: "active"},
+		{Name: "current_period_start", Type: field.TypeTime},
+		{Name: "current_period_end", Type: field.TypeTime},
+		{Name: "stripe_subscription_id", Type: field.TypeString, Unique: true, Nullable: true},
+		{Name: "stripe_customer_id", Type: field.TypeString, Nullable: true},
+		{Name: "cancel_at_period_end", Type: field.TypeBool, Default: false},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "organization_id", Type: field.TypeUUID, Unique: true},
+	}
+	// CfSubscriptionsTable holds the schema information for the "cf_subscriptions" table.
+	CfSubscriptionsTable = &schema.Table{
+		Name:       "cf_subscriptions",
+		Columns:    CfSubscriptionsColumns,
+		PrimaryKey: []*schema.Column{CfSubscriptionsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "cf_subscriptions_cf_organizations_subscription",
+				Columns:    []*schema.Column{CfSubscriptionsColumns[10]},
+				RefColumns: []*schema.Column{CfOrganizationsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "subscription_organization_id",
+				Unique:  true,
+				Columns: []*schema.Column{CfSubscriptionsColumns[10]},
+			},
+			{
+				Name:    "subscription_status",
+				Unique:  false,
+				Columns: []*schema.Column{CfSubscriptionsColumns[2]},
+			},
+			{
+				Name:    "subscription_plan_tier",
+				Unique:  false,
+				Columns: []*schema.Column{CfSubscriptionsColumns[1]},
+			},
+			{
+				Name:    "subscription_stripe_subscription_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfSubscriptionsColumns[5]},
+			},
+			{
+				Name:    "subscription_stripe_customer_id",
+				Unique:  false,
+				Columns: []*schema.Column{CfSubscriptionsColumns[6]},
+			},
+			{
+				Name:    "subscription_current_period_end",
+				Unique:  false,
+				Columns: []*schema.Column{CfSubscriptionsColumns[4]},
+			},
+			{
+				Name:    "subscription_status_current_period_end",
+				Unique:  false,
+				Columns: []*schema.Column{CfSubscriptionsColumns[2], CfSubscriptionsColumns[4]},
+			},
+		},
+	}
 	// CfUsersColumns holds the columns for the "cf_users" table.
 	CfUsersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID},
@@ -1338,6 +1612,8 @@ var (
 		CfCredentialsTable,
 		CfHumansTable,
 		CfInvitesTable,
+		CfLicensesTable,
+		CfListingsTable,
 		CfMembershipsTable,
 		CfOauthAccountsTable,
 		CfOauthAppsTable,
@@ -1350,9 +1626,11 @@ var (
 		CfPrincipalMembershipsTable,
 		CfPrincipalTokensTable,
 		CfRefreshTokensTable,
+		CfSeatAssignmentsTable,
 		CfServiceAccountsTable,
 		CfServiceAccountKeyPairsTable,
 		CfServicePrincipalsTable,
+		CfSubscriptionsTable,
 		CfUsersTable,
 	}
 )
@@ -1384,6 +1662,17 @@ func init() {
 	CfInvitesTable.ForeignKeys[1].RefTable = CfPrincipalsTable
 	CfInvitesTable.Annotation = &entsql.Annotation{
 		Table: "cf_invites",
+	}
+	CfLicensesTable.ForeignKeys[0].RefTable = CfListingsTable
+	CfLicensesTable.ForeignKeys[1].RefTable = CfOrganizationsTable
+	CfLicensesTable.ForeignKeys[2].RefTable = CfPrincipalsTable
+	CfLicensesTable.Annotation = &entsql.Annotation{
+		Table: "cf_licenses",
+	}
+	CfListingsTable.ForeignKeys[0].RefTable = CfOrganizationsTable
+	CfListingsTable.ForeignKeys[1].RefTable = CfPrincipalsTable
+	CfListingsTable.Annotation = &entsql.Annotation{
+		Table: "cf_listings",
 	}
 	CfMembershipsTable.ForeignKeys[0].RefTable = CfOrganizationsTable
 	CfMembershipsTable.ForeignKeys[1].RefTable = CfUsersTable
@@ -1441,6 +1730,12 @@ func init() {
 	CfRefreshTokensTable.Annotation = &entsql.Annotation{
 		Table: "cf_refresh_tokens",
 	}
+	CfSeatAssignmentsTable.ForeignKeys[0].RefTable = CfLicensesTable
+	CfSeatAssignmentsTable.ForeignKeys[1].RefTable = CfPrincipalsTable
+	CfSeatAssignmentsTable.ForeignKeys[2].RefTable = CfPrincipalsTable
+	CfSeatAssignmentsTable.Annotation = &entsql.Annotation{
+		Table: "cf_seat_assignments",
+	}
 	CfServiceAccountsTable.ForeignKeys[0].RefTable = CfOrganizationsTable
 	CfServiceAccountsTable.ForeignKeys[1].RefTable = CfUsersTable
 	CfServiceAccountsTable.Annotation = &entsql.Annotation{
@@ -1454,6 +1749,10 @@ func init() {
 	CfServicePrincipalsTable.ForeignKeys[1].RefTable = CfPrincipalsTable
 	CfServicePrincipalsTable.Annotation = &entsql.Annotation{
 		Table: "cf_service_principals",
+	}
+	CfSubscriptionsTable.ForeignKeys[0].RefTable = CfOrganizationsTable
+	CfSubscriptionsTable.Annotation = &entsql.Annotation{
+		Table: "cf_subscriptions",
 	}
 	CfUsersTable.Annotation = &entsql.Annotation{
 		Table: "cf_users",

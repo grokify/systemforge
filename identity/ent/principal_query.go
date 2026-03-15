@@ -18,11 +18,14 @@ import (
 	"github.com/grokify/coreforge/identity/ent/credential"
 	"github.com/grokify/coreforge/identity/ent/human"
 	"github.com/grokify/coreforge/identity/ent/invite"
+	"github.com/grokify/coreforge/identity/ent/license"
+	"github.com/grokify/coreforge/identity/ent/listing"
 	"github.com/grokify/coreforge/identity/ent/organization"
 	"github.com/grokify/coreforge/identity/ent/predicate"
 	"github.com/grokify/coreforge/identity/ent/principal"
 	"github.com/grokify/coreforge/identity/ent/principalmembership"
 	"github.com/grokify/coreforge/identity/ent/principaltoken"
+	"github.com/grokify/coreforge/identity/ent/seatassignment"
 	"github.com/grokify/coreforge/identity/ent/serviceprincipal"
 )
 
@@ -43,6 +46,10 @@ type PrincipalQuery struct {
 	withPrincipalMemberships *PrincipalMembershipQuery
 	withOwnedOrganizations   *OrganizationQuery
 	withSentInvites          *InviteQuery
+	withOwnedListings        *ListingQuery
+	withPurchasedLicenses    *LicenseQuery
+	withSeatAssignments      *SeatAssignmentQuery
+	withAssignedSeats        *SeatAssignmentQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -299,6 +306,94 @@ func (_q *PrincipalQuery) QuerySentInvites() *InviteQuery {
 	return query
 }
 
+// QueryOwnedListings chains the current query on the "owned_listings" edge.
+func (_q *PrincipalQuery) QueryOwnedListings() *ListingQuery {
+	query := (&ListingClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(principal.Table, principal.FieldID, selector),
+			sqlgraph.To(listing.Table, listing.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, principal.OwnedListingsTable, principal.OwnedListingsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryPurchasedLicenses chains the current query on the "purchased_licenses" edge.
+func (_q *PrincipalQuery) QueryPurchasedLicenses() *LicenseQuery {
+	query := (&LicenseClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(principal.Table, principal.FieldID, selector),
+			sqlgraph.To(license.Table, license.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, principal.PurchasedLicensesTable, principal.PurchasedLicensesColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QuerySeatAssignments chains the current query on the "seat_assignments" edge.
+func (_q *PrincipalQuery) QuerySeatAssignments() *SeatAssignmentQuery {
+	query := (&SeatAssignmentClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(principal.Table, principal.FieldID, selector),
+			sqlgraph.To(seatassignment.Table, seatassignment.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, principal.SeatAssignmentsTable, principal.SeatAssignmentsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryAssignedSeats chains the current query on the "assigned_seats" edge.
+func (_q *PrincipalQuery) QueryAssignedSeats() *SeatAssignmentQuery {
+	query := (&SeatAssignmentClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(principal.Table, principal.FieldID, selector),
+			sqlgraph.To(seatassignment.Table, seatassignment.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, principal.AssignedSeatsTable, principal.AssignedSeatsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
 // First returns the first Principal entity from the query.
 // Returns a *NotFoundError when no Principal was found.
 func (_q *PrincipalQuery) First(ctx context.Context) (*Principal, error) {
@@ -501,6 +596,10 @@ func (_q *PrincipalQuery) Clone() *PrincipalQuery {
 		withPrincipalMemberships: _q.withPrincipalMemberships.Clone(),
 		withOwnedOrganizations:   _q.withOwnedOrganizations.Clone(),
 		withSentInvites:          _q.withSentInvites.Clone(),
+		withOwnedListings:        _q.withOwnedListings.Clone(),
+		withPurchasedLicenses:    _q.withPurchasedLicenses.Clone(),
+		withSeatAssignments:      _q.withSeatAssignments.Clone(),
+		withAssignedSeats:        _q.withAssignedSeats.Clone(),
 		// clone intermediate query.
 		sql:  _q.sql.Clone(),
 		path: _q.path,
@@ -617,6 +716,50 @@ func (_q *PrincipalQuery) WithSentInvites(opts ...func(*InviteQuery)) *Principal
 	return _q
 }
 
+// WithOwnedListings tells the query-builder to eager-load the nodes that are connected to
+// the "owned_listings" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *PrincipalQuery) WithOwnedListings(opts ...func(*ListingQuery)) *PrincipalQuery {
+	query := (&ListingClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withOwnedListings = query
+	return _q
+}
+
+// WithPurchasedLicenses tells the query-builder to eager-load the nodes that are connected to
+// the "purchased_licenses" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *PrincipalQuery) WithPurchasedLicenses(opts ...func(*LicenseQuery)) *PrincipalQuery {
+	query := (&LicenseClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withPurchasedLicenses = query
+	return _q
+}
+
+// WithSeatAssignments tells the query-builder to eager-load the nodes that are connected to
+// the "seat_assignments" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *PrincipalQuery) WithSeatAssignments(opts ...func(*SeatAssignmentQuery)) *PrincipalQuery {
+	query := (&SeatAssignmentClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withSeatAssignments = query
+	return _q
+}
+
+// WithAssignedSeats tells the query-builder to eager-load the nodes that are connected to
+// the "assigned_seats" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *PrincipalQuery) WithAssignedSeats(opts ...func(*SeatAssignmentQuery)) *PrincipalQuery {
+	query := (&SeatAssignmentClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withAssignedSeats = query
+	return _q
+}
+
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
 //
@@ -695,7 +838,7 @@ func (_q *PrincipalQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Pr
 	var (
 		nodes       = []*Principal{}
 		_spec       = _q.querySpec()
-		loadedTypes = [10]bool{
+		loadedTypes = [14]bool{
 			_q.withOrganization != nil,
 			_q.withHuman != nil,
 			_q.withApplication != nil,
@@ -706,6 +849,10 @@ func (_q *PrincipalQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Pr
 			_q.withPrincipalMemberships != nil,
 			_q.withOwnedOrganizations != nil,
 			_q.withSentInvites != nil,
+			_q.withOwnedListings != nil,
+			_q.withPurchasedLicenses != nil,
+			_q.withSeatAssignments != nil,
+			_q.withAssignedSeats != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
@@ -792,6 +939,34 @@ func (_q *PrincipalQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Pr
 		if err := _q.loadSentInvites(ctx, query, nodes,
 			func(n *Principal) { n.Edges.SentInvites = []*Invite{} },
 			func(n *Principal, e *Invite) { n.Edges.SentInvites = append(n.Edges.SentInvites, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withOwnedListings; query != nil {
+		if err := _q.loadOwnedListings(ctx, query, nodes,
+			func(n *Principal) { n.Edges.OwnedListings = []*Listing{} },
+			func(n *Principal, e *Listing) { n.Edges.OwnedListings = append(n.Edges.OwnedListings, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withPurchasedLicenses; query != nil {
+		if err := _q.loadPurchasedLicenses(ctx, query, nodes,
+			func(n *Principal) { n.Edges.PurchasedLicenses = []*License{} },
+			func(n *Principal, e *License) { n.Edges.PurchasedLicenses = append(n.Edges.PurchasedLicenses, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withSeatAssignments; query != nil {
+		if err := _q.loadSeatAssignments(ctx, query, nodes,
+			func(n *Principal) { n.Edges.SeatAssignments = []*SeatAssignment{} },
+			func(n *Principal, e *SeatAssignment) { n.Edges.SeatAssignments = append(n.Edges.SeatAssignments, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withAssignedSeats; query != nil {
+		if err := _q.loadAssignedSeats(ctx, query, nodes,
+			func(n *Principal) { n.Edges.AssignedSeats = []*SeatAssignment{} },
+			func(n *Principal, e *SeatAssignment) { n.Edges.AssignedSeats = append(n.Edges.AssignedSeats, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -1086,6 +1261,126 @@ func (_q *PrincipalQuery) loadSentInvites(ctx context.Context, query *InviteQuer
 		node, ok := nodeids[fk]
 		if !ok {
 			return fmt.Errorf(`unexpected referenced foreign-key "inviter_principal_id" returned %v for node %v`, fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *PrincipalQuery) loadOwnedListings(ctx context.Context, query *ListingQuery, nodes []*Principal, init func(*Principal), assign func(*Principal, *Listing)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[uuid.UUID]*Principal)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(listing.FieldOwnerID)
+	}
+	query.Where(predicate.Listing(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(principal.OwnedListingsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.OwnerID
+		node, ok := nodeids[fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "owner_id" returned %v for node %v`, fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *PrincipalQuery) loadPurchasedLicenses(ctx context.Context, query *LicenseQuery, nodes []*Principal, init func(*Principal), assign func(*Principal, *License)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[uuid.UUID]*Principal)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(license.FieldPurchasedBy)
+	}
+	query.Where(predicate.License(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(principal.PurchasedLicensesColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.PurchasedBy
+		node, ok := nodeids[fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "purchased_by" returned %v for node %v`, fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *PrincipalQuery) loadSeatAssignments(ctx context.Context, query *SeatAssignmentQuery, nodes []*Principal, init func(*Principal), assign func(*Principal, *SeatAssignment)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[uuid.UUID]*Principal)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(seatassignment.FieldPrincipalID)
+	}
+	query.Where(predicate.SeatAssignment(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(principal.SeatAssignmentsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.PrincipalID
+		node, ok := nodeids[fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "principal_id" returned %v for node %v`, fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *PrincipalQuery) loadAssignedSeats(ctx context.Context, query *SeatAssignmentQuery, nodes []*Principal, init func(*Principal), assign func(*Principal, *SeatAssignment)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[uuid.UUID]*Principal)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(seatassignment.FieldAssignedBy)
+	}
+	query.Where(predicate.SeatAssignment(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(principal.AssignedSeatsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.AssignedBy
+		node, ok := nodeids[fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "assigned_by" returned %v for node %v`, fk, n.ID)
 		}
 		assign(node, n)
 	}

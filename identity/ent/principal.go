@@ -72,9 +72,17 @@ type PrincipalEdges struct {
 	OwnedOrganizations []*Organization `json:"owned_organizations,omitempty"`
 	// Invitations sent by this principal
 	SentInvites []*Invite `json:"sent_invites,omitempty"`
+	// Marketplace listings owned by this principal
+	OwnedListings []*Listing `json:"owned_listings,omitempty"`
+	// Licenses purchased by this principal
+	PurchasedLicenses []*License `json:"purchased_licenses,omitempty"`
+	// License seats assigned to this principal
+	SeatAssignments []*SeatAssignment `json:"seat_assignments,omitempty"`
+	// License seats assigned by this principal
+	AssignedSeats []*SeatAssignment `json:"assigned_seats,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [10]bool
+	loadedTypes [14]bool
 }
 
 // OrganizationOrErr returns the Organization value or an error if the edge
@@ -175,6 +183,42 @@ func (e PrincipalEdges) SentInvitesOrErr() ([]*Invite, error) {
 		return e.SentInvites, nil
 	}
 	return nil, &NotLoadedError{edge: "sent_invites"}
+}
+
+// OwnedListingsOrErr returns the OwnedListings value or an error if the edge
+// was not loaded in eager-loading.
+func (e PrincipalEdges) OwnedListingsOrErr() ([]*Listing, error) {
+	if e.loadedTypes[10] {
+		return e.OwnedListings, nil
+	}
+	return nil, &NotLoadedError{edge: "owned_listings"}
+}
+
+// PurchasedLicensesOrErr returns the PurchasedLicenses value or an error if the edge
+// was not loaded in eager-loading.
+func (e PrincipalEdges) PurchasedLicensesOrErr() ([]*License, error) {
+	if e.loadedTypes[11] {
+		return e.PurchasedLicenses, nil
+	}
+	return nil, &NotLoadedError{edge: "purchased_licenses"}
+}
+
+// SeatAssignmentsOrErr returns the SeatAssignments value or an error if the edge
+// was not loaded in eager-loading.
+func (e PrincipalEdges) SeatAssignmentsOrErr() ([]*SeatAssignment, error) {
+	if e.loadedTypes[12] {
+		return e.SeatAssignments, nil
+	}
+	return nil, &NotLoadedError{edge: "seat_assignments"}
+}
+
+// AssignedSeatsOrErr returns the AssignedSeats value or an error if the edge
+// was not loaded in eager-loading.
+func (e PrincipalEdges) AssignedSeatsOrErr() ([]*SeatAssignment, error) {
+	if e.loadedTypes[13] {
+		return e.AssignedSeats, nil
+	}
+	return nil, &NotLoadedError{edge: "assigned_seats"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -343,6 +387,26 @@ func (_m *Principal) QueryOwnedOrganizations() *OrganizationQuery {
 // QuerySentInvites queries the "sent_invites" edge of the Principal entity.
 func (_m *Principal) QuerySentInvites() *InviteQuery {
 	return NewPrincipalClient(_m.config).QuerySentInvites(_m)
+}
+
+// QueryOwnedListings queries the "owned_listings" edge of the Principal entity.
+func (_m *Principal) QueryOwnedListings() *ListingQuery {
+	return NewPrincipalClient(_m.config).QueryOwnedListings(_m)
+}
+
+// QueryPurchasedLicenses queries the "purchased_licenses" edge of the Principal entity.
+func (_m *Principal) QueryPurchasedLicenses() *LicenseQuery {
+	return NewPrincipalClient(_m.config).QueryPurchasedLicenses(_m)
+}
+
+// QuerySeatAssignments queries the "seat_assignments" edge of the Principal entity.
+func (_m *Principal) QuerySeatAssignments() *SeatAssignmentQuery {
+	return NewPrincipalClient(_m.config).QuerySeatAssignments(_m)
+}
+
+// QueryAssignedSeats queries the "assigned_seats" edge of the Principal entity.
+func (_m *Principal) QueryAssignedSeats() *SeatAssignmentQuery {
+	return NewPrincipalClient(_m.config).QueryAssignedSeats(_m)
 }
 
 // Update returns a builder for updating this Principal.
