@@ -41,11 +41,11 @@ func TestGenerateAndValidateAccessToken(t *testing.T) {
 		t.Fatalf("NewService failed: %v", err)
 	}
 
-	userID := uuid.New()
+	principalID := uuid.New()
 	email := "test@example.com"
 	name := "Test User"
 
-	token, err := svc.GenerateAccessToken(userID, email, name)
+	token, err := svc.GenerateAccessToken(principalID, email, name)
 	if err != nil {
 		t.Fatalf("GenerateAccessToken failed: %v", err)
 	}
@@ -58,8 +58,8 @@ func TestGenerateAndValidateAccessToken(t *testing.T) {
 		t.Fatalf("ValidateAccessToken failed: %v", err)
 	}
 
-	if claims.UserID != userID {
-		t.Errorf("expected userID %s, got %s", userID, claims.UserID)
+	if claims.PrincipalID != principalID {
+		t.Errorf("expected principalID %s, got %s", principalID, claims.PrincipalID)
 	}
 	if claims.Email != email {
 		t.Errorf("expected email %s, got %s", email, claims.Email)
@@ -83,10 +83,10 @@ func TestGenerateAndValidateRefreshToken(t *testing.T) {
 		t.Fatalf("NewService failed: %v", err)
 	}
 
-	userID := uuid.New()
+	principalID := uuid.New()
 	family := uuid.NewString()
 
-	token, err := svc.GenerateRefreshToken(userID, family)
+	token, err := svc.GenerateRefreshToken(principalID, family)
 	if err != nil {
 		t.Fatalf("GenerateRefreshToken failed: %v", err)
 	}
@@ -96,8 +96,8 @@ func TestGenerateAndValidateRefreshToken(t *testing.T) {
 		t.Fatalf("ValidateRefreshToken failed: %v", err)
 	}
 
-	if claims.UserID != userID {
-		t.Errorf("expected userID %s, got %s", userID, claims.UserID)
+	if claims.PrincipalID != principalID {
+		t.Errorf("expected principalID %s, got %s", principalID, claims.PrincipalID)
 	}
 	if claims.TokenFamily != family {
 		t.Errorf("expected family %s, got %s", family, claims.TokenFamily)
@@ -119,10 +119,10 @@ func TestWrongTokenType(t *testing.T) {
 		t.Fatalf("NewService failed: %v", err)
 	}
 
-	userID := uuid.New()
+	principalID := uuid.New()
 
 	// Generate refresh token
-	refreshToken, err := svc.GenerateRefreshToken(userID, "")
+	refreshToken, err := svc.GenerateRefreshToken(principalID, "")
 	if err != nil {
 		t.Fatalf("GenerateRefreshToken failed: %v", err)
 	}
@@ -134,7 +134,7 @@ func TestWrongTokenType(t *testing.T) {
 	}
 
 	// Generate access token
-	accessToken, err := svc.GenerateAccessToken(userID, "test@example.com", "Test")
+	accessToken, err := svc.GenerateAccessToken(principalID, "test@example.com", "Test")
 	if err != nil {
 		t.Fatalf("GenerateAccessToken failed: %v", err)
 	}
@@ -158,8 +158,8 @@ func TestTokenPair(t *testing.T) {
 		t.Fatalf("NewService failed: %v", err)
 	}
 
-	userID := uuid.New()
-	pair, err := svc.GenerateTokenPair(userID, "test@example.com", "Test User")
+	principalID := uuid.New()
+	pair, err := svc.GenerateTokenPair(principalID, "test@example.com", "Test User")
 	if err != nil {
 		t.Fatalf("GenerateTokenPair failed: %v", err)
 	}
@@ -186,12 +186,12 @@ func TestOrganizationContext(t *testing.T) {
 		t.Fatalf("NewService failed: %v", err)
 	}
 
-	userID := uuid.New()
+	principalID := uuid.New()
 	orgID := uuid.New()
 	permissions := []string{"read", "write"}
 
 	token, err := svc.GenerateAccessTokenWithOrg(
-		userID, "test@example.com", "Test User",
+		principalID, "test@example.com", "Test User",
 		orgID, "test-org", "admin", permissions, true,
 	)
 	if err != nil {
@@ -248,10 +248,10 @@ func TestGenerateAccessTokenWithOptions_DPoP(t *testing.T) {
 		t.Fatalf("NewService failed: %v", err)
 	}
 
-	userID := uuid.New()
+	principalID := uuid.New()
 	thumbprint := "example-dpop-thumbprint"
 
-	token, err := svc.GenerateAccessTokenWithOptions(userID, "test@example.com", "Test User", TokenOptions{
+	token, err := svc.GenerateAccessTokenWithOptions(principalID, "test@example.com", "Test User", TokenOptions{
 		DPoPThumbprint: thumbprint,
 	})
 	if err != nil {
@@ -282,12 +282,12 @@ func TestGenerateAccessTokenWithOrgAndOptions_DPoP(t *testing.T) {
 		t.Fatalf("NewService failed: %v", err)
 	}
 
-	userID := uuid.New()
+	principalID := uuid.New()
 	orgID := uuid.New()
 	thumbprint := "org-dpop-thumbprint"
 
 	token, err := svc.GenerateAccessTokenWithOrgAndOptions(
-		userID, "test@example.com", "Test User",
+		principalID, "test@example.com", "Test User",
 		orgID, "test-org", "admin", []string{"read"}, false,
 		TokenOptions{DPoPThumbprint: thumbprint},
 	)
@@ -329,10 +329,10 @@ func TestGenerateTokenPairWithOptions_DPoP(t *testing.T) {
 		t.Fatalf("NewService failed: %v", err)
 	}
 
-	userID := uuid.New()
+	principalID := uuid.New()
 	thumbprint := "pair-dpop-thumbprint"
 
-	pair, err := svc.GenerateTokenPairWithOptions(userID, "test@example.com", "Test User", TokenOptions{
+	pair, err := svc.GenerateTokenPairWithOptions(principalID, "test@example.com", "Test User", TokenOptions{
 		DPoPThumbprint: thumbprint,
 	})
 	if err != nil {
@@ -374,10 +374,10 @@ func TestGenerateAccessTokenWithOptions_NoDPoP(t *testing.T) {
 		t.Fatalf("NewService failed: %v", err)
 	}
 
-	userID := uuid.New()
+	principalID := uuid.New()
 
 	// Empty options should not bind DPoP
-	token, err := svc.GenerateAccessTokenWithOptions(userID, "test@example.com", "Test User", TokenOptions{})
+	token, err := svc.GenerateAccessTokenWithOptions(principalID, "test@example.com", "Test User", TokenOptions{})
 	if err != nil {
 		t.Fatalf("GenerateAccessTokenWithOptions failed: %v", err)
 	}

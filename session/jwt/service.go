@@ -36,9 +36,9 @@ var (
 	ErrWrongTokenType = errors.New("wrong token type")
 )
 
-// GenerateAccessToken creates a new access token for the given user.
-func (s *Service) GenerateAccessToken(userID uuid.UUID, email, name string) (string, error) {
-	claims := NewAccessClaims(s.config, userID, email, name)
+// GenerateAccessToken creates a new access token for the given principal.
+func (s *Service) GenerateAccessToken(principalID uuid.UUID, email, name string) (string, error) {
+	claims := NewAccessClaims(s.config, principalID, email, name)
 	return s.signToken(claims)
 }
 
@@ -50,8 +50,8 @@ type TokenOptions struct {
 }
 
 // GenerateAccessTokenWithOptions creates a new access token with optional parameters.
-func (s *Service) GenerateAccessTokenWithOptions(userID uuid.UUID, email, name string, opts TokenOptions) (string, error) {
-	claims := NewAccessClaims(s.config, userID, email, name)
+func (s *Service) GenerateAccessTokenWithOptions(principalID uuid.UUID, email, name string, opts TokenOptions) (string, error) {
+	claims := NewAccessClaims(s.config, principalID, email, name)
 	if opts.DPoPThumbprint != "" {
 		claims.WithDPoPBinding(opts.DPoPThumbprint)
 	}
@@ -60,14 +60,14 @@ func (s *Service) GenerateAccessTokenWithOptions(userID uuid.UUID, email, name s
 
 // GenerateAccessTokenWithOrg creates an access token with organization context.
 func (s *Service) GenerateAccessTokenWithOrg(
-	userID uuid.UUID,
+	principalID uuid.UUID,
 	email, name string,
 	orgID uuid.UUID,
 	orgSlug, role string,
 	permissions []string,
 	isPlatformAdmin bool,
 ) (string, error) {
-	claims := NewAccessClaims(s.config, userID, email, name).
+	claims := NewAccessClaims(s.config, principalID, email, name).
 		WithOrganization(orgID, orgSlug, role, permissions).
 		WithPlatformAdmin(isPlatformAdmin)
 	return s.signToken(claims)
@@ -75,7 +75,7 @@ func (s *Service) GenerateAccessTokenWithOrg(
 
 // GenerateAccessTokenWithOrgAndOptions creates an access token with organization context and options.
 func (s *Service) GenerateAccessTokenWithOrgAndOptions(
-	userID uuid.UUID,
+	principalID uuid.UUID,
 	email, name string,
 	orgID uuid.UUID,
 	orgSlug, role string,
@@ -83,7 +83,7 @@ func (s *Service) GenerateAccessTokenWithOrgAndOptions(
 	isPlatformAdmin bool,
 	opts TokenOptions,
 ) (string, error) {
-	claims := NewAccessClaims(s.config, userID, email, name).
+	claims := NewAccessClaims(s.config, principalID, email, name).
 		WithOrganization(orgID, orgSlug, role, permissions).
 		WithPlatformAdmin(isPlatformAdmin)
 	if opts.DPoPThumbprint != "" {
@@ -92,13 +92,13 @@ func (s *Service) GenerateAccessTokenWithOrgAndOptions(
 	return s.signToken(claims)
 }
 
-// GenerateRefreshToken creates a new refresh token for the given user.
+// GenerateRefreshToken creates a new refresh token for the given principal.
 // The family parameter is used for refresh token rotation tracking.
-func (s *Service) GenerateRefreshToken(userID uuid.UUID, family string) (string, error) {
+func (s *Service) GenerateRefreshToken(principalID uuid.UUID, family string) (string, error) {
 	if family == "" {
 		family = uuid.NewString()
 	}
-	claims := NewRefreshClaims(s.config, userID, family)
+	claims := NewRefreshClaims(s.config, principalID, family)
 	return s.signToken(claims)
 }
 
@@ -112,14 +112,14 @@ type TokenPair struct {
 }
 
 // GenerateTokenPair creates both an access token and refresh token.
-func (s *Service) GenerateTokenPair(userID uuid.UUID, email, name string) (*TokenPair, error) {
-	accessToken, err := s.GenerateAccessToken(userID, email, name)
+func (s *Service) GenerateTokenPair(principalID uuid.UUID, email, name string) (*TokenPair, error) {
+	accessToken, err := s.GenerateAccessToken(principalID, email, name)
 	if err != nil {
 		return nil, fmt.Errorf("generating access token: %w", err)
 	}
 
 	family := uuid.NewString()
-	refreshToken, err := s.GenerateRefreshToken(userID, family)
+	refreshToken, err := s.GenerateRefreshToken(principalID, family)
 	if err != nil {
 		return nil, fmt.Errorf("generating refresh token: %w", err)
 	}
@@ -132,14 +132,14 @@ func (s *Service) GenerateTokenPair(userID uuid.UUID, email, name string) (*Toke
 }
 
 // GenerateTokenPairWithOptions creates a token pair with optional DPoP binding.
-func (s *Service) GenerateTokenPairWithOptions(userID uuid.UUID, email, name string, opts TokenOptions) (*TokenPair, error) {
-	accessToken, err := s.GenerateAccessTokenWithOptions(userID, email, name, opts)
+func (s *Service) GenerateTokenPairWithOptions(principalID uuid.UUID, email, name string, opts TokenOptions) (*TokenPair, error) {
+	accessToken, err := s.GenerateAccessTokenWithOptions(principalID, email, name, opts)
 	if err != nil {
 		return nil, fmt.Errorf("generating access token: %w", err)
 	}
 
 	family := uuid.NewString()
-	refreshToken, err := s.GenerateRefreshToken(userID, family)
+	refreshToken, err := s.GenerateRefreshToken(principalID, family)
 	if err != nil {
 		return nil, fmt.Errorf("generating refresh token: %w", err)
 	}
@@ -153,7 +153,7 @@ func (s *Service) GenerateTokenPairWithOptions(userID uuid.UUID, email, name str
 
 // GenerateTokenPairWithOrg creates a token pair with organization context.
 func (s *Service) GenerateTokenPairWithOrg(
-	userID uuid.UUID,
+	principalID uuid.UUID,
 	email, name string,
 	orgID uuid.UUID,
 	orgSlug, role string,
@@ -161,14 +161,14 @@ func (s *Service) GenerateTokenPairWithOrg(
 	isPlatformAdmin bool,
 ) (*TokenPair, error) {
 	accessToken, err := s.GenerateAccessTokenWithOrg(
-		userID, email, name, orgID, orgSlug, role, permissions, isPlatformAdmin,
+		principalID, email, name, orgID, orgSlug, role, permissions, isPlatformAdmin,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("generating access token: %w", err)
 	}
 
 	family := uuid.NewString()
-	refreshToken, err := s.GenerateRefreshToken(userID, family)
+	refreshToken, err := s.GenerateRefreshToken(principalID, family)
 	if err != nil {
 		return nil, fmt.Errorf("generating refresh token: %w", err)
 	}
@@ -307,12 +307,12 @@ func (s *Service) AccessTokenTTL() time.Duration {
 // GenerateTokenPairLegacy creates a token pair using the legacy goauth interface.
 // This provides backward compatibility during migration from goauth/jwt.
 // Deprecated: Use GenerateTokenPair or GenerateTokenPairWithOrg instead.
-func (s *Service) GenerateTokenPairLegacy(userID uuid.UUID, email string, isPlatformAdmin bool) (*TokenPair, error) {
+func (s *Service) GenerateTokenPairLegacy(principalID uuid.UUID, email string, isPlatformAdmin bool) (*TokenPair, error) {
 	// Use isPlatformAdmin to determine name fallback
 	name := email // Use email as name fallback
 
 	accessToken, err := s.GenerateAccessTokenWithOrg(
-		userID, email, name,
+		principalID, email, name,
 		uuid.Nil, "", "", nil, isPlatformAdmin,
 	)
 	if err != nil {
@@ -320,7 +320,7 @@ func (s *Service) GenerateTokenPairLegacy(userID uuid.UUID, email string, isPlat
 	}
 
 	family := uuid.NewString()
-	refreshToken, err := s.GenerateRefreshToken(userID, family)
+	refreshToken, err := s.GenerateRefreshToken(principalID, family)
 	if err != nil {
 		return nil, fmt.Errorf("generating refresh token: %w", err)
 	}

@@ -12,13 +12,17 @@ import (
 type Claims struct {
 	jwt.RegisteredClaims
 
-	// UserID is the CoreForge user ID.
-	UserID uuid.UUID `json:"uid,omitempty"`
+	// PrincipalID is the unique identifier for the authenticated principal.
+	PrincipalID uuid.UUID `json:"pid,omitempty"`
 
-	// Email is the user's email address.
+	// PrincipalType is the type of principal (human, application, agent, service).
+	// Empty string defaults to "human" for backward compatibility.
+	PrincipalType string `json:"pty,omitempty"`
+
+	// Email is the principal's email address (primarily for human principals).
 	Email string `json:"email,omitempty"`
 
-	// Name is the user's display name.
+	// Name is the principal's display name.
 	Name string `json:"name,omitempty"`
 
 	// OrganizationID is the current organization context (optional).
@@ -27,8 +31,16 @@ type Claims struct {
 	// OrganizationSlug is the current organization slug (optional).
 	OrganizationSlug string `json:"org_slug,omitempty"`
 
-	// Role is the user's role in the current organization (optional).
+	// Role is the principal's role in the current organization (optional).
 	Role string `json:"role,omitempty"`
+
+	// ClientID is the OAuth client/application ID that obtained this token.
+	// This is the "azp" (authorized party) claim from OAuth 2.0.
+	// Used for per-application rate limiting and audit logging.
+	ClientID string `json:"azp,omitempty"`
+
+	// Scopes are the OAuth scopes granted to this token.
+	Scopes []string `json:"scp,omitempty"`
 
 	// Permissions are fine-grained permissions (optional).
 	Permissions []string `json:"perms,omitempty"`
@@ -47,6 +59,14 @@ type Claims struct {
 	Confirmation *CNFClaim `json:"cnf,omitempty"`
 }
 
+// Principal type constants for the PrincipalType field.
+const (
+	PrincipalTypeHuman       = "human"
+	PrincipalTypeApplication = "application"
+	PrincipalTypeAgent       = "agent"
+	PrincipalTypeService     = "service"
+)
+
 // TokenType identifies the type of token.
 type TokenType string
 
@@ -58,7 +78,7 @@ const (
 )
 
 // NewAccessClaims creates claims for a new access token.
-func NewAccessClaims(cfg *Config, userID uuid.UUID, email, name string) *Claims {
+func NewAccessClaims(cfg *Config, principalID uuid.UUID, email, name string) *Claims {
 	now := time.Now()
 	return &Claims{
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -68,15 +88,16 @@ func NewAccessClaims(cfg *Config, userID uuid.UUID, email, name string) *Claims 
 			ExpiresAt: jwt.NewNumericDate(now.Add(cfg.AccessTokenExpiry)),
 			ID:        uuid.NewString(),
 		},
-		UserID:    userID,
-		Email:     email,
-		Name:      name,
-		TokenType: AccessToken,
+		PrincipalID:   principalID,
+		PrincipalType: PrincipalTypeHuman, // Default to human
+		Email:         email,
+		Name:          name,
+		TokenType:     AccessToken,
 	}
 }
 
 // NewRefreshClaims creates claims for a new refresh token.
-func NewRefreshClaims(cfg *Config, userID uuid.UUID, family string) *Claims {
+func NewRefreshClaims(cfg *Config, principalID uuid.UUID, family string) *Claims {
 	now := time.Now()
 	return &Claims{
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -86,10 +107,23 @@ func NewRefreshClaims(cfg *Config, userID uuid.UUID, family string) *Claims {
 			ExpiresAt: jwt.NewNumericDate(now.Add(cfg.RefreshTokenExpiry)),
 			ID:        uuid.NewString(),
 		},
-		UserID:      userID,
-		TokenType:   RefreshToken,
-		TokenFamily: family,
+		PrincipalID:   principalID,
+		PrincipalType: PrincipalTypeHuman, // Default to human
+		TokenType:     RefreshToken,
+		TokenFamily:   family,
 	}
+}
+
+// WithPrincipalType sets the principal type on the claims.
+func (c *Claims) WithPrincipalType(principalType string) *Claims {
+	c.PrincipalType = principalType
+	return c
+}
+
+// WithScopes sets the OAuth scopes on the claims.
+func (c *Claims) WithScopes(scopes []string) *Claims {
+	c.Scopes = scopes
+	return c
 }
 
 // WithOrganization adds organization context to the claims.
@@ -104,6 +138,12 @@ func (c *Claims) WithOrganization(orgID uuid.UUID, slug, role string, permission
 // WithPlatformAdmin marks the user as a platform administrator.
 func (c *Claims) WithPlatformAdmin(isPlatformAdmin bool) *Claims {
 	c.IsPlatformAdmin = isPlatformAdmin
+	return c
+}
+
+// WithClientID sets the OAuth client/application ID (azp claim).
+func (c *Claims) WithClientID(clientID string) *Claims {
+	c.ClientID = clientID
 	return c
 }
 
