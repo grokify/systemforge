@@ -9,7 +9,6 @@ import (
 	"log/slog"
 	"os"
 	"strconv"
-	"sync"
 
 	"github.com/plexusone/omniobserve/observops"
 )
@@ -86,8 +85,6 @@ type Observability struct {
 	jwtValidations    observops.Counter
 	jwtLatency        observops.Histogram
 	apiKeyValidations observops.Counter
-
-	mu sync.RWMutex
 }
 
 // New creates a new Observability instance from the given config.

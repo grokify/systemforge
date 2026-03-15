@@ -150,11 +150,14 @@ func APIKeyMiddleware(config APIKeyMiddlewareConfig) func(http.Handler) http.Han
 			validatedKey, err := config.Service.Validate(ctx, key)
 			if err != nil {
 				if config.Observability != nil {
-					result := observability.ResultInvalid
-					if err == apikey.ErrKeyExpired {
+					var result string
+					switch err {
+					case apikey.ErrKeyExpired:
 						result = observability.ResultExpired
-					} else if err == apikey.ErrKeyRevoked {
+					case apikey.ErrKeyRevoked:
 						result = observability.ResultRevoked
+					default:
+						result = observability.ResultInvalid
 					}
 					config.Observability.RecordAPIKeyValidation(ctx, result)
 				}

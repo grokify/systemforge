@@ -9,7 +9,7 @@ import (
 
 func TestMemoryStorage_Allow(t *testing.T) {
 	storage := NewMemoryStorage()
-	defer storage.Close()
+	defer func() { _ = storage.Close() }()
 
 	limit := Limit{Rate: 3, Period: time.Minute, Burst: 3}
 	key := "test-key"
@@ -43,7 +43,7 @@ func TestMemoryStorage_Allow(t *testing.T) {
 
 func TestMemoryStorage_Reset(t *testing.T) {
 	storage := NewMemoryStorage()
-	defer storage.Close()
+	defer func() { _ = storage.Close() }()
 
 	limit := Limit{Rate: 1, Period: time.Minute, Burst: 1}
 	key := "reset-test"
@@ -75,7 +75,7 @@ func TestMemoryStorage_Reset(t *testing.T) {
 
 func TestLimiter_Middleware(t *testing.T) {
 	storage := NewMemoryStorage()
-	defer storage.Close()
+	defer func() { _ = storage.Close() }()
 
 	limiter := New(storage,
 		WithLimit(Limit{Rate: 2, Period: time.Minute, Burst: 2}),

@@ -187,6 +187,7 @@ func TestEntLicenseService_GetByListingAndOrg(t *testing.T) {
 	}
 }
 
+//nolint:dupl // Test functions have similar structure but test different methods
 func TestEntLicenseService_Check(t *testing.T) {
 	client := newLicenseTestClient(t)
 	listingSvc := NewEntListingService(client, nil)
@@ -503,6 +504,7 @@ func TestEntLicenseService_Update(t *testing.T) {
 	}
 }
 
+//nolint:dupl // Test functions have similar structure but test different methods
 func TestEntLicenseService_CheckPrincipal(t *testing.T) {
 	client := newLicenseTestClient(t)
 	listingSvc := NewEntListingService(client, nil)

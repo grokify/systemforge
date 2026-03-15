@@ -263,7 +263,7 @@ func (s *CheckoutService) handleSubscriptionCreated(ctx context.Context, event *
 }
 
 // handleSubscriptionUpdated handles subscription updates.
-func (s *CheckoutService) handleSubscriptionUpdated(ctx context.Context, event *stripe.Event) error {
+func (s *CheckoutService) handleSubscriptionUpdated(_ context.Context, event *stripe.Event) error {
 	sub, err := parseSubscription(event)
 	if err != nil {
 		return err
@@ -276,7 +276,7 @@ func (s *CheckoutService) handleSubscriptionUpdated(ctx context.Context, event *
 }
 
 // handleSubscriptionDeleted handles subscription cancellation.
-func (s *CheckoutService) handleSubscriptionDeleted(ctx context.Context, event *stripe.Event) error {
+func (s *CheckoutService) handleSubscriptionDeleted(_ context.Context, event *stripe.Event) error {
 	sub, err := parseSubscription(event)
 	if err != nil {
 		return err

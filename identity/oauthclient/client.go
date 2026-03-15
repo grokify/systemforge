@@ -249,7 +249,11 @@ func FetchGitHubUser(ctx context.Context, cfg *oauth2.Config, code string) (*Use
 }
 
 func fetchGitHubPrimaryEmail(ctx context.Context, client *http.Client) (string, error) {
-	resp, err := client.Get("https://api.github.com/user/emails")
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://api.github.com/user/emails", nil)
+	if err != nil {
+		return "", err
+	}
+	resp, err := client.Do(req)
 	if err != nil {
 		return "", err
 	}

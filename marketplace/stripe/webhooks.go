@@ -27,6 +27,8 @@ func parseCheckoutSession(event *stripe.Event) (*stripe.CheckoutSession, error) 
 }
 
 // parseSubscription extracts a subscription from an event.
+//
+//nolint:unparam // Subscription return value will be used when handlers are implemented
 func parseSubscription(event *stripe.Event) (*stripe.Subscription, error) {
 	var sub stripe.Subscription
 	if err := json.Unmarshal(event.Data.Raw, &sub); err != nil {
@@ -36,6 +38,8 @@ func parseSubscription(event *stripe.Event) (*stripe.Subscription, error) {
 }
 
 // parseInvoice extracts an invoice from an event.
+//
+//nolint:unused // Will be used when invoice handlers are implemented
 func parseInvoice(event *stripe.Event) (*stripe.Invoice, error) {
 	var inv stripe.Invoice
 	if err := json.Unmarshal(event.Data.Raw, &inv); err != nil {
@@ -45,6 +49,8 @@ func parseInvoice(event *stripe.Event) (*stripe.Invoice, error) {
 }
 
 // parseAccount extracts a Connect account from an event.
+//
+//nolint:unused // Will be used when Connect account handlers are implemented
 func parseAccount(event *stripe.Event) (*stripe.Account, error) {
 	var acct stripe.Account
 	if err := json.Unmarshal(event.Data.Raw, &acct); err != nil {
