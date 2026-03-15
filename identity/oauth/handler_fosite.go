@@ -208,15 +208,9 @@ func (a *API) tokenEndpoint(w http.ResponseWriter, r *http.Request) {
 
 	clientID := ar.GetClient().GetID()
 
-	// Grant the requested scopes
+	// Grant the requested scopes (Fosite has already validated them for this request)
 	for _, scope := range ar.GetRequestedScopes() {
-		if ar.GetGrantTypes().ExactOne("client_credentials") {
-			// For client_credentials, grant based on client's allowed scopes
-			ar.GrantScope(scope)
-		} else {
-			// For other grants, scopes are already validated
-			ar.GrantScope(scope)
-		}
+		ar.GrantScope(scope)
 	}
 
 	// Create the token response
