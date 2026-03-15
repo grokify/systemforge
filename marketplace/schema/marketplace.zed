@@ -1,0 +1,133 @@
+// CoreForge Marketplace Schema
+// This schema defines authorization for two-sided marketplace applications.
+//
+// Entity Types:
+// - principal: Users, services, or other entities that can perform actions
+// - organization: Consumer organizations that subscribe to the platform
+// - creator_org: Creator organizations that publish products
+// - listing: Marketplace product listings
+// - license: Entitlements granting access to products
+// - subscription: Platform-level subscriptions
+
+// =============================================================================
+// PRINCIPALS
+// =============================================================================
+
+definition principal {}
+
+// =============================================================================
+// CONSUMER ORGANIZATIONS
+// =============================================================================
+
+// organization represents a consumer organization that subscribes to the platform,
+// purchases products, and uses features.
+definition organization {
+    // Membership relations (hierarchical)
+    relation owner: principal
+    relation admin: principal
+    relation member: principal
+    relation viewer: principal
+
+    // Membership hierarchy permissions
+    permission manage = owner + admin
+    permission edit = manage + member
+    permission view = edit + viewer
+    permission use = view
+
+    // Organization operations
+    permission delete = owner
+    permission settings = manage
+    permission billing = owner + admin
+    permission invite_member = manage
+    permission remove_member = manage
+    permission purchase = manage
+}
+
+// =============================================================================
+// CREATOR ORGANIZATIONS
+// =============================================================================
+
+// creator_org represents a publisher/tenant organization that creates and sells
+// products on the marketplace.
+definition creator_org {
+    // Membership relations (hierarchical)
+    relation owner: principal
+    relation admin: principal
+    relation creator: principal
+    relation reviewer: principal
+
+    // Membership hierarchy permissions
+    permission manage = owner + admin
+    permission create = manage + creator
+    permission review = manage + reviewer
+
+    // Organization operations
+    permission delete = owner
+    permission settings = manage
+    permission billing = owner + admin
+    permission publish = manage
+    permission view_analytics = manage
+}
+
+// =============================================================================
+// MARKETPLACE LISTINGS
+// =============================================================================
+
+// listing represents a product available for purchase on the marketplace.
+definition listing {
+    // Ownership
+    relation creator_org: creator_org
+    relation owner: principal
+
+    // Licensing
+    relation licensed_org: organization
+
+    // Creator permissions
+    permission manage = owner + creator_org->manage
+    permission edit = manage + creator_org->create
+    permission review = creator_org->review
+    permission publish = creator_org->publish
+    permission view_analytics = manage
+
+    // Consumer permissions (via license)
+    permission use = licensed_org->use
+    permission view = use + edit
+}
+
+// =============================================================================
+// LICENSES
+// =============================================================================
+
+// license represents an entitlement for an organization to use a product.
+definition license {
+    // References
+    relation listing: listing
+    relation organization: organization
+    relation purchased_by: principal
+
+    // Seat assignments (for per-seat licenses)
+    relation seat_holder: principal
+
+    // Permissions
+    permission view = organization->manage + purchased_by
+    permission use = seat_holder + organization->use
+    permission manage = organization->manage
+    permission transfer = organization->manage
+    permission assign_seat = organization->manage
+}
+
+// =============================================================================
+// SUBSCRIPTIONS
+// =============================================================================
+
+// subscription represents a platform-level subscription for an organization.
+definition subscription {
+    // References
+    relation organization: organization
+    relation subscriber: principal
+
+    // Permissions
+    permission view = organization->view
+    permission manage = organization->manage
+    permission cancel = organization->manage
+}
