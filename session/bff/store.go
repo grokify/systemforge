@@ -12,6 +12,10 @@ var (
 	ErrSessionExpired = errors.New("session expired")
 	// ErrInvalidSession is returned when a session is invalid.
 	ErrInvalidSession = errors.New("invalid session")
+	// ErrStoreRequired is returned when a store is not provided.
+	ErrStoreRequired = errors.New("session store is required")
+	// ErrOriginsRequired is returned when no allowed origins are provided.
+	ErrOriginsRequired = errors.New("allowed origins are required for CSRF protection")
 )
 
 // Store defines the interface for session storage.
