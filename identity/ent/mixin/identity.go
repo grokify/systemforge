@@ -198,6 +198,41 @@ func (HumanMixin) Fields() []ent.Field {
 			Optional().
 			Nillable().
 			Comment("When email was verified"),
+		// Public profile fields
+		field.String("slug").
+			Optional().
+			Nillable().
+			MinLen(3).
+			MaxLen(39).
+			Comment("URL-safe username for public profile (e.g., /u/{slug})"),
+		field.String("headline").
+			Optional().
+			Nillable().
+			MaxLen(120).
+			Comment("Professional headline (e.g., 'AI Researcher at Stanford')"),
+		field.Text("bio").
+			Optional().
+			Nillable().
+			Comment("Public biography (Markdown supported)"),
+		field.String("linkedin_url").
+			Optional().
+			Nillable().
+			Comment("LinkedIn profile URL"),
+		field.String("github_url").
+			Optional().
+			Nillable().
+			Comment("GitHub profile URL"),
+		field.String("twitter_url").
+			Optional().
+			Nillable().
+			Comment("Twitter/X profile URL"),
+		field.String("website_url").
+			Optional().
+			Nillable().
+			Comment("Personal website URL"),
+		field.Bool("public_profile").
+			Default(false).
+			Comment("Whether public profile is visible"),
 	}
 	return append(baseFields, humanFields...)
 }
@@ -207,6 +242,8 @@ func (HumanMixin) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("email").Unique(),
 		index.Fields("principal_id").Unique(),
+		index.Fields("slug").Unique(),
+		index.Fields("public_profile"),
 	}
 }
 
