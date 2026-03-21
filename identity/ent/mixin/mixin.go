@@ -140,6 +140,26 @@ func (OrganizationBase) Fields() []ent.Field {
 			Default("free"),
 		field.Bool("active").
 			Default(true),
+		// Public profile fields
+		field.String("tagline").
+			Optional().
+			Nillable().
+			MaxLen(200).
+			Comment("Short tagline for public display"),
+		field.Text("description").
+			Optional().
+			Nillable().
+			Comment("Full public description (Markdown supported)"),
+		field.String("website_url").
+			Optional().
+			Nillable().
+			Comment("External website URL"),
+		field.JSON("social_links", []string{}).
+			Optional().
+			Comment("Social media URLs (LinkedIn, Twitter, etc.)"),
+		field.Bool("public_listing").
+			Default(false).
+			Comment("Whether org appears in public directory"),
 	}
 	return append(baseFields, orgFields...)
 }
