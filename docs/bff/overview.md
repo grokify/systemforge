@@ -1,0 +1,467 @@
+# Backend for Frontend (BFF) Package
+
+The `session/bff` package implements the Backend for Frontend pattern for secure session management in web applications. It stores OAuth tokens server-side and uses HTTP-only cookies to identify browser sessions.
+
+## Why BFF?
+
+Traditional SPAs store JWT tokens in localStorage or sessionStorage, which exposes them to XSS attacks. The BFF pattern solves this by:
+
+1. **Server-side token storage** - Access and refresh tokens never reach the browser
+2. **HTTP-only cookies** - Session IDs are stored in cookies that JavaScript cannot access
+3. **Automatic token injection** - BFF proxies API requests, injecting the Bearer token
+4. **Built-in CSRF protection** - Origin validation prevents cross-site request forgery
+
+```
+┌─────────────┐     Cookie (session_id)      ┌─────────────────┐
+│   Browser   │ ────────────────────────────▶│   BFF Handler   │
+│   (React)   │                              │   /bff/*        │
+└─────────────┘                              └────────┬────────┘
+                                                      │
+                                                      │ Inject Bearer token
+                                                      ▼
+                                             ┌─────────────────┐
+                                             │   API Backend   │
+                                             │   /api/v1/*     │
+                                             └─────────────────┘
+```
+
+## Quick Start
+
+```go
+import (
+    "github.com/grokify/coreforge/session/bff"
+)
+
+// Create handler with required configuration
+handler, err := bff.NewHandler(bff.HandlerConfig{
+    // Required: session storage
+    Store: bff.NewMemoryStore(bff.DefaultStoreConfig()),
+
+    // Required: CSRF protection
+    AllowedOrigins: []string{
+        "https://myapp.com",
+        "https://app.myapp.com",
+    },
+
+    // Required for API proxy
+    ProxyConfig: bff.ProxyConfig{
+        TargetURL:   "https://api.myapp.com",
+        StripPrefix: "/bff/api",
+    },
+
+    // App-specific hooks
+    OnRefresh: myRefreshHandler,
+    OnLogout:  myLogoutHandler,
+})
+
+// Mount on your router
+router.Mount("/bff", handler.Router())
+```
+
+## Routes
+
+The BFF handler provides these endpoints:
+
+| Endpoint | Method | Auth | Description |
+|----------|--------|------|-------------|
+| `/session` | GET | Cookie | Check session status |
+| `/logout` | POST | Cookie | Clear session and revoke tokens |
+| `/refresh` | POST | Cookie | Refresh access token |
+| `/api/*` | ANY | Cookie | Proxy to API backend |
+
+## Configuration
+
+### HandlerConfig
+
+```go
+type HandlerConfig struct {
+    // Required: session storage backend
+    Store Store
+
+    // Required: allowed origins for CSRF protection
+    AllowedOrigins []string
+
+    // Cookie configuration (optional, has secure defaults)
+    CookieConfig CookieConfig
+
+    // Proxy configuration (required if using /api/* proxy)
+    ProxyConfig ProxyConfig
+
+    // Client IP extraction (optional, for Cloudflare/proxy support)
+    ClientIPConfig ClientIPConfig
+
+    // Application hooks
+    OnCreateSession func(ctx context.Context, session *Session) error
+    OnRefresh       func(ctx context.Context, session *Session) (*TokenRefreshResult, error)
+    OnLogout        func(ctx context.Context, session *Session) error
+    OnSessionLoad   func(ctx context.Context, session *Session) error
+
+    // Rate limiting (optional)
+    RateLimitConfig *RateLimitConfig
+}
+```
+
+### CookieConfig
+
+```go
+// Secure defaults
+cookieConfig := bff.DefaultCookieConfig()
+// Name:     "cf_session"
+// Path:     "/"
+// Secure:   true        // HTTPS only
+// HTTPOnly: true        // No JavaScript access
+// SameSite: Strict      // No cross-site requests
+
+// Development override
+if isDevelopment {
+    cookieConfig.Secure = false
+    cookieConfig.SameSite = http.SameSiteLaxMode
+}
+```
+
+### ClientIPConfig (Cloudflare Support)
+
+```go
+// For Cloudflare deployments
+clientIPConfig := bff.CloudflareClientIPConfig()
+// Trusts: CF-Connecting-IP, True-Client-IP, X-Forwarded-For
+
+// For custom proxy setup
+clientIPConfig := bff.ClientIPConfig{
+    TrustProxy:     true,
+    TrustedProxies: []string{"10.0.0.0/8", "172.16.0.0/12"},
+}
+
+// Validate Cloudflare IPs (optional, more secure)
+clientIPConfig := bff.ClientIPConfig{
+    TrustCloudflare:    true,
+    CloudflareIPRanges: []string{
+        "173.245.48.0/20",
+        "103.21.244.0/22",
+        // ... see https://www.cloudflare.com/ips/
+    },
+}
+```
+
+## Creating Sessions
+
+After OAuth callback completes, create a BFF session:
+
+```go
+func handleOAuthCallback(w http.ResponseWriter, r *http.Request) {
+    // ... OAuth flow, get tokens ...
+
+    session, err := bffHandler.CreateSession(ctx, w, r, bff.CreateSessionParams{
+        UserID:                userID,
+        AccessToken:           tokens.AccessToken,
+        RefreshToken:          tokens.RefreshToken,
+        AccessTokenExpiresIn:  15 * time.Minute,
+        RefreshTokenExpiresIn: 7 * 24 * time.Hour,
+        Metadata: map[string]string{
+            "provider": "google",
+        },
+    })
+
+    // Cookie is set automatically
+    http.Redirect(w, r, "/dashboard", http.StatusFound)
+}
+```
+
+## Token Refresh Hook
+
+The `OnRefresh` hook handles token refresh using your app's token storage:
+
+```go
+OnRefresh: func(ctx context.Context, session *bff.Session) (*bff.TokenRefreshResult, error) {
+    // 1. Validate refresh token in your database
+    token, err := db.RefreshToken.Query().
+        Where(refreshtoken.Token(session.RefreshToken)).
+        Where(refreshtoken.RevokedEQ(false)).
+        Only(ctx)
+    if err != nil {
+        return nil, err
+    }
+
+    // 2. Generate new tokens
+    newAccess, newRefresh := generateTokens(token.UserID)
+
+    // 3. Revoke old refresh token
+    db.RefreshToken.UpdateOne(token).SetRevoked(true).Save(ctx)
+
+    // 4. Store new refresh token
+    db.RefreshToken.Create().SetToken(newRefresh).Save(ctx)
+
+    return &bff.TokenRefreshResult{
+        AccessToken:           newAccess,
+        RefreshToken:          newRefresh,
+        AccessTokenExpiresIn:  15 * time.Minute,
+        RefreshTokenExpiresIn: 7 * 24 * time.Hour,
+    }, nil
+}
+```
+
+## Security Features
+
+### Origin Validation (CSRF Protection)
+
+The handler validates `Origin` header on state-changing requests (POST, PUT, DELETE):
+
+```go
+AllowedOrigins: []string{
+    "https://myapp.com",
+    "https://app.myapp.com",
+}
+```
+
+- GET/HEAD/OPTIONS requests skip origin validation (safe methods)
+- Missing Origin header on POST/PUT/DELETE returns 403 Forbidden
+- Referer header is checked as fallback
+
+### Cookie Security
+
+Default cookie settings:
+
+| Attribute | Value | Purpose |
+|-----------|-------|---------|
+| HttpOnly | true | Prevents XSS from reading cookie |
+| Secure | true | HTTPS only (disable for localhost) |
+| SameSite | Strict | Prevents CSRF via cookie scope |
+| Path | / | Available to all paths |
+
+### Rate Limiting
+
+Built-in rate limiting protects against brute force and DoS:
+
+```go
+RateLimitConfig: &bff.RateLimitConfig{
+    // Per-IP limits
+    RequestsPerMinute: 60,
+    BurstSize:         10,
+
+    // Endpoint-specific overrides
+    EndpointLimits: map[string]bff.EndpointLimit{
+        "/refresh": {RequestsPerMinute: 10, BurstSize: 2},
+        "/logout":  {RequestsPerMinute: 10, BurstSize: 2},
+    },
+}
+```
+
+## Session Storage
+
+### MemoryStore (Development)
+
+```go
+store := bff.NewMemoryStore(bff.DefaultStoreConfig())
+// - In-memory, lost on restart
+// - Automatic cleanup of expired sessions
+// - Not suitable for multi-instance deployments
+```
+
+### RedisStore (Production)
+
+```go
+store, err := bff.NewRedisStore(bff.RedisStoreConfig{
+    Addr:     "localhost:6379",
+    Password: "",
+    DB:       0,
+    Prefix:   "bff:session:",
+})
+// - Persistent across restarts
+// - Shared across multiple instances
+// - Recommended for production
+```
+
+## Frontend Integration
+
+### Check Session Status
+
+```typescript
+const response = await fetch('/bff/session', {
+    credentials: 'include', // Important: send cookies
+});
+const { authenticated, user_id, expires_at } = await response.json();
+```
+
+### Make API Requests
+
+```typescript
+// Requests go through BFF proxy
+const response = await fetch('/bff/api/v1/users/me', {
+    credentials: 'include',
+});
+// BFF injects Bearer token automatically
+```
+
+### Logout
+
+```typescript
+await fetch('/bff/logout', {
+    method: 'POST',
+    credentials: 'include',
+});
+// Session cleared, cookie removed
+```
+
+### Refresh Session
+
+```typescript
+// Usually automatic, but can be explicit
+await fetch('/bff/refresh', {
+    method: 'POST',
+    credentials: 'include',
+});
+```
+
+## Cloudflare Deployment
+
+When deploying behind Cloudflare:
+
+```go
+handler, _ := bff.NewHandler(bff.HandlerConfig{
+    // ... other config ...
+
+    ClientIPConfig: bff.CloudflareClientIPConfig(),
+})
+```
+
+This trusts these headers (set by Cloudflare):
+
+| Header | Description |
+|--------|-------------|
+| CF-Connecting-IP | Original client IP |
+| True-Client-IP | Client IP (Enterprise) |
+| CF-Ray | Request trace ID |
+| CF-IPCountry | Client country code |
+
+Cloudflare metadata is automatically added to session:
+
+```go
+session.Metadata["cf_ray"]     // "abc123-SJC"
+session.Metadata["cf_country"] // "US"
+```
+
+## OpenAPI Specification
+
+While BFF endpoints are typically internal, you can generate OpenAPI specs for:
+
+- Internal documentation
+- TypeScript type generation
+- API gateway configuration
+- Contract testing
+
+### Huma Integration
+
+Register BFF routes with Huma for automatic OpenAPI generation:
+
+```go
+import (
+    "github.com/danielgtaylor/huma/v2"
+    "github.com/grokify/coreforge/session/bff"
+)
+
+// Create BFF handler
+bffHandler, _ := bff.NewHandler(config)
+
+// Mount chi routes for actual handling
+router.Mount("/bff", bffHandler.Router())
+
+// Register with Huma for OpenAPI spec
+bff.RegisterHumaRoutes(humaAPI, bff.HumaConfig{
+    Handler:              bffHandler,
+    PathPrefix:           "/bff",
+    Tags:                 []string{"BFF", "Internal"},
+    IncludeRateLimitDocs: true,
+})
+
+// Add BFF security scheme
+bff.AddBFFSecurityScheme(humaAPI, "aos_session")
+```
+
+### Generated OpenAPI Extensions
+
+The Huma integration adds these vendor extensions:
+
+| Extension | Description |
+|-----------|-------------|
+| `x-internal` | Marks endpoint as internal |
+| `x-cookie-auth` | Indicates cookie-based authentication |
+| `x-csrf-protected` | Indicates Origin header requirement |
+| `x-ratelimit-limit` | Requests per minute |
+| `x-ratelimit-burst` | Burst size |
+| `x-ratelimit-window` | Rate limit window |
+
+### Example OpenAPI Output
+
+```yaml
+paths:
+  /bff/session:
+    get:
+      operationId: bff-get-session
+      summary: Get session status
+      tags: [BFF]
+      x-internal: true
+      x-cookie-auth: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionStatusResponse'
+
+  /bff/refresh:
+    post:
+      operationId: bff-refresh-session
+      summary: Refresh session
+      tags: [BFF]
+      x-internal: true
+      x-cookie-auth: true
+      x-csrf-protected: true
+      x-ratelimit-limit: 10
+      x-ratelimit-burst: 2
+      x-ratelimit-window: 1m
+      responses:
+        '200':
+          headers:
+            X-RateLimit-Limit:
+              schema: { type: integer }
+            X-RateLimit-Remaining:
+              schema: { type: integer }
+            X-RateLimit-Reset:
+              schema: { type: integer }
+        '429':
+          headers:
+            Retry-After:
+              schema: { type: integer }
+
+components:
+  securitySchemes:
+    bff-session:
+      type: apiKey
+      in: cookie
+      name: aos_session
+      description: HTTP-only session cookie
+```
+
+### TypeScript Types
+
+Generate TypeScript types from the OpenAPI spec:
+
+```bash
+npx openapi-typescript ./openapi.yaml -o ./src/types/bff.ts
+```
+
+```typescript
+// Generated types
+interface SessionStatusResponse {
+  authenticated: boolean;
+  user_id?: string;
+  organization_id?: string;
+  expires_at?: string;
+  access_token_expires_at?: string;
+}
+
+interface RefreshResponse {
+  message: string;
+  expires_at: number;
+}
+```
