@@ -69,6 +69,8 @@ nav:
     - Overview: coreapi/overview.md
     - Policies: coreapi/policies.md
     - Rate Limiting: coreapi/ratelimit.md
+  - BFF:
+    - Overview: bff/overview.md
   - Marketplace:
     - Overview: marketplace/overview.md
   - Observability:
@@ -83,6 +85,7 @@ nav:
     - OAuth TRD: design/TRD_OAUTH.md
     - Implementation Tasks: design/TRD_TASKS.md
   - Releases:
+    - v0.4.0: releases/v0.4.0.md
     - v0.3.0: releases/v0.3.0.md
     - v0.2.0: releases/v0.2.0.md
     - v0.1.0: releases/v0.1.0.md

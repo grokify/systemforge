@@ -7,6 +7,34 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.4.0",
+      "date": "2026-03-23",
+      "highlights": [
+        { "description": "Backend for Frontend (BFF) package with session management, rate limiting, and API proxy" },
+        { "description": "Public profile fields for users and organizations enabling directory listings" },
+        { "description": "Huma framework integration for OpenAPI schema generation in BFF endpoints" }
+      ],
+      "added": [
+        { "description": "BFF HTTP handler with session creation, API proxy, and CSRF protection", "commit": "aa49751" },
+        { "description": "Token bucket rate limiter with per-endpoint overrides and standard headers", "commit": "717bd88" },
+        { "description": "Client IP extraction with Cloudflare and proxy header support", "commit": "e55385e" },
+        { "description": "Huma API integration for BFF with OpenAPI schema generation", "commit": "c06a603" },
+        { "description": "Public profile fields for HumanMixin (slug, headline, bio, social links)", "commit": "d7bfcd1" },
+        { "description": "Public listing fields for OrganizationBase (tagline, description, website)", "commit": "464b163" }
+      ],
+      "documentation": [
+        { "description": "BFF pattern documentation with architecture and integration examples", "commit": "e680ea0" }
+      ],
+      "infrastructure": [
+        { "description": "Updated shared CI workflows to Go 1.26.x only", "commit": "f215759" }
+      ],
+      "dependencies": [
+        { "description": "Bump github.com/authzed/spicedb from 1.49.2 to 1.50.0", "commit": "5d8eb51" },
+        { "description": "Bump google.golang.org/grpc from 1.79.2 to 1.79.3", "commit": "b1aadf1" },
+        { "description": "Bump github.com/mattn/go-sqlite3 from 1.14.34 to 1.14.37", "commit": "77ebd8c" }
+      ]
+    },
+    {
       "version": "v0.3.0",
       "date": "2026-03-14",
       "highlights": [
