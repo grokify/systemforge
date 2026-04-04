@@ -65,6 +65,12 @@ type Session struct {
 
 	// UserAgent is the user agent that created the session.
 	UserAgent string `json:"user_agent,omitempty"`
+
+	// Internal fields for encrypted storage (not serialized to JSON)
+	// These are used by EntStore to pass encrypted data to the client wrapper.
+	encryptedAccessToken  []byte `json:"-"`
+	encryptedRefreshToken []byte `json:"-"`
+	encryptedDPoPKeyPair  []byte `json:"-"`
 }
 
 // IsExpired returns true if the session has expired.
@@ -154,4 +160,30 @@ func NewSession(userID uuid.UUID, accessToken, refreshToken string, accessExpiry
 		LastAccessedAt:        now,
 		ExpiresAt:             now.Add(refreshExpiry), // Session expires with refresh token
 	}, nil
+}
+
+// EncryptedAccessToken returns the encrypted access token bytes.
+// Used by Ent client wrappers to store encrypted tokens.
+func (s *Session) EncryptedAccessToken() []byte {
+	return s.encryptedAccessToken
+}
+
+// EncryptedRefreshToken returns the encrypted refresh token bytes.
+// Used by Ent client wrappers to store encrypted tokens.
+func (s *Session) EncryptedRefreshToken() []byte {
+	return s.encryptedRefreshToken
+}
+
+// EncryptedDPoPKeyPair returns the encrypted DPoP key pair bytes.
+// Used by Ent client wrappers to store encrypted tokens.
+func (s *Session) EncryptedDPoPKeyPair() []byte {
+	return s.encryptedDPoPKeyPair
+}
+
+// SetEncryptedTokens sets the encrypted token fields from database values.
+// Used by Ent client wrappers when loading sessions from storage.
+func (s *Session) SetEncryptedTokens(accessToken, refreshToken, dpopKeyPair []byte) {
+	s.encryptedAccessToken = accessToken
+	s.encryptedRefreshToken = refreshToken
+	s.encryptedDPoPKeyPair = dpopKeyPair
 }
