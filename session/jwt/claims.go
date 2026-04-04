@@ -164,3 +164,28 @@ func (c *Claims) IsAccessToken() bool {
 func (c *Claims) IsRefreshToken() bool {
 	return c.TokenType == RefreshToken
 }
+
+// Audience returns the first audience value, or empty string if none.
+func (c *Claims) Audience() string {
+	if len(c.RegisteredClaims.Audience) > 0 {
+		return c.RegisteredClaims.Audience[0]
+	}
+	return ""
+}
+
+// HasAudience checks if the claims include a specific audience.
+func (c *Claims) HasAudience(aud string) bool {
+	for _, a := range c.RegisteredClaims.Audience {
+		if a == aud {
+			return true
+		}
+	}
+	return false
+}
+
+// WithAudience sets the audience claim (builder pattern).
+// This overrides any audience set from Config.
+func (c *Claims) WithAudience(audiences ...string) *Claims {
+	c.RegisteredClaims.Audience = audiences
+	return c
+}

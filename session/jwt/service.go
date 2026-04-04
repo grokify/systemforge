@@ -34,6 +34,20 @@ var (
 	ErrTokenExpired = errors.New("token expired")
 	// ErrWrongTokenType is returned when the token type doesn't match expectations.
 	ErrWrongTokenType = errors.New("wrong token type")
+	// ErrAudienceMismatch is returned when the token audience doesn't match expected value.
+	ErrAudienceMismatch = errors.New("audience mismatch")
+	// ErrScopesRequired is returned when API tokens are created without scopes.
+	ErrScopesRequired = errors.New("at least one scope is required for API tokens")
+)
+
+// Audience constants for different token types.
+const (
+	// AudienceBFF is the audience for BFF (web browser) clients.
+	// These tokens are used for cookie-based sessions.
+	AudienceBFF = "bff"
+	// AudienceAPI is the audience for programmatic API clients.
+	// These tokens are used with Bearer authentication and require scopes.
+	AudienceAPI = "api"
 )
 
 // GenerateAccessToken creates a new access token for the given principal.
@@ -206,6 +220,94 @@ func (s *Service) ValidateRefreshToken(tokenString string) (*Claims, error) {
 	}
 
 	return claims, nil
+}
+
+// ValidateAccessTokenWithAudience validates an access token and checks expected audience.
+// If expectedAudience is empty, audience checking is skipped (backward compatible).
+func (s *Service) ValidateAccessTokenWithAudience(tokenString string, expectedAudience string) (*Claims, error) {
+	claims, err := s.ValidateAccessToken(tokenString)
+	if err != nil {
+		return nil, err
+	}
+
+	if expectedAudience != "" && !claims.HasAudience(expectedAudience) {
+		return nil, fmt.Errorf("%w: expected %s, got %s", ErrAudienceMismatch, expectedAudience, claims.Audience())
+	}
+
+	return claims, nil
+}
+
+// GenerateAccessTokenWithAudience creates an access token with explicit audience.
+func (s *Service) GenerateAccessTokenWithAudience(
+	principalID uuid.UUID,
+	email, name string,
+	audience string,
+	scopes []string,
+) (string, error) {
+	claims := NewAccessClaims(s.config, principalID, email, name).
+		WithAudience(audience)
+
+	if len(scopes) > 0 {
+		claims.Scopes = scopes
+	}
+
+	return s.signToken(claims)
+}
+
+// GenerateBFFTokenPair creates a token pair for BFF (web) clients.
+// BFF tokens use cookie-based sessions and don't include scopes.
+func (s *Service) GenerateBFFTokenPair(principalID uuid.UUID, email, name string) (*TokenPair, error) {
+	return s.GenerateTokenPairWithAudience(principalID, email, name, AudienceBFF, nil)
+}
+
+// GenerateAPIToken creates a scoped token for API clients.
+// API tokens require at least one scope.
+// Duration overrides the default access token expiry if positive.
+func (s *Service) GenerateAPIToken(
+	principalID uuid.UUID,
+	email, name string,
+	scopes []string,
+	duration time.Duration,
+) (string, error) {
+	if len(scopes) == 0 {
+		return "", ErrScopesRequired
+	}
+
+	claims := NewAccessClaims(s.config, principalID, email, name).
+		WithAudience(AudienceAPI)
+	claims.Scopes = scopes
+
+	// Override expiry if duration provided
+	if duration > 0 {
+		claims.ExpiresAt = jwt.NewNumericDate(time.Now().Add(duration))
+	}
+
+	return s.signToken(claims)
+}
+
+// GenerateTokenPairWithAudience creates a token pair with explicit audience.
+func (s *Service) GenerateTokenPairWithAudience(
+	principalID uuid.UUID,
+	email, name string,
+	audience string,
+	scopes []string,
+) (*TokenPair, error) {
+	accessToken, err := s.GenerateAccessTokenWithAudience(principalID, email, name, audience, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("generating access token: %w", err)
+	}
+
+	family := uuid.NewString()
+	refreshToken, err := s.GenerateRefreshToken(principalID, family)
+	if err != nil {
+		return nil, fmt.Errorf("generating refresh token: %w", err)
+	}
+
+	return &TokenPair{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+		ExpiresIn:    int64(s.config.AccessTokenExpiry.Seconds()),
+	}, nil
 }
 
 // signToken creates a signed JWT from the given claims.
