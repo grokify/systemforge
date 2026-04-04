@@ -99,7 +99,16 @@ user.Update().
 
 ### OAuth Integration
 
-Users can link external OAuth accounts (GitHub, Google, etc.):
+Users can authenticate via external OAuth providers (GitHub, Google, CoreControl). The [OAuth Client](oauthclient.md) package handles the OAuth flow:
+
+```go
+import cfoauth "github.com/grokify/coreforge/identity/oauthclient"
+
+// Exchange OAuth code for user info
+user, err := cfoauth.FetchGitHubUser(ctx, githubConfig, code)
+```
+
+OAuth accounts are then linked to local users:
 
 ```go
 oauthAccount, err := client.OAuthAccount.Create().
@@ -116,3 +125,4 @@ oauthAccount, err := client.OAuthAccount.Create().
 - [Organizations](organizations.md) - Organization setup
 - [Memberships](memberships.md) - Role-based membership
 - [API Keys](api-keys.md) - Server-to-server authentication
+- [OAuth Client](oauthclient.md) - Accept OAuth logins from GitHub, Google, CoreControl
