@@ -7,6 +7,37 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.5.0",
+      "date": "2026-04-05",
+      "highlights": [
+        { "description": "Audience-aware JWT tokens for BFF vs API client separation" },
+        { "description": "Ent-backed stores for API keys and BFF sessions with AES-256-GCM encryption" },
+        { "description": "Reusable Ent schema mixins for API keys and BFF sessions" }
+      ],
+      "added": [
+        { "description": "Audience-aware JWT tokens with `GenerateBFFTokenPair` and `GenerateAPIToken` methods", "commit": "92fa0c5" },
+        { "description": "AES-256-GCM token encryption for BFF sessions with `Encryptor` type", "commit": "b978729" },
+        { "description": "Ent-backed BFF session store with automatic expired session cleanup", "commit": "b978729" },
+        { "description": "Ent-backed API key store with `EntClientInterface` for app integration", "commit": "0f352f8" },
+        { "description": "APIKey Ent mixin with fields for key management (prefix, hash, scopes, environment)", "commit": "896f5a1" },
+        { "description": "BFFSession Ent mixin with encrypted token fields and session metadata", "commit": "896f5a1" }
+      ],
+      "documentation": [
+        { "description": "JWT audience separation guide for BFF vs API tokens", "commit": "5b4869a" },
+        { "description": "Ent-backed session store integration guide", "commit": "5b4869a" },
+        { "description": "API key Ent store implementation documentation", "commit": "5b4869a" },
+        { "description": "OAuth client package documentation", "commit": "5b4869a" },
+        { "description": "Design documents for JWT audience and Ent stores features", "commit": "e00bbcc" }
+      ],
+      "dependencies": [
+        { "description": "Bump github.com/authzed/spicedb from 1.50.0 to 1.51.0", "commit": "5e5f55c" },
+        { "description": "Bump entgo.io/ent from 0.14.5 to 0.14.6", "commit": "d2354a0" },
+        { "description": "Bump github.com/danielgtaylor/huma/v2 from 2.37.2 to 2.37.3", "commit": "c005e12" },
+        { "description": "Bump github.com/mattn/go-sqlite3 from 1.14.37 to 1.14.38", "commit": "9cc6298" },
+        { "description": "Bump google.golang.org/grpc from 1.79.3 to 1.80.0", "commit": "994d1c7" }
+      ]
+    },
+    {
       "version": "v0.4.0",
       "date": "2026-03-23",
       "highlights": [
