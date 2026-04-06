@@ -190,6 +190,8 @@ type CreateKeyRequest struct {
 }
 
 // Store defines the interface for API key storage.
+//
+//nolint:dupl // Store and EntClientInterface are intentionally similar but serve different purposes
 type Store interface {
 	// Create stores a new API key.
 	Create(ctx context.Context, key *APIKey, keyHash string) error

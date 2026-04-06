@@ -25,6 +25,8 @@ import (
 //	        Save(ctx)
 //	    return err
 //	}
+//
+//nolint:dupl // EntClientInterface intentionally mirrors Store interface with Ent-specific method names
 type EntClientInterface interface {
 	// CreateAPIKey stores a new API key.
 	CreateAPIKey(ctx context.Context, key *APIKey, keyHash string) error
