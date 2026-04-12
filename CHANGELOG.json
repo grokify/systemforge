@@ -7,6 +7,37 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.6.0",
+      "date": "2026-04-12",
+      "highlights": [
+        { "description": "Multi-app platform infrastructure for running multiple SaaS apps on shared backend" },
+        { "description": "Schema-per-app PostgreSQL isolation with X-App-ID header routing" },
+        { "description": "CoreForge identity and session integration for multiapp deployments" }
+      ],
+      "added": [
+        { "description": "Multi-app server with `MultiAppMode` and `SingleAppMode` deployment options", "commit": "fa15800" },
+        { "description": "AppBackend interface for composable app registration with lifecycle hooks", "commit": "fa15800" },
+        { "description": "Schema-per-app database isolation using PostgreSQL schemas (`app_` prefix)", "commit": "fa15800" },
+        { "description": "X-App-ID header routing for multi-tenant request dispatch", "commit": "fa15800" },
+        { "description": "Redis and in-memory cache implementations with app-scoped prefixes", "commit": "fa15800" },
+        { "description": "CoreForge identity integration with JWT claims extraction and validation", "commit": "82df768" },
+        { "description": "Session management helpers for multi-tenant deployments", "commit": "82df768" },
+        { "description": "Ent client factory for schema-isolated database connections", "commit": "82df768" },
+        { "description": "HTTP middleware for authentication and tenant context propagation", "commit": "82df768" },
+        { "description": "Example app backend implementation demonstrating AppBackend interface", "commit": "aac27fc" }
+      ],
+      "security": [
+        { "description": "Generic 404 responses for missing/invalid X-App-ID to prevent enumeration attacks", "commit": "f6a70ba" }
+      ],
+      "documentation": [
+        { "description": "Multiapp architecture documentation with deployment patterns", "commit": "1d705e1" }
+      ],
+      "dependencies": [
+        { "description": "Bump github.com/mattn/go-sqlite3 from 1.14.40 to 1.14.42", "commit": "a895c55" },
+        { "description": "Bump golang.org/x/crypto from 0.49.0 to 0.50.0", "commit": "2e1080a" }
+      ]
+    },
+    {
       "version": "v0.5.0",
       "date": "2026-04-05",
       "highlights": [
