@@ -3105,7 +3105,7 @@ Remaining work includes app-specific integration (Phase 6) and security hardenin
 <p><strong>Priority</strong>: P1
 <strong>Estimate</strong>: 0.5 day
 <strong>Files</strong>:
-- <code>dashforge/go.mod</code></p>
+- <code>app2/go.mod</code></p>
 <p><strong>Acceptance Criteria</strong>:
 - [ ] Add github.com/grokify/coreforge dependency
 - [ ] Run go mod tidy
@@ -3114,7 +3114,7 @@ Remaining work includes app-specific integration (Phase 6) and security hardenin
 <p><strong>Priority</strong>: P1
 <strong>Estimate</strong>: 0.5 day
 <strong>Files</strong>:
-- <code>dashforge/ent/schema/</code> (new files or mixins)</p>
+- <code>app2/ent/schema/</code> (new files or mixins)</p>
 <p><strong>Acceptance Criteria</strong>:
 - [ ] Import CoreForge identity mixins
 - [ ] Generate Ent code
@@ -3123,8 +3123,8 @@ Remaining work includes app-specific integration (Phase 6) and security hardenin
 <p><strong>Priority</strong>: P1
 <strong>Estimate</strong>: 1 day
 <strong>Files</strong>:
-- <code>dashforge/migrations/migrate_to_coreforge.sql</code>
-- <code>dashforge/cmd/migrate/main.go</code></p>
+- <code>app2/migrations/migrate_to_coreforge.sql</code>
+- <code>app2/cmd/migrate/main.go</code></p>
 <p><strong>Acceptance Criteria</strong>:
 - [ ] Migrate users to cf_users
 - [ ] Convert tenants to cf_organizations
@@ -3135,8 +3135,8 @@ Remaining work includes app-specific integration (Phase 6) and security hardenin
 <p><strong>Priority</strong>: P1
 <strong>Estimate</strong>: 2 days
 <strong>Files</strong>:
-- <code>dashforge/internal/server/auth/</code> (refactor)
-- <code>dashforge/internal/server/server.go</code></p>
+- <code>app2/internal/server/auth/</code> (refactor)
+- <code>app2/internal/server/server.go</code></p>
 <p><strong>Acceptance Criteria</strong>:
 - [ ] Replace JWT service with CoreForge
 - [ ] Replace OAuth handlers with CoreForge
@@ -3147,7 +3147,7 @@ Remaining work includes app-specific integration (Phase 6) and security hardenin
 <p><strong>Priority</strong>: P1
 <strong>Estimate</strong>: 1 day
 <strong>Files</strong>:
-- <code>dashforge/internal/rbac/</code> (new)</p>
+- <code>app2/internal/rbac/</code> (new)</p>
 <p><strong>Acceptance Criteria</strong>:
 - [ ] Create Dashforge-specific permissions
 - [ ] Use CoreForge authz/simple provider
@@ -3156,8 +3156,8 @@ Remaining work includes app-specific integration (Phase 6) and security hardenin
 <p><strong>Priority</strong>: P1
 <strong>Estimate</strong>: 1 day
 <strong>Files</strong>:
-- <code>dashforge/tests/auth_test.go</code>
-- <code>dashforge/tests/bff_test.go</code></p>
+- <code>app2/tests/auth_test.go</code>
+- <code>app2/tests/bff_test.go</code></p>
 <p><strong>Acceptance Criteria</strong>:
 - [ ] Test full OAuth login flow
 - [ ] Test session management

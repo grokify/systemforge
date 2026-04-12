@@ -2746,9 +2746,9 @@
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">})</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1">// Register apps</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nx">server</span><span class="p">.</span><span class="nx">RegisterApp</span><span class="p">(</span><span class="nx">academyos</span><span class="p">.</span><span class="nx">NewBackend</span><span class="p">(</span><span class="kc">nil</span><span class="p">))</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="nx">server</span><span class="p">.</span><span class="nx">RegisterApp</span><span class="p">(</span><span class="nx">dashforge</span><span class="p">.</span><span class="nx">NewBackend</span><span class="p">(</span><span class="kc">nil</span><span class="p">))</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="nx">server</span><span class="p">.</span><span class="nx">RegisterApp</span><span class="p">(</span><span class="nx">proofminds</span><span class="p">.</span><span class="nx">NewBackend</span><span class="p">(</span><span class="kc">nil</span><span class="p">))</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nx">server</span><span class="p">.</span><span class="nx">RegisterApp</span><span class="p">(</span><span class="nx">app1</span><span class="p">.</span><span class="nx">NewBackend</span><span class="p">(</span><span class="kc">nil</span><span class="p">))</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="nx">server</span><span class="p">.</span><span class="nx">RegisterApp</span><span class="p">(</span><span class="nx">app2</span><span class="p">.</span><span class="nx">NewBackend</span><span class="p">(</span><span class="kc">nil</span><span class="p">))</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="nx">server</span><span class="p">.</span><span class="nx">RegisterApp</span><span class="p">(</span><span class="nx">app3</span><span class="p">.</span><span class="nx">NewBackend</span><span class="p">(</span><span class="kc">nil</span><span class="p">))</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1">// Run server</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="nx">server</span><span class="p">.</span><span class="nx">Run</span><span class="p">(</span><span class="s">&quot;:8080&quot;</span><span class="p">)</span>
@@ -2789,8 +2789,8 @@
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="c1">// App context (from X-App-ID routing)</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nx">appCtx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">multiapp</span><span class="p">.</span><span class="nx">AppContextFromContext</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nx">appCtx</span><span class="p">.</span><span class="nx">AppID</span><span class="w">          </span><span class="c1">// &quot;academyos&quot;</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nx">appCtx</span><span class="p">.</span><span class="nx">DatabaseSchema</span><span class="w"> </span><span class="c1">// &quot;app_academyos&quot;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nx">appCtx</span><span class="p">.</span><span class="nx">AppID</span><span class="w">          </span><span class="c1">// &quot;app1&quot;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nx">appCtx</span><span class="p">.</span><span class="nx">DatabaseSchema</span><span class="w"> </span><span class="c1">// &quot;app_app1&quot;</span>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="c1">// JWT claims (from auth middleware)</span>
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="nx">claims</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">middleware</span><span class="p">.</span><span class="nx">ClaimsFromContext</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
@@ -2912,7 +2912,7 @@
 <h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>┌─────────────────────────────────────────────────────────────────┐
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>│                           HTTP Request                          │
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>│                     X-App-ID: academyos                         │
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>│                     X-App-ID: app1                         │
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>└─────────────────────────────────┬───────────────────────────────┘
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>                                  │
 <a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>┌─────────────────────────────────▼───────────────────────────────┐
@@ -2929,11 +2929,11 @@
 <a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>          │                       │                       │
 <a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>          ▼                       ▼                       ▼
 <a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>│   AcademyOS     │     │   DashForge     │     │   ProofMinds    │
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>│   App1     │     │   App2     │     │   App3    │
 <a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>│   AppBackend    │     │   AppBackend    │     │   AppBackend    │
 <a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>├─────────────────┤     ├─────────────────┤     ├─────────────────┤
 <a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>│ Schema:         │     │ Schema:         │     │ Schema:         │
-<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>│ app_academyos   │     │ app_dashforge   │     │ app_proofminds  │
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>│ app_app1   │     │ app_app2   │     │ app_app3  │
 <a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>└─────────────────┘     └─────────────────┘     └─────────────────┘
 </code></pre></div>
 <h2 id="semver-note">Semver Note<a class="headerlink" href="#semver-note" title="Permanent link">&para;</a></h2>

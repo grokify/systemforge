@@ -2872,7 +2872,7 @@
 <h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────────────────────────────────────┐
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│                           HTTP Request                          │
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│                     X-App-ID: academyos                         │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│                     X-App-ID: app1                         │
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│                     Authorization: Bearer &lt;jwt&gt;                 │
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>└─────────────────────────────────┬───────────────────────────────┘
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>                                  │
@@ -2891,11 +2891,11 @@
 <a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>          │                       │                       │
 <a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>          ▼                       ▼                       ▼
 <a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>│   AcademyOS     │     │   DashForge     │     │   ProofMinds    │
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>│   App1     │     │   App2     │     │   App3    │
 <a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>│   AppBackend    │     │   AppBackend    │     │   AppBackend    │
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>├─────────────────┤     ├─────────────────┤     ├─────────────────┤
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>│ Schema:         │     │ Schema:         │     │ Schema:         │
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>│ app_academyos   │     │ app_dashforge   │     │ app_proofminds  │
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>│ app_app1   │     │ app_app2   │     │ app_app3  │
 <a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>├─────────────────┤     ├─────────────────┤     ├─────────────────┤
 <a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>│ Own users       │     │ Own users       │     │ Own users       │
 <a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>│ Own orgs        │     │ Own orgs        │     │ Own orgs        │
@@ -2910,8 +2910,8 @@
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="s">&quot;os&quot;</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="s">&quot;github.com/grokify/coreforge/multiapp&quot;</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nx">academyos</span><span class="w"> </span><span class="s">&quot;github.com/grokify/academyos/multiapp&quot;</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nx">dashforge</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/dashforge/multiapp&quot;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nx">app1</span><span class="w"> </span><span class="s">&quot;github.com/grokify/app1/multiapp&quot;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nx">app2</span><span class="w"> </span><span class="s">&quot;github.com/plexusone/app2/multiapp&quot;</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p">)</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -2925,42 +2925,42 @@
 <a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
 <a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="c1">// Register apps - each gets schema isolation</span>
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="nx">server</span><span class="p">.</span><span class="nx">RegisterApp</span><span class="p">(</span><span class="nx">academyos</span><span class="p">.</span><span class="nx">NewBackend</span><span class="p">(</span><span class="kc">nil</span><span class="p">))</span>
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">    </span><span class="nx">server</span><span class="p">.</span><span class="nx">RegisterApp</span><span class="p">(</span><span class="nx">dashforge</span><span class="p">.</span><span class="nx">NewBackend</span><span class="p">(</span><span class="kc">nil</span><span class="p">))</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="nx">server</span><span class="p">.</span><span class="nx">RegisterApp</span><span class="p">(</span><span class="nx">app1</span><span class="p">.</span><span class="nx">NewBackend</span><span class="p">(</span><span class="kc">nil</span><span class="p">))</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">    </span><span class="nx">server</span><span class="p">.</span><span class="nx">RegisterApp</span><span class="p">(</span><span class="nx">app2</span><span class="p">.</span><span class="nx">NewBackend</span><span class="p">(</span><span class="kc">nil</span><span class="p">))</span>
 <a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
 <a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">    </span><span class="nx">server</span><span class="p">.</span><span class="nx">Run</span><span class="p">(</span><span class="s">&quot;:8080&quot;</span><span class="p">)</span>
 <a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="making-requests">Making Requests<a class="headerlink" href="#making-requests" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Request to AcademyOS</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;X-App-ID: academyos&quot;</span><span class="w"> </span>http://localhost:8080/api/courses
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Request to App1</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;X-App-ID: app1&quot;</span><span class="w"> </span>http://localhost:8080/api/courses
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Request to DashForge</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;X-App-ID: dashforge&quot;</span><span class="w"> </span>http://localhost:8080/api/dashboards
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Request to App2</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;X-App-ID: app2&quot;</span><span class="w"> </span>http://localhost:8080/api/dashboards
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Requests without X-App-ID return 404 (security)</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>curl<span class="w"> </span>http://localhost:8080/api/health
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># 404 Not Found</span>
 </code></pre></div>
 <h2 id="schema-per-app-isolation">Schema-Per-App Isolation<a class="headerlink" href="#schema-per-app-isolation" title="Permanent link">&para;</a></h2>
-<p>Each app gets its own PostgreSQL schema (e.g., <code>app_academyos</code>). This provides:</p>
+<p>Each app gets its own PostgreSQL schema (e.g., <code>app_app1</code>). This provides:</p>
 <ul>
 <li>Complete data isolation between apps</li>
 <li>Independent migrations per app</li>
 <li>Shared database infrastructure</li>
 </ul>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>PostgreSQL Database
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── app_academyos/          # AcademyOS schema
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── app_app1/          # App1 schema
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│   ├── users
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│   ├── organizations
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│   ├── courses
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│   └── ...
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>├── app_dashforge/          # DashForge schema
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>├── app_app2/          # App2 schema
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│   ├── users
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>│   ├── organizations
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>│   ├── dashboards
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>│   └── ...
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>└── app_proofminds/         # ProofMinds schema
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>└── app_app3/         # App3 schema
 <a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    ├── users
 <a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    ├── organizations
 <a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>    ├── proofs
@@ -3112,10 +3112,10 @@
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="c1">// App context (from X-App-ID routing)</span>
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="nx">appCtx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">multiapp</span><span class="p">.</span><span class="nx">AppContextFromContext</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nx">appCtx</span><span class="p">.</span><span class="nx">AppID</span><span class="w">          </span><span class="c1">// &quot;academyos&quot;</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nx">appCtx</span><span class="p">.</span><span class="nx">AppSlug</span><span class="w">        </span><span class="c1">// &quot;academyos&quot;</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="nx">appCtx</span><span class="p">.</span><span class="nx">AppName</span><span class="w">        </span><span class="c1">// &quot;AcademyOS&quot;</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="nx">appCtx</span><span class="p">.</span><span class="nx">DatabaseSchema</span><span class="w"> </span><span class="c1">// &quot;app_academyos&quot;</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nx">appCtx</span><span class="p">.</span><span class="nx">AppID</span><span class="w">          </span><span class="c1">// &quot;app1&quot;</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nx">appCtx</span><span class="p">.</span><span class="nx">AppSlug</span><span class="w">        </span><span class="c1">// &quot;app1&quot;</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="nx">appCtx</span><span class="p">.</span><span class="nx">AppName</span><span class="w">        </span><span class="c1">// &quot;App1&quot;</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="nx">appCtx</span><span class="p">.</span><span class="nx">DatabaseSchema</span><span class="w"> </span><span class="c1">// &quot;app_app1&quot;</span>
 <a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="nx">appCtx</span><span class="p">.</span><span class="nx">Features</span><span class="w">       </span><span class="c1">// [&quot;feature1&quot;, &quot;feature2&quot;]</span>
 <a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="nx">appCtx</span><span class="p">.</span><span class="nx">Settings</span><span class="w">       </span><span class="c1">// map[string]any</span>
 <a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
@@ -3160,7 +3160,7 @@
 <p>The multiapp framework provides app-scoped caching:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">// In Routes(), deps.Cache is pre-configured with app prefix</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">b</span><span class="w"> </span><span class="o">*</span><span class="nx">Backend</span><span class="p">)</span><span class="w"> </span><span class="nx">Routes</span><span class="p">(</span><span class="nx">deps</span><span class="w"> </span><span class="nx">multiapp</span><span class="p">.</span><span class="nx">Dependencies</span><span class="p">)</span><span class="w"> </span><span class="nx">chi</span><span class="p">.</span><span class="nx">Router</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="c1">// Cache keys are automatically prefixed: &quot;academyos:user:123&quot;</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="c1">// Cache keys are automatically prefixed: &quot;app1:user:123&quot;</span>
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="nx">deps</span><span class="p">.</span><span class="nx">Cache</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;user:123&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">userData</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Minute</span><span class="p">)</span>
 <a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
 <a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="nx">userData</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">deps</span><span class="p">.</span><span class="nx">Cache</span><span class="p">.</span><span class="nx">Get</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;user:123&quot;</span><span class="p">)</span>
