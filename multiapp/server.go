@@ -210,20 +210,23 @@ func (s *Server) runMigrations(db *SchemaDB, migrations []Migration) error {
 }
 
 // appContextMiddleware extracts app context from X-App-ID header and routes to the correct app.
+// Returns generic 404 for missing/invalid app IDs to prevent information leakage.
 func (s *Server) appContextMiddleware() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// Extract app ID from header
+			// Return generic 404 for security - don't reveal routing mechanism or valid app IDs
 			appID := r.Header.Get("X-App-ID")
 			if appID == "" {
-				http.Error(w, "X-App-ID header required", http.StatusBadRequest)
+				http.NotFound(w, r)
 				return
 			}
 
 			// Look up app from compiled-in registry (no external calls)
+			// Return same 404 for unknown apps - prevents app ID enumeration
 			app, ok := s.apps[appID]
 			if !ok {
-				http.Error(w, fmt.Sprintf("app %q not found", appID), http.StatusNotFound)
+				http.NotFound(w, r)
 				return
 			}
 
