@@ -71,6 +71,14 @@ CoreForge is a batteries-included Go platform module providing reusable identity
 - 🏠 **Tenant Isolation** - Multi-tenant data separation
 - 🔗 **Ent Integration** - Transaction helpers with tenant context
 
+### Multi-App Platform
+
+- 🏗️ **Multi-App Server** - Run multiple SaaS apps on shared infrastructure
+- 📦 **Schema Isolation** - Each app gets its own PostgreSQL schema
+- 🔀 **X-App-ID Routing** - Header-based request routing to app backends
+- 🔌 **AppBackend Interface** - Composable app registration with lifecycle hooks
+- 💾 **Shared Caching** - Redis or in-memory with app-scoped prefixes
+
 ## Installation
 
 ```bash
@@ -278,6 +286,13 @@ github.com/grokify/coreforge/
 │
 ├── featureflags/          # Feature flag engine
 │   └── stores/            # Flag stores
+│
+├── multiapp/              # Multi-app platform
+│   ├── server.go          # Multi-app server with routing
+│   ├── app.go             # AppBackend interface
+│   ├── database.go        # Schema-per-app isolation
+│   ├── cache.go           # Redis and memory cache
+│   └── context.go         # App context helpers
 │
 └── rls/                   # PostgreSQL Row-Level Security
     ├── rls.go             # Policy generation
