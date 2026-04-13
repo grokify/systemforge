@@ -22,4 +22,4 @@ on:
 
 jobs:
   ci:
-    uses: grokify/.github/.github/workflows/go-ci.yaml@v0.3.0
+    uses: grokify/.github/.github/workflows/go-ci.yaml@v0.4.0
