@@ -10,7 +10,7 @@ The multiapp package enables multiple apps to share backend infrastructure while
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                           HTTP Request                          │
-│                     X-App-ID: app1                         │
+│                     X-App-ID: app1                              │
 │                     Authorization: Bearer <jwt>                 │
 └─────────────────────────────────┬───────────────────────────────┘
                                   │
