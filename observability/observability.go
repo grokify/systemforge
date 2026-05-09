@@ -5,11 +5,13 @@ package observability
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"os"
 	"strconv"
 
+	"github.com/grokify/coreforge/productgraph"
 	"github.com/plexusone/omniobserve/observops"
 )
 
@@ -69,6 +71,9 @@ func ConfigFromEnv() Config {
 type Observability struct {
 	provider observops.Provider
 	config   Config
+
+	// ProductGraph client for event tracking
+	productgraph *productgraph.Client
 
 	// Pre-created metrics for CoreAuth
 	authRequests     observops.Counter
@@ -273,9 +278,23 @@ func (o *Observability) SlogHandler(opts ...observops.SlogOption) slog.Handler {
 	return o.provider.SlogHandler(opts...)
 }
 
-// Shutdown gracefully shuts down the provider.
+// Shutdown gracefully shuts down the provider and ProductGraph client.
 func (o *Observability) Shutdown(ctx context.Context) error {
-	return o.provider.Shutdown(ctx)
+	var errs []error
+
+	// Shutdown ProductGraph first (flush events)
+	if o.productgraph != nil {
+		if err := o.productgraph.Close(); err != nil {
+			errs = append(errs, fmt.Errorf("productgraph: %w", err))
+		}
+	}
+
+	// Shutdown observability provider
+	if err := o.provider.Shutdown(ctx); err != nil {
+		errs = append(errs, fmt.Errorf("provider: %w", err))
+	}
+
+	return errors.Join(errs...)
 }
 
 // ForceFlush forces any buffered telemetry to be exported.
@@ -375,4 +394,39 @@ func (o *Observability) StartSpan(ctx context.Context, name string, opts ...obse
 // SpanFromContext retrieves the current span from context.
 func (o *Observability) SpanFromContext(ctx context.Context) observops.Span {
 	return o.provider.Tracer().SpanFromContext(ctx)
+}
+
+// SetProductGraph configures ProductGraph integration.
+// This should be called after New() if you want to enable ProductGraph.
+// Returns an error if the configuration is invalid.
+func (o *Observability) SetProductGraph(cfg productgraph.Config) error {
+	if !cfg.IsEnabled() {
+		return nil
+	}
+
+	client, err := productgraph.New(cfg)
+	if err != nil {
+		return fmt.Errorf("observability: failed to create ProductGraph client: %w", err)
+	}
+
+	// Set logger to match observability
+	if o.IsEnabled() {
+		client.SetLogger(slog.New(o.SlogHandler()))
+	}
+
+	o.productgraph = client
+	return nil
+}
+
+// SetProductGraphFromEnv configures ProductGraph from environment variables.
+// Environment variables:
+//   - PRODUCTGRAPH_PROJECT_ID: Project identifier
+//   - PRODUCTGRAPH_ENDPOINT: API endpoint
+//   - PRODUCTGRAPH_API_KEY: API key (optional)
+//   - PRODUCTGRAPH_BATCH_SIZE: Events per batch (default: 50)
+//   - PRODUCTGRAPH_BATCH_INTERVAL: Flush interval in seconds (default: 5)
+//   - PRODUCTGRAPH_DEBUG: Enable debug logging
+func (o *Observability) SetProductGraphFromEnv() error {
+	cfg := productgraph.ConfigFromEnv()
+	return o.SetProductGraph(cfg)
 }
