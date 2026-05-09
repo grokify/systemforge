@@ -1,10 +1,10 @@
 package observability
 
 // Metric name constants following OpenTelemetry semantic conventions.
-// All metrics are prefixed with "coreforge." for namespacing.
+// All metrics are prefixed with "systemforge." for namespacing.
 const (
-	// MetricPrefix is the prefix for all CoreForge metrics.
-	MetricPrefix = "coreforge."
+	// MetricPrefix is the prefix for all SystemForge metrics.
+	MetricPrefix = "systemforge."
 
 	// CoreAuth metrics
 
@@ -53,8 +53,8 @@ const (
 
 // Span name constants for tracing.
 const (
-	// SpanPrefix is the prefix for all CoreForge spans.
-	SpanPrefix = "coreforge."
+	// SpanPrefix is the prefix for all SystemForge spans.
+	SpanPrefix = "systemforge."
 
 	// CoreAuth spans
 

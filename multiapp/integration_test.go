@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/rls"
-	"github.com/grokify/coreforge/session/jwt"
-	"github.com/grokify/coreforge/session/middleware"
+	"github.com/grokify/systemforge/rls"
+	"github.com/grokify/systemforge/session/jwt"
+	"github.com/grokify/systemforge/session/middleware"
 	"github.com/stretchr/testify/assert"
 )
 

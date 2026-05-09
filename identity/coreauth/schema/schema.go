@@ -14,4 +14,4 @@ import (
 var ConfigSchema []byte
 
 // SchemaID is the canonical URL for the schema.
-const SchemaID = "https://github.com/grokify/coreforge/identity/coreauth/config.schema.json"
+const SchemaID = "https://github.com/grokify/systemforge/identity/coreauth/config.schema.json"

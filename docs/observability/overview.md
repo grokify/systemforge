@@ -1,6 +1,6 @@
 # Observability
 
-CoreForge integrates with [omniobserve](https://github.com/plexusone/omniobserve) to provide vendor-agnostic observability including metrics, traces, and logs with support for multiple backends.
+SystemForge integrates with [omniobserve](https://github.com/plexusone/omniobserve) to provide vendor-agnostic observability including metrics, traces, and logs with support for multiple backends.
 
 ## Supported Backends
 
@@ -17,7 +17,7 @@ Import the observability package and the provider you want to use:
 
 ```go
 import (
-    "github.com/grokify/coreforge/observability"
+    "github.com/grokify/systemforge/observability"
     _ "github.com/plexusone/omniobserve/observops/otlp"     // OTLP
     // or
     _ "github.com/plexusone/omniobserve/observops/datadog"  // Datadog
@@ -41,7 +41,7 @@ if err != nil {
 defer obs.Shutdown(context.Background())
 ```
 
-### 3. Integrate with CoreForge Components
+### 3. Integrate with SystemForge Components
 
 #### CoreAuth (OAuth Server)
 
@@ -118,26 +118,26 @@ obs, err := observability.New(observability.ConfigFromEnv())
 
 | Metric | Type | Labels | Description |
 |--------|------|--------|-------------|
-| `coreforge.coreauth.auth_requests_total` | Counter | grant_type, client_id, status | Authentication requests |
-| `coreforge.coreauth.auth_latency_ms` | Histogram | grant_type, endpoint | Request latency |
-| `coreforge.coreauth.tokens_issued_total` | Counter | grant_type, client_id | Tokens issued |
-| `coreforge.coreauth.token_validations_total` | Counter | result | Token validations |
-| `coreforge.coreauth.sessions_active` | Gauge | | Active sessions |
+| `systemforge.coreauth.auth_requests_total` | Counter | grant_type, client_id, status | Authentication requests |
+| `systemforge.coreauth.auth_latency_ms` | Histogram | grant_type, endpoint | Request latency |
+| `systemforge.coreauth.tokens_issued_total` | Counter | grant_type, client_id | Tokens issued |
+| `systemforge.coreauth.token_validations_total` | Counter | result | Token validations |
+| `systemforge.coreauth.sessions_active` | Gauge | | Active sessions |
 
 ### Rate Limiting Metrics
 
 | Metric | Type | Labels | Description |
 |--------|------|--------|-------------|
-| `coreforge.coreapi.ratelimit_requests_total` | Counter | policy_id, client_id, allowed | Rate limit checks |
-| `coreforge.coreapi.ratelimit_quota_usage` | Gauge | policy_id, client_id, window | Current usage ratio |
+| `systemforge.coreapi.ratelimit_requests_total` | Counter | policy_id, client_id, allowed | Rate limit checks |
+| `systemforge.coreapi.ratelimit_quota_usage` | Gauge | policy_id, client_id, window | Current usage ratio |
 
 ### Session Middleware Metrics
 
 | Metric | Type | Labels | Description |
 |--------|------|--------|-------------|
-| `coreforge.session.jwt_validations_total` | Counter | result | JWT validations |
-| `coreforge.session.jwt_validation_latency_ms` | Histogram | | Validation latency |
-| `coreforge.session.apikey_validations_total` | Counter | result | API key validations |
+| `systemforge.session.jwt_validations_total` | Counter | result | JWT validations |
+| `systemforge.session.jwt_validation_latency_ms` | Histogram | | Validation latency |
+| `systemforge.session.apikey_validations_total` | Counter | result | API key validations |
 
 ## Traces
 
@@ -145,14 +145,14 @@ obs, err := observability.New(observability.ConfigFromEnv())
 
 | Span | Description |
 |------|-------------|
-| `coreforge.coreauth.authorize` | OAuth authorization endpoint |
-| `coreforge.coreauth.token` | OAuth token endpoint |
-| `coreforge.coreauth.introspect` | Token introspection |
-| `coreforge.coreauth.revoke` | Token revocation |
-| `coreforge.http.request` | HTTP request |
-| `coreforge.session.jwt_validation` | JWT validation |
-| `coreforge.session.apikey_validation` | API key validation |
-| `coreforge.ratelimit.check` | Rate limit check |
+| `systemforge.coreauth.authorize` | OAuth authorization endpoint |
+| `systemforge.coreauth.token` | OAuth token endpoint |
+| `systemforge.coreauth.introspect` | Token introspection |
+| `systemforge.coreauth.revoke` | Token revocation |
+| `systemforge.http.request` | HTTP request |
+| `systemforge.session.jwt_validation` | JWT validation |
+| `systemforge.session.apikey_validation` | API key validation |
+| `systemforge.ratelimit.check` | Rate limit check |
 
 ## Testing with Jaeger
 
@@ -230,14 +230,14 @@ When disabled, all operations are no-ops with minimal overhead.
 
 ## ProductGraph Integration
 
-CoreForge integrates with [ProductGraph](https://github.com/plexusone/productgraph) for product analytics, enabling frontend-backend correlation and user journey tracking.
+SystemForge integrates with [ProductGraph](https://github.com/plexusone/productgraph) for product analytics, enabling frontend-backend correlation and user journey tracking.
 
 ### Quick Start
 
 ```go
 import (
-    "github.com/grokify/coreforge/observability"
-    "github.com/grokify/coreforge/productgraph"
+    "github.com/grokify/systemforge/observability"
+    "github.com/grokify/systemforge/productgraph"
 )
 
 // Create observability instance

@@ -1,4 +1,4 @@
-// Package featureflags provides a feature flag engine for CoreForge applications.
+// Package featureflags provides a feature flag engine for SystemForge applications.
 package featureflags
 
 import (

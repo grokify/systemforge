@@ -10,14 +10,14 @@ This package handles the client-side of OAuth flows where your app is the **rely
 
 - **GitHub** - OAuth 2.0 with user/email scopes
 - **Google** - OpenID Connect with profile scopes
-- **CoreControl** - CoreForge's identity provider
+- **CoreControl** - SystemForge's identity provider
 
 ## Quick Start
 
 ### 1. Configure OAuth Provider
 
 ```go
-import cfoauth "github.com/grokify/coreforge/identity/oauthclient"
+import cfoauth "github.com/grokify/systemforge/identity/oauthclient"
 
 // GitHub configuration
 githubCfg := cfoauth.GitHubConfig(cfoauth.ProviderConfig{
@@ -134,7 +134,7 @@ import (
     "context"
     "net/http"
 
-    cfoauth "github.com/grokify/coreforge/identity/oauthclient"
+    cfoauth "github.com/grokify/systemforge/identity/oauthclient"
 )
 
 type AuthHandler struct {
@@ -214,7 +214,7 @@ func (h *AuthHandler) GitHubCallback(w http.ResponseWriter, r *http.Request) {
 
 ### CoreControl
 
-CoreControl is CoreForge's identity provider for SSO across CoreForge apps:
+CoreControl is SystemForge's identity provider for SSO across SystemForge apps:
 
 ```go
 ccConfig := cfoauth.CoreControlConfig{
@@ -235,7 +235,7 @@ oauth2Config := ccConfig.OAuth2Config()
 After OAuth callback, generate your app's session tokens:
 
 ```go
-import cfjwt "github.com/grokify/coreforge/session/jwt"
+import cfjwt "github.com/grokify/systemforge/session/jwt"
 
 func (h *AuthHandler) GitHubCallback(w http.ResponseWriter, r *http.Request) {
     // ... OAuth validation and user fetch ...

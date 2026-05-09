@@ -7,15 +7,15 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/grokify/coreforge/identity/principal"
-	"github.com/grokify/coreforge/identity/scim"
-	"github.com/grokify/coreforge/identity/scim/patch"
+	"github.com/grokify/systemforge/identity/principal"
+	"github.com/grokify/systemforge/identity/scim"
+	"github.com/grokify/systemforge/identity/scim/patch"
 )
 
 // ErrInvalidPrincipalType is returned when attempting to map a non-human principal to SCIM User.
 var ErrInvalidPrincipalType = errors.New("principal must be of type human for SCIM User mapping")
 
-// PrincipalUserMapper maps between SCIM User resources and CoreForge Principal+Human entities.
+// PrincipalUserMapper maps between SCIM User resources and SystemForge Principal+Human entities.
 // This mapper wraps the Principal-centric identity model where SCIM Users map to
 // Principal(type=human) with an associated Human extension.
 type PrincipalUserMapper struct {
@@ -30,7 +30,7 @@ func NewPrincipalUserMapper(config *Config) *PrincipalUserMapper {
 	return &PrincipalUserMapper{config: config}
 }
 
-// ToSCIM converts a CoreForge Principal (with Human extension) to a SCIM User.
+// ToSCIM converts a SystemForge Principal (with Human extension) to a SCIM User.
 func (m *PrincipalUserMapper) ToSCIM(ctx context.Context, p *principal.Principal) (*scim.User, error) {
 	if p == nil {
 		return nil, nil
@@ -96,7 +96,7 @@ func (m *PrincipalUserMapper) ToSCIM(ctx context.Context, p *principal.Principal
 	return scimUser, nil
 }
 
-// ToSCIMWithMeta converts a CoreForge Principal to a SCIM User with metadata timestamps.
+// ToSCIMWithMeta converts a SystemForge Principal to a SCIM User with metadata timestamps.
 func (m *PrincipalUserMapper) ToSCIMWithMeta(ctx context.Context, p *principal.Principal, createdAt, updatedAt time.Time) (*scim.User, error) {
 	scimUser, err := m.ToSCIM(ctx, p)
 	if err != nil {
@@ -112,7 +112,7 @@ func (m *PrincipalUserMapper) ToSCIMWithMeta(ctx context.Context, p *principal.P
 	return scimUser, nil
 }
 
-// FromSCIM converts a SCIM User to a CoreForge CreateHumanInput.
+// FromSCIM converts a SCIM User to a SystemForge CreateHumanInput.
 func (m *PrincipalUserMapper) FromSCIM(ctx context.Context, scimUser *scim.User) (*principal.CreateHumanInput, error) {
 	if scimUser == nil {
 		return nil, nil
@@ -186,7 +186,7 @@ func (m *PrincipalUserMapper) FromSCIM(ctx context.Context, scimUser *scim.User)
 	return input, nil
 }
 
-// ToUpdateInput converts a SCIM User to a CoreForge UpdateHumanInput.
+// ToUpdateInput converts a SCIM User to a SystemForge UpdateHumanInput.
 func (m *PrincipalUserMapper) ToUpdateInput(ctx context.Context, scimUser *scim.User) (*principal.UpdateHumanInput, error) {
 	if scimUser == nil {
 		return nil, nil

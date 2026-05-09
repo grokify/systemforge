@@ -29,7 +29,7 @@ Traditional SPAs store JWT tokens in localStorage or sessionStorage, which expos
 
 ```go
 import (
-    "github.com/grokify/coreforge/session/bff"
+    "github.com/grokify/systemforge/session/bff"
 )
 
 // Create handler with required configuration
@@ -356,7 +356,7 @@ Register BFF routes with Huma for automatic OpenAPI generation:
 ```go
 import (
     "github.com/danielgtaylor/huma/v2"
-    "github.com/grokify/coreforge/session/bff"
+    "github.com/grokify/systemforge/session/bff"
 )
 
 // Create BFF handler

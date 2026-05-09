@@ -1,11 +1,11 @@
 # TRD: Ent Store Implementations
 
 > **Status**: Draft
-> **Target**: CoreForge v0.5.0
+> **Target**: SystemForge v0.5.0
 
 ## Overview
 
-Technical design for Ent-backed implementations of CoreForge's BFF session store and API key store interfaces.
+Technical design for Ent-backed implementations of SystemForge's BFF session store and API key store interfaces.
 
 ## Architecture
 
@@ -13,7 +13,7 @@ Technical design for Ent-backed implementations of CoreForge's BFF session store
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                        CoreForge (Library)                                   │
+│                        SystemForge (Library)                                   │
 ├─────────────────────────────────┬───────────────────────────────────────────┤
 │     session/bff/store.go        │      identity/apikey/service.go           │
 │                                 │                                           │
@@ -28,7 +28,7 @@ Technical design for Ent-backed implementations of CoreForge's BFF session store
                  │                                    │
                  ▼                                    ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                     CoreForge Ent Stores (New)                              │
+│                     SystemForge Ent Stores (New)                              │
 ├─────────────────────────────────┬───────────────────────────────────────────┤
 │   session/bff/store_ent.go      │   identity/apikey/store_ent.go            │
 │                                 │                                           │
@@ -48,7 +48,7 @@ Technical design for Ent-backed implementations of CoreForge's BFF session store
 │   bff_session.go                │   api_token.go                            │
 │                                 │                                           │
 │   Uses mixin from:              │   Uses mixin from:                        │
-│   coreforge/identity/ent/mixin  │   coreforge/identity/ent/mixin            │
+│   systemforge/identity/ent/mixin  │   systemforge/identity/ent/mixin            │
 └─────────────────────────────────┴───────────────────────────────────────────┘
 ```
 
@@ -402,7 +402,7 @@ package schema
 
 import (
     "entgo.io/ent"
-    "github.com/grokify/coreforge/identity/ent/mixin"
+    "github.com/grokify/systemforge/identity/ent/mixin"
 )
 
 // BFFSession holds the schema definition.
@@ -438,7 +438,7 @@ package auth
 
 import (
     "context"
-    "github.com/grokify/coreforge/session/bff"
+    "github.com/grokify/systemforge/session/bff"
     "myapp/internal/ent"
 )
 

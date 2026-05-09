@@ -51,13 +51,13 @@ func NewAPI(provider *Provider, opts ...Option) (*API, error) {
 	router.Use(api.loggerMiddleware)
 
 	// Create Huma API with OpenAPI configuration
-	config := huma.DefaultConfig("CoreForge Contract API", provider.Config().Version)
-	config.Info.Description = "CoreForge Product Contract API for CoreControl federation integration"
+	config := huma.DefaultConfig("SystemForge Contract API", provider.Config().Version)
+	config.Info.Description = "SystemForge Product Contract API for CoreControl federation integration"
 
 	// Add contact info
 	config.Info.Contact = &huma.Contact{
-		Name: "CoreForge",
-		URL:  "https://github.com/grokify/coreforge",
+		Name: "SystemForge",
+		URL:  "https://github.com/grokify/systemforge",
 	}
 
 	// Add license

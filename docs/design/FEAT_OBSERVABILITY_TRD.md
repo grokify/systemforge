@@ -1,8 +1,8 @@
-# OmniObserve Integration for CoreForge
+# OmniObserve Integration for SystemForge
 
 ## Overview
 
-Integrate omniobserve/observops into CoreForge to provide vendor-agnostic observability (metrics, traces, logs) with support for Datadog, New Relic, Dynatrace, and OTLP backends.
+Integrate omniobserve/observops into SystemForge to provide vendor-agnostic observability (metrics, traces, logs) with support for Datadog, New Relic, Dynatrace, and OTLP backends.
 
 **Goal:** Add observability to CoreAuth (OAuth flows) and CoreAPI (rate limiting) with minimal API surface.
 
@@ -63,7 +63,7 @@ type Config struct {
     Disabled     bool
 }
 
-// Observability wraps an observops.Provider with CoreForge-specific helpers
+// Observability wraps an observops.Provider with SystemForge-specific helpers
 type Observability struct {
     provider observops.Provider
 
@@ -266,7 +266,7 @@ go get github.com/plexusone/omniobserve@latest
 ```go
 // Example usage
 import (
-    "github.com/grokify/coreforge/observability"
+    "github.com/grokify/systemforge/observability"
     _ "github.com/plexusone/omniobserve/observops/otlp"     // or datadog, newrelic
 )
 
@@ -331,14 +331,14 @@ go run ./cmd/server
 
 Follow OpenTelemetry semantic conventions:
 
-- Prefix: `coreforge.` for all metrics
+- Prefix: `systemforge.` for all metrics
 - Use snake_case
 - Include unit in name when relevant (`_ms`, `_bytes`, `_total`)
 - Use `_total` suffix for counters
 
 Examples:
 
-- `coreforge.coreauth.tokens_issued_total`
-- `coreforge.coreauth.auth_latency_ms`
-- `coreforge.coreapi.ratelimit_requests_total`
-- `coreforge.session.jwt_validations_total`
+- `systemforge.coreauth.tokens_issued_total`
+- `systemforge.coreauth.auth_latency_ms`
+- `systemforge.coreapi.ratelimit_requests_total`
+- `systemforge.session.jwt_validations_total`

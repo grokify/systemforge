@@ -1,18 +1,18 @@
-// Package middleware provides HTTP middleware for CoreForge session management.
+// Package middleware provides HTTP middleware for SystemForge session management.
 package middleware
 
 import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/session/jwt"
+	"github.com/grokify/systemforge/session/jwt"
 )
 
 // contextKey is a private type for context keys to avoid collisions.
 type contextKey string
 
 const (
-	claimsKey contextKey = "coreforge.claims"
+	claimsKey contextKey = "systemforge.claims"
 )
 
 // ContextWithClaims returns a new context with the JWT claims attached.

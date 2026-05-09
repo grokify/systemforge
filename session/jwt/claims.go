@@ -7,8 +7,8 @@ import (
 	"github.com/google/uuid"
 )
 
-// Claims represents the CoreForge JWT claims structure.
-// It embeds standard JWT claims and adds CoreForge-specific fields.
+// Claims represents the SystemForge JWT claims structure.
+// It embeds standard JWT claims and adds SystemForge-specific fields.
 type Claims struct {
 	jwt.RegisteredClaims
 

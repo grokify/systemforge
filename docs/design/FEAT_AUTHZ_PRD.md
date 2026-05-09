@@ -1,18 +1,18 @@
-# PRD: CoreForge Authorization (SpiceDB)
+# PRD: SystemForge Authorization (SpiceDB)
 
 > **Status**: Draft
 >
-> This PRD defines the requirements for CoreForge's relationship-based authorization system using SpiceDB (Zanzibar-style ReBAC).
+> This PRD defines the requirements for SystemForge's relationship-based authorization system using SpiceDB (Zanzibar-style ReBAC).
 
 ## Overview
 
-CoreForge Authorization provides a unified, scalable authorization framework for multi-tenant SaaS applications. It replaces simple RBAC with relationship-based access control (ReBAC) using SpiceDB, enabling fine-grained permissions based on object relationships.
+SystemForge Authorization provides a unified, scalable authorization framework for multi-tenant SaaS applications. It replaces simple RBAC with relationship-based access control (ReBAC) using SpiceDB, enabling fine-grained permissions based on object relationships.
 
 ## Goals
 
 1. **Relationship-Based Access**: Model permissions as relationships between subjects and objects
 2. **Scalable Performance**: Sub-10ms permission checks at scale
-3. **Unified Schema**: Shared authorization patterns across CoreForge apps
+3. **Unified Schema**: Shared authorization patterns across SystemForge apps
 4. **Marketplace Integration**: Native support for licensing and entitlements
 5. **Migration Path**: Smooth transition from existing RBAC/Casbin
 
@@ -65,14 +65,14 @@ CoreForge Authorization provides a unified, scalable authorization framework for
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                         APPLICATION LAYER                                    │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐ │
-│  │ App1   │  │  App2  │  │  Future App │  │  CoreForge Identity │ │
+│  │ App1   │  │  App2  │  │  Future App │  │  SystemForge Identity │ │
 │  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘  └──────────┬──────────┘ │
 │         │                │                │                     │            │
 │         └────────────────┴────────────────┴─────────────────────┘            │
 │                                     │                                        │
 │                                     ▼                                        │
 │  ┌─────────────────────────────────────────────────────────────────────────┐│
-│  │                    CoreForge Authz Package                               ││
+│  │                    SystemForge Authz Package                               ││
 │  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────────┐ ││
 │  │  │  Provider   │  │   Syncer    │  │ Middleware  │  │    Testing      │ ││
 │  │  │  Interface  │  │             │  │             │  │    Utilities    │ ││
@@ -104,7 +104,7 @@ CoreForge Authorization provides a unified, scalable authorization framework for
 ### Module Structure
 
 ```
-coreforge/
+systemforge/
 ├── authz/
 │   ├── types.go           # Principal, Resource, Action types
 │   ├── roles.go           # Role hierarchy utilities
@@ -435,11 +435,11 @@ func RunConformanceTests(t *testing.T, provider Provider, syncer Syncer) {
 
 - SpiceDB v1.x
 - PostgreSQL or CockroachDB (for SpiceDB backend)
-- CoreForge identity module
+- SystemForge identity module
 
 ## References
 
 - [SpiceDB Documentation](https://authzed.com/docs)
 - [Google Zanzibar Paper](https://research.google/pubs/pub48190/)
 - [Relationship-Based Access Control](https://www.osohq.com/post/what-is-relationship-based-access-control)
-- [CoreForge FEAT_AUTHN_PRD.md](./FEAT_AUTHN_PRD.md)
+- [SystemForge FEAT_AUTHN_PRD.md](./FEAT_AUTHN_PRD.md)

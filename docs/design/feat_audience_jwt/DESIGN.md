@@ -1,11 +1,11 @@
 # TRD: JWT Audience Validation
 
 > **Status**: Draft
-> **Target**: CoreForge v0.5.0
+> **Target**: SystemForge v0.5.0
 
 ## Overview
 
-Technical design for adding audience (`aud`) claim validation to CoreForge's JWT service.
+Technical design for adding audience (`aud`) claim validation to SystemForge's JWT service.
 
 ## Architecture
 
@@ -52,7 +52,7 @@ Technical design for adding audience (`aud`) claim validation to CoreForge's JWT
 The `aud` (audience) claim is already supported via `jwt.RegisteredClaims.Audience`.
 
 ```go
-// Current CoreForge Claims structure
+// Current SystemForge Claims structure
 type Claims struct {
     jwt.RegisteredClaims  // Includes Audience []string
 

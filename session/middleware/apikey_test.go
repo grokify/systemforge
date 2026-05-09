@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/apikey"
+	"github.com/grokify/systemforge/identity/apikey"
 )
 
 // mockStore implements apikey.Store for testing.

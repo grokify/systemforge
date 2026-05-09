@@ -1,7 +1,7 @@
 # Tasks: JWT Audience Validation
 
 > **Status**: Draft
-> **Target**: CoreForge v0.5.0
+> **Target**: SystemForge v0.5.0
 
 ## Priority Levels
 

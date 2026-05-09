@@ -1,12 +1,12 @@
-# TRD: CoreForge Authorization (SpiceDB)
+# TRD: SystemForge Authorization (SpiceDB)
 
 > **Status**: Draft
 >
-> This TRD defines the technical implementation for CoreForge's SpiceDB-based authorization system.
+> This TRD defines the technical implementation for SystemForge's SpiceDB-based authorization system.
 
 ## Overview
 
-This document provides the technical design for implementing relationship-based access control (ReBAC) using SpiceDB in CoreForge applications.
+This document provides the technical design for implementing relationship-based access control (ReBAC) using SpiceDB in SystemForge applications.
 
 ## Architecture
 
@@ -152,7 +152,7 @@ import (
     "context"
 
     v1 "github.com/authzed/authzed-go/proto/authzed/api/v1"
-    "github.com/grokify/coreforge/authz"
+    "github.com/grokify/systemforge/authz"
 )
 
 // Provider implements authz.Provider using SpiceDB.
@@ -334,7 +334,7 @@ import (
     "context"
 
     v1 "github.com/authzed/authzed-go/proto/authzed/api/v1"
-    "github.com/grokify/coreforge/authz"
+    "github.com/grokify/systemforge/authz"
 )
 
 // Syncer syncs relationships to SpiceDB.
@@ -685,8 +685,8 @@ import (
     "context"
 
     "entgo.io/ent"
-    "github.com/grokify/coreforge/authz"
-    "github.com/grokify/coreforge/authz/spicedb"
+    "github.com/grokify/systemforge/authz"
+    "github.com/grokify/systemforge/authz/spicedb"
 )
 
 // AuthzHooks creates Ent hooks for SpiceDB synchronization.
@@ -910,7 +910,7 @@ import (
     "sync"
     "time"
 
-    "github.com/grokify/coreforge/authz"
+    "github.com/grokify/systemforge/authz"
 )
 
 // Cache caches permission check results.
@@ -1129,7 +1129,7 @@ import (
     "testing"
 
     "github.com/google/uuid"
-    "github.com/grokify/coreforge/authz"
+    "github.com/grokify/systemforge/authz"
     "github.com/stretchr/testify/assert"
     "github.com/stretchr/testify/require"
 )

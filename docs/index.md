@@ -1,8 +1,8 @@
-# CoreForge
+# SystemForge
 
 **Batteries-included Go platform module for multi-tenant SaaS applications.**
 
-CoreForge provides reusable identity, session, RBAC, and OAuth 2.0 functionality that you can integrate into your Go applications. Think of it as Django/Laravel for Go—pre-built components for the things every SaaS needs.
+SystemForge provides reusable identity, session, RBAC, and OAuth 2.0 functionality that you can integrate into your Go applications. Think of it as Django/Laravel for Go—pre-built components for the things every SaaS needs.
 
 ## Features
 
@@ -19,8 +19,8 @@ CoreForge provides reusable identity, session, RBAC, and OAuth 2.0 functionality
 package main
 
 import (
-    "github.com/grokify/coreforge/identity/ent"
-    "github.com/grokify/coreforge/identity/oauth"
+    "github.com/grokify/systemforge/identity/ent"
+    "github.com/grokify/systemforge/identity/oauth"
 )
 
 func main() {
@@ -46,7 +46,7 @@ func main() {
 ┌──────────────────────────────────────────────────────────┐
 │                      Your Application                    │
 ├──────────────────────────────────────────────────────────┤
-│                        CoreForge                         │
+│                        SystemForge                         │
 │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  │
 │  │ Identity │  │  OAuth   │  │   RBAC   │  │ Feature  │  │
 │  │  Module  │  │  Server  │  │  Module  │  │  Flags   │  │
@@ -70,7 +70,7 @@ func main() {
 | Feature Flags | 🚧 Planned | Feature flag engine |
 | RLS Helpers | 🚧 Planned | PostgreSQL Row-Level Security |
 
-## Why CoreForge?
+## Why SystemForge?
 
 Building a SaaS application means implementing the same foundational features over and over:
 
@@ -80,7 +80,7 @@ Building a SaaS application means implementing the same foundational features ov
 - API key management for developers
 - Role-based permissions
 
-CoreForge provides battle-tested implementations of these features so you can focus on your application's unique value.
+SystemForge provides battle-tested implementations of these features so you can focus on your application's unique value.
 
 ## Getting Started
 

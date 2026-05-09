@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/ent/apikey"
-	"github.com/grokify/coreforge/identity/ent/organization"
-	"github.com/grokify/coreforge/identity/ent/user"
+	"github.com/grokify/systemforge/identity/ent/apikey"
+	"github.com/grokify/systemforge/identity/ent/organization"
+	"github.com/grokify/systemforge/identity/ent/user"
 )
 
 // APIKeyCreate is the builder for creating a APIKey entity.

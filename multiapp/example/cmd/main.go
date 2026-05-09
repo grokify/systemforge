@@ -22,8 +22,8 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/grokify/coreforge/multiapp"
-	"github.com/grokify/coreforge/multiapp/example"
+	"github.com/grokify/systemforge/multiapp"
+	"github.com/grokify/systemforge/multiapp/example"
 )
 
 func main() {
@@ -35,7 +35,7 @@ func main() {
 
 	databaseURL := os.Getenv("DATABASE_URL")
 	if databaseURL == "" {
-		databaseURL = "postgres://localhost:5432/coreforge?sslmode=disable"
+		databaseURL = "postgres://localhost:5432/systemforge?sslmode=disable"
 	}
 
 	redisURL := os.Getenv("REDIS_URL") // Optional

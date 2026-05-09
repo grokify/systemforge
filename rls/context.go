@@ -10,8 +10,8 @@ import (
 type contextKey string
 
 const (
-	tenantIDKey contextKey = "coreforge.rls.tenant_id"
-	userIDKey   contextKey = "coreforge.rls.user_id"
+	tenantIDKey contextKey = "systemforge.rls.tenant_id"
+	userIDKey   contextKey = "systemforge.rls.user_id"
 )
 
 // ContextWithTenant returns a new context with the tenant ID attached.

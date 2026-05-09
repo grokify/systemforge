@@ -8,8 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/grokify/coreforge/identity/ent/predicate"
-	"github.com/grokify/coreforge/identity/ent/serviceaccountkeypair"
+	"github.com/grokify/systemforge/identity/ent/predicate"
+	"github.com/grokify/systemforge/identity/ent/serviceaccountkeypair"
 )
 
 // ServiceAccountKeyPairDelete is the builder for deleting a ServiceAccountKeyPair entity.

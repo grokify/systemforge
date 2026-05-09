@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/ent"
-	"github.com/grokify/coreforge/identity/ent/invite"
-	"github.com/grokify/coreforge/identity/ent/principalmembership"
+	"github.com/grokify/systemforge/identity/ent"
+	"github.com/grokify/systemforge/identity/ent/invite"
+	"github.com/grokify/systemforge/identity/ent/principalmembership"
 )
 
 // Service defines the invite service interface.

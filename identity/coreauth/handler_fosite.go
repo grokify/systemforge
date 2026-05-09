@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/danielgtaylor/huma/v2"
-	"github.com/grokify/coreforge/observability"
+	"github.com/grokify/systemforge/observability"
 	"github.com/plexusone/omniobserve/observops"
 )
 

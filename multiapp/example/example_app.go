@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"github.com/go-chi/chi/v5"
-	"github.com/grokify/coreforge/multiapp"
+	"github.com/grokify/systemforge/multiapp"
 )
 
 // ExampleApp is a minimal implementation of the AppBackend interface.

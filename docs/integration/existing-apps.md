@@ -1,15 +1,15 @@
 # Integrating with Existing Apps
 
-This guide covers integrating CoreForge into existing Go applications.
+This guide covers integrating SystemForge into existing Go applications.
 
 ## Integration Patterns
 
 ### Pattern 1: Side-by-Side Tables
 
-Keep existing tables, add CoreForge tables alongside:
+Keep existing tables, add SystemForge tables alongside:
 
 ```
-existing tables          CoreForge tables
+existing tables          SystemForge tables
 ─────────────────       ─────────────────
 users            ←──→   cf_users
 organizations    ←──→   cf_organizations
@@ -18,11 +18,11 @@ user_orgs        ←──→   cf_memberships
 
 ### Pattern 2: Mixin Composition
 
-Compose CoreForge mixins into your existing Ent schemas:
+Compose SystemForge mixins into your existing Ent schemas:
 
 ```go
 // your-app/ent/schema/user.go
-import cfmixin "github.com/grokify/coreforge/identity/ent/mixin"
+import cfmixin "github.com/grokify/systemforge/identity/ent/mixin"
 
 type User struct {
     ent.Schema
@@ -30,7 +30,7 @@ type User struct {
 
 func (User) Mixin() []ent.Mixin {
     return []ent.Mixin{
-        cfmixin.UserBase{}, // CoreForge fields
+        cfmixin.UserBase{}, // SystemForge fields
     }
 }
 
@@ -45,7 +45,7 @@ func (User) Fields() []ent.Field {
 
 ### Pattern 3: Extension Tables
 
-Link your tables to CoreForge via foreign keys:
+Link your tables to SystemForge via foreign keys:
 
 ```go
 type UserProfile struct {
@@ -66,15 +66,15 @@ func (UserProfile) Fields() []ent.Field {
 ### Step 1: Add Dependency
 
 ```bash
-go get github.com/grokify/coreforge
+go get github.com/grokify/systemforge
 ```
 
-### Step 2: Create CoreForge Tables
+### Step 2: Create SystemForge Tables
 
 Run migrations to create `cf_*` tables:
 
 ```go
-import "github.com/grokify/coreforge/identity/ent"
+import "github.com/grokify/systemforge/identity/ent"
 
 func migrate(ctx context.Context) error {
     cfClient, err := ent.Open("postgres", dsn)
@@ -138,7 +138,7 @@ type UserService struct {
 }
 
 func (s *UserService) CreateUser(ctx context.Context, email, name string) error {
-    // Write to CoreForge
+    // Write to SystemForge
     cfUser, err := s.cfClient.User.Create().
         SetEmail(email).
         SetName(name).
@@ -160,11 +160,11 @@ func (s *UserService) CreateUser(ctx context.Context, email, name string) error 
 
 ### Step 5: Switch Reads
 
-Gradually switch reads to CoreForge:
+Gradually switch reads to SystemForge:
 
 ```go
 func (s *UserService) GetUser(ctx context.Context, id uuid.UUID) (*User, error) {
-    // Read from CoreForge
+    // Read from SystemForge
     cfUser, err := s.cfClient.User.Get(ctx, id)
     if err != nil {
         return nil, err
@@ -200,7 +200,7 @@ DROP TABLE users;
 
 ```go
 import (
-    "github.com/grokify/coreforge/identity/oauth"
+    "github.com/grokify/systemforge/identity/oauth"
 )
 
 func setupAuth(entClient *ent.Client) {
@@ -223,7 +223,7 @@ func linkSession(ctx context.Context, w http.ResponseWriter, r *http.Request) {
     // Get existing session
     session := getExistingSession(r)
 
-    // Find CoreForge user
+    // Find SystemForge user
     cfUser, _ := cfClient.User.Query().
         Where(user.EmailEQ(session.Email)).
         Only(ctx)
@@ -282,7 +282,7 @@ func syncMemberships(ctx context.Context) error {
 
 ## Validation Checklist
 
-- [ ] CoreForge tables created (`cf_*`)
+- [ ] SystemForge tables created (`cf_*`)
 - [ ] Existing data migrated
 - [ ] Dual-write enabled
 - [ ] Read paths switched

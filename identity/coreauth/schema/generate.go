@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/grokify/coreforge/identity/coreauth"
+	"github.com/grokify/systemforge/identity/coreauth"
 	"github.com/invopop/jsonschema"
 )
 
@@ -25,7 +25,7 @@ func main() {
 	schema := r.Reflect(&coreauth.Config{})
 
 	// Set schema metadata
-	schema.ID = "https://github.com/grokify/coreforge/identity/coreauth/config.schema.json"
+	schema.ID = "https://github.com/grokify/systemforge/identity/coreauth/config.schema.json"
 	schema.Title = "CoreAuth Configuration"
 	schema.Description = "Configuration schema for CoreAuth OAuth 2.0 / OpenID Connect server"
 

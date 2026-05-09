@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/ent/application"
-	"github.com/grokify/coreforge/identity/ent/principal"
-	"github.com/grokify/coreforge/identity/ent/principaltoken"
+	"github.com/grokify/systemforge/identity/ent/application"
+	"github.com/grokify/systemforge/identity/ent/principal"
+	"github.com/grokify/systemforge/identity/ent/principaltoken"
 )
 
 // ApplicationCreate is the builder for creating a Application entity.

@@ -1,8 +1,8 @@
-# TRD: CoreForge Authentication & Authorization
+# TRD: SystemForge Authentication & Authorization
 
 > **Status**: Implemented in v0.1.0
 >
-> This TRD defined the technical design for CoreForge authentication. The implementation follows this design with the following modules:
+> This TRD defined the technical design for SystemForge authentication. The implementation follows this design with the following modules:
 >
 > | Component | Implementation |
 > |-----------|----------------|
@@ -19,7 +19,7 @@
 
 ## Overview
 
-This document defines the technical implementation details for CoreForge's DPoP + BFF authentication architecture.
+This document defines the technical implementation details for SystemForge's DPoP + BFF authentication architecture.
 
 ## Architecture
 
@@ -56,7 +56,7 @@ This document defines the technical implementation details for CoreForge's DPoP 
                                   │ DPoP Header + Bearer Token
                                   ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         CoreForge API Backend                                │
+│                         SystemForge API Backend                                │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐ │
 │  │    DPoP     │  │  Audience   │  │    Authz    │  │    Business         │ │
 │  │  Verifier   │─▶│  Validator  │─▶│  Middleware │─▶│    Logic            │ │
@@ -67,7 +67,7 @@ This document defines the technical implementation details for CoreForge's DPoP 
 ### Module Structure
 
 ```
-coreforge/
+systemforge/
 ├── session/
 │   ├── jwt/                    # Existing JWT service
 │   │   ├── service.go
@@ -411,7 +411,7 @@ import (
     "time"
 
     "github.com/google/uuid"
-    "github.com/grokify/coreforge/session/dpop"
+    "github.com/grokify/systemforge/session/dpop"
 )
 
 // Session represents a BFF session
@@ -556,7 +556,7 @@ import (
     "net/http"
     "net/url"
 
-    "github.com/grokify/coreforge/session/dpop"
+    "github.com/grokify/systemforge/session/dpop"
 )
 
 // Proxy proxies requests to the API with DPoP injection
@@ -872,17 +872,17 @@ cookie := &http.Cookie{
 
 ### Dashforge Migration
 
-1. Add CoreForge identity schemas (cf_* tables)
+1. Add SystemForge identity schemas (cf_* tables)
 2. Migrate users: `users` → `cf_users`
 3. Migrate tenants: `tenant` → `cf_organizations` + `cf_memberships`
-4. Update auth to use CoreForge JWT + BFF
+4. Update auth to use SystemForge JWT + BFF
 5. Add DPoP layer
 6. Deprecate old tables
 
 ### Data Migration SQL
 
 ```sql
--- Phase 1: Create CoreForge tables (run by Ent migration)
+-- Phase 1: Create SystemForge tables (run by Ent migration)
 
 -- Phase 2: Copy users
 INSERT INTO cf_users (id, email, name, password_hash, created_at, updated_at)

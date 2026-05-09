@@ -16,12 +16,12 @@ import (
 	"github.com/ory/fosite"
 	"golang.org/x/crypto/argon2"
 
-	"github.com/grokify/coreforge/identity/ent"
-	"github.com/grokify/coreforge/identity/ent/oauthapp"
-	"github.com/grokify/coreforge/identity/ent/oauthappsecret"
-	"github.com/grokify/coreforge/identity/ent/oauthauthcode"
-	"github.com/grokify/coreforge/identity/ent/oauthtoken"
-	userEnt "github.com/grokify/coreforge/identity/ent/user"
+	"github.com/grokify/systemforge/identity/ent"
+	"github.com/grokify/systemforge/identity/ent/oauthapp"
+	"github.com/grokify/systemforge/identity/ent/oauthappsecret"
+	"github.com/grokify/systemforge/identity/ent/oauthauthcode"
+	"github.com/grokify/systemforge/identity/ent/oauthtoken"
+	userEnt "github.com/grokify/systemforge/identity/ent/user"
 )
 
 // ownerIDContextKey is used to pass owner ID through context.

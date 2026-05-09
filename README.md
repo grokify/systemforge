@@ -1,4 +1,4 @@
-# CoreForge
+# SystemForge
 
 [![Go CI][go-ci-svg]][go-ci-url]
 [![Go Lint][go-lint-svg]][go-lint-url]
@@ -8,7 +8,7 @@
 [![Visualization][viz-svg]][viz-url]
 [![License][license-svg]][license-url]
 
-CoreForge is a batteries-included Go platform module providing reusable identity, session, authorization, and feature flags for multi-tenant SaaS applications. Think of it as Django/Laravel-style conveniences for Go.
+SystemForge is a batteries-included Go platform module providing reusable identity, session, authorization, and feature flags for multi-tenant SaaS applications. Think of it as Django/Laravel-style conveniences for Go.
 
 ## Features
 
@@ -82,14 +82,14 @@ CoreForge is a batteries-included Go platform module providing reusable identity
 ## Installation
 
 ```bash
-go get github.com/grokify/coreforge
+go get github.com/grokify/systemforge
 ```
 
 ## Quick Start
 
 ### Using Identity Schemas
 
-CoreForge provides Ent schemas with `cf_` table prefix for side-by-side migration.
+SystemForge provides Ent schemas with `cf_` table prefix for side-by-side migration.
 
 #### Direct Schema Usage
 
@@ -99,7 +99,7 @@ package main
 import (
     "context"
 
-    "github.com/grokify/coreforge/identity/ent"
+    "github.com/grokify/systemforge/identity/ent"
     _ "github.com/lib/pq"
 )
 
@@ -125,7 +125,7 @@ func main() {
 
 #### Mixin Composition (Recommended)
 
-Compose CoreForge mixins into your own schemas:
+Compose SystemForge mixins into your own schemas:
 
 ```go
 // your-app/ent/schema/user.go
@@ -134,7 +134,7 @@ package schema
 import (
     "entgo.io/ent"
     "entgo.io/ent/schema/field"
-    cfmixin "github.com/grokify/coreforge/identity/ent/mixin"
+    cfmixin "github.com/grokify/systemforge/identity/ent/mixin"
 )
 
 type User struct {
@@ -160,8 +160,8 @@ func (User) Fields() []ent.Field {
 
 ```go
 import (
-    "github.com/grokify/coreforge/session/jwt"
-    "github.com/grokify/coreforge/session/middleware"
+    "github.com/grokify/systemforge/session/jwt"
+    "github.com/grokify/systemforge/session/middleware"
 )
 
 // Create JWT service
@@ -182,7 +182,7 @@ r.Use(middleware.JWT(svc))
 ### DPoP Token Binding
 
 ```go
-import "github.com/grokify/coreforge/session/dpop"
+import "github.com/grokify/systemforge/session/dpop"
 
 // Generate DPoP key pair (BFF side)
 keyPair, err := dpop.GenerateKeyPair()
@@ -206,7 +206,7 @@ result, err := verifier.Verify(proofJWT, dpop.VerificationRequest{
 ### BFF Pattern
 
 ```go
-import "github.com/grokify/coreforge/session/bff"
+import "github.com/grokify/systemforge/session/bff"
 
 // Create BFF proxy
 proxy := bff.NewProxy(bff.ProxyConfig{
@@ -223,8 +223,8 @@ r.Handle("/api/*", proxy.Handler())
 
 ```go
 import (
-    "github.com/grokify/coreforge/authz"
-    "github.com/grokify/coreforge/authz/simple"
+    "github.com/grokify/systemforge/authz"
+    "github.com/grokify/systemforge/authz/simple"
 )
 
 // Create authorization provider
@@ -250,7 +250,7 @@ r.With(mw.RequireAction(authz.ResourceType("users"), authz.ActionRead)).Get("/us
 ## Module Structure
 
 ```
-github.com/grokify/coreforge/
+github.com/grokify/systemforge/
 ├── identity/              # User, Organization, Membership, OAuth
 │   ├── ent/schema/        # Ent schemas with cf_ prefix
 │   ├── apikey/            # API key service
@@ -312,7 +312,7 @@ github.com/grokify/coreforge/
 
 ## Database Tables
 
-CoreForge creates the following tables (all prefixed with `cf_`):
+SystemForge creates the following tables (all prefixed with `cf_`):
 
 | Table | Description |
 |-------|-------------|
@@ -332,11 +332,11 @@ CoreForge creates the following tables (all prefixed with `cf_`):
 
 ## Migration Strategy
 
-For existing apps, CoreForge supports side-by-side migration:
+For existing apps, SystemForge supports side-by-side migration:
 
 1. **Side-by-Side**: Create `cf_*` tables alongside existing tables
 2. **Dual-Write**: Write to both old and new tables
-3. **Cutover**: Switch reads to CoreForge tables
+3. **Cutover**: Switch reads to SystemForge tables
 4. **Cleanup**: Remove old tables
 
 ## Documentation
@@ -362,19 +362,19 @@ Contributions are welcome! Please read the contributing guidelines before submit
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
- [go-ci-svg]: https://github.com/grokify/coreforge/actions/workflows/go-ci.yaml/badge.svg?branch=main
- [go-ci-url]: https://github.com/grokify/coreforge/actions/workflows/go-ci.yaml
- [go-lint-svg]: https://github.com/grokify/coreforge/actions/workflows/go-lint.yaml/badge.svg?branch=main
- [go-lint-url]: https://github.com/grokify/coreforge/actions/workflows/go-lint.yaml
- [go-sast-svg]: https://github.com/grokify/coreforge/actions/workflows/go-sast-codeql.yaml/badge.svg?branch=main
- [go-sast-url]: https://github.com/grokify/coreforge/actions/workflows/go-sast-codeql.yaml
- [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/coreforge
- [goreport-url]: https://goreportcard.com/report/github.com/grokify/coreforge
- [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/coreforge
- [docs-godoc-url]: https://pkg.go.dev/github.com/grokify/coreforge
+ [go-ci-svg]: https://github.com/grokify/systemforge/actions/workflows/go-ci.yaml/badge.svg?branch=main
+ [go-ci-url]: https://github.com/grokify/systemforge/actions/workflows/go-ci.yaml
+ [go-lint-svg]: https://github.com/grokify/systemforge/actions/workflows/go-lint.yaml/badge.svg?branch=main
+ [go-lint-url]: https://github.com/grokify/systemforge/actions/workflows/go-lint.yaml
+ [go-sast-svg]: https://github.com/grokify/systemforge/actions/workflows/go-sast-codeql.yaml/badge.svg?branch=main
+ [go-sast-url]: https://github.com/grokify/systemforge/actions/workflows/go-sast-codeql.yaml
+ [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/systemforge
+ [goreport-url]: https://goreportcard.com/report/github.com/grokify/systemforge
+ [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/systemforge
+ [docs-godoc-url]: https://pkg.go.dev/github.com/grokify/systemforge
  [viz-svg]: https://img.shields.io/badge/visualizaton-Go-blue.svg
- [viz-url]: https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=grokify%2Fcoreforge
- [loc-svg]: https://tokei.rs/b1/github/grokify/coreforge
- [repo-url]: https://github.com/grokify/coreforge
+ [viz-url]: https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=grokify%2Fsystemforge
+ [loc-svg]: https://tokei.rs/b1/github/grokify/systemforge
+ [repo-url]: https://github.com/grokify/systemforge
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
- [license-url]: https://github.com/grokify/coreforge/blob/master/LICENSE
+ [license-url]: https://github.com/grokify/systemforge/blob/master/LICENSE

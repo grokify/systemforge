@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/grokify/coreforge/session/jwt"
+	"github.com/grokify/systemforge/session/jwt"
 )
 
 // ChiAuth returns a Chi-compatible middleware that validates JWT tokens.

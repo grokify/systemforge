@@ -1,4 +1,4 @@
-// Package oauthclient provides OAuth client helpers for CoreForge applications.
+// Package oauthclient provides OAuth client helpers for SystemForge applications.
 // This package contains utilities for fetching user info from OAuth providers
 // (Google, GitHub, CoreControl) as part of the OAuth authorization code flow.
 package oauthclient

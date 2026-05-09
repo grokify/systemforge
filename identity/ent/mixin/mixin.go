@@ -1,4 +1,4 @@
-// Package mixin provides Ent mixins for composing CoreForge identity fields
+// Package mixin provides Ent mixins for composing SystemForge identity fields
 // into application schemas.
 package mixin
 
@@ -45,7 +45,7 @@ func (TimestampMixin) Fields() []ent.Field {
 }
 
 // BaseMixin combines UUID and Timestamp mixins for convenience.
-// This is the most commonly used mixin for CoreForge-compatible entities.
+// This is the most commonly used mixin for SystemForge-compatible entities.
 type BaseMixin struct {
 	mixin.Schema
 }
@@ -59,7 +59,7 @@ func (BaseMixin) Fields() []ent.Field {
 }
 
 // UserBase provides the core user fields for composition into app schemas.
-// Apps can use this mixin to get CoreForge-compatible user fields while
+// Apps can use this mixin to get SystemForge-compatible user fields while
 // adding their own custom fields.
 //
 // Example usage:
@@ -112,7 +112,7 @@ func (UserBase) Fields() []ent.Field {
 }
 
 // OrganizationBase provides the core organization fields for composition.
-// Apps can use this mixin to get CoreForge-compatible organization fields
+// Apps can use this mixin to get SystemForge-compatible organization fields
 // while adding their own custom fields or renaming to match their domain
 // (e.g., Team, Tenant, Workspace).
 type OrganizationBase struct {
@@ -165,7 +165,7 @@ func (OrganizationBase) Fields() []ent.Field {
 }
 
 // MembershipBase provides the core membership fields for composition.
-// Apps can use this mixin to get CoreForge-compatible membership fields
+// Apps can use this mixin to get SystemForge-compatible membership fields
 // while customizing role values for their domain.
 type MembershipBase struct {
 	mixin.Schema

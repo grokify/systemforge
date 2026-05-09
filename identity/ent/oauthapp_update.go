@@ -13,14 +13,14 @@ import (
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/ent/oauthapp"
-	"github.com/grokify/coreforge/identity/ent/oauthappsecret"
-	"github.com/grokify/coreforge/identity/ent/oauthauthcode"
-	"github.com/grokify/coreforge/identity/ent/oauthconsent"
-	"github.com/grokify/coreforge/identity/ent/oauthtoken"
-	"github.com/grokify/coreforge/identity/ent/organization"
-	"github.com/grokify/coreforge/identity/ent/predicate"
-	"github.com/grokify/coreforge/identity/ent/user"
+	"github.com/grokify/systemforge/identity/ent/oauthapp"
+	"github.com/grokify/systemforge/identity/ent/oauthappsecret"
+	"github.com/grokify/systemforge/identity/ent/oauthauthcode"
+	"github.com/grokify/systemforge/identity/ent/oauthconsent"
+	"github.com/grokify/systemforge/identity/ent/oauthtoken"
+	"github.com/grokify/systemforge/identity/ent/organization"
+	"github.com/grokify/systemforge/identity/ent/predicate"
+	"github.com/grokify/systemforge/identity/ent/user"
 )
 
 // OAuthAppUpdate is the builder for updating OAuthApp entities.

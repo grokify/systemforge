@@ -1,8 +1,8 @@
-# CoreForge OAuth 2.0 Server - Product Requirements Document
+# SystemForge OAuth 2.0 Server - Product Requirements Document
 
 > **Status**: Implemented in v0.1.0
 >
-> This PRD defined the requirements for CoreForge OAuth 2.0 server. The features described below have been implemented in the following modules:
+> This PRD defined the requirements for SystemForge OAuth 2.0 server. The features described below have been implemented in the following modules:
 >
 > - `identity/oauth/` - OAuth 2.0 server with Fosite
 > - `identity/ent/schema/` - OAuth-related Ent schemas (oauth_app, oauth_token, service_account, etc.)
@@ -15,7 +15,7 @@
 
 ## Overview
 
-CoreForge OAuth Server provides a complete OAuth 2.0 and OpenID Connect implementation for multi-tenant SaaS applications. It enables first-party applications (SPAs, mobile apps) and third-party integrations to securely access APIs.
+SystemForge OAuth Server provides a complete OAuth 2.0 and OpenID Connect implementation for multi-tenant SaaS applications. It enables first-party applications (SPAs, mobile apps) and third-party integrations to securely access APIs.
 
 ## Goals
 
@@ -210,7 +210,7 @@ admin:*            - Full admin access
 3. SPA redirects to `/oauth/authorize?...&code_challenge=xxx`
 4. User sees login page, authenticates
 5. User sees consent screen (if third-party)
-6. CoreForge redirects to SPA with authorization code
+6. SystemForge redirects to SPA with authorization code
 7. SPA exchanges code + code_verifier for tokens
 8. SPA stores access token, uses for API calls
 
@@ -220,7 +220,7 @@ admin:*            - Full admin access
 2. Generates key pair, downloads private key
 3. CI/CD pipeline creates JWT signed with private key
 4. Pipeline calls `/oauth/token` with JWT assertion
-5. CoreForge verifies signature, issues access token
+5. SystemForge verifies signature, issues access token
 6. Pipeline uses access token for API calls
 
 ### Flow 4: Third-Party Integration

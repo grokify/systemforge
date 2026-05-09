@@ -1,4 +1,4 @@
-// Package contract implements the CoreForge Product Contract specification,
+// Package contract implements the SystemForge Product Contract specification,
 // providing standardized endpoints for integration with CoreControl federation.
 package contract
 
@@ -28,7 +28,7 @@ const DefaultContractVersion = "1.0"
 
 // Config holds configuration for the contract endpoints.
 type Config struct {
-	// BaseURL is the base path for contract endpoints (default: "/coreforge").
+	// BaseURL is the base path for contract endpoints (default: "/systemforge").
 	BaseURL string
 
 	// AppID is the unique application identifier.
@@ -58,7 +58,7 @@ type Config struct {
 // DefaultConfig returns a Config with sensible defaults.
 func DefaultConfig() *Config {
 	return &Config{
-		BaseURL:         "/coreforge",
+		BaseURL:         "/systemforge",
 		ContractVersion: DefaultContractVersion,
 		Capabilities: []Capability{
 			CapabilityIdentity,
@@ -79,7 +79,7 @@ func (c *Config) Validate() error {
 		return fmt.Errorf("contract: version is required")
 	}
 	if c.BaseURL == "" {
-		c.BaseURL = "/coreforge"
+		c.BaseURL = "/systemforge"
 	}
 	if c.ContractVersion == "" {
 		c.ContractVersion = DefaultContractVersion

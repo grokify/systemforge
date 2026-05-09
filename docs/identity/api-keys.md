@@ -4,11 +4,11 @@ API keys provide server-to-server authentication for programmatic access.
 
 ## Quick Start
 
-CoreForge provides a complete API key management system:
+SystemForge provides a complete API key management system:
 
 ```go
 import (
-    "github.com/grokify/coreforge/identity/apikey"
+    "github.com/grokify/systemforge/identity/apikey"
 )
 
 // Create service with your store implementation
@@ -73,7 +73,7 @@ import (
     "crypto/sha256"
     "encoding/hex"
 
-    "github.com/grokify/coreforge/identity"
+    "github.com/grokify/systemforge/identity"
 )
 
 // Generate a secure random key
@@ -252,7 +252,7 @@ curl https://api.example.com/v1/deployments \
 
 ## Ent Store Implementation
 
-CoreForge provides an Ent-backed store implementation for production use.
+SystemForge provides an Ent-backed store implementation for production use.
 
 ### Step 1: Add Schema Using Mixin
 
@@ -264,7 +264,7 @@ package schema
 import (
     "entgo.io/ent"
     "entgo.io/ent/schema/edge"
-    "github.com/grokify/coreforge/identity/ent/mixin"
+    "github.com/grokify/systemforge/identity/ent/mixin"
 )
 
 // APIKey holds the schema definition.
@@ -303,7 +303,7 @@ import (
     "time"
 
     "github.com/google/uuid"
-    "github.com/grokify/coreforge/identity/apikey"
+    "github.com/grokify/systemforge/identity/apikey"
     "myapp/internal/ent"
     entapikey "myapp/internal/ent/apikey"
 )
@@ -468,7 +468,7 @@ func toAPIKey(k *ent.APIKey) *apikey.APIKey {
 // main.go or wire.go
 
 import (
-    "github.com/grokify/coreforge/identity/apikey"
+    "github.com/grokify/systemforge/identity/apikey"
     "myapp/internal/auth"
 )
 
@@ -577,7 +577,7 @@ err := service.RecordUsage(ctx, keyID, clientIP)
 
 ```go
 import (
-    "github.com/grokify/coreforge/session/middleware"
+    "github.com/grokify/systemforge/session/middleware"
 )
 
 // Use the built-in middleware

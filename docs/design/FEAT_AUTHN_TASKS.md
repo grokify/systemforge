@@ -18,7 +18,7 @@
 
 ## Overview
 
-Prioritized task list for implementing DPoP + BFF authentication in CoreForge and migrating Dashforge.
+Prioritized task list for implementing DPoP + BFF authentication in SystemForge and migrating Dashforge.
 
 ## Priority Levels
 
@@ -313,27 +313,27 @@ Alternative auth for server-to-server.
 
 ## Phase 6: Dashforge Migration (P1)
 
-Apply CoreForge to Dashforge.
+Apply SystemForge to Dashforge.
 
-### Task 6.1: Add CoreForge Dependency
+### Task 6.1: Add SystemForge Dependency
 **Priority**: P1
 **Estimate**: 0.5 day
 **Files**:
 - `app2/go.mod`
 
 **Acceptance Criteria**:
-- [ ] Add github.com/grokify/coreforge dependency
+- [ ] Add github.com/grokify/systemforge dependency
 - [ ] Run go mod tidy
 - [ ] Verify build succeeds
 
-### Task 6.2: Add CoreForge Identity Schemas
+### Task 6.2: Add SystemForge Identity Schemas
 **Priority**: P1
 **Estimate**: 0.5 day
 **Files**:
 - `app2/ent/schema/` (new files or mixins)
 
 **Acceptance Criteria**:
-- [ ] Import CoreForge identity mixins
+- [ ] Import SystemForge identity mixins
 - [ ] Generate Ent code
 - [ ] Run migrations (creates cf_* tables)
 
@@ -341,7 +341,7 @@ Apply CoreForge to Dashforge.
 **Priority**: P1
 **Estimate**: 1 day
 **Files**:
-- `app2/migrations/migrate_to_coreforge.sql`
+- `app2/migrations/migrate_to_systemforge.sql`
 - `app2/cmd/migrate/main.go`
 
 **Acceptance Criteria**:
@@ -359,8 +359,8 @@ Apply CoreForge to Dashforge.
 - `app2/internal/server/server.go`
 
 **Acceptance Criteria**:
-- [ ] Replace JWT service with CoreForge
-- [ ] Replace OAuth handlers with CoreForge
+- [ ] Replace JWT service with SystemForge
+- [ ] Replace OAuth handlers with SystemForge
 - [ ] Add BFF middleware stack
 - [ ] Add API proxy
 - [ ] Update routes
@@ -373,7 +373,7 @@ Apply CoreForge to Dashforge.
 
 **Acceptance Criteria**:
 - [ ] Create Dashforge-specific permissions
-- [ ] Use CoreForge authz/simple provider
+- [ ] Use SystemForge authz/simple provider
 - [ ] Update API handlers to check permissions
 
 ### Task 6.6: Integration Testing

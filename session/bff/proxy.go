@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/coreforge/session/dpop"
+	"github.com/grokify/systemforge/session/dpop"
 )
 
 // ProxyConfig contains configuration for the API proxy.

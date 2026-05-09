@@ -6,7 +6,7 @@ import (
 
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/authz"
+	"github.com/grokify/systemforge/authz"
 )
 
 // registerPolicyEndpoints registers policy endpoints.

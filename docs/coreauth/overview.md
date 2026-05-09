@@ -34,7 +34,7 @@ CoreAuth provides authentication and OAuth 2.0 functionality through clean, swap
 ### Option 1: Full OAuth Server
 
 ```go
-import "github.com/grokify/coreforge/identity/coreauth"
+import "github.com/grokify/systemforge/identity/coreauth"
 
 // Create embedded OAuth server
 server, err := coreauth.NewEmbedded(coreauth.Config{

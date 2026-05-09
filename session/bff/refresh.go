@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/coreforge/session/dpop"
+	"github.com/grokify/systemforge/session/dpop"
 )
 
 // RefreshConfig contains configuration for the token refresh handler.

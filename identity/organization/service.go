@@ -8,11 +8,11 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/authz"
-	"github.com/grokify/coreforge/authz/noop"
-	"github.com/grokify/coreforge/identity/ent"
-	"github.com/grokify/coreforge/identity/ent/organization"
-	"github.com/grokify/coreforge/identity/ent/principalmembership"
+	"github.com/grokify/systemforge/authz"
+	"github.com/grokify/systemforge/authz/noop"
+	"github.com/grokify/systemforge/identity/ent"
+	"github.com/grokify/systemforge/identity/ent/organization"
+	"github.com/grokify/systemforge/identity/ent/principalmembership"
 )
 
 // Service defines the organization service interface.

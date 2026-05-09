@@ -1,11 +1,11 @@
-# CoreForge Authority Model
+# SystemForge Authority Model
 
 **Version**: 1.0 (Draft)
 **Status**: In Development
 
 ## Overview
 
-The CoreForge Authority Model defines a four-tier hierarchical system for governing access and administration across SaaS applications. This model supports both standalone deployments and federated multi-product platforms.
+The SystemForge Authority Model defines a four-tier hierarchical system for governing access and administration across SaaS applications. This model supports both standalone deployments and federated multi-product platforms.
 
 ## Design Principles
 
@@ -53,7 +53,7 @@ All authority delegations and actions are auditable. The complete chain of autho
 
 | Capability | Description |
 |------------|-------------|
-| Register applications | Add new CoreForge apps to the federation |
+| Register applications | Add new SystemForge apps to the federation |
 | Detach applications | Remove apps from federation (with data preservation) |
 | Define global policies | Create policies that apply across all apps |
 | Manage identity providers | Configure federation-wide SSO/SAML/OIDC |
@@ -462,7 +462,7 @@ All authority-related actions must emit audit events:
 
 ## Implementation Notes
 
-### For CoreForge Apps
+### For SystemForge Apps
 
 1. Implement authority context extraction from tokens
 2. Use Casbin or Cedar for policy evaluation
@@ -471,7 +471,7 @@ All authority-related actions must emit audit events:
 
 ### For CoreControl Integration
 
-1. Expose `/coreforge/policy/evaluate` endpoint
+1. Expose `/systemforge/policy/evaluate` endpoint
 2. Accept and apply synced policies
 3. Stream authority-related audit events
 4. Support federation token validation

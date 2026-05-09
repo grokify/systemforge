@@ -1,4 +1,4 @@
-// Package authz provides a pluggable authorization interface for CoreForge applications.
+// Package authz provides a pluggable authorization interface for SystemForge applications.
 //
 // The package defines a core Authorizer interface that applications use for access control,
 // with multiple backend implementations available:

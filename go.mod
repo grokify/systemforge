@@ -1,4 +1,4 @@
-module github.com/grokify/coreforge
+module github.com/grokify/systemforge
 
 go 1.26.2
 

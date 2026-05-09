@@ -1,6 +1,6 @@
 # JWT Audience Separation
 
-CoreForge supports audience-aware JWT tokens to distinguish between BFF (web browser) and API (programmatic) clients. This enables strict path separation and prevents token misuse.
+SystemForge supports audience-aware JWT tokens to distinguish between BFF (web browser) and API (programmatic) clients. This enables strict path separation and prevents token misuse.
 
 ## Why Audience Separation?
 
@@ -35,7 +35,7 @@ Web App                    API Client
 ## Constants
 
 ```go
-import "github.com/grokify/coreforge/session/jwt"
+import "github.com/grokify/systemforge/session/jwt"
 
 // Audience constants
 const (
@@ -50,7 +50,7 @@ const (
 
 ```go
 import (
-    "github.com/grokify/coreforge/session/jwt"
+    "github.com/grokify/systemforge/session/jwt"
 )
 
 jwtService, _ := jwt.NewService(cfg)

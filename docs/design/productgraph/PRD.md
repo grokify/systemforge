@@ -6,7 +6,7 @@
 
 ## Overview
 
-This document defines the product requirements for integrating coreforge's observability package with ProductGraph for backend telemetry correlation and analytics forwarding.
+This document defines the product requirements for integrating systemforge's observability package with ProductGraph for backend telemetry correlation and analytics forwarding.
 
 ## Problem Statement
 
@@ -105,7 +105,7 @@ As a SRE, I want frontend and backend errors unified in ProductGraph so that I c
 Send events directly to ProductGraph from Go backend.
 
 ```
-coreforge → ProductGraph → omnidxi → Amplitude/Mixpanel
+systemforge → ProductGraph → omnidxi → Amplitude/Mixpanel
 ```
 
 **Pros:** Simple, direct control
@@ -116,7 +116,7 @@ coreforge → ProductGraph → omnidxi → Amplitude/Mixpanel
 Extend omniobserve to forward to ProductGraph.
 
 ```
-coreforge → omniobserve → ProductGraph → omnidxi → Amplitude/Mixpanel
+systemforge → omniobserve → ProductGraph → omnidxi → Amplitude/Mixpanel
 ```
 
 **Pros:** Unified observability, existing patterns
@@ -124,10 +124,10 @@ coreforge → omniobserve → ProductGraph → omnidxi → Amplitude/Mixpanel
 
 ### Option C: Via omnidxi Directly
 
-Use omnidxi directly from coreforge, bypassing ProductGraph.
+Use omnidxi directly from systemforge, bypassing ProductGraph.
 
 ```
-coreforge → omnidxi → Amplitude/Mixpanel
+systemforge → omnidxi → Amplitude/Mixpanel
 ```
 
 **Pros:** Simpler, fewer hops
@@ -174,4 +174,4 @@ coreforge → omnidxi → Amplitude/Mixpanel
 - [TRD.md](TRD.md) - Technical requirements
 - [PLAN.md](PLAN.md) - Implementation plan
 - [TASKS.md](TASKS.md) - Task breakdown
-- [coreforge observability TRD](../FEAT_OBSERVABILITY_TRD.md)
+- [systemforge observability TRD](../FEAT_OBSERVABILITY_TRD.md)

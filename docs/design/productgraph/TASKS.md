@@ -4,7 +4,7 @@
 
 ## Overview
 
-Task breakdown for integrating coreforge observability with ProductGraph.
+Task breakdown for integrating systemforge observability with ProductGraph.
 
 ## Phase 1: Correlation Middleware
 
@@ -169,7 +169,7 @@ None currently identified.
 ### Dependencies on Other Work
 
 - ProductGraph v0.2.0 must be released (DONE)
-- @coreforge/telemetry ProductGraphAdapter provides correlation headers (DONE)
+- @systemforge/telemetry ProductGraphAdapter provides correlation headers (DONE)
 
 ## Test Coverage Goals
 

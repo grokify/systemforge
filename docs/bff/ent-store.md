@@ -1,12 +1,12 @@
 # Ent-Backed BFF Session Store
 
-CoreForge provides an Ent-backed session store for production BFF deployments. This stores sessions in your database with encrypted tokens at rest.
+SystemForge provides an Ent-backed session store for production BFF deployments. This stores sessions in your database with encrypted tokens at rest.
 
 ## Overview
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                        CoreForge (Library)                                   │
+│                        SystemForge (Library)                                   │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │   session/bff/store.go          session/bff/store_ent.go                    │
 │                                                                              │
@@ -26,7 +26,7 @@ CoreForge provides an Ent-backed session store for production BFF deployments. T
 │   internal/ent/schema/bff_session.go    internal/auth/bff_store.go          │
 │                                                                              │
 │   Uses mixin:                           Implements EntClientInterface:       │
-│   coreforge/identity/ent/mixin          wraps generated Ent client           │
+│   systemforge/identity/ent/mixin          wraps generated Ent client           │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -41,7 +41,7 @@ CoreForge provides an Ent-backed session store for production BFF deployments. T
 
 ### Step 1: Add Schema to Your App
 
-Create an Ent schema using the CoreForge mixin:
+Create an Ent schema using the SystemForge mixin:
 
 ```go
 // internal/ent/schema/bff_session.go
@@ -51,7 +51,7 @@ package schema
 import (
     "entgo.io/ent"
     "entgo.io/ent/schema/edge"
-    "github.com/grokify/coreforge/identity/ent/mixin"
+    "github.com/grokify/systemforge/identity/ent/mixin"
 )
 
 // BFFSession holds the schema definition.
@@ -94,7 +94,7 @@ import (
     "time"
 
     "github.com/google/uuid"
-    "github.com/grokify/coreforge/session/bff"
+    "github.com/grokify/systemforge/session/bff"
     "myapp/internal/ent"
     "myapp/internal/ent/bffsession"
 )
@@ -236,7 +236,7 @@ func (w *EntClientWrapper) CleanupExpiredBFFSessions(ctx context.Context, limit 
 // main.go or wire.go
 
 import (
-    "github.com/grokify/coreforge/session/bff"
+    "github.com/grokify/systemforge/session/bff"
     "myapp/internal/auth"
 )
 

@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/ent/membership"
-	"github.com/grokify/coreforge/identity/ent/organization"
-	"github.com/grokify/coreforge/identity/ent/user"
+	"github.com/grokify/systemforge/identity/ent/membership"
+	"github.com/grokify/systemforge/identity/ent/organization"
+	"github.com/grokify/systemforge/identity/ent/user"
 )
 
 // MembershipCreate is the builder for creating a Membership entity.

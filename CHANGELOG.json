@@ -1,7 +1,7 @@
 {
   "irVersion": "1.0",
   "project": "coreforge",
-  "repository": "https://github.com/grokify/coreforge",
+  "repository": "https://github.com/grokify/systemforge",
   "versioning": "semver",
   "commitConvention": "conventional",
   "maintainers": ["grokify"],
@@ -12,7 +12,7 @@
       "highlights": [
         { "description": "Multi-app platform infrastructure for running multiple SaaS apps on shared backend" },
         { "description": "Schema-per-app PostgreSQL isolation with X-App-ID header routing" },
-        { "description": "CoreForge identity and session integration for multiapp deployments" }
+        { "description": "SystemForge identity and session integration for multiapp deployments" }
       ],
       "added": [
         { "description": "Multi-app server with `MultiAppMode` and `SingleAppMode` deployment options", "commit": "fa15800" },
@@ -20,7 +20,7 @@
         { "description": "Schema-per-app database isolation using PostgreSQL schemas (`app_` prefix)", "commit": "fa15800" },
         { "description": "X-App-ID header routing for multi-tenant request dispatch", "commit": "fa15800" },
         { "description": "Redis and in-memory cache implementations with app-scoped prefixes", "commit": "fa15800" },
-        { "description": "CoreForge identity integration with JWT claims extraction and validation", "commit": "82df768" },
+        { "description": "SystemForge identity integration with JWT claims extraction and validation", "commit": "82df768" },
         { "description": "Session management helpers for multi-tenant deployments", "commit": "82df768" },
         { "description": "Ent client factory for schema-isolated database connections", "commit": "82df768" },
         { "description": "HTTP middleware for authentication and tenant context propagation", "commit": "82df768" },
@@ -133,7 +133,7 @@
       "highlights": [
         { "description": "SpiceDB authorization provider for Zanzibar-style relationship-based access control (ReBAC)" },
         { "description": "Principal-based identity model supporting humans, agents, applications, and service principals" },
-        { "description": "SCIM 2.0 user provisioning with CoreForge-compliant patch operations" },
+        { "description": "SCIM 2.0 user provisioning with SystemForge-compliant patch operations" },
         { "description": "Identity-authorization sync automatically maintains SpiceDB relationships on identity changes" }
       ],
       "added": [

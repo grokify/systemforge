@@ -12,9 +12,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/ent/organization"
-	"github.com/grokify/coreforge/identity/ent/predicate"
-	"github.com/grokify/coreforge/identity/ent/subscription"
+	"github.com/grokify/systemforge/identity/ent/organization"
+	"github.com/grokify/systemforge/identity/ent/predicate"
+	"github.com/grokify/systemforge/identity/ent/subscription"
 )
 
 // SubscriptionQuery is the builder for querying Subscription entities.

@@ -9,8 +9,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/ory/fosite"
 
-	"github.com/grokify/coreforge/identity/ent"
-	"github.com/grokify/coreforge/identity/ent/enttest"
+	"github.com/grokify/systemforge/identity/ent"
+	"github.com/grokify/systemforge/identity/ent/enttest"
 
 	_ "github.com/mattn/go-sqlite3"
 )

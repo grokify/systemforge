@@ -13,11 +13,11 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/ent/license"
-	"github.com/grokify/coreforge/identity/ent/listing"
-	"github.com/grokify/coreforge/identity/ent/organization"
-	"github.com/grokify/coreforge/identity/ent/principal"
-	"github.com/grokify/coreforge/identity/ent/seatassignment"
+	"github.com/grokify/systemforge/identity/ent/license"
+	"github.com/grokify/systemforge/identity/ent/listing"
+	"github.com/grokify/systemforge/identity/ent/organization"
+	"github.com/grokify/systemforge/identity/ent/principal"
+	"github.com/grokify/systemforge/identity/ent/seatassignment"
 )
 
 // LicenseCreate is the builder for creating a License entity.

@@ -1,7 +1,7 @@
 package multiapp
 
 import (
-	"github.com/grokify/coreforge/session/jwt"
+	"github.com/grokify/systemforge/session/jwt"
 )
 
 // AppClaims extends jwt.Claims with app-specific fields for multi-app mode.

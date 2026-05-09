@@ -1,5 +1,5 @@
 {
-  "$schema": "https://github.com/grokify/coreforge/identity/coreauth/config.schema.json",
+  "$schema": "https://github.com/grokify/systemforge/identity/coreauth/config.schema.json",
   "issuer": "https://auth.example.com",
   "database": {
     "driver": "postgres",

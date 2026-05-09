@@ -3,11 +3,11 @@ package mapper
 import (
 	"context"
 
-	"github.com/grokify/coreforge/identity/scim"
+	"github.com/grokify/systemforge/identity/scim"
 )
 
 // EnterpriseExtension contains enterprise user extension data.
-// This is stored as metadata on the user in CoreForge.
+// This is stored as metadata on the user in SystemForge.
 type EnterpriseExtension struct {
 	EmployeeNumber string `json:"employee_number,omitempty"`
 	CostCenter     string `json:"cost_center,omitempty"`

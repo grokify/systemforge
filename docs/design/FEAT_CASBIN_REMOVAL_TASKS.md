@@ -2,11 +2,11 @@
 
 > **Status**: ✅ Complete
 >
-> Remove Casbin authorization provider from CoreForge now that SpiceDB is fully implemented.
+> Remove Casbin authorization provider from SystemForge now that SpiceDB is fully implemented.
 
 ## Overview
 
-Casbin was the original authorization backend for CoreForge. With SpiceDB now fully integrated (including identity lifecycle sync), Casbin can be removed to simplify the codebase.
+Casbin was the original authorization backend for SystemForge. With SpiceDB now fully integrated (including identity lifecycle sync), Casbin can be removed to simplify the codebase.
 
 ## Tasks
 

@@ -6,7 +6,7 @@
 
 ## Overview
 
-This document describes the technical architecture for integrating coreforge's observability with ProductGraph for backend-frontend correlation and analytics forwarding.
+This document describes the technical architecture for integrating systemforge's observability with ProductGraph for backend-frontend correlation and analytics forwarding.
 
 ## Architecture
 
@@ -14,7 +14,7 @@ This document describes the technical architecture for integrating coreforge's o
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                              Frontend                                        │
 │   ┌──────────────────────────────────────────────────────────────────────┐  │
-│   │                    @coreforge/telemetry                               │  │
+│   │                    @systemforge/telemetry                               │  │
 │   │  TelemetryProvider → ProductGraphAdapter → POST /v1/events           │  │
 │   │                                                                       │  │
 │   │  Headers: X-Session-ID, X-Request-ID                                 │  │
@@ -23,7 +23,7 @@ This document describes the technical architecture for integrating coreforge's o
                                         │
                                         ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         coreforge Backend Service                            │
+│                         systemforge Backend Service                            │
 │                                                                              │
 │  ┌────────────────────────────────────────────────────────────────────────┐ │
 │  │                      Correlation Middleware                             │ │
@@ -59,7 +59,7 @@ This document describes the technical architecture for integrating coreforge's o
 
 ### Correlation Middleware
 
-**Package:** `coreforge/observability/correlation`
+**Package:** `systemforge/observability/correlation`
 
 **Purpose:** Extract frontend correlation IDs and inject into context.
 
@@ -120,7 +120,7 @@ func RequestIDFromContext(ctx context.Context) string {
 
 ### ProductGraph Client
 
-**Package:** `coreforge/productgraph`
+**Package:** `systemforge/productgraph`
 
 **Purpose:** Send events to ProductGraph from Go backend.
 
@@ -318,7 +318,7 @@ func (c *Client) Close() error {
 
 ### Observability Integration
 
-**Package:** `coreforge/observability`
+**Package:** `systemforge/observability`
 
 Extend existing observability to include ProductGraph.
 
@@ -342,7 +342,7 @@ func (p *Provider) TrackEvent(ctx context.Context, event productgraph.Event) {
 
 ### Request Tracking Middleware
 
-**Package:** `coreforge/observability`
+**Package:** `systemforge/observability`
 
 Automatically track API requests.
 
@@ -466,9 +466,9 @@ import (
     "net/http"
 
     "github.com/go-chi/chi/v5"
-    "github.com/grokify/coreforge/observability"
-    "github.com/grokify/coreforge/observability/correlation"
-    "github.com/grokify/coreforge/productgraph"
+    "github.com/grokify/systemforge/observability"
+    "github.com/grokify/systemforge/observability/correlation"
+    "github.com/grokify/systemforge/productgraph"
 )
 
 func main() {

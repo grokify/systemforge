@@ -7,8 +7,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/grokify/coreforge/identity/ent"
-	"github.com/grokify/coreforge/identity/ent/subscription"
+	"github.com/grokify/systemforge/identity/ent"
+	"github.com/grokify/systemforge/identity/ent/subscription"
 )
 
 // EntSubscriptionService is an Ent-backed implementation of SubscriptionService.

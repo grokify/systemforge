@@ -11,7 +11,7 @@ import (
 	"github.com/ory/fosite/handler/openid"
 	"github.com/ory/fosite/token/jwt"
 
-	"github.com/grokify/coreforge/identity/ent"
+	"github.com/grokify/systemforge/identity/ent"
 )
 
 // Config holds OAuth 2.0 server configuration.

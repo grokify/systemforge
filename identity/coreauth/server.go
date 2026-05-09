@@ -12,7 +12,7 @@ import (
 	"github.com/danielgtaylor/huma/v2/adapters/humachi"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/grokify/coreforge/observability"
+	"github.com/grokify/systemforge/observability"
 	"github.com/ory/fosite"
 	"github.com/ory/fosite/compose"
 	"github.com/ory/fosite/handler/openid"
@@ -64,7 +64,7 @@ func WithObservability(obs *observability.Observability) Option {
 }
 
 // NewEmbedded creates a CoreAuth server for embedding in applications.
-// This is the simplest way to add OAuth to a CoreForge application.
+// This is the simplest way to add OAuth to a SystemForge application.
 //
 // Example:
 //
@@ -188,8 +188,8 @@ func (s *Server) setupRouter() {
 	config := huma.DefaultConfig("CoreAuth OAuth 2.0 / OpenID Connect", "1.0")
 	config.Info.Description = "OAuth 2.0 Authorization Server with OpenID Connect support"
 	config.Info.Contact = &huma.Contact{
-		Name: "CoreForge",
-		URL:  "https://github.com/grokify/coreforge",
+		Name: "SystemForge",
+		URL:  "https://github.com/grokify/systemforge",
 	}
 	config.Info.License = &huma.License{
 		Name: "MIT",

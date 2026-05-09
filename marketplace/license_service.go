@@ -7,9 +7,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/grokify/coreforge/identity/ent"
-	"github.com/grokify/coreforge/identity/ent/license"
-	"github.com/grokify/coreforge/identity/ent/seatassignment"
+	"github.com/grokify/systemforge/identity/ent"
+	"github.com/grokify/systemforge/identity/ent/license"
+	"github.com/grokify/systemforge/identity/ent/seatassignment"
 )
 
 // EntLicenseService is an Ent-backed implementation of LicenseService.

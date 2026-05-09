@@ -135,7 +135,7 @@ func TestMetaEndpoint(t *testing.T) {
 		AppID:        "test-app",
 		DisplayName:  "Test Application",
 		Version:      "1.0.0",
-		BaseURL:      "/coreforge",
+		BaseURL:      "/systemforge",
 		Capabilities: []Capability{CapabilityIdentity, CapabilityRBAC},
 	}
 
@@ -149,7 +149,7 @@ func TestMetaEndpoint(t *testing.T) {
 		t.Fatalf("failed to create API: %v", err)
 	}
 
-	req := httptest.NewRequest(http.MethodGet, "/coreforge/meta", nil)
+	req := httptest.NewRequest(http.MethodGet, "/systemforge/meta", nil)
 	w := httptest.NewRecorder()
 
 	api.ServeHTTP(w, req)
@@ -182,7 +182,7 @@ func TestMetaEndpointMethodNotAllowed(t *testing.T) {
 		AppID:       "test-app",
 		DisplayName: "Test Application",
 		Version:     "1.0.0",
-		BaseURL:     "/coreforge",
+		BaseURL:     "/systemforge",
 	}
 
 	provider, err := NewProvider(config, nil)
@@ -195,7 +195,7 @@ func TestMetaEndpointMethodNotAllowed(t *testing.T) {
 		t.Fatalf("failed to create API: %v", err)
 	}
 
-	req := httptest.NewRequest(http.MethodPost, "/coreforge/meta", nil)
+	req := httptest.NewRequest(http.MethodPost, "/systemforge/meta", nil)
 	w := httptest.NewRecorder()
 
 	api.ServeHTTP(w, req)
@@ -210,7 +210,7 @@ func TestHealthEndpoint(t *testing.T) {
 		AppID:       "test-app",
 		DisplayName: "Test Application",
 		Version:     "1.0.0",
-		BaseURL:     "/coreforge",
+		BaseURL:     "/systemforge",
 	}
 
 	provider, err := NewProvider(config, nil)
@@ -223,7 +223,7 @@ func TestHealthEndpoint(t *testing.T) {
 		t.Fatalf("failed to create API: %v", err)
 	}
 
-	req := httptest.NewRequest(http.MethodGet, "/coreforge/health", nil)
+	req := httptest.NewRequest(http.MethodGet, "/systemforge/health", nil)
 	w := httptest.NewRecorder()
 
 	api.ServeHTTP(w, req)
@@ -250,7 +250,7 @@ func TestFederationHealthEndpoint(t *testing.T) {
 		AppID:       "test-app",
 		DisplayName: "Test Application",
 		Version:     "1.0.0",
-		BaseURL:     "/coreforge",
+		BaseURL:     "/systemforge",
 	}
 
 	provider, err := NewProvider(config, nil)
@@ -263,7 +263,7 @@ func TestFederationHealthEndpoint(t *testing.T) {
 		t.Fatalf("failed to create API: %v", err)
 	}
 
-	req := httptest.NewRequest(http.MethodGet, "/coreforge/health/federation", nil)
+	req := httptest.NewRequest(http.MethodGet, "/systemforge/health/federation", nil)
 	w := httptest.NewRecorder()
 
 	api.ServeHTTP(w, req)

@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// MetadataResponse is returned by GET /coreforge/meta.
+// MetadataResponse is returned by GET /systemforge/meta.
 type MetadataResponse struct {
 	Body struct {
 		AppID           string            `json:"app_id" doc:"Unique application identifier" example:"my-saas-app"`
@@ -85,7 +85,7 @@ type PrincipalsListInput struct {
 	Cursor   string `query:"cursor" doc:"Pagination cursor"`
 }
 
-// PrincipalsListOutput is returned by GET /coreforge/identity/principals.
+// PrincipalsListOutput is returned by GET /systemforge/identity/principals.
 type PrincipalsListOutput struct {
 	Body struct {
 		Principals []ContractPrincipal `json:"principals" doc:"List of principals"`
@@ -99,19 +99,19 @@ type PrincipalGetInput struct {
 	ID string `path:"id" doc:"Principal ID" format:"uuid"`
 }
 
-// PrincipalGetOutput is returned by GET /coreforge/identity/principals/{id}.
+// PrincipalGetOutput is returned by GET /systemforge/identity/principals/{id}.
 type PrincipalGetOutput struct {
 	Body ContractPrincipal
 }
 
-// LookupInput is the body for POST /coreforge/identity/principals/lookup.
+// LookupInput is the body for POST /systemforge/identity/principals/lookup.
 type LookupInput struct {
 	Body struct {
 		Identifier string `json:"identifier" doc:"Identifier to look up (email, client_id, etc.)" required:"true" example:"user@example.com"`
 	}
 }
 
-// LookupOutput is returned by POST /coreforge/identity/principals/lookup.
+// LookupOutput is returned by POST /systemforge/identity/principals/lookup.
 type LookupOutput struct {
 	Body struct {
 		Principal *ContractPrincipal `json:"principal" doc:"Found principal, or null if not found"`
@@ -127,7 +127,7 @@ type Tenant struct {
 	CreatedAt time.Time `json:"created_at" doc:"Creation timestamp" format:"date-time"`
 }
 
-// TenantsListOutput is returned by GET /coreforge/identity/tenants.
+// TenantsListOutput is returned by GET /systemforge/identity/tenants.
 type TenantsListOutput struct {
 	Body struct {
 		Tenants []Tenant `json:"tenants" doc:"List of tenants"`
@@ -144,7 +144,7 @@ type Role struct {
 	Level       int      `json:"level,omitempty" doc:"Hierarchy level (higher = more access)" example:"80"`
 }
 
-// RolesListOutput is returned by GET /coreforge/policy/roles.
+// RolesListOutput is returned by GET /systemforge/policy/roles.
 type RolesListOutput struct {
 	Body struct {
 		Roles []Role `json:"roles" doc:"List of roles"`
@@ -160,7 +160,7 @@ type Permission struct {
 	Actions      []string `json:"actions,omitempty" doc:"Actions this permission grants" example:"[\"read\", \"list\"]"`
 }
 
-// PermissionsListOutput is returned by GET /coreforge/policy/permissions.
+// PermissionsListOutput is returned by GET /systemforge/policy/permissions.
 type PermissionsListOutput struct {
 	Body struct {
 		Permissions []Permission `json:"permissions" doc:"List of permissions"`
@@ -173,7 +173,7 @@ type ResourceRef struct {
 	ID   uuid.UUID `json:"id" doc:"Resource identifier" required:"true" format:"uuid"`
 }
 
-// EvaluateInput is the body for POST /coreforge/policy/evaluate.
+// EvaluateInput is the body for POST /systemforge/policy/evaluate.
 type EvaluateInput struct {
 	Body struct {
 		PrincipalID uuid.UUID      `json:"principal_id" doc:"Principal to evaluate" required:"true" format:"uuid"`
@@ -183,7 +183,7 @@ type EvaluateInput struct {
 	}
 }
 
-// EvaluateOutput is returned by POST /coreforge/policy/evaluate.
+// EvaluateOutput is returned by POST /systemforge/policy/evaluate.
 type EvaluateOutput struct {
 	Body struct {
 		Allowed     bool      `json:"allowed" doc:"Whether the action is allowed" example:"true"`
@@ -193,7 +193,7 @@ type EvaluateOutput struct {
 	}
 }
 
-// HealthOutput is returned by GET /coreforge/health.
+// HealthOutput is returned by GET /systemforge/health.
 type HealthOutput struct {
 	Body struct {
 		Status        string            `json:"status" doc:"Overall health status" enum:"healthy,degraded,unhealthy" example:"healthy"`
@@ -203,7 +203,7 @@ type HealthOutput struct {
 	}
 }
 
-// FederationHealthOutput is returned by GET /coreforge/health/federation.
+// FederationHealthOutput is returned by GET /systemforge/health/federation.
 type FederationHealthOutput struct {
 	Body struct {
 		FederationStatus string            `json:"federation_status" doc:"Federation connection status" enum:"standalone,connected,disconnected" example:"standalone"`
@@ -222,7 +222,7 @@ type SyncPrincipal struct {
 	Attributes  map[string]any `json:"attributes,omitempty" doc:"Additional attributes"`
 }
 
-// IdentitySyncInput is the body for POST /coreforge/identity/sync.
+// IdentitySyncInput is the body for POST /systemforge/identity/sync.
 type IdentitySyncInput struct {
 	Body struct {
 		FederationID uuid.UUID       `json:"federation_id" doc:"Federation identifier" required:"true" format:"uuid"`
@@ -237,7 +237,7 @@ type SyncFailure struct {
 	Error    string    `json:"error" doc:"Error message" example:"conflict"`
 }
 
-// IdentitySyncOutput is returned by POST /coreforge/identity/sync.
+// IdentitySyncOutput is returned by POST /systemforge/identity/sync.
 type IdentitySyncOutput struct {
 	Body struct {
 		Synced    []uuid.UUID   `json:"synced" doc:"Successfully synced principal IDs"`
@@ -254,7 +254,7 @@ type SyncPolicy struct {
 	Priority int       `json:"priority" doc:"Policy priority (higher = evaluated first)" example:"100"`
 }
 
-// PolicySyncInput is the body for POST /coreforge/policy/sync.
+// PolicySyncInput is the body for POST /systemforge/policy/sync.
 type PolicySyncInput struct {
 	Body struct {
 		FederationID uuid.UUID    `json:"federation_id" doc:"Federation identifier" required:"true" format:"uuid"`
@@ -270,7 +270,7 @@ type PolicySyncFailure struct {
 	Error string    `json:"error" doc:"Error message" example:"invalid_rule"`
 }
 
-// PolicySyncOutput is returned by POST /coreforge/policy/sync.
+// PolicySyncOutput is returned by POST /systemforge/policy/sync.
 type PolicySyncOutput struct {
 	Body struct {
 		Applied   []uuid.UUID         `json:"applied" doc:"Successfully applied policy IDs"`
@@ -289,12 +289,12 @@ type AuditStreamConfig struct {
 	LastSequence    int64  `json:"last_sequence,omitempty" doc:"Last recorded sequence number" example:"12345"`
 }
 
-// AuditStreamConfigOutput is returned by GET /coreforge/audit/stream/config.
+// AuditStreamConfigOutput is returned by GET /systemforge/audit/stream/config.
 type AuditStreamConfigOutput struct {
 	Body AuditStreamConfig
 }
 
-// UpdateAuditStreamConfigInput is the body for PUT /coreforge/audit/stream/config.
+// UpdateAuditStreamConfigInput is the body for PUT /systemforge/audit/stream/config.
 type UpdateAuditStreamConfigInput struct {
 	Body struct {
 		Enabled         bool   `json:"enabled" doc:"Enable or disable streaming" required:"true"`
@@ -305,7 +305,7 @@ type UpdateAuditStreamConfigInput struct {
 	}
 }
 
-// UpdateAuditStreamConfigOutput is returned by PUT /coreforge/audit/stream/config.
+// UpdateAuditStreamConfigOutput is returned by PUT /systemforge/audit/stream/config.
 type UpdateAuditStreamConfigOutput struct {
 	Body struct {
 		Status     string `json:"status" doc:"Configuration status" enum:"configured,failed" example:"configured"`
@@ -313,7 +313,7 @@ type UpdateAuditStreamConfigOutput struct {
 	}
 }
 
-// AuditAckInput is the body for POST /coreforge/audit/stream/ack.
+// AuditAckInput is the body for POST /systemforge/audit/stream/ack.
 type AuditAckInput struct {
 	Body struct {
 		Sequence  int64     `json:"sequence" doc:"Sequence number to acknowledge" required:"true" example:"12345"`
@@ -321,7 +321,7 @@ type AuditAckInput struct {
 	}
 }
 
-// AuditAckOutput is returned by POST /coreforge/audit/stream/ack.
+// AuditAckOutput is returned by POST /systemforge/audit/stream/ack.
 type AuditAckOutput struct {
 	Body struct {
 		Acknowledged bool  `json:"acknowledged" doc:"Whether acknowledgment was successful" example:"true"`

@@ -7,12 +7,12 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/grokify/coreforge/identity"
-	"github.com/grokify/coreforge/identity/scim"
-	"github.com/grokify/coreforge/identity/scim/patch"
+	"github.com/grokify/systemforge/identity"
+	"github.com/grokify/systemforge/identity/scim"
+	"github.com/grokify/systemforge/identity/scim/patch"
 )
 
-// GroupMapper maps between SCIM Group resources and CoreForge Organization entities.
+// GroupMapper maps between SCIM Group resources and SystemForge Organization entities.
 type GroupMapper struct {
 	config *Config
 }
@@ -25,7 +25,7 @@ func NewGroupMapper(config *Config) *GroupMapper {
 	return &GroupMapper{config: config}
 }
 
-// ToSCIM converts a CoreForge OrganizationInfo to a SCIM Group.
+// ToSCIM converts a SystemForge OrganizationInfo to a SCIM Group.
 func (m *GroupMapper) ToSCIM(ctx context.Context, org *identity.OrganizationInfo) (*scim.Group, error) {
 	if org == nil {
 		return nil, nil
@@ -46,7 +46,7 @@ func (m *GroupMapper) ToSCIM(ctx context.Context, org *identity.OrganizationInfo
 	return scimGroup, nil
 }
 
-// ToSCIMWithMeta converts a CoreForge OrganizationInfo to a SCIM Group with metadata timestamps.
+// ToSCIMWithMeta converts a SystemForge OrganizationInfo to a SCIM Group with metadata timestamps.
 func (m *GroupMapper) ToSCIMWithMeta(ctx context.Context, org *identity.OrganizationInfo, createdAt, updatedAt time.Time) (*scim.Group, error) {
 	scimGroup, err := m.ToSCIM(ctx, org)
 	if err != nil {
@@ -62,7 +62,7 @@ func (m *GroupMapper) ToSCIMWithMeta(ctx context.Context, org *identity.Organiza
 	return scimGroup, nil
 }
 
-// ToSCIMWithMembers converts a CoreForge OrganizationInfo to a SCIM Group with members.
+// ToSCIMWithMembers converts a SystemForge OrganizationInfo to a SCIM Group with members.
 func (m *GroupMapper) ToSCIMWithMembers(ctx context.Context, org *identity.OrganizationInfo, members []*identity.MembershipInfo, memberNames map[uuid.UUID]string) (*scim.Group, error) {
 	scimGroup, err := m.ToSCIM(ctx, org)
 	if err != nil {
@@ -85,7 +85,7 @@ func (m *GroupMapper) ToSCIMWithMembers(ctx context.Context, org *identity.Organ
 	return scimGroup, nil
 }
 
-// FromSCIM converts a SCIM Group to a CoreForge CreateOrganizationInput.
+// FromSCIM converts a SCIM Group to a SystemForge CreateOrganizationInput.
 func (m *GroupMapper) FromSCIM(ctx context.Context, scimGroup *scim.Group) (*identity.CreateOrganizationInput, error) {
 	if scimGroup == nil {
 		return nil, nil
@@ -105,7 +105,7 @@ func (m *GroupMapper) FromSCIM(ctx context.Context, scimGroup *scim.Group) (*ide
 	return input, nil
 }
 
-// ToUpdateInput converts a SCIM Group to a CoreForge UpdateOrganizationInput.
+// ToUpdateInput converts a SCIM Group to a SystemForge UpdateOrganizationInput.
 func (m *GroupMapper) ToUpdateInput(ctx context.Context, scimGroup *scim.Group) (*identity.UpdateOrganizationInput, error) {
 	if scimGroup == nil {
 		return nil, nil

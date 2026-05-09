@@ -1,19 +1,19 @@
-# CoreForge Platform Vision
+# SystemForge Platform Vision
 
 ## Overview
 
-CoreForge is an open-source Go framework for building SaaS applications with built-in identity, authorization, tenancy, and audit capabilities. It is designed to support both standalone applications and integration into multi-product platform ecosystems.
+SystemForge is an open-source Go framework for building SaaS applications with built-in identity, authorization, tenancy, and audit capabilities. It is designed to support both standalone applications and integration into multi-product platform ecosystems.
 
 ## Strategic Positioning
 
-CoreForge represents the open-source foundation of a larger platform strategy:
+SystemForge represents the open-source foundation of a larger platform strategy:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    CoreControl (Commercial)                  │
 │           Federation / Governance / Multi-Product            │
 ├─────────────────────────────────────────────────────────────┤
-│                    CoreForge (Open Source)                   │
+│                    SystemForge (Open Source)                   │
 │              Runtime / Identity / RBAC / Audit               │
 ├─────────────────────────────────────────────────────────────┤
 │                    Your SaaS Application                     │
@@ -21,7 +21,7 @@ CoreForge represents the open-source foundation of a larger platform strategy:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### CoreForge (Open Source)
+### SystemForge (Open Source)
 
 - Complete SaaS runtime framework
 - Local identity management
@@ -33,7 +33,7 @@ CoreForge represents the open-source foundation of a larger platform strategy:
 
 ### CoreControl (Commercial - Separate Repository)
 
-- Federation layer for multiple CoreForge apps
+- Federation layer for multiple SystemForge apps
 - Global identity overlay
 - Cross-product policy governance
 - MSP (Managed Service Provider) support
@@ -43,7 +43,7 @@ CoreForge represents the open-source foundation of a larger platform strategy:
 
 ### 1. Complete Without Federation
 
-Every CoreForge application must be fully functional in standalone mode:
+Every SystemForge application must be fully functional in standalone mode:
 
 - ✅ Local user management
 - ✅ Local authentication (password, OAuth)
@@ -55,7 +55,7 @@ Federation via CoreControl is additive, never required.
 
 ### 2. Contract-Based Integration
 
-CoreForge defines standard interfaces that enable federation:
+SystemForge defines standard interfaces that enable federation:
 
 - Identity contract
 - Authorization contract
@@ -66,7 +66,7 @@ Applications implementing these contracts can optionally integrate with CoreCont
 
 ### 3. Portable Applications
 
-CoreForge applications can:
+SystemForge applications can:
 
 - Run independently
 - Join a federation
@@ -83,7 +83,7 @@ This supports real-world scenarios like:
 
 ## Authority Model
 
-CoreForge implements a four-tier authority model designed for multi-product ecosystems:
+SystemForge implements a four-tier authority model designed for multi-product ecosystems:
 
 ### Tier 1: Federation (CoreControl Only)
 
@@ -112,7 +112,7 @@ CoreForge implements a four-tier authority model designed for multi-product ecos
 
 ## Principal-Centric Identity
 
-CoreForge uses a principal-centric identity model that supports:
+SystemForge uses a principal-centric identity model that supports:
 
 | Principal Type | Description | Auth Method |
 |---------------|-------------|-------------|
@@ -129,13 +129,13 @@ This unified model enables:
 
 ## Dual-Mode Architecture
 
-Every CoreForge application supports two operational modes:
+Every SystemForge application supports two operational modes:
 
 ### Standalone Mode
 
 ```
 ┌─────────────────────────────────────┐
-│         CoreForge Application        │
+│         SystemForge Application        │
 │  ┌─────────────────────────────────┐│
 │  │      Local Identity Store       ││
 │  ├─────────────────────────────────┤│
@@ -163,7 +163,7 @@ Every CoreForge application supports two operational modes:
          │              │              │
          ▼              ▼              ▼
 ┌─────────────────────────────────────────────┐
-│         CoreForge Application                │
+│         SystemForge Application                │
 │  ┌────────────┬────────────┬──────────────┐ │
 │  │   Local    │   Local    │    Local     │ │
 │  │  Identity  │    RBAC    │    Audit     │ │
@@ -205,7 +205,7 @@ Every CoreForge application supports two operational modes:
 
 ## Comparison with Existing Solutions
 
-| Aspect | Salesforce | AWS | CoreForge + CoreControl |
+| Aspect | Salesforce | AWS | SystemForge + CoreControl |
 |--------|-----------|-----|------------------------|
 | Identity | Proprietary | IAM | Open standard |
 | Multi-product | Vertically integrated | Service-based | Federated |
@@ -215,7 +215,7 @@ Every CoreForge application supports two operational modes:
 
 ## Target Users
 
-### Framework Users (CoreForge)
+### Framework Users (SystemForge)
 
 - Startups building SaaS products
 - Agencies building client applications
@@ -229,7 +229,7 @@ Every CoreForge application supports two operational modes:
 
 ## Success Criteria
 
-### CoreForge Adoption
+### SystemForge Adoption
 
 - Production deployments across varied domains
 - Active community contributions

@@ -8,8 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/grokify/coreforge/identity/ent/agent"
-	"github.com/grokify/coreforge/identity/ent/predicate"
+	"github.com/grokify/systemforge/identity/ent/agent"
+	"github.com/grokify/systemforge/identity/ent/predicate"
 )
 
 // AgentDelete is the builder for deleting a Agent entity.

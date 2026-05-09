@@ -1,18 +1,18 @@
-// Package mapper provides mapping between SCIM resources and CoreForge entities.
+// Package mapper provides mapping between SCIM resources and SystemForge entities.
 package mapper
 
 import (
 	"context"
 
-	"github.com/grokify/coreforge/identity/scim/patch"
+	"github.com/grokify/systemforge/identity/scim/patch"
 )
 
-// Mapper defines the interface for mapping between SCIM resources and CoreForge entities.
+// Mapper defines the interface for mapping between SCIM resources and SystemForge entities.
 type Mapper[S any, E any] interface {
-	// ToSCIM converts a CoreForge entity to a SCIM resource.
+	// ToSCIM converts a SystemForge entity to a SCIM resource.
 	ToSCIM(ctx context.Context, entity E) (S, error)
 
-	// FromSCIM converts a SCIM resource to a CoreForge entity or update input.
+	// FromSCIM converts a SCIM resource to a SystemForge entity or update input.
 	// Returns an interface{} that can be either a create input or update input.
 	FromSCIM(ctx context.Context, resource S) (any, error)
 

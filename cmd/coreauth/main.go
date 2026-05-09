@@ -14,9 +14,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/spf13/cobra"
 
-	"github.com/grokify/coreforge/identity/coreauth"
-	"github.com/grokify/coreforge/identity/ent"
-	"github.com/grokify/coreforge/identity/ent/user"
+	"github.com/grokify/systemforge/identity/coreauth"
+	"github.com/grokify/systemforge/identity/ent"
+	"github.com/grokify/systemforge/identity/ent/user"
 
 	// Database drivers
 	_ "github.com/mattn/go-sqlite3"

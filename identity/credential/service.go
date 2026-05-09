@@ -11,10 +11,10 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity"
-	"github.com/grokify/coreforge/identity/ent"
-	"github.com/grokify/coreforge/identity/ent/credential"
-	"github.com/grokify/coreforge/identity/ent/principal"
+	"github.com/grokify/systemforge/identity"
+	"github.com/grokify/systemforge/identity/ent"
+	"github.com/grokify/systemforge/identity/ent/credential"
+	"github.com/grokify/systemforge/identity/ent/principal"
 )
 
 const (

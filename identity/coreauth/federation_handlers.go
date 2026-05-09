@@ -26,7 +26,7 @@ type FederationHealthResponse struct {
 	Details     map[string]string `json:"details,omitempty"`
 }
 
-// FederationEndpoints provides CoreForge federation contract endpoints.
+// FederationEndpoints provides SystemForge federation contract endpoints.
 type FederationEndpoints struct {
 	server      *Server
 	syncHandler IdentitySyncHandler
@@ -54,13 +54,13 @@ func (f *FederationEndpoints) RegisterRoutes() {
 	router := f.server.Router()
 
 	// Health endpoint for CoreControl to check app status
-	router.Get("/coreforge/health", f.healthHandler)
+	router.Get("/systemforge/health", f.healthHandler)
 
 	// Identity sync endpoint
-	router.Post("/coreforge/identity/sync", f.identitySyncHandler)
+	router.Post("/systemforge/identity/sync", f.identitySyncHandler)
 
 	// Identity lookup endpoint (find local principal by global ID)
-	router.Get("/coreforge/identity/lookup/{globalId}", f.identityLookupHandler)
+	router.Get("/systemforge/identity/lookup/{globalId}", f.identityLookupHandler)
 }
 
 // healthHandler returns the health status of this app.

@@ -3,9 +3,9 @@ package multiapp
 import (
 	"net/http"
 
-	"github.com/grokify/coreforge/rls"
-	"github.com/grokify/coreforge/session/jwt"
-	"github.com/grokify/coreforge/session/middleware"
+	"github.com/grokify/systemforge/rls"
+	"github.com/grokify/systemforge/session/jwt"
+	"github.com/grokify/systemforge/session/middleware"
 )
 
 // MiddlewareConfig configures the multiapp middleware stack.

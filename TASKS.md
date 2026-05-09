@@ -1,4 +1,4 @@
-# CoreForge Tasks
+# SystemForge Tasks
 
 **Last Updated:** 2026-04-28
 
@@ -271,7 +271,7 @@ These are used directly by consumers of the library.
 - [ ] `InjectContext` - Inject RLS context
 - [ ] `SetContextFromContext` - Set context from existing
 - [ ] `GenerateMigrationSQL` - Generate RLS migration SQL
-- [ ] `CoreForgeTables` - Tables requiring RLS
+- [ ] `SystemForgeTables` - Tables requiring RLS
 
 #### Testing Helpers (`rls/testing.go`)
 

@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/authz"
+	"github.com/grokify/systemforge/authz"
 )
 
 // TestRunAll_MockProvider verifies the test suite works correctly with the mock.

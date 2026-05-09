@@ -6,7 +6,7 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/authz"
+	"github.com/grokify/systemforge/authz"
 )
 
 // Syncer is a no-operation implementation of RelationshipSyncer.

@@ -200,7 +200,7 @@ GET /.well-known/jwks.json
 ### OAuth Provider
 
 ```go
-import "github.com/grokify/coreforge/identity/oauth"
+import "github.com/grokify/systemforge/identity/oauth"
 
 // Create provider
 cfg := oauth.DefaultConfig("https://api.example.com", []byte("secret"))
@@ -238,7 +238,7 @@ protected := api.Middleware(myHandler)
 ### Context Helpers
 
 ```go
-import "github.com/grokify/coreforge/identity/oauth"
+import "github.com/grokify/systemforge/identity/oauth"
 
 // In handler after middleware
 func myHandler(w http.ResponseWriter, r *http.Request) {

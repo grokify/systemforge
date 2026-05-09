@@ -6,12 +6,12 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/grokify/coreforge/identity"
-	"github.com/grokify/coreforge/identity/scim"
-	"github.com/grokify/coreforge/identity/scim/patch"
+	"github.com/grokify/systemforge/identity"
+	"github.com/grokify/systemforge/identity/scim"
+	"github.com/grokify/systemforge/identity/scim/patch"
 )
 
-// UserMapper maps between SCIM User resources and CoreForge User entities.
+// UserMapper maps between SCIM User resources and SystemForge User entities.
 type UserMapper struct {
 	config *Config
 }
@@ -24,7 +24,7 @@ func NewUserMapper(config *Config) *UserMapper {
 	return &UserMapper{config: config}
 }
 
-// ToSCIM converts a CoreForge UserInfo to a SCIM User.
+// ToSCIM converts a SystemForge UserInfo to a SCIM User.
 func (m *UserMapper) ToSCIM(ctx context.Context, user *identity.UserInfo) (*scim.User, error) {
 	if user == nil {
 		return nil, nil
@@ -75,7 +75,7 @@ func (m *UserMapper) ToSCIM(ctx context.Context, user *identity.UserInfo) (*scim
 	return scimUser, nil
 }
 
-// ToSCIMWithMeta converts a CoreForge UserInfo to a SCIM User with metadata timestamps.
+// ToSCIMWithMeta converts a SystemForge UserInfo to a SCIM User with metadata timestamps.
 func (m *UserMapper) ToSCIMWithMeta(ctx context.Context, user *identity.UserInfo, createdAt, updatedAt time.Time) (*scim.User, error) {
 	scimUser, err := m.ToSCIM(ctx, user)
 	if err != nil {
@@ -91,7 +91,7 @@ func (m *UserMapper) ToSCIMWithMeta(ctx context.Context, user *identity.UserInfo
 	return scimUser, nil
 }
 
-// FromSCIM converts a SCIM User to a CoreForge CreateUserInput.
+// FromSCIM converts a SCIM User to a SystemForge CreateUserInput.
 func (m *UserMapper) FromSCIM(ctx context.Context, scimUser *scim.User) (*identity.CreateUserInput, error) {
 	if scimUser == nil {
 		return nil, nil
@@ -153,7 +153,7 @@ func (m *UserMapper) FromSCIM(ctx context.Context, scimUser *scim.User) (*identi
 	return input, nil
 }
 
-// ToUpdateInput converts a SCIM User to a CoreForge UpdateUserInput.
+// ToUpdateInput converts a SCIM User to a SystemForge UpdateUserInput.
 func (m *UserMapper) ToUpdateInput(ctx context.Context, scimUser *scim.User) (*identity.UpdateUserInput, error) {
 	if scimUser == nil {
 		return nil, nil

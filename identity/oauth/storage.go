@@ -9,10 +9,10 @@ import (
 	"github.com/google/uuid"
 	"github.com/ory/fosite"
 
-	"github.com/grokify/coreforge/identity/ent"
-	"github.com/grokify/coreforge/identity/ent/oauthapp"
-	"github.com/grokify/coreforge/identity/ent/oauthauthcode"
-	"github.com/grokify/coreforge/identity/ent/oauthtoken"
+	"github.com/grokify/systemforge/identity/ent"
+	"github.com/grokify/systemforge/identity/ent/oauthapp"
+	"github.com/grokify/systemforge/identity/ent/oauthauthcode"
+	"github.com/grokify/systemforge/identity/ent/oauthtoken"
 )
 
 // Storage implements fosite.Storage interfaces using Ent.

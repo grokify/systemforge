@@ -15,7 +15,7 @@
 //
 // # Integration with HTTP Middleware
 //
-// Use with CoreForge session/ratelimit for HTTP enforcement:
+// Use with SystemForge session/ratelimit for HTTP enforcement:
 //
 //	resolver := ratelimit.NewPolicyResolver(store)
 //	limiter := ratelimit.New(storage, ratelimit.WithResolver(resolver))

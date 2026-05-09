@@ -5,12 +5,12 @@ package enttest
 import (
 	"context"
 
-	"github.com/grokify/coreforge/identity/ent"
+	"github.com/grokify/systemforge/identity/ent"
 	// required by schema hooks.
-	_ "github.com/grokify/coreforge/identity/ent/runtime"
+	_ "github.com/grokify/systemforge/identity/ent/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/grokify/coreforge/identity/ent/migrate"
+	"github.com/grokify/systemforge/identity/ent/migrate"
 )
 
 type (

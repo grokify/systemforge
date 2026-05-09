@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/authz"
+	"github.com/grokify/systemforge/authz"
 )
 
 // Verify MockProvider implements the required interfaces.

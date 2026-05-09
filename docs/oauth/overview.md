@@ -1,6 +1,6 @@
 # OAuth 2.0 Overview
 
-CoreForge includes a full OAuth 2.0 server implementation using [Fosite](https://github.com/ory/fosite).
+SystemForge includes a full OAuth 2.0 server implementation using [Fosite](https://github.com/ory/fosite).
 
 ## Supported Grant Types
 
@@ -64,8 +64,8 @@ CoreForge includes a full OAuth 2.0 server implementation using [Fosite](https:/
 
 ```go
 import (
-    "github.com/grokify/coreforge/identity/ent"
-    "github.com/grokify/coreforge/identity/oauth"
+    "github.com/grokify/systemforge/identity/ent"
+    "github.com/grokify/systemforge/identity/oauth"
 )
 
 // Create provider

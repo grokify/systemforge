@@ -1,15 +1,15 @@
 # PRD: JWT Audience Validation
 
 > **Status**: Draft
-> **Target**: CoreForge v0.5.0
+> **Target**: SystemForge v0.5.0
 
 ## Overview
 
-Add audience (`aud`) claim validation to CoreForge's JWT service to enable path-bound token separation. This prevents credential replay attacks where tokens obtained for web browser access (BFF) are used for direct API access, and vice versa.
+Add audience (`aud`) claim validation to SystemForge's JWT service to enable path-bound token separation. This prevents credential replay attacks where tokens obtained for web browser access (BFF) are used for direct API access, and vice versa.
 
 ## Problem Statement
 
-Currently, CoreForge JWT tokens can be used interchangeably across all endpoints. This creates security risks:
+Currently, SystemForge JWT tokens can be used interchangeably across all endpoints. This creates security risks:
 
 1. **Token Replay**: User extracts JWT from browser DevTools, replays against raw API
 2. **Bypassed Restrictions**: UI-enforced limits (rate limits, feature gates) can be bypassed
@@ -67,8 +67,8 @@ Currently, CoreForge JWT tokens can be used interchangeably across all endpoints
 
 ## Dependencies
 
-- CoreForge `session/jwt` package
-- CoreForge `session/bff` package
+- SystemForge `session/jwt` package
+- SystemForge `session/bff` package
 - App-level router configuration
 
 ## Risks

@@ -1,10 +1,10 @@
 # SpiceDB Setup Guide
 
-This guide covers setting up SpiceDB for authorization in CoreForge applications.
+This guide covers setting up SpiceDB for authorization in SystemForge applications.
 
 ## Overview
 
-CoreForge uses [SpiceDB](https://authzed.com/spicedb) for fine-grained, relationship-based authorization (ReBAC). SpiceDB implements Google's Zanzibar authorization model, providing:
+SystemForge uses [SpiceDB](https://authzed.com/spicedb) for fine-grained, relationship-based authorization (ReBAC). SpiceDB implements Google's Zanzibar authorization model, providing:
 
 - **Relationship-based access control**: Define who can do what based on relationships
 - **Computed permissions**: Permissions derived from relationship chains
@@ -15,12 +15,12 @@ CoreForge uses [SpiceDB](https://authzed.com/spicedb) for fine-grained, relation
 
 ### Embedded Mode (Development)
 
-For development and testing, CoreForge can run an embedded SpiceDB instance:
+For development and testing, SystemForge can run an embedded SpiceDB instance:
 
 ```go
 import (
     "context"
-    "github.com/grokify/coreforge/authz/spicedb"
+    "github.com/grokify/systemforge/authz/spicedb"
 )
 
 func main() {
@@ -163,9 +163,9 @@ To sync identity operations to SpiceDB:
 
 ```go
 import (
-    "github.com/grokify/coreforge/authz/spicedb"
-    "github.com/grokify/coreforge/identity/organization"
-    "github.com/grokify/coreforge/identity/principal"
+    "github.com/grokify/systemforge/authz/spicedb"
+    "github.com/grokify/systemforge/identity/organization"
+    "github.com/grokify/systemforge/identity/principal"
 )
 
 func setupServices(client *spicedb.Client, entClient *ent.Client) {

@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/session/bff"
+	"github.com/grokify/systemforge/session/bff"
 )
 
 // AppSession extends bff.Session with app-specific fields.

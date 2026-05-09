@@ -1,7 +1,7 @@
 # Tasks: Ent Store Implementations
 
 > **Status**: Draft
-> **Target**: CoreForge v0.5.0
+> **Target**: SystemForge v0.5.0
 
 ## Priority Levels
 
@@ -251,7 +251,7 @@ type EntClientInterface interface {
 
 **Acceptance Criteria**:
 - [ ] Interface covers all Store operations
-- [ ] No Ent imports in CoreForge
+- [ ] No Ent imports in SystemForge
 - [ ] Clear godoc for each method
 
 ### Task 3.2: Implement EntStore

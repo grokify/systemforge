@@ -1,6 +1,6 @@
 # Ent Schema Reference
 
-Complete reference for all CoreForge Ent schemas.
+Complete reference for all SystemForge Ent schemas.
 
 ## Identity Schemas
 

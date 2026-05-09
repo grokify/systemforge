@@ -13,8 +13,8 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/ent/agent"
-	"github.com/grokify/coreforge/identity/ent/principal"
+	"github.com/grokify/systemforge/identity/ent/agent"
+	"github.com/grokify/systemforge/identity/ent/principal"
 )
 
 // AgentCreate is the builder for creating a Agent entity.

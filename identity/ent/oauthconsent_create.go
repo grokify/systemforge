@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/ent/oauthapp"
-	"github.com/grokify/coreforge/identity/ent/oauthconsent"
-	"github.com/grokify/coreforge/identity/ent/user"
+	"github.com/grokify/systemforge/identity/ent/oauthapp"
+	"github.com/grokify/systemforge/identity/ent/oauthconsent"
+	"github.com/grokify/systemforge/identity/ent/user"
 )
 
 // OAuthConsentCreate is the builder for creating a OAuthConsent entity.

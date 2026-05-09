@@ -1,7 +1,7 @@
 # Implementation Plan: Ent Store Implementations
 
 > **Status**: Draft
-> **Target**: CoreForge v0.5.0
+> **Target**: SystemForge v0.5.0
 
 ## Implementation Phases
 
@@ -106,18 +106,18 @@ Update documentation.
 
 ## Rollout Plan
 
-### Week 1: CoreForge Implementation
+### Week 1: SystemForge Implementation
 - Implement Phases 1-4
 - Code review and merge
-- Release as CoreForge v0.5.0-beta
+- Release as SystemForge v0.5.0-beta
 
 ### Week 2: App3 Integration
-- Migrate App3 to use CoreForge stores
+- Migrate App3 to use SystemForge stores
 - Validate with production-like data
 - Document integration patterns
 
 ### Week 3: General Availability
-- Release CoreForge v0.5.0
+- Release SystemForge v0.5.0
 - Update other apps
 - Final documentation
 
@@ -133,7 +133,7 @@ Update documentation.
 
 ```
 identity/ent/mixin (new)
-├── entgo.io/ent (existing in CoreForge)
+├── entgo.io/ent (existing in SystemForge)
 └── github.com/google/uuid (existing)
 
 session/bff/store_ent.go (new)

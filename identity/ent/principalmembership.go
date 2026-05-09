@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/ent/organization"
-	"github.com/grokify/coreforge/identity/ent/principal"
-	"github.com/grokify/coreforge/identity/ent/principalmembership"
+	"github.com/grokify/systemforge/identity/ent/organization"
+	"github.com/grokify/systemforge/identity/ent/principal"
+	"github.com/grokify/systemforge/identity/ent/principalmembership"
 )
 
 // PrincipalMembership is the model entity for the PrincipalMembership schema.

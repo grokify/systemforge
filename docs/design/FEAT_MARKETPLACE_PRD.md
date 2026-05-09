@@ -1,17 +1,17 @@
-# PRD: CoreForge Marketplace & Entitlements
+# PRD: SystemForge Marketplace & Entitlements
 
 > **Status**: Draft
 >
-> This PRD defines the requirements for a shared marketplace and entitlements system that can be used by CoreForge-powered applications.
+> This PRD defines the requirements for a shared marketplace and entitlements system that can be used by SystemForge-powered applications.
 
 ## Overview
 
-CoreForge Marketplace provides a unified framework for two-sided marketplace applications where:
+SystemForge Marketplace provides a unified framework for two-sided marketplace applications where:
 
 - **Creators** (Publishers/Tenants) create and sell digital products
 - **Consumers** (Organizations) subscribe to platforms and purchase products
 
-This module enables consistent pricing, licensing, and entitlement patterns across CoreForge applications like App1 (courses) and App2 (dashboards).
+This module enables consistent pricing, licensing, and entitlement patterns across SystemForge applications like App1 (courses) and App2 (dashboards).
 
 ## Goals
 
@@ -319,8 +319,8 @@ authz.Can(ctx, principal, "publish", listing)
 
 ## Dependencies
 
-- CoreForge authz module (SpiceDB integration)
-- CoreForge identity module (organizations, principals)
+- SystemForge authz module (SpiceDB integration)
+- SystemForge identity module (organizations, principals)
 - Stripe (payments, Connect)
 - PostgreSQL (data storage)
 

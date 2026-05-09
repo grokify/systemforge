@@ -1,7 +1,7 @@
 package scim
 
 import (
-	"github.com/grokify/coreforge/identity/scim/schema"
+	"github.com/grokify/systemforge/identity/scim/schema"
 )
 
 // ListUsersOutput is the response for listing users.

@@ -1,8 +1,8 @@
-# CoreForge OAuth 2.0 Server - Technical Requirements Document
+# SystemForge OAuth 2.0 Server - Technical Requirements Document
 
 > **Status**: Implemented in v0.1.0
 >
-> This TRD defined the technical design for CoreForge OAuth 2.0 server. The implementation uses Fosite as the OAuth 2.0 library with the following modules:
+> This TRD defined the technical design for SystemForge OAuth 2.0 server. The implementation uses Fosite as the OAuth 2.0 library with the following modules:
 >
 > | Component | Implementation |
 > |-----------|----------------|
@@ -18,7 +18,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                         CoreForge OAuth Module                          │
+│                         SystemForge OAuth Module                          │
 │                                                                         │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐         │
 │  │   oauth/app     │  │ oauth/service   │  │  oauth/token    │         │
@@ -59,7 +59,7 @@
 ## Module Structure
 
 ```
-github.com/grokify/coreforge/
+github.com/grokify/systemforge/
 ├── oauth/
 │   ├── app/
 │   │   ├── service.go          # OAuth app management

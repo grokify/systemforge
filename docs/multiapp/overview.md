@@ -51,7 +51,7 @@ package main
 import (
     "os"
 
-    "github.com/grokify/coreforge/multiapp"
+    "github.com/grokify/systemforge/multiapp"
     app1 "github.com/grokify/app1/multiapp"
     app2 "github.com/plexusone/app2/multiapp"
 )
@@ -200,7 +200,7 @@ import (
     "context"
 
     "github.com/go-chi/chi/v5"
-    cfmultiapp "github.com/grokify/coreforge/multiapp"
+    cfmultiapp "github.com/grokify/systemforge/multiapp"
     "github.com/yourapp/internal/server"
 )
 

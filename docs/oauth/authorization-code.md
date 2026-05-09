@@ -84,7 +84,7 @@ GET /oauth/authorize?
 
 ## Step 2: User Authentication
 
-CoreForge redirects to your login page if the user isn't authenticated:
+SystemForge redirects to your login page if the user isn't authenticated:
 
 ```go
 // In AuthorizeEndpoint

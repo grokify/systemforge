@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/authz"
-	"github.com/grokify/coreforge/identity/ent"
-	"github.com/grokify/coreforge/identity/principal"
+	"github.com/grokify/systemforge/authz"
+	"github.com/grokify/systemforge/identity/ent"
+	"github.com/grokify/systemforge/identity/principal"
 )
 
 // IdentityService provides identity-related operations for the contract.
@@ -283,7 +283,7 @@ func (p *Provider) UptimeSeconds() int64 {
 	return int64(time.Since(p.startTime).Seconds())
 }
 
-// Metadata returns the metadata response for GET /coreforge/meta.
+// Metadata returns the metadata response for GET /systemforge/meta.
 func (p *Provider) Metadata() *MetadataResponse {
 	return &MetadataResponse{
 		Body: struct {

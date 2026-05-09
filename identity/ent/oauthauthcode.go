@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/ent/oauthapp"
-	"github.com/grokify/coreforge/identity/ent/oauthauthcode"
-	"github.com/grokify/coreforge/identity/ent/user"
+	"github.com/grokify/systemforge/identity/ent/oauthapp"
+	"github.com/grokify/systemforge/identity/ent/oauthauthcode"
+	"github.com/grokify/systemforge/identity/ent/user"
 )
 
 // OAuthAuthCode is the model entity for the OAuthAuthCode schema.

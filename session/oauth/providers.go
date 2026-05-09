@@ -1,4 +1,4 @@
-// Package oauth provides OAuth2 provider configuration and handlers for CoreForge.
+// Package oauth provides OAuth2 provider configuration and handlers for SystemForge.
 package oauth
 
 import (

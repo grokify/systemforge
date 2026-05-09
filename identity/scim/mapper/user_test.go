@@ -7,9 +7,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/grokify/coreforge/identity"
-	"github.com/grokify/coreforge/identity/scim"
-	"github.com/grokify/coreforge/identity/scim/patch"
+	"github.com/grokify/systemforge/identity"
+	"github.com/grokify/systemforge/identity/scim"
+	"github.com/grokify/systemforge/identity/scim/patch"
 )
 
 func TestUserMapperToSCIM(t *testing.T) {

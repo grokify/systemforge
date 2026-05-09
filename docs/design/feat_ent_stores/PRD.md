@@ -1,15 +1,15 @@
 # PRD: Ent Store Implementations
 
 > **Status**: Draft
-> **Target**: CoreForge v0.5.0
+> **Target**: SystemForge v0.5.0
 
 ## Overview
 
-Provide reference Ent (database) implementations for CoreForge's BFF session store and API key store interfaces. This enables apps to use PostgreSQL-backed storage with minimal boilerplate.
+Provide reference Ent (database) implementations for SystemForge's BFF session store and API key store interfaces. This enables apps to use PostgreSQL-backed storage with minimal boilerplate.
 
 ## Problem Statement
 
-Currently, CoreForge provides:
+Currently, SystemForge provides:
 - `session/bff.Store` interface with only `MemoryStore` implementation
 - `identity/apikey.Store` interface with no implementations
 
@@ -42,7 +42,7 @@ Apps must write their own database implementations, leading to:
 
 **US-3**: As a developer, I can customize the schema if my app needs additional fields.
 
-**US-4**: As a developer, I can use CoreForge mixins and generate Ent code.
+**US-4**: As a developer, I can use SystemForge mixins and generate Ent code.
 
 ### Platform Operators
 

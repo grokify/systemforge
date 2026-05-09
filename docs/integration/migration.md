@@ -1,13 +1,13 @@
 # Migration Guide
 
-This guide covers database migrations when integrating CoreForge.
+This guide covers database migrations when integrating SystemForge.
 
 ## Migration Strategy
 
 ### Phase 1: Side-by-Side (Safe)
 
 ```
-Week 1-2: Create CoreForge tables
+Week 1-2: Create SystemForge tables
 Week 3:   Sync existing data
 Week 4:   Enable dual-write
 ```
@@ -15,7 +15,7 @@ Week 4:   Enable dual-write
 ### Phase 2: Cutover (Careful)
 
 ```
-Week 5:   Switch reads to CoreForge
+Week 5:   Switch reads to SystemForge
 Week 6:   Validate data integrity
 Week 7:   Disable old writes
 ```
@@ -28,7 +28,7 @@ Week 9:   Drop old tables
 Week 10:  Remove dual-write code
 ```
 
-## Creating CoreForge Tables
+## Creating SystemForge Tables
 
 ### Using Ent Migrations
 
@@ -39,7 +39,7 @@ import (
     "context"
     "log"
 
-    "github.com/grokify/coreforge/identity/ent"
+    "github.com/grokify/systemforge/identity/ent"
     _ "github.com/lib/pq"
 )
 
@@ -56,7 +56,7 @@ func main() {
         log.Fatal(err)
     }
 
-    log.Println("CoreForge tables created")
+    log.Println("SystemForge tables created")
 }
 ```
 
@@ -65,7 +65,7 @@ func main() {
 If you use a migration tool (golang-migrate, goose, etc.):
 
 ```sql
--- migrations/001_coreforge_users.up.sql
+-- migrations/001_systemforge_users.up.sql
 CREATE TABLE cf_users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -195,7 +195,7 @@ SELECT
 ### Find Missing Records
 
 ```sql
--- Users in old table but not in CoreForge
+-- Users in old table but not in SystemForge
 SELECT u.id, u.email
 FROM users u
 LEFT JOIN cf_users cf ON u.id = cf.id
@@ -219,7 +219,7 @@ WHERE u.email != cf.email;
 During dual-write phase, sync changes back to old tables:
 
 ```go
-// On CoreForge user update
+// On SystemForge user update
 func onUserUpdate(ctx context.Context, user *ent.User) {
     // Also update old table
     _, err := oldDB.ExecContext(ctx, `
@@ -246,7 +246,7 @@ func getUser(ctx context.Context, id uuid.UUID) (*User, error) {
     if useOldTables {
         return getOldUser(ctx, id)
     }
-    return getCoreForgeUser(ctx, id)
+    return getSystemForgeUser(ctx, id)
 }
 ```
 
@@ -300,7 +300,7 @@ If using different hash format:
 
 ```go
 func migratePasswordHash(oldHash string) string {
-    // If old hash is bcrypt, it works with CoreForge
+    // If old hash is bcrypt, it works with SystemForge
     if strings.HasPrefix(oldHash, "$2a$") || strings.HasPrefix(oldHash, "$2b$") {
         return oldHash
     }

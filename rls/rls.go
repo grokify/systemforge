@@ -1,4 +1,4 @@
-// Package rls provides PostgreSQL Row-Level Security helpers for CoreForge.
+// Package rls provides PostgreSQL Row-Level Security helpers for SystemForge.
 package rls
 
 import (

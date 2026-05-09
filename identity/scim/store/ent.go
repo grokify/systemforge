@@ -9,13 +9,13 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/google/uuid"
 
-	"github.com/grokify/coreforge/identity/ent"
-	"github.com/grokify/coreforge/identity/ent/membership"
-	"github.com/grokify/coreforge/identity/ent/organization"
-	"github.com/grokify/coreforge/identity/ent/predicate"
-	"github.com/grokify/coreforge/identity/ent/user"
-	"github.com/grokify/coreforge/identity/scim"
-	"github.com/grokify/coreforge/identity/scim/filter"
+	"github.com/grokify/systemforge/identity/ent"
+	"github.com/grokify/systemforge/identity/ent/membership"
+	"github.com/grokify/systemforge/identity/ent/organization"
+	"github.com/grokify/systemforge/identity/ent/predicate"
+	"github.com/grokify/systemforge/identity/ent/user"
+	"github.com/grokify/systemforge/identity/scim"
+	"github.com/grokify/systemforge/identity/scim/filter"
 )
 
 // EntStore implements the scim.Store interface using Ent ORM.
@@ -88,9 +88,9 @@ func (s *EntStore) GetUserByUserName(ctx context.Context, userName string) (*sci
 }
 
 // GetUserByExternalID retrieves a user by externalId.
-// Since CoreForge doesn't have an externalId field, we return not found.
+// Since SystemForge doesn't have an externalId field, we return not found.
 func (s *EntStore) GetUserByExternalID(ctx context.Context, externalID string) (*scim.User, error) {
-	// CoreForge doesn't store externalId - could be added as metadata
+	// SystemForge doesn't store externalId - could be added as metadata
 	return nil, scim.ErrNotFound("user not found")
 }
 

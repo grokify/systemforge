@@ -1,4 +1,4 @@
-// Package spicedb provides SpiceDB-based authorization for CoreForge.
+// Package spicedb provides SpiceDB-based authorization for SystemForge.
 package spicedb
 
 // CheckRequest represents a permission check request.

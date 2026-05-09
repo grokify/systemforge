@@ -8,8 +8,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/grokify/coreforge/identity/ent/predicate"
-	"github.com/grokify/coreforge/identity/ent/principaltoken"
+	"github.com/grokify/systemforge/identity/ent/predicate"
+	"github.com/grokify/systemforge/identity/ent/principaltoken"
 )
 
 // PrincipalTokenDelete is the builder for deleting a PrincipalToken entity.

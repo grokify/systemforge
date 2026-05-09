@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/grokify/coreforge/featureflags"
+	"github.com/grokify/systemforge/featureflags"
 )
 
 func TestMemoryStore(t *testing.T) {

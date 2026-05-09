@@ -1,6 +1,6 @@
 # Quick Start
 
-This guide walks you through building a simple API with CoreForge authentication.
+This guide walks you through building a simple API with SystemForge authentication.
 
 ## Step 1: Create the Application
 
@@ -13,8 +13,8 @@ import (
     "log"
     "net/http"
 
-    "github.com/grokify/coreforge/identity/ent"
-    "github.com/grokify/coreforge/identity/oauth"
+    "github.com/grokify/systemforge/identity/ent"
+    "github.com/grokify/systemforge/identity/oauth"
     _ "github.com/lib/pq"
 )
 

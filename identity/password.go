@@ -1,4 +1,4 @@
-// Package identity provides identity management for CoreForge applications.
+// Package identity provides identity management for SystemForge applications.
 package identity
 
 import (

@@ -18,8 +18,8 @@ Request → JWT Middleware → Rate Limit Middleware → Handler
 
 ```go
 import (
-    "github.com/grokify/coreforge/coreapi"
-    "github.com/grokify/coreforge/session/ratelimit"
+    "github.com/grokify/systemforge/coreapi"
+    "github.com/grokify/systemforge/session/ratelimit"
 )
 
 // 1. Create policy store with policies
@@ -189,9 +189,9 @@ import (
     "net/http"
 
     "github.com/go-chi/chi/v5"
-    "github.com/grokify/coreforge/coreapi"
-    "github.com/grokify/coreforge/session/jwt"
-    "github.com/grokify/coreforge/session/ratelimit"
+    "github.com/grokify/systemforge/coreapi"
+    "github.com/grokify/systemforge/session/jwt"
+    "github.com/grokify/systemforge/session/ratelimit"
 )
 
 func main() {

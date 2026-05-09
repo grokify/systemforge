@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/session/middleware"
+	"github.com/grokify/systemforge/session/middleware"
 )
 
 // Common key function builders for rate limiting based on JWT claims.

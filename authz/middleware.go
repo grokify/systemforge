@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/session/middleware"
+	"github.com/grokify/systemforge/session/middleware"
 )
 
 // Middleware wraps an Authorizer for HTTP middleware use.

@@ -4,14 +4,14 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/contract"
-	"github.com/grokify/coreforge/rls"
-	"github.com/grokify/coreforge/session/jwt"
-	"github.com/grokify/coreforge/session/middleware"
+	"github.com/grokify/systemforge/contract"
+	"github.com/grokify/systemforge/rls"
+	"github.com/grokify/systemforge/session/jwt"
+	"github.com/grokify/systemforge/session/middleware"
 )
 
 // This file provides integration helpers that bridge the multiapp context
-// with existing CoreForge context systems (session/middleware, rls, contract).
+// with existing SystemForge context systems (session/middleware, rls, contract).
 
 // FullContext represents the complete context available in a multi-app request.
 // It combines app context with authentication context.

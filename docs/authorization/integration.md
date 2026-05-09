@@ -1,6 +1,6 @@
 # Authorization Integration Guide
 
-This guide covers integrating SpiceDB authorization with your CoreForge application.
+This guide covers integrating SpiceDB authorization with your SystemForge application.
 
 ## Architecture Overview
 
@@ -30,7 +30,7 @@ import (
     "context"
     "log/slog"
 
-    "github.com/grokify/coreforge/authz/spicedb"
+    "github.com/grokify/systemforge/authz/spicedb"
 )
 
 func initAuthz(ctx context.Context) (*spicedb.Client, *spicedb.Provider, *spicedb.Syncer, error) {

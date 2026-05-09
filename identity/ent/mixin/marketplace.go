@@ -1,4 +1,4 @@
-// Package mixin provides Ent mixins for composing CoreForge fields into application schemas.
+// Package mixin provides Ent mixins for composing SystemForge fields into application schemas.
 package mixin
 
 import (

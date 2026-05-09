@@ -10,7 +10,7 @@ import (
 	"github.com/stripe/stripe-go/v84"
 	"github.com/stripe/stripe-go/v84/checkout/session"
 
-	"github.com/grokify/coreforge/marketplace"
+	"github.com/grokify/systemforge/marketplace"
 )
 
 // Config holds Stripe configuration.

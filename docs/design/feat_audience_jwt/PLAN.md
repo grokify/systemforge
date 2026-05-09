@@ -1,7 +1,7 @@
 # Implementation Plan: JWT Audience Validation
 
 > **Status**: Draft
-> **Target**: CoreForge v0.5.0
+> **Target**: SystemForge v0.5.0
 
 ## Implementation Phases
 
@@ -89,10 +89,10 @@ Update documentation.
 
 ## Rollout Plan
 
-### Week 1: CoreForge Implementation
+### Week 1: SystemForge Implementation
 - Implement Phases 1-4
 - Code review and merge
-- Release as CoreForge v0.5.0-beta
+- Release as SystemForge v0.5.0-beta
 
 ### Week 2: App Integration
 - App3: Update to use audience-aware methods
@@ -100,7 +100,7 @@ Update documentation.
 - Monitor for issues
 
 ### Week 3: General Availability
-- Release CoreForge v0.5.0
+- Release SystemForge v0.5.0
 - Update other apps (App1, Dashforge)
 - Documentation updates
 

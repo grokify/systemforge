@@ -6,7 +6,7 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/grokify/coreforge/featureflags"
+	"github.com/grokify/systemforge/featureflags"
 )
 
 // ErrFlagNotFound is returned when a flag is not found.

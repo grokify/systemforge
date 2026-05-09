@@ -1,4 +1,4 @@
-// Package schema provides Ent schema definitions for CoreForge identity management.
+// Package schema provides Ent schema definitions for SystemForge identity management.
 package schema
 
 import (

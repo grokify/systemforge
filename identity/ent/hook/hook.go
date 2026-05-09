@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/grokify/coreforge/identity/ent"
+	"github.com/grokify/systemforge/identity/ent"
 )
 
 // The APIKeyFunc type is an adapter to allow the use of ordinary

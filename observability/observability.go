@@ -1,4 +1,4 @@
-// Package observability provides vendor-agnostic observability for CoreForge applications.
+// Package observability provides vendor-agnostic observability for SystemForge applications.
 // It wraps omniobserve/observops to provide metrics, traces, and logs with support for
 // OTLP, Datadog, New Relic, and Dynatrace backends.
 package observability
@@ -11,7 +11,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/grokify/coreforge/productgraph"
+	"github.com/grokify/systemforge/productgraph"
 	"github.com/plexusone/omniobserve/observops"
 )
 
@@ -67,7 +67,7 @@ func ConfigFromEnv() Config {
 	}
 }
 
-// Observability wraps an observops.Provider with CoreForge-specific helpers.
+// Observability wraps an observops.Provider with SystemForge-specific helpers.
 type Observability struct {
 	provider observops.Provider
 	config   Config

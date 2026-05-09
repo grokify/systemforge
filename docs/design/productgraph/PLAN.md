@@ -6,11 +6,11 @@
 
 ## Executive Summary
 
-Integrate coreforge observability with ProductGraph to enable frontend-backend correlation, backend event forwarding, and unified analytics via omnidxi.
+Integrate systemforge observability with ProductGraph to enable frontend-backend correlation, backend event forwarding, and unified analytics via omnidxi.
 
 ## Current State
 
-### coreforge Observability
+### systemforge Observability
 
 - omniobserve integration with multiple providers (OTLP, Datadog, New Relic, Dynatrace)
 - Pre-defined metrics for CoreAuth and CoreAPI
@@ -182,7 +182,7 @@ productgraph/
 1. **Correlation**: 95%+ requests have session ID in context
 2. **Delivery**: 99.9%+ event delivery rate
 3. **Performance**: < 1ms tracking overhead
-4. **Adoption**: Used in 2+ coreforge-based services
+4. **Adoption**: Used in 2+ systemforge-based services
 
 ## Architecture Decision Records
 

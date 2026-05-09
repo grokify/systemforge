@@ -1,4 +1,4 @@
-// Package jwt provides JWT token generation and validation for CoreForge applications.
+// Package jwt provides JWT token generation and validation for SystemForge applications.
 package jwt
 
 import (

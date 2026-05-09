@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/ent/principal"
-	"github.com/grokify/coreforge/identity/ent/serviceprincipal"
+	"github.com/grokify/systemforge/identity/ent/principal"
+	"github.com/grokify/systemforge/identity/ent/serviceprincipal"
 )
 
 // ServicePrincipal is the model entity for the ServicePrincipal schema.

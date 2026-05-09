@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/grokify/coreforge/identity/scim/schema"
+	"github.com/grokify/systemforge/identity/scim/schema"
 )
 
 // Provider is the main entry point for SCIM operations.

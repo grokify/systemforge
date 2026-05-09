@@ -92,7 +92,7 @@ Apps integrate with multiapp by implementing the `AppBackend` interface and prov
 │   Standalone Mode       │        Multi-App Mode                │
 │   (dedicated infra)     │        (shared infra)                │
 ├─────────────────────────┼──────────────────────────────────────┤
-│   cmd/server/main.go    │   coreforge-multi server             │
+│   cmd/server/main.go    │   systemforge-multi server             │
 │          │              │          │                           │
 │          ▼              │          ▼                           │
 │   NewServer(cfg)        │   multiapp.Backend                   │
@@ -160,7 +160,7 @@ package multiapp
 import (
     "github.com/grokify/myapp/ent"
     "github.com/grokify/myapp/internal/api"
-    cfmultiapp "github.com/grokify/coreforge/multiapp"
+    cfmultiapp "github.com/grokify/systemforge/multiapp"
 )
 
 type Backend struct {
@@ -241,13 +241,13 @@ package main
 
 import (
     "github.com/grokify/app1/internal/multiapp"
-    cfmultiapp "github.com/grokify/coreforge/multiapp"
+    cfmultiapp "github.com/grokify/systemforge/multiapp"
 )
 
 func main() {
     server, _ := cfmultiapp.NewServer(cfmultiapp.Config{
         Mode:        cfmultiapp.MultiAppMode,
-        DatabaseURL: "postgres://localhost:5432/coreforge",
+        DatabaseURL: "postgres://localhost:5432/systemforge",
         RedisURL:    "redis://localhost:6379",  // optional
     })
 

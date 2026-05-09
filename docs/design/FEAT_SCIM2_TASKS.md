@@ -23,7 +23,7 @@
 - [x] Test bulk operations (endpoint accessibility)
 
 ### 4. Authorization Hook Implementation
-- [x] Create `identity/scim/auth.go` - Authorization hook using CoreForge's permission system
+- [x] Create `identity/scim/auth.go` - Authorization hook using SystemForge's permission system
 - [x] Implement scope-based authorization (scim:users:read, scim:users:write, etc.)
 - [x] Integrate with OAuth token scopes from context
 - [x] Add role-based authorization hook as alternative

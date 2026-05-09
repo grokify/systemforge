@@ -1,6 +1,6 @@
 # Marketplace
 
-CoreForge provides a SaaS marketplace infrastructure with Stripe integration for subscription billing, license management, and seat-based access control.
+SystemForge provides a SaaS marketplace infrastructure with Stripe integration for subscription billing, license management, and seat-based access control.
 
 ## Features
 
@@ -40,8 +40,8 @@ CoreForge provides a SaaS marketplace infrastructure with Stripe integration for
 
 ```go
 import (
-    "github.com/grokify/coreforge/marketplace"
-    "github.com/grokify/coreforge/marketplace/stripe"
+    "github.com/grokify/systemforge/marketplace"
+    "github.com/grokify/systemforge/marketplace/stripe"
 )
 
 // Create services with Ent client

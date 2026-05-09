@@ -1,11 +1,11 @@
 # Configuration
 
-CoreForge is configured through Go structs and environment variables.
+SystemForge is configured through Go structs and environment variables.
 
 ## OAuth Configuration
 
 ```go
-import "github.com/grokify/coreforge/identity/oauth"
+import "github.com/grokify/systemforge/identity/oauth"
 
 cfg := &oauth.Config{
     // Required: The base URL of your OAuth server
@@ -27,10 +27,10 @@ cfg := &oauth.Config{
 
 ## Database Configuration
 
-CoreForge uses Ent with PostgreSQL:
+SystemForge uses Ent with PostgreSQL:
 
 ```go
-import "github.com/grokify/coreforge/identity/ent"
+import "github.com/grokify/systemforge/identity/ent"
 
 // Connection string
 dsn := fmt.Sprintf(
@@ -84,10 +84,10 @@ app, _ := client.OAuthApp.Create().
 
 ### Password Hashing
 
-CoreForge uses Argon2id for password hashing:
+SystemForge uses Argon2id for password hashing:
 
 ```go
-import "github.com/grokify/coreforge/identity"
+import "github.com/grokify/systemforge/identity"
 
 // Hash a password
 hash, err := identity.HashPassword("user-password")

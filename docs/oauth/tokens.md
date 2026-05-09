@@ -1,6 +1,6 @@
 # Token Management
 
-This guide covers working with OAuth tokens in CoreForge.
+This guide covers working with OAuth tokens in SystemForge.
 
 ## Token Types
 
@@ -138,7 +138,7 @@ func revokeTokenFamily(ctx context.Context, familyID uuid.UUID) error {
 ## Token Validation Middleware
 
 ```go
-import "github.com/grokify/coreforge/identity/oauth"
+import "github.com/grokify/systemforge/identity/oauth"
 
 func main() {
     provider, _ := oauth.NewProvider(entClient, cfg)

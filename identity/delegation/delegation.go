@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/principal"
+	"github.com/grokify/systemforge/identity/principal"
 )
 
 // Link represents a single link in a delegation chain.

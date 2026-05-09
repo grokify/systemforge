@@ -9,7 +9,7 @@ type contextKey string
 
 const (
 	// appContextKey stores the app context in request context.
-	appContextKey contextKey = "coreforge.multiapp.app_context"
+	appContextKey contextKey = "systemforge.multiapp.app_context"
 )
 
 // AppContext contains information about the current app for a request.

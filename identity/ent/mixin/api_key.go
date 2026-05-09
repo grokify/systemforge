@@ -12,7 +12,7 @@ import (
 
 // APIKey provides common fields for API key entities.
 // Apps use this mixin in their Ent schema and implement EntClientInterface
-// to connect CoreForge's EntStore to their generated Ent client.
+// to connect SystemForge's EntStore to their generated Ent client.
 //
 // Example usage in app schema:
 //

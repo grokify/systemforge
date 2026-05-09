@@ -1,8 +1,8 @@
-site_name: CoreForge
+site_name: SystemForge
 site_description: Batteries-included Go platform module for multi-tenant SaaS applications
-site_url: https://grokify.github.io/coreforge/
-repo_url: https://github.com/grokify/coreforge
-repo_name: grokify/coreforge
+site_url: https://grokify.github.io/systemforge/
+repo_url: https://github.com/grokify/systemforge
+repo_name: grokify/systemforge
 
 theme:
   name: material

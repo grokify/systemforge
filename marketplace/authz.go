@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/authz/spicedb"
+	"github.com/grokify/systemforge/authz/spicedb"
 )
 
 // SpiceDB resource types for marketplace entities.

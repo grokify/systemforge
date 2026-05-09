@@ -1,10 +1,10 @@
-# CoreForge Roadmap
+# SystemForge Roadmap
 
 **Last Updated:** 2026-04-28
 
 ## Vision
 
-CoreForge is a batteries-included Go platform module providing reusable identity, session, authorization, and SaaS infrastructure for multi-tenant applications. The goal is Django/Laravel-style conveniences for Go.
+SystemForge is a batteries-included Go platform module providing reusable identity, session, authorization, and SaaS infrastructure for multi-tenant applications. The goal is Django/Laravel-style conveniences for Go.
 
 ## Current State
 

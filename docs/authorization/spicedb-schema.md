@@ -1,10 +1,10 @@
 # SpiceDB Schema Guide
 
-This guide explains the SpiceDB authorization schema used in CoreForge.
+This guide explains the SpiceDB authorization schema used in SystemForge.
 
 ## Base Schema
 
-CoreForge provides a base schema for common authorization patterns:
+SystemForge provides a base schema for common authorization patterns:
 
 ```zed
 definition principal {}

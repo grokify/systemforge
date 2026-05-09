@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/identity/apikey"
-	"github.com/grokify/coreforge/observability"
+	"github.com/grokify/systemforge/identity/apikey"
+	"github.com/grokify/systemforge/observability"
 )
 
 const (

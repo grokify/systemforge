@@ -1,8 +1,8 @@
-# PRD: CoreForge Authentication & Authorization
+# PRD: SystemForge Authentication & Authorization
 
 > **Status**: Implemented in v0.1.0
 >
-> This PRD defined the requirements for CoreForge authentication. The features described below have been implemented in the following modules:
+> This PRD defined the requirements for SystemForge authentication. The features described below have been implemented in the following modules:
 >
 > - `session/dpop/` - DPoP proof-of-possession (RFC 9449)
 > - `session/bff/` - Backend for Frontend pattern
@@ -13,7 +13,7 @@
 
 ## Overview
 
-This document defines the product requirements for CoreForge's authentication and authorization system, designed to support multi-tenant SaaS applications with both WebUI (SPA) and Developer API access patterns.
+This document defines the product requirements for SystemForge's authentication and authorization system, designed to support multi-tenant SaaS applications with both WebUI (SPA) and Developer API access patterns.
 
 ## Goals
 
@@ -26,9 +26,9 @@ This document defines the product requirements for CoreForge's authentication an
 
 | Application | Current State | Target State |
 |-------------|---------------|--------------|
-| **App1** | CoreForge integrated | Add DPoP + BFF |
-| **Dashforge** | Custom auth, tenant-per-user | Full CoreForge migration |
-| **Future Apps** | - | CoreForge from day one |
+| **App1** | SystemForge integrated | Add DPoP + BFF |
+| **Dashforge** | Custom auth, tenant-per-user | Full SystemForge migration |
+| **Future Apps** | - | SystemForge from day one |
 
 ## User Stories
 
@@ -102,7 +102,7 @@ This document defines the product requirements for CoreForge's authentication an
 
 ```
 ┌─────────┐     ┌─────────┐     ┌─────────┐
-│Developer│     │  Their  │     │CoreForge│
+│Developer│     │  Their  │     │SystemForge│
 │         │     │ Server  │     │   API   │
 └────┬────┘     └────┬────┘     └────┬────┘
      │               │               │
@@ -185,7 +185,7 @@ This document defines the product requirements for CoreForge's authentication an
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                         CoreForge API Backend                            │
+│                         SystemForge API Backend                            │
 │  ┌─────────────────────────────────────────────────────────────────┐    │
 │  │                                                                  │    │
 │  │  • Validates DPoP proof signature                                │    │
@@ -245,7 +245,7 @@ This document defines the product requirements for CoreForge's authentication an
 └─────────┘     └─────────┘
 ```
 
-### Target: Organization-based (CoreForge)
+### Target: Organization-based (SystemForge)
 
 ```
 ┌─────────┐     ┌────────────┐     ┌──────────────┐
@@ -277,9 +277,9 @@ One user can belong to multiple organizations with different roles
 
 ## Dependencies
 
-- CoreForge identity module (existing)
-- CoreForge session/JWT module (existing)
-- CoreForge authz module (existing)
+- SystemForge identity module (existing)
+- SystemForge session/JWT module (existing)
+- SystemForge authz module (existing)
 - PostgreSQL for session storage
 - Redis for session caching (optional)
 

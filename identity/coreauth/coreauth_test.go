@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/grokify/coreforge/identity/coreauth"
+	"github.com/grokify/systemforge/identity/coreauth"
 )
 
 func TestNewEmbedded(t *testing.T) {

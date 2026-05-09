@@ -6,17 +6,17 @@
 - PostgreSQL 14 or later (recommended)
 - Ent CLI (for code generation)
 
-## Install CoreForge
+## Install SystemForge
 
-Add CoreForge to your Go module:
+Add SystemForge to your Go module:
 
 ```bash
-go get github.com/grokify/coreforge
+go get github.com/grokify/systemforge
 ```
 
 ## Install Ent CLI
 
-CoreForge uses [Ent](https://entgo.io/) for database schemas. Install the CLI:
+SystemForge uses [Ent](https://entgo.io/) for database schemas. Install the CLI:
 
 ```bash
 go install entgo.io/ent/cmd/ent@latest
@@ -26,14 +26,14 @@ go install entgo.io/ent/cmd/ent@latest
 
 ### Option 1: New Project
 
-Create a new project with CoreForge:
+Create a new project with SystemForge:
 
 ```bash
 mkdir myapp && cd myapp
 go mod init github.com/myorg/myapp
 
-# Add CoreForge
-go get github.com/grokify/coreforge
+# Add SystemForge
+go get github.com/grokify/systemforge
 
 # Create your ent directory
 mkdir -p ent/schema
@@ -41,15 +41,15 @@ mkdir -p ent/schema
 
 ### Option 2: Existing Project
 
-Add CoreForge to an existing project:
+Add SystemForge to an existing project:
 
 ```bash
-go get github.com/grokify/coreforge
+go get github.com/grokify/systemforge
 ```
 
 ## Database Setup
 
-CoreForge uses PostgreSQL by default. Create a database:
+SystemForge uses PostgreSQL by default. Create a database:
 
 ```sql
 CREATE DATABASE myapp;
@@ -59,7 +59,7 @@ GRANT ALL PRIVILEGES ON DATABASE myapp TO myapp;
 
 ## Generate Ent Code
 
-If you're extending CoreForge schemas, generate the Ent code:
+If you're extending SystemForge schemas, generate the Ent code:
 
 ```bash
 cd ent
@@ -75,13 +75,13 @@ package main
 
 import (
     "fmt"
-    "github.com/grokify/coreforge/identity/ent"
+    "github.com/grokify/systemforge/identity/ent"
 )
 
 func main() {
     // This should compile without errors
     _ = &ent.Client{}
-    fmt.Println("CoreForge installed successfully!")
+    fmt.Println("SystemForge installed successfully!")
 }
 ```
 
@@ -93,5 +93,5 @@ go run main.go
 
 ## Next Steps
 
-- [Quick Start](quickstart.md) - Build your first CoreForge app
-- [Configuration](configuration.md) - Configure CoreForge for your environment
+- [Quick Start](quickstart.md) - Build your first SystemForge app
+- [Configuration](configuration.md) - Configure SystemForge for your environment

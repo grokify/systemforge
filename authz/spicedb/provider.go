@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
-	"github.com/grokify/coreforge/authz"
+	"github.com/grokify/systemforge/authz"
 )
 
 // Provider implements the authz.Authorizer interface using SpiceDB.
@@ -189,7 +189,7 @@ var (
 	_ authz.PlatformAuthorizer = (*Provider)(nil)
 )
 
-// BaseSchema provides a minimal SpiceDB schema for CoreForge applications.
+// BaseSchema provides a minimal SpiceDB schema for SystemForge applications.
 // Applications can extend this with their own resource types.
 const BaseSchema = `
 definition principal {}

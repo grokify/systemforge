@@ -1,11 +1,11 @@
-# CoreForge Product Contract Specification
+# SystemForge Product Contract Specification
 
 **Version**: 1.0 (Draft)
 **Status**: In Development
 
 ## Overview
 
-The CoreForge Product Contract defines the standardized interfaces that CoreForge applications must implement to participate in federated deployments via CoreControl.
+The SystemForge Product Contract defines the standardized interfaces that SystemForge applications must implement to participate in federated deployments via CoreControl.
 
 Applications implementing this contract can:
 
@@ -35,7 +35,7 @@ If federation becomes unavailable, applications should continue operating using 
 **Purpose**: Expose application capabilities and configuration to CoreControl.
 
 ```
-GET /coreforge/meta
+GET /systemforge/meta
 
 Response:
 {
@@ -50,10 +50,10 @@ Response:
         "tenancy"
     ],
     "endpoints": {
-        "identity": "/coreforge/identity",
-        "policy": "/coreforge/policy",
-        "audit": "/coreforge/audit",
-        "health": "/coreforge/health"
+        "identity": "/systemforge/identity",
+        "policy": "/systemforge/policy",
+        "audit": "/systemforge/audit",
+        "health": "/systemforge/health"
     },
     "federation": {
         "status": "standalone",
@@ -91,7 +91,7 @@ Response:
 #### List Principals
 
 ```
-GET /coreforge/identity/principals?type={type}&tenant_id={tenant_id}&limit={limit}&cursor={cursor}
+GET /systemforge/identity/principals?type={type}&tenant_id={tenant_id}&limit={limit}&cursor={cursor}
 
 Response:
 {
@@ -119,7 +119,7 @@ Response:
 #### Get Principal
 
 ```
-GET /coreforge/identity/principals/{id}
+GET /systemforge/identity/principals/{id}
 
 Response:
 {
@@ -143,7 +143,7 @@ Response:
 #### Lookup Principal
 
 ```
-POST /coreforge/identity/principals/lookup
+POST /systemforge/identity/principals/lookup
 
 Request:
 {
@@ -159,7 +159,7 @@ Response:
 #### Sync Identity (Federation Mode)
 
 ```
-POST /coreforge/identity/sync
+POST /systemforge/identity/sync
 
 Request:
 {
@@ -191,7 +191,7 @@ Response:
 #### List Tenants
 
 ```
-GET /coreforge/identity/tenants
+GET /systemforge/identity/tenants
 
 Response:
 {
@@ -214,7 +214,7 @@ Response:
 #### List Roles
 
 ```
-GET /coreforge/policy/roles
+GET /systemforge/policy/roles
 
 Response:
 {
@@ -233,7 +233,7 @@ Response:
 #### List Permissions
 
 ```
-GET /coreforge/policy/permissions
+GET /systemforge/policy/permissions
 
 Response:
 {
@@ -252,7 +252,7 @@ Response:
 #### Sync Policies (Federation Mode)
 
 ```
-POST /coreforge/policy/sync
+POST /systemforge/policy/sync
 
 Request:
 {
@@ -285,7 +285,7 @@ Response:
 #### Evaluate Policy
 
 ```
-POST /coreforge/policy/evaluate
+POST /systemforge/policy/evaluate
 
 Request:
 {
@@ -317,7 +317,7 @@ Response:
 #### Get Stream Configuration
 
 ```
-GET /coreforge/audit/stream/config
+GET /systemforge/audit/stream/config
 
 Response:
 {
@@ -333,7 +333,7 @@ Response:
 #### Update Stream Configuration
 
 ```
-PUT /coreforge/audit/stream/config
+PUT /systemforge/audit/stream/config
 
 Request:
 {
@@ -354,7 +354,7 @@ Response:
 #### Acknowledge Events
 
 ```
-POST /coreforge/audit/stream/ack
+POST /systemforge/audit/stream/ack
 
 Request:
 {
@@ -376,7 +376,7 @@ Response:
 #### Application Health
 
 ```
-GET /coreforge/health
+GET /systemforge/health
 
 Response:
 {
@@ -394,7 +394,7 @@ Response:
 #### Federation Health
 
 ```
-GET /coreforge/health/federation
+GET /systemforge/health/federation
 
 Response:
 {
@@ -512,14 +512,14 @@ Applications must emit audit events in this standardized format:
 When not federated:
 
 1. All endpoints return local data only
-2. `/coreforge/health/federation` returns `federation_status: "standalone"`
+2. `/systemforge/health/federation` returns `federation_status: "standalone"`
 3. Sync endpoints return `501 Not Implemented`
 
 ### Federation Attachment
 
 When joining a federation:
 
-1. CoreControl calls `/coreforge/meta` to validate compatibility
+1. CoreControl calls `/systemforge/meta` to validate compatibility
 2. CoreControl calls identity sync endpoints to map users
 3. CoreControl configures audit streaming
 4. Application updates federation status in metadata

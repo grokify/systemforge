@@ -102,7 +102,7 @@ user.Update().
 Users can authenticate via external OAuth providers (GitHub, Google, CoreControl). The [OAuth Client](oauthclient.md) package handles the OAuth flow:
 
 ```go
-import cfoauth "github.com/grokify/coreforge/identity/oauthclient"
+import cfoauth "github.com/grokify/systemforge/identity/oauthclient"
 
 // Exchange OAuth code for user info
 user, err := cfoauth.FetchGitHubUser(ctx, githubConfig, code)

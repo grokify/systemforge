@@ -1,4 +1,4 @@
-// Package mixin provides reusable Ent schema mixins for CoreForge entities.
+// Package mixin provides reusable Ent schema mixins for SystemForge entities.
 package mixin
 
 import (
@@ -13,7 +13,7 @@ import (
 
 // BFFSession provides common fields for BFF session entities.
 // Apps use this mixin in their Ent schema and implement EntClientInterface
-// to connect CoreForge's EntStore to their generated Ent client.
+// to connect SystemForge's EntStore to their generated Ent client.
 //
 // Example usage in app schema:
 //
