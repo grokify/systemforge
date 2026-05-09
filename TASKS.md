@@ -1,5 +1,11 @@
 # CoreForge Tasks
 
+**Last Updated:** 2026-04-28
+
+See [PLAN.md](PLAN.md) for the overall roadmap and feature priorities.
+
+---
+
 ## Implementation Tasks (Pre-App1)
 
 These tasks must be completed before App1 integration.
@@ -423,3 +429,426 @@ type Config struct {
 // See also: HTTPAuthOptional, ClaimsFromContext
 func HTTPAuth(jwtService *jwt.Service) func(http.Handler) http.Handler
 ```
+
+---
+
+## Security Hardening
+
+### P1: Multi-Factor Authentication (MFA)
+
+#### Phase 1: TOTP Support
+
+- [ ] Create `identity/mfa/` package
+- [ ] Create `identity/mfa/totp.go`
+  - [ ] `GenerateSecret()` - Generate TOTP secret
+  - [ ] `GenerateQRCode(secret, issuer, account)` - QR code for authenticator apps
+  - [ ] `ValidateCode(secret, code)` - Validate 6-digit code
+  - [ ] `ValidateCodeWithWindow(secret, code, window)` - Allow time drift
+- [ ] Create `identity/mfa/recovery.go`
+  - [ ] `GenerateRecoveryCodes(count)` - Generate backup codes
+  - [ ] `HashRecoveryCode(code)` - Hash for storage
+  - [ ] `ValidateRecoveryCode(hash, code)` - Validate and mark used
+- [ ] Create `identity/ent/schema/mfa_enrollment.go`
+  - [ ] User relationship
+  - [ ] Secret (encrypted)
+  - [ ] Verified timestamp
+  - [ ] Recovery codes (hashed)
+
+#### Phase 2: Enrollment Flow
+
+- [ ] Create `identity/mfa/enrollment.go`
+  - [ ] `StartEnrollment(userID)` - Begin MFA setup
+  - [ ] `VerifyEnrollment(userID, code)` - Complete setup
+  - [ ] `Unenroll(userID)` - Remove MFA
+  - [ ] `GetEnrollmentStatus(userID)` - Check MFA status
+- [ ] Create `identity/mfa/handlers.go`
+  - [ ] `POST /api/v1/mfa/enroll` - Start enrollment
+  - [ ] `POST /api/v1/mfa/verify` - Verify enrollment
+  - [ ] `POST /api/v1/mfa/challenge` - Request MFA challenge
+  - [ ] `POST /api/v1/mfa/validate` - Validate MFA code
+  - [ ] `DELETE /api/v1/mfa` - Unenroll
+
+#### Phase 3: MFA Middleware
+
+- [ ] Create `session/middleware/mfa.go`
+  - [ ] `RequireMFA()` - Require MFA for route
+  - [ ] `MFAVerifiedFromContext(ctx)` - Check MFA status in context
+  - [ ] `SetMFAVerified(ctx)` - Mark session as MFA verified
+- [ ] Update JWT claims to include MFA verification status
+- [ ] Add MFA requirement to sensitive operations
+
+#### Phase 4: Tests
+
+- [ ] Create `identity/mfa/totp_test.go`
+- [ ] Create `identity/mfa/recovery_test.go`
+- [ ] Create `identity/mfa/enrollment_test.go`
+- [ ] Create `session/middleware/mfa_test.go`
+
+### P1: Account Lockout ✅
+
+- [x] Create `identity/security/lockout.go`
+  - [x] `RecordFailure(identifier)` - Track failed login
+  - [x] `IsLocked(identifier)` - Check lockout status
+  - [x] `RecordSuccess(identifier)` - Clear on success
+  - [x] `GetStatus(identifier)` - Get remaining lockout time
+  - [x] `CheckAndRecord(identifier, success)` - Combined check and record
+- [x] Create `identity/security/lockout_redis.go`
+  - [x] Redis-backed storage for distributed deployments
+- [x] Create `identity/security/lockout_test.go` (9 tests passing)
+- [x] Configuration options:
+  - [x] MaxAttempts - Max attempts before lockout
+  - [x] LockoutDuration - How long account stays locked
+  - [x] AttemptWindow - Time window for counting attempts
+- [ ] Create `identity/ent/schema/login_attempt.go` (optional, for persistence)
+- [ ] Add lockout check to authentication flow (integration)
+
+### P1: Session Invalidation ✅
+
+- [x] Create `session/invalidation/invalidation.go`
+  - [x] `InvalidateAllSessions(userID)` - Logout all devices
+  - [x] `InvalidateSession(sessionID)` - Logout specific session
+  - [x] `ListSessions(userID)` - List user's sessions
+  - [x] `InvalidateDeviceSessions(userID, deviceID)` - Logout specific device
+  - [x] `InvalidateOtherSessions(userID, currentSessionID)` - Logout other devices
+  - [x] `CreateSession(userID, opts...)` - Create tracked session
+  - [x] `ValidateSession(sessionID)` - Validate and update LastActiveAt
+  - [x] `RefreshSession(sessionID)` - Extend session expiration
+- [x] Create `session/invalidation/store_memory.go`
+  - [x] In-memory session storage
+- [x] Create `session/invalidation/store_redis.go`
+  - [x] Redis-backed session storage for distributed deployments
+- [x] Session struct with:
+  - [x] Session ID
+  - [x] UserID
+  - [x] DeviceID, DeviceInfo
+  - [x] IPAddress
+  - [x] LastActiveAt, CreatedAt, ExpiresAt
+  - [x] Metadata map
+- [x] Create `session/invalidation/invalidation_test.go` (15 tests passing)
+- [x] MaxSessionsPerUser enforcement
+- [ ] Create `identity/ent/schema/user_session.go` (optional, for persistence)
+- [ ] Add session tracking to JWT issuance (integration)
+- [ ] Add session validation to JWT middleware (integration)
+
+### P2: Suspicious Activity Detection
+
+- [ ] Create `identity/security/anomaly.go`
+  - [ ] `DetectAnomalousLogin(userID, ip, userAgent)` - Check for anomalies
+  - [ ] `RecordLogin(userID, ip, userAgent, location)` - Track login patterns
+  - [ ] `GetLoginHistory(userID)` - Get recent logins
+- [ ] Detection rules:
+  - [ ] New device/browser
+  - [ ] New location
+  - [ ] Impossible travel
+  - [ ] Unusual time of day
+- [ ] Alert actions:
+  - [ ] Email notification
+  - [ ] Require MFA
+  - [ ] Block login
+
+---
+
+## Infrastructure
+
+### P2: Redis Rate Limiting Backend ✅
+
+- [x] Create `session/ratelimit/redis.go`
+  - [x] `NewRedisStorage(client, opts)` - Create Redis storage
+  - [x] `Allow(ctx, key, limit)` - Check and increment (sliding window)
+  - [x] `Reset(ctx, key)` - Reset counter
+  - [x] Lua script for atomic sliding window operations
+- [x] Create `session/ratelimit/memory.go`
+  - [x] In-memory storage for single-instance deployments
+- [x] Create `session/ratelimit/ratelimit.go`
+  - [x] Storage interface
+  - [x] Limiter with middleware
+  - [x] StaticResolver and TieredResolver
+  - [x] Observability integration
+- [x] Create `session/ratelimit/ratelimit_test.go`
+- [x] Add Redis connection configuration (RedisConfig)
+- [x] Support cluster mode (UniversalClient)
+- [x] Add connection pooling options
+
+### P2: Redis Feature Flags
+
+- [ ] Create `featureflags/stores/redis.go`
+  - [ ] `NewRedisStore(client, opts)` - Create Redis store
+  - [ ] `Get(ctx, key)` - Get flag value
+  - [ ] `Set(ctx, key, value)` - Set flag value
+  - [ ] `Delete(ctx, key)` - Delete flag
+  - [ ] `List(ctx, prefix)` - List flags
+  - [ ] `Watch(ctx, key)` - Watch for changes
+- [ ] Create `featureflags/stores/redis_test.go`
+- [ ] Add pub/sub for real-time updates
+- [ ] Add TTL support for temporary flags
+
+### P2: Webhook System
+
+#### Phase 1: Core Infrastructure
+
+- [ ] Create `webhook/` package
+- [ ] Create `webhook/config.go`
+  - [ ] Webhook configuration struct
+  - [ ] Retry policy options
+  - [ ] Signature algorithm options
+- [ ] Create `identity/ent/schema/webhook.go`
+  - [ ] URL
+  - [ ] Secret (encrypted)
+  - [ ] Events subscribed
+  - [ ] Active flag
+  - [ ] Organization relationship
+- [ ] Create `identity/ent/schema/webhook_delivery.go`
+  - [ ] Webhook relationship
+  - [ ] Event type
+  - [ ] Payload
+  - [ ] Status code
+  - [ ] Attempts
+  - [ ] Delivered timestamp
+
+#### Phase 2: Dispatcher
+
+- [ ] Create `webhook/dispatcher.go`
+  - [ ] `Dispatch(ctx, event)` - Queue event for delivery
+  - [ ] `DispatchSync(ctx, event)` - Synchronous delivery
+  - [ ] `GetDeliveryStatus(deliveryID)` - Check delivery status
+  - [ ] `RetryDelivery(deliveryID)` - Manual retry
+- [ ] Create `webhook/worker.go`
+  - [ ] Background worker for async delivery
+  - [ ] Exponential backoff retry
+  - [ ] Dead letter queue handling
+- [ ] Create `webhook/signature.go`
+  - [ ] `Sign(payload, secret)` - Generate HMAC signature
+  - [ ] `Verify(payload, signature, secret)` - Verify signature
+  - [ ] Support SHA-256 and SHA-512
+
+#### Phase 3: API Handlers
+
+- [ ] Create `webhook/handlers.go`
+  - [ ] `POST /api/v1/webhooks` - Create webhook
+  - [ ] `GET /api/v1/webhooks` - List webhooks
+  - [ ] `GET /api/v1/webhooks/{id}` - Get webhook
+  - [ ] `PATCH /api/v1/webhooks/{id}` - Update webhook
+  - [ ] `DELETE /api/v1/webhooks/{id}` - Delete webhook
+  - [ ] `POST /api/v1/webhooks/{id}/test` - Send test event
+  - [ ] `GET /api/v1/webhooks/{id}/deliveries` - List deliveries
+  - [ ] `POST /api/v1/webhooks/{id}/deliveries/{delivery_id}/retry` - Retry delivery
+
+#### Phase 4: Tests
+
+- [ ] Create `webhook/dispatcher_test.go`
+- [ ] Create `webhook/signature_test.go`
+- [ ] Create `webhook/handlers_test.go`
+- [ ] Integration tests with mock server
+
+---
+
+## ProductGraph Integration
+
+### P1: Correlation Middleware ✅
+
+- [x] Create `productgraph/correlation.go`
+- [x] Implement `CorrelationMiddleware`
+- [x] Implement `SessionIDFromContext`
+- [x] Implement `RequestIDFromContext`
+- [x] Implement `UserIDFromContext`
+- [x] Create `productgraph/correlation_test.go`
+
+### P1: ProductGraph Client ✅
+
+- [x] Create `productgraph/config.go`
+- [x] Create `productgraph/event.go`
+- [x] Create `productgraph/client.go`
+- [x] Implement async batching
+- [x] Create `productgraph/client_test.go`
+
+### P1: Request Tracking ✅
+
+- [x] Create `productgraph/middleware.go`
+- [x] Implement `RequestTrackerMiddleware`
+- [x] Implement `ChainMiddleware`
+- [x] Create `productgraph/middleware_test.go`
+
+### P1: Observability Integration ✅
+
+- [x] Create `observability/productgraph.go`
+- [x] Add `SetProductGraph` method
+- [x] Add `SetProductGraphFromEnv` method
+- [x] Update `Shutdown` to close ProductGraph
+
+### P2: Journey Tracking
+
+- [ ] Create `productgraph/journey.go`
+  - [ ] `StartJourney(ctx, journeyID, name)` - Start journey
+  - [ ] `CompleteJourney(ctx, journeyID)` - Complete journey
+  - [ ] `AbandonJourney(ctx, journeyID, reason)` - Abandon journey
+- [ ] Add journey context propagation
+
+---
+
+## Compliance & Privacy
+
+### P2: GDPR Data Export
+
+- [ ] Create `identity/gdpr/export.go`
+  - [ ] `ExportUserData(ctx, userID)` - Export all user data
+  - [ ] `ExportToJSON(data)` - JSON format
+  - [ ] `ExportToCSV(data)` - CSV format
+- [ ] Define exportable data types:
+  - [ ] User profile
+  - [ ] Organization memberships
+  - [ ] OAuth accounts
+  - [ ] API keys (metadata only)
+  - [ ] Audit logs
+  - [ ] Sessions
+- [ ] Create `identity/gdpr/export_test.go`
+
+### P2: GDPR Data Deletion
+
+- [ ] Create `identity/gdpr/deletion.go`
+  - [ ] `DeleteUserData(ctx, userID)` - Delete all user data
+  - [ ] `ScheduleDeletion(ctx, userID, when)` - Schedule deletion
+  - [ ] `CancelDeletion(ctx, userID)` - Cancel scheduled deletion
+  - [ ] `AnonymizeUser(ctx, userID)` - Anonymize instead of delete
+- [ ] Cascade delete:
+  - [ ] User record
+  - [ ] Memberships
+  - [ ] OAuth accounts
+  - [ ] API keys
+  - [ ] Sessions
+  - [ ] MFA enrollments
+- [ ] Create `identity/gdpr/deletion_test.go`
+
+### P2: Audit Log Search
+
+- [ ] Create `contract/audit/search.go`
+  - [ ] `Search(ctx, query)` - Search audit logs
+  - [ ] `Export(ctx, query, format)` - Export search results
+- [ ] Query options:
+  - [ ] Date range
+  - [ ] Actor (user/service)
+  - [ ] Action type
+  - [ ] Resource type
+  - [ ] Organization
+- [ ] Create `contract/audit/search_test.go`
+
+---
+
+## Operations & Admin
+
+### P2: Admin Impersonation
+
+- [ ] Create `identity/admin/impersonation.go`
+  - [ ] `StartImpersonation(ctx, adminID, targetUserID)` - Start impersonation
+  - [ ] `EndImpersonation(ctx)` - End impersonation
+  - [ ] `IsImpersonating(ctx)` - Check impersonation status
+  - [ ] `GetRealUser(ctx)` - Get actual admin user
+- [ ] Create impersonation token type
+- [ ] Add impersonation claims to JWT
+- [ ] Audit log all impersonation actions
+- [ ] Create `identity/admin/impersonation_test.go`
+
+### P2: Bulk Operations
+
+- [ ] Create `identity/admin/bulk.go`
+  - [ ] `BulkImportUsers(ctx, users)` - Import users from CSV/JSON
+  - [ ] `BulkExportUsers(ctx, query)` - Export users
+  - [ ] `BulkUpdateUsers(ctx, query, updates)` - Bulk update
+  - [ ] `BulkDeleteUsers(ctx, userIDs)` - Bulk delete
+- [ ] Create `identity/admin/bulk_test.go`
+- [ ] Add progress tracking for large operations
+- [ ] Add dry-run mode
+
+### P3: Email/Notification Service
+
+- [ ] Create `notification/` package
+- [ ] Create `notification/email.go`
+  - [ ] `Send(ctx, to, template, data)` - Send email
+  - [ ] `SendBulk(ctx, recipients, template, data)` - Bulk send
+- [ ] Create `notification/templates/`
+  - [ ] Welcome email
+  - [ ] Password reset
+  - [ ] Email verification
+  - [ ] MFA enrollment
+  - [ ] Suspicious login alert
+  - [ ] Subscription confirmation
+- [ ] Provider support:
+  - [ ] SMTP
+  - [ ] SendGrid
+  - [ ] AWS SES
+  - [ ] Mailgun
+
+### P3: API Key Management
+
+- [ ] Create `identity/apikey/rotation.go`
+  - [ ] `ScheduleRotation(ctx, keyID, interval)` - Schedule rotation
+  - [ ] `Rotate(ctx, keyID)` - Rotate key immediately
+  - [ ] `GetRotationSchedule(ctx, keyID)` - Get schedule
+- [ ] Create `identity/apikey/quota.go`
+  - [ ] `SetQuota(ctx, keyID, quota)` - Set rate limit
+  - [ ] `GetUsage(ctx, keyID)` - Get current usage
+  - [ ] `ResetUsage(ctx, keyID)` - Reset usage counter
+- [ ] Create `identity/apikey/metering.go`
+  - [ ] `RecordCall(ctx, keyID)` - Record API call
+  - [ ] `GetUsageReport(ctx, keyID, period)` - Usage report
+
+---
+
+## Enterprise SSO (Future)
+
+### P3: SAML 2.0 Federation
+
+- [ ] Create `identity/saml/` package
+- [ ] Create `identity/saml/provider.go`
+  - [ ] `NewSAMLProvider(config)` - Create provider
+  - [ ] `GenerateMetadata()` - SP metadata
+  - [ ] `HandleAssertion(ctx, assertion)` - Process SAML response
+- [ ] Create `identity/saml/handlers.go`
+  - [ ] `GET /saml/metadata` - Service provider metadata
+  - [ ] `POST /saml/acs` - Assertion consumer service
+  - [ ] `GET /saml/login` - Initiate SSO
+
+### P3: OIDC Federation
+
+- [ ] Create `identity/oidc/provider.go`
+  - [ ] `NewOIDCProvider(config)` - Create provider
+  - [ ] `HandleCallback(ctx, code)` - Handle callback
+  - [ ] `RefreshToken(ctx, token)` - Refresh token
+- [ ] Support multiple IdPs per organization
+
+### P3: WebAuthn/Passkeys
+
+- [ ] Create `identity/webauthn/` package
+- [ ] Create `identity/webauthn/registration.go`
+  - [ ] `BeginRegistration(ctx, userID)` - Start registration
+  - [ ] `FinishRegistration(ctx, userID, response)` - Complete registration
+- [ ] Create `identity/webauthn/authentication.go`
+  - [ ] `BeginAuthentication(ctx, userID)` - Start authentication
+  - [ ] `FinishAuthentication(ctx, userID, response)` - Verify
+
+---
+
+## Summary
+
+### Priority Legend
+
+- P0: Critical path, blocks release
+- P1: High priority, should have for production
+- P2: Medium priority, important for enterprise
+- P3: Future consideration
+
+### Current Focus
+
+1. MFA/2FA support
+2. Webhook system
+3. GDPR compliance helpers
+4. Admin impersonation
+
+### Completed Milestones
+
+- [x] Marketplace module (Phase 1-4)
+- [x] ProductGraph correlation and client
+- [x] Request tracking middleware
+- [x] Observability integration
+- [x] Redis rate limiting backend
+- [x] Account lockout (brute-force protection)
+- [x] Session invalidation (logout all devices)
