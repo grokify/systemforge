@@ -227,3 +227,116 @@ OBSERVABILITY_DISABLED=true
 ```
 
 When disabled, all operations are no-ops with minimal overhead.
+
+## ProductGraph Integration
+
+CoreForge integrates with [ProductGraph](https://github.com/plexusone/productgraph) for product analytics, enabling frontend-backend correlation and user journey tracking.
+
+### Quick Start
+
+```go
+import (
+    "github.com/grokify/coreforge/observability"
+    "github.com/grokify/coreforge/productgraph"
+)
+
+// Create observability instance
+obs, err := observability.New(observability.ConfigFromEnv())
+if err != nil {
+    log.Fatal(err)
+}
+
+// Configure ProductGraph
+err = obs.SetProductGraph(productgraph.Config{
+    ProjectID: "my-project",
+    Endpoint:  "https://api.productgraph.io/v1/events",
+    APIKey:    os.Getenv("PRODUCTGRAPH_API_KEY"),
+})
+// Or from environment:
+// err = obs.SetProductGraphFromEnv()
+
+defer obs.Shutdown(context.Background())
+```
+
+### Middleware
+
+Use the combined middleware for automatic request tracking with frontend correlation:
+
+```go
+router := chi.NewRouter()
+
+// Combined middleware (recommended)
+router.Use(obs.ProductGraphMiddleware())
+
+// Or use components separately:
+// router.Use(productgraph.CorrelationMiddleware)           // Extract headers
+// router.Use(obs.ProductGraphRequestTrackerMiddleware())   // Track requests
+```
+
+### Frontend Correlation Headers
+
+ProductGraph correlates backend requests with frontend sessions using these headers:
+
+| Header | Description |
+|--------|-------------|
+| `X-Session-ID` | Frontend session identifier |
+| `X-Request-ID` | Per-request identifier (auto-generated if missing) |
+| `X-User-ID` | Authenticated user identifier |
+
+Access correlation IDs in handlers:
+
+```go
+func handler(w http.ResponseWriter, r *http.Request) {
+    ctx := r.Context()
+    sessionID := productgraph.SessionIDFromContext(ctx)
+    requestID := productgraph.RequestIDFromContext(ctx)
+    userID := productgraph.UserIDFromContext(ctx)
+}
+```
+
+### Manual Event Tracking
+
+```go
+// Track API calls
+obs.TrackAPICall(ctx, "POST", "/api/checkout", 200, 150*time.Millisecond)
+
+// Track errors
+obs.TrackError(ctx, "ValidationError", "invalid card number")
+
+// Track user journey steps
+obs.TrackJourneyStep(ctx, "checkout_flow", "payment", "Enter Payment")
+
+// Track custom events
+obs.TrackProductGraphEvent(ctx, productgraph.Event{
+    EventType: productgraph.EventTypeUIClick,
+    UIElement: "checkout_button",
+})
+```
+
+### Configuration
+
+#### Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PRODUCTGRAPH_PROJECT_ID` | Project identifier | |
+| `PRODUCTGRAPH_ENDPOINT` | API endpoint | |
+| `PRODUCTGRAPH_API_KEY` | Authentication key | |
+| `PRODUCTGRAPH_BATCH_SIZE` | Events per batch | `50` |
+| `PRODUCTGRAPH_BATCH_INTERVAL` | Flush interval (seconds) | `5` |
+| `PRODUCTGRAPH_DEBUG` | Enable debug logging | `false` |
+
+### Event Types
+
+ProductGraph follows OTel semantic conventions for event types:
+
+| Event Type | Description |
+|------------|-------------|
+| `page.view` | Page navigation |
+| `ui.click`, `ui.input`, `ui.scroll`, `ui.submit` | User interactions |
+| `api.request`, `api.response` | API calls |
+| `journey.step` | User journey progression |
+| `error` | Application errors |
+| `performance` | Performance metrics |
+
+See [ProductGraph Design Docs](../design/productgraph/TRD.md) for detailed architecture.
