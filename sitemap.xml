@@ -1,271 +1,271 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://grokify.github.io/coreforge/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/authorization/integration/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/authorization/integration/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/authorization/spicedb-schema/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/authorization/spicedb-schema/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/authorization/spicedb-setup/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/authorization/spicedb-setup/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/bff/audience/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/bff/audience/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/bff/ent-store/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/bff/ent-store/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/bff/overview/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/bff/overview/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/coreapi/overview/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/coreapi/overview/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/coreapi/policies/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/coreapi/policies/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/coreapi/ratelimit/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/coreapi/ratelimit/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/coreauth/overview/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/coreauth/overview/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/coreauth/providers/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/coreauth/providers/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/FEAT_AUTHN_PRD/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/FEAT_AUTHN_PRD/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/FEAT_AUTHN_TASKS/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/FEAT_AUTHN_TASKS/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/FEAT_AUTHN_TRD/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/FEAT_AUTHN_TRD/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/FEAT_AUTHZ_PRD/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/FEAT_AUTHZ_PRD/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/FEAT_AUTHZ_TASKS/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/FEAT_AUTHZ_TASKS/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/FEAT_AUTHZ_TRD/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/FEAT_AUTHZ_TRD/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/FEAT_CASBIN_REMOVAL_TASKS/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/FEAT_CASBIN_REMOVAL_TASKS/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/FEAT_MARKETPLACE_PRD/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/FEAT_MARKETPLACE_PRD/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/FEAT_OAUTH_PRD/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/FEAT_OAUTH_PRD/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/FEAT_OAUTH_TRD/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/FEAT_OAUTH_TRD/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/FEAT_OBSERVABILITY_TRD/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/FEAT_OBSERVABILITY_TRD/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/FEAT_SCIM2_TASKS/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/FEAT_SCIM2_TASKS/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/feat_audience_jwt/DESIGN/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/feat_audience_jwt/DESIGN/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/feat_audience_jwt/PLAN/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/feat_audience_jwt/PLAN/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/feat_audience_jwt/PRD/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/feat_audience_jwt/PRD/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/feat_audience_jwt/TASKS/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/feat_audience_jwt/TASKS/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/feat_ent_stores/DESIGN/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/feat_ent_stores/DESIGN/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/feat_ent_stores/PLAN/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/feat_ent_stores/PLAN/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/feat_ent_stores/PRD/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/feat_ent_stores/PRD/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/feat_ent_stores/TASKS/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/feat_ent_stores/TASKS/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/productgraph/PLAN/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/productgraph/PLAN/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/productgraph/PRD/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/productgraph/PRD/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/productgraph/TASKS/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/productgraph/TASKS/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/design/productgraph/TRD/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/design/productgraph/TRD/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/getting-started/configuration/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/getting-started/configuration/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/getting-started/installation/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/getting-started/installation/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/getting-started/quickstart/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/getting-started/quickstart/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/identity/api-keys/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/identity/api-keys/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/identity/memberships/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/identity/memberships/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/identity/oauthclient/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/identity/oauthclient/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/identity/organizations/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/identity/organizations/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/identity/overview/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/identity/overview/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/identity/users/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/identity/users/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/integration/existing-apps/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/integration/existing-apps/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/integration/migration/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/integration/migration/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/marketplace/overview/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/marketplace/overview/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/multiapp/overview/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/multiapp/overview/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/oauth/apps/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/oauth/apps/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/oauth/authorization-code/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/oauth/authorization-code/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/oauth/client-credentials/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/oauth/client-credentials/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/oauth/overview/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/oauth/overview/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/oauth/service-accounts/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/oauth/service-accounts/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/oauth/tokens/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/oauth/tokens/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/observability/overview/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/observability/overview/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/platform/authority-model/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/platform/authority-model/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/platform/product-contract/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/platform/product-contract/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/platform/vision/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/platform/vision/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/reference/api/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/reference/api/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/reference/schemas/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/reference/schemas/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/releases/v0.1.0/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/releases/v0.1.0/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/releases/v0.2.0/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/releases/v0.2.0/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/releases/v0.3.0/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/releases/v0.3.0/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/releases/v0.4.0/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/releases/v0.4.0/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/releases/v0.5.0/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/releases/v0.5.0/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/coreforge/releases/v0.6.0/</loc>
-         <lastmod>2026-04-27</lastmod>
+         <loc>https://grokify.github.io/systemforge/releases/v0.6.0/</loc>
+         <lastmod>2026-05-09</lastmod>
     </url>
 </urlset>
