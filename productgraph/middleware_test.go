@@ -15,7 +15,8 @@ func TestRequestTrackerMiddleware(t *testing.T) {
 	var lastPayload Payload
 
 	pgServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		json.NewDecoder(r.Body).Decode(&lastPayload)
+		err := json.NewDecoder(r.Body).Decode(&lastPayload)
+		require.NoError(t, err)
 		w.WriteHeader(http.StatusAccepted)
 	}))
 	defer pgServer.Close()
@@ -27,11 +28,12 @@ func TestRequestTrackerMiddleware(t *testing.T) {
 		BatchInterval: time.Hour,
 	})
 	require.NoError(t, err)
-	defer client.Close()
+	t.Cleanup(func() { require.NoError(t, client.Close()) })
 
 	handler := RequestTrackerMiddleware(client)(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusCreated)
-		w.Write([]byte("OK"))
+		_, err := w.Write([]byte("OK"))
+		require.NoError(t, err)
 	}))
 
 	req := httptest.NewRequest(http.MethodPost, "/api/users", nil)
@@ -57,7 +59,8 @@ func TestRequestTrackerMiddleware_WithCorrelation(t *testing.T) {
 	var lastPayload Payload
 
 	pgServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		json.NewDecoder(r.Body).Decode(&lastPayload)
+		err := json.NewDecoder(r.Body).Decode(&lastPayload)
+		require.NoError(t, err)
 		w.WriteHeader(http.StatusAccepted)
 	}))
 	defer pgServer.Close()
@@ -69,7 +72,7 @@ func TestRequestTrackerMiddleware_WithCorrelation(t *testing.T) {
 		BatchInterval: time.Hour,
 	})
 	require.NoError(t, err)
-	defer client.Close()
+	t.Cleanup(func() { require.NoError(t, client.Close()) })
 
 	// Chain correlation and request tracker
 	handler := ChainMiddleware(client)(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -120,7 +123,8 @@ func TestResponseWriter(t *testing.T) {
 		rec := httptest.NewRecorder()
 		w := &responseWriter{ResponseWriter: rec, status: http.StatusOK}
 
-		w.Write([]byte("hello"))
+		_, err := w.Write([]byte("hello"))
+		require.NoError(t, err)
 		assert.Equal(t, http.StatusOK, w.status)
 		assert.True(t, w.wroteHeader)
 	})

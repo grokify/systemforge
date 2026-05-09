@@ -22,7 +22,7 @@ func TestNew(t *testing.T) {
 		client, err := New(cfg)
 		require.NoError(t, err)
 		require.NotNil(t, client)
-		defer client.Close()
+		t.Cleanup(func() { require.NoError(t, client.Close()) })
 
 		assert.True(t, client.IsEnabled())
 		assert.Equal(t, "test-project", client.Config().ProjectID)
@@ -56,13 +56,15 @@ func TestClient_Track(t *testing.T) {
 		err := json.NewDecoder(r.Body).Decode(&lastPayload)
 		require.NoError(t, err)
 
+		//nolint:gosec // G115: Test code with small event counts, no overflow possible
 		received.Add(int32(len(lastPayload.Events)))
 
 		w.WriteHeader(http.StatusAccepted)
-		json.NewEncoder(w).Encode(Response{
+		err = json.NewEncoder(w).Encode(Response{
 			Accepted: len(lastPayload.Events),
 			Rejected: 0,
 		})
+		require.NoError(t, err)
 	}))
 	defer server.Close()
 
@@ -73,7 +75,7 @@ func TestClient_Track(t *testing.T) {
 		BatchInterval: 100 * time.Millisecond,
 	})
 	require.NoError(t, err)
-	defer client.Close()
+	t.Cleanup(func() { require.NoError(t, client.Close()) })
 
 	// Track events
 	ctx := context.Background()
@@ -94,7 +96,8 @@ func TestClient_TrackWithContext(t *testing.T) {
 	var lastPayload Payload
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		json.NewDecoder(r.Body).Decode(&lastPayload)
+		err := json.NewDecoder(r.Body).Decode(&lastPayload)
+		require.NoError(t, err)
 		w.WriteHeader(http.StatusAccepted)
 	}))
 	defer server.Close()
@@ -106,7 +109,7 @@ func TestClient_TrackWithContext(t *testing.T) {
 		BatchInterval: time.Hour, // Rely on batch size
 	})
 	require.NoError(t, err)
-	defer client.Close()
+	t.Cleanup(func() { require.NoError(t, client.Close()) })
 
 	// Create context with correlation IDs
 	ctx := context.Background()
@@ -128,7 +131,8 @@ func TestClient_TrackAPICall(t *testing.T) {
 	var lastPayload Payload
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		json.NewDecoder(r.Body).Decode(&lastPayload)
+		err := json.NewDecoder(r.Body).Decode(&lastPayload)
+		require.NoError(t, err)
 		w.WriteHeader(http.StatusAccepted)
 	}))
 	defer server.Close()
@@ -140,7 +144,7 @@ func TestClient_TrackAPICall(t *testing.T) {
 		BatchInterval: time.Hour,
 	})
 	require.NoError(t, err)
-	defer client.Close()
+	t.Cleanup(func() { require.NoError(t, client.Close()) })
 
 	ctx := WithSessionID(context.Background(), "sess-abc")
 	err = client.TrackAPICall(ctx, "POST", "/api/checkout", 200, 150*time.Millisecond)
@@ -162,7 +166,8 @@ func TestClient_TrackJourneyStep(t *testing.T) {
 	var lastPayload Payload
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		json.NewDecoder(r.Body).Decode(&lastPayload)
+		err := json.NewDecoder(r.Body).Decode(&lastPayload)
+		require.NoError(t, err)
 		w.WriteHeader(http.StatusAccepted)
 	}))
 	defer server.Close()
@@ -174,7 +179,7 @@ func TestClient_TrackJourneyStep(t *testing.T) {
 		BatchInterval: time.Hour,
 	})
 	require.NoError(t, err)
-	defer client.Close()
+	t.Cleanup(func() { require.NoError(t, client.Close()) })
 
 	ctx := context.Background()
 	err = client.TrackJourneyStep(ctx, "checkout_flow", "payment", "Enter Payment Details")
@@ -195,7 +200,9 @@ func TestClient_Flush(t *testing.T) {
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var payload Payload
-		json.NewDecoder(r.Body).Decode(&payload)
+		err := json.NewDecoder(r.Body).Decode(&payload)
+		require.NoError(t, err)
+		//nolint:gosec // G115: Test code with small event counts, no overflow possible
 		received.Add(int32(len(payload.Events)))
 		w.WriteHeader(http.StatusAccepted)
 	}))
@@ -208,12 +215,12 @@ func TestClient_Flush(t *testing.T) {
 		BatchInterval: time.Hour,
 	})
 	require.NoError(t, err)
-	defer client.Close()
+	t.Cleanup(func() { require.NoError(t, client.Close()) })
 
 	ctx := context.Background()
-	client.Track(ctx, NewEvent(EventTypePageView))
-	client.Track(ctx, NewEvent(EventTypeUIClick))
-	client.Track(ctx, NewEvent(EventTypeUISubmit))
+	require.NoError(t, client.Track(ctx, NewEvent(EventTypePageView)))
+	require.NoError(t, client.Track(ctx, NewEvent(EventTypeUIClick)))
+	require.NoError(t, client.Track(ctx, NewEvent(EventTypeUISubmit)))
 
 	// Manual flush
 	err = client.Flush(ctx)
@@ -227,7 +234,9 @@ func TestClient_Close(t *testing.T) {
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var payload Payload
-		json.NewDecoder(r.Body).Decode(&payload)
+		err := json.NewDecoder(r.Body).Decode(&payload)
+		require.NoError(t, err)
+		//nolint:gosec // G115: Test code with small event counts, no overflow possible
 		received.Add(int32(len(payload.Events)))
 		w.WriteHeader(http.StatusAccepted)
 	}))
@@ -242,8 +251,8 @@ func TestClient_Close(t *testing.T) {
 	require.NoError(t, err)
 
 	ctx := context.Background()
-	client.Track(ctx, NewEvent(EventTypePageView))
-	client.Track(ctx, NewEvent(EventTypeUIClick))
+	require.NoError(t, client.Track(ctx, NewEvent(EventTypePageView)))
+	require.NoError(t, client.Track(ctx, NewEvent(EventTypeUIClick)))
 
 	// Close should flush remaining events
 	err = client.Close()
@@ -273,9 +282,10 @@ func TestClient_APIKeyHeader(t *testing.T) {
 		BatchInterval: time.Hour,
 	})
 	require.NoError(t, err)
-	defer client.Close()
+	t.Cleanup(func() { require.NoError(t, client.Close()) })
 
-	client.Track(context.Background(), NewEvent(EventTypePageView))
+	err = client.Track(context.Background(), NewEvent(EventTypePageView))
+	require.NoError(t, err)
 	time.Sleep(100 * time.Millisecond)
 
 	assert.Equal(t, "pk_test_secret", receivedAPIKey)

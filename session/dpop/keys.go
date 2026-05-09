@@ -81,9 +81,14 @@ func ComputeThumbprint(publicKey *ecdsa.PublicKey) (string, error) {
 	// Get byte size for the curve (for padding)
 	byteSize := (publicKey.Curve.Params().BitSize + 7) / 8
 
-	// Encode x and y coordinates with proper padding
-	x := base64URLEncode(padBytes(publicKey.X.Bytes(), byteSize))
-	y := base64URLEncode(padBytes(publicKey.Y.Bytes(), byteSize))
+	// Use PublicKey.Bytes() which returns uncompressed SEC 1 format: 0x04 || X || Y
+	// Each coordinate is already padded to byteSize
+	pubBytes, err := publicKey.Bytes()
+	if err != nil {
+		return "", fmt.Errorf("%w: failed to encode public key: %v", ErrInvalidKey, err)
+	}
+	x := base64URLEncode(pubBytes[1 : byteSize+1])
+	y := base64URLEncode(pubBytes[byteSize+1:])
 
 	// RFC 7638: Create JSON with required members in lexicographic order
 	// For EC keys: crv, kty, x, y
@@ -128,11 +133,17 @@ func ToJWK(publicKey *ecdsa.PublicKey) (*JWK, error) {
 
 	byteSize := (publicKey.Curve.Params().BitSize + 7) / 8
 
+	// Use PublicKey.Bytes() which returns uncompressed SEC 1 format: 0x04 || X || Y
+	pubBytes, err := publicKey.Bytes()
+	if err != nil {
+		return nil, fmt.Errorf("%w: failed to encode public key: %v", ErrInvalidKey, err)
+	}
+
 	return &JWK{
 		Kty: "EC",
 		Crv: crv,
-		X:   base64URLEncode(padBytes(publicKey.X.Bytes(), byteSize)),
-		Y:   base64URLEncode(padBytes(publicKey.Y.Bytes(), byteSize)),
+		X:   base64URLEncode(pubBytes[1 : byteSize+1]),
+		Y:   base64URLEncode(pubBytes[byteSize+1:]),
 		Alg: alg,
 	}, nil
 }
@@ -223,10 +234,21 @@ func (kp *KeyPair) Serialize() (*SerializedKeyPair, error) {
 
 	byteSize := (kp.PrivateKey.Curve.Params().BitSize + 7) / 8
 
+	// Use PrivateKey.Bytes() for D (already padded to byteSize)
+	// Use PublicKey.Bytes() for X/Y (uncompressed SEC 1 format: 0x04 || X || Y)
+	privBytes, err := kp.PrivateKey.Bytes()
+	if err != nil {
+		return nil, fmt.Errorf("%w: failed to encode private key: %v", ErrInvalidKey, err)
+	}
+	pubBytes, err := kp.PrivateKey.PublicKey.Bytes()
+	if err != nil {
+		return nil, fmt.Errorf("%w: failed to encode public key: %v", ErrInvalidKey, err)
+	}
+
 	return &SerializedKeyPair{
-		PrivateKeyD: base64URLEncode(padBytes(kp.PrivateKey.D.Bytes(), byteSize)),
-		PublicKeyX:  base64URLEncode(padBytes(kp.PrivateKey.X.Bytes(), byteSize)),
-		PublicKeyY:  base64URLEncode(padBytes(kp.PrivateKey.Y.Bytes(), byteSize)),
+		PrivateKeyD: base64URLEncode(privBytes),
+		PublicKeyX:  base64URLEncode(pubBytes[1 : byteSize+1]),
+		PublicKeyY:  base64URLEncode(pubBytes[byteSize+1:]),
 		Curve:       crv,
 		Thumbprint:  kp.Thumbprint,
 	}, nil

@@ -1,6 +1,7 @@
 package dpop
 
 import (
+	"bytes"
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
@@ -60,8 +61,16 @@ func TestGenerateKeyPair_Unique(t *testing.T) {
 		t.Error("Two generated key pairs have the same thumbprint")
 	}
 
-	// Verify different private keys
-	if kp1.PrivateKey.D.Cmp(kp2.PrivateKey.D) == 0 {
+	// Verify different private keys (use Bytes() instead of deprecated D field)
+	priv1, err := kp1.PrivateKey.Bytes()
+	if err != nil {
+		t.Fatalf("kp1.PrivateKey.Bytes() error: %v", err)
+	}
+	priv2, err := kp2.PrivateKey.Bytes()
+	if err != nil {
+		t.Fatalf("kp2.PrivateKey.Bytes() error: %v", err)
+	}
+	if bytes.Equal(priv1, priv2) {
 		t.Error("Two generated key pairs have the same private key")
 	}
 }
@@ -77,8 +86,16 @@ func TestKeyPair_PublicKey(t *testing.T) {
 		t.Fatal("PublicKey() is nil")
 	}
 
-	// Verify it's the same as the embedded public key
-	if pubKey.X.Cmp(kp.PrivateKey.X) != 0 || pubKey.Y.Cmp(kp.PrivateKey.Y) != 0 {
+	// Verify it's the same as the embedded public key (use Bytes() instead of deprecated X/Y fields)
+	pubBytes1, err := pubKey.Bytes()
+	if err != nil {
+		t.Fatalf("pubKey.Bytes() error: %v", err)
+	}
+	pubBytes2, err := kp.PrivateKey.PublicKey.Bytes()
+	if err != nil {
+		t.Fatalf("kp.PrivateKey.PublicKey.Bytes() error: %v", err)
+	}
+	if !bytes.Equal(pubBytes1, pubBytes2) {
 		t.Error("PublicKey() does not match embedded public key")
 	}
 }
@@ -228,12 +245,17 @@ func TestJWK_ToPublicKey(t *testing.T) {
 		t.Fatalf("JWK.ToPublicKey() error: %v", err)
 	}
 
-	// Verify coordinates match
-	if pubKey.X.Cmp(kp.PrivateKey.X) != 0 {
-		t.Error("X coordinate mismatch")
+	// Verify coordinates match (use Bytes() instead of deprecated X/Y fields)
+	pubBytes1, err := pubKey.Bytes()
+	if err != nil {
+		t.Fatalf("pubKey.Bytes() error: %v", err)
 	}
-	if pubKey.Y.Cmp(kp.PrivateKey.Y) != 0 {
-		t.Error("Y coordinate mismatch")
+	pubBytes2, err := kp.PrivateKey.PublicKey.Bytes()
+	if err != nil {
+		t.Fatalf("kp.PrivateKey.PublicKey.Bytes() error: %v", err)
+	}
+	if !bytes.Equal(pubBytes1, pubBytes2) {
+		t.Error("Public key mismatch after JWK round-trip")
 	}
 }
 
@@ -336,15 +358,29 @@ func TestDeserializeKeyPair(t *testing.T) {
 		t.Fatalf("DeserializeKeyPair() error: %v", err)
 	}
 
-	// Verify private key matches
-	if restored.PrivateKey.D.Cmp(original.PrivateKey.D) != 0 {
-		t.Error("Private key D does not match")
+	// Verify key matches (use Bytes() instead of deprecated D/X/Y fields)
+	restoredPriv, err := restored.PrivateKey.Bytes()
+	if err != nil {
+		t.Fatalf("restored.PrivateKey.Bytes() error: %v", err)
 	}
-	if restored.PrivateKey.X.Cmp(original.PrivateKey.X) != 0 {
-		t.Error("Public key X does not match")
+	originalPriv, err := original.PrivateKey.Bytes()
+	if err != nil {
+		t.Fatalf("original.PrivateKey.Bytes() error: %v", err)
 	}
-	if restored.PrivateKey.Y.Cmp(original.PrivateKey.Y) != 0 {
-		t.Error("Public key Y does not match")
+	if !bytes.Equal(restoredPriv, originalPriv) {
+		t.Error("Private key does not match")
+	}
+
+	restoredPub, err := restored.PrivateKey.PublicKey.Bytes()
+	if err != nil {
+		t.Fatalf("restored.PrivateKey.PublicKey.Bytes() error: %v", err)
+	}
+	originalPub, err := original.PrivateKey.PublicKey.Bytes()
+	if err != nil {
+		t.Fatalf("original.PrivateKey.PublicKey.Bytes() error: %v", err)
+	}
+	if !bytes.Equal(restoredPub, originalPub) {
+		t.Error("Public key does not match")
 	}
 
 	// Verify thumbprint matches
@@ -423,12 +459,20 @@ func TestKeyPair_Signer(t *testing.T) {
 		t.Error("Signer() is nil")
 	}
 
-	// Verify it's the same key
+	// Verify it's the same key (use Bytes() instead of deprecated D field)
 	ecdsaSigner, ok := signer.(*ecdsa.PrivateKey)
 	if !ok {
 		t.Fatal("Signer() is not *ecdsa.PrivateKey")
 	}
-	if ecdsaSigner.D.Cmp(kp.PrivateKey.D) != 0 {
+	signerBytes, err := ecdsaSigner.Bytes()
+	if err != nil {
+		t.Fatalf("ecdsaSigner.Bytes() error: %v", err)
+	}
+	kpBytes, err := kp.PrivateKey.Bytes()
+	if err != nil {
+		t.Fatalf("kp.PrivateKey.Bytes() error: %v", err)
+	}
+	if !bytes.Equal(signerBytes, kpBytes) {
 		t.Error("Signer() is not the same key")
 	}
 }

@@ -1,6 +1,7 @@
 package dpop
 
 import (
+	"bytes"
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
@@ -171,8 +172,16 @@ func TestParseProof(t *testing.T) {
 		t.Error("iat (IssuedAt) is nil")
 	}
 
-	// Verify public key matches
-	if parsed.PublicKey.X.Cmp(kp.PrivateKey.X) != 0 || parsed.PublicKey.Y.Cmp(kp.PrivateKey.Y) != 0 {
+	// Verify public key matches (use Bytes() instead of deprecated X/Y fields)
+	parsedPubBytes, err := parsed.PublicKey.Bytes()
+	if err != nil {
+		t.Fatalf("parsed.PublicKey.Bytes() error: %v", err)
+	}
+	kpPubBytes, err := kp.PrivateKey.PublicKey.Bytes()
+	if err != nil {
+		t.Fatalf("kp.PrivateKey.PublicKey.Bytes() error: %v", err)
+	}
+	if !bytes.Equal(parsedPubBytes, kpPubBytes) {
 		t.Error("PublicKey does not match")
 	}
 
