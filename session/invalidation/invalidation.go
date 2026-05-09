@@ -50,9 +50,9 @@ type Session struct {
 	Metadata map[string]string
 }
 
-// IsExpired returns true if the session has expired.
+// IsExpired returns true if the session has expired (current time is at or after ExpiresAt).
 func (s *Session) IsExpired() bool {
-	return time.Now().After(s.ExpiresAt)
+	return !time.Now().Before(s.ExpiresAt)
 }
 
 // SessionStore defines the storage interface for session tracking.
