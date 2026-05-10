@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://grokify.github.io/systemforge/reference/schemas/">
+        <link rel="canonical" href="https://grokify.github.io/systemforge/releases/v0.7.0/">
       
       
-        <link rel="prev" href="../../releases/v0.1.0/">
+        <link rel="prev" href="../../design/productgraph/TASKS/">
       
       
-        <link rel="next" href="../api/">
+        <link rel="next" href="../v0.6.0/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>Ent Schemas - SystemForge</title>
+        <title>v0.7.0 - SystemForge</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ent-schema-reference" class="md-skip">
+        <a href="#v070" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Ent Schemas
+              v0.7.0
             
           </span>
         </div>
@@ -498,11 +498,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../releases/v0.7.0/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
   
@@ -518,13 +520,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../reference/schemas/" class="md-tabs__link">
           
   
   
@@ -2302,28 +2302,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
-        
-          
-          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
             
   
   
@@ -2336,7 +2339,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_15">
             <span class="md-nav__icon md-icon"></span>
             Releases
@@ -2347,10 +2350,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../releases/v0.7.0/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    v0.7.0
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -2361,6 +2386,128 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#breaking-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breaking Changes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Breaking Changes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#project-renamed-from-coreforge-to-systemforge" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project Renamed from CoreForge to SystemForge
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#highlights" class="md-nav__link">
+    <span class="md-ellipsis">
+      Highlights
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Added">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#productgraph-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      ProductGraph Integration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session-invalidation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Session Invalidation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#account-lockout-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Account Lockout Protection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dependencies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2373,7 +2520,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.6.0/" class="md-nav__link">
+      <a href="../v0.6.0/" class="md-nav__link">
         
   
   
@@ -2396,7 +2543,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.5.0/" class="md-nav__link">
+      <a href="../v0.5.0/" class="md-nav__link">
         
   
   
@@ -2419,7 +2566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.4.0/" class="md-nav__link">
+      <a href="../v0.4.0/" class="md-nav__link">
         
   
   
@@ -2442,7 +2589,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.3.0/" class="md-nav__link">
+      <a href="../v0.3.0/" class="md-nav__link">
         
   
   
@@ -2465,7 +2612,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.2.0/" class="md-nav__link">
+      <a href="../v0.2.0/" class="md-nav__link">
         
   
   
@@ -2488,7 +2635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.1.0/" class="md-nav__link">
+      <a href="../v0.1.0/" class="md-nav__link">
         
   
   
@@ -2515,31 +2662,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" checked>
         
           
-          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
             
   
   
@@ -2552,7 +2696,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_16">
             <span class="md-nav__icon md-icon"></span>
             Reference
@@ -2563,32 +2707,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Ent Schemas
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../reference/schemas/" class="md-nav__link">
         
   
   
@@ -2599,164 +2721,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#identity-schemas" class="md-nav__link">
-    <span class="md-ellipsis">
-      Identity Schemas
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Identity Schemas">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#user" class="md-nav__link">
-    <span class="md-ellipsis">
-      User
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#organization" class="md-nav__link">
-    <span class="md-ellipsis">
-      Organization
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#membership" class="md-nav__link">
-    <span class="md-ellipsis">
-      Membership
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthaccount" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthAccount
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#apikey" class="md-nav__link">
-    <span class="md-ellipsis">
-      APIKey
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#oauth-schemas" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuth Schemas
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="OAuth Schemas">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#oauthapp" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthApp
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthappsecret" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthAppSecret
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthtoken" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthToken
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthauthcode" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthAuthCode
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthconsent" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthConsent
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#serviceaccount" class="md-nav__link">
-    <span class="md-ellipsis">
-      ServiceAccount
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#serviceaccountkeypair" class="md-nav__link">
-    <span class="md-ellipsis">
-      ServiceAccountKeyPair
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2769,7 +2733,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/" class="md-nav__link">
+      <a href="../../reference/api/" class="md-nav__link">
         
   
   
@@ -2819,55 +2783,19 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#identity-schemas" class="md-nav__link">
+  <a href="#breaking-changes" class="md-nav__link">
     <span class="md-ellipsis">
-      Identity Schemas
+      Breaking Changes
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Identity Schemas">
+    <nav class="md-nav" aria-label="Breaking Changes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#user" class="md-nav__link">
+  <a href="#project-renamed-from-coreforge-to-systemforge" class="md-nav__link">
     <span class="md-ellipsis">
-      User
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#organization" class="md-nav__link">
-    <span class="md-ellipsis">
-      Organization
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#membership" class="md-nav__link">
-    <span class="md-ellipsis">
-      Membership
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthaccount" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthAccount
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#apikey" class="md-nav__link">
-    <span class="md-ellipsis">
-      APIKey
+      Project Renamed from CoreForge to SystemForge
     </span>
   </a>
   
@@ -2879,73 +2807,46 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#oauth-schemas" class="md-nav__link">
+  <a href="#highlights" class="md-nav__link">
     <span class="md-ellipsis">
-      OAuth Schemas
+      Highlights
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="OAuth Schemas">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Added">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#oauthapp" class="md-nav__link">
+  <a href="#productgraph-integration" class="md-nav__link">
     <span class="md-ellipsis">
-      OAuthApp
+      ProductGraph Integration
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#oauthappsecret" class="md-nav__link">
+  <a href="#session-invalidation" class="md-nav__link">
     <span class="md-ellipsis">
-      OAuthAppSecret
+      Session Invalidation
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#oauthtoken" class="md-nav__link">
+  <a href="#account-lockout-protection" class="md-nav__link">
     <span class="md-ellipsis">
-      OAuthToken
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthauthcode" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthAuthCode
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#oauthconsent" class="md-nav__link">
-    <span class="md-ellipsis">
-      OAuthConsent
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#serviceaccount" class="md-nav__link">
-    <span class="md-ellipsis">
-      ServiceAccount
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#serviceaccountkeypair" class="md-nav__link">
-    <span class="md-ellipsis">
-      ServiceAccountKeyPair
+      Account Lockout Protection
     </span>
   </a>
   
@@ -2953,6 +2854,33 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dependencies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation
+    </span>
+  </a>
   
 </li>
       
@@ -2975,1115 +2903,152 @@
   
 
 
-<h1 id="ent-schema-reference">Ent Schema Reference<a class="headerlink" href="#ent-schema-reference" title="Permanent link">&para;</a></h1>
-<p>Complete reference for all SystemForge Ent schemas.</p>
-<h2 id="identity-schemas">Identity Schemas<a class="headerlink" href="#identity-schemas" title="Permanent link">&para;</a></h2>
-<h3 id="user">User<a class="headerlink" href="#user" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_users</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>email</code></td>
-<td>string</td>
-<td>unique, not empty</td>
-<td>User email</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>string</td>
-<td>not empty</td>
-<td>Display name</td>
-</tr>
-<tr>
-<td><code>avatar_url</code></td>
-<td>string</td>
-<td>optional, nillable</td>
-<td>Profile picture</td>
-</tr>
-<tr>
-<td><code>password_hash</code></td>
-<td>string</td>
-<td>optional, sensitive</td>
-<td>Argon2id hash</td>
-</tr>
-<tr>
-<td><code>is_platform_admin</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Cross-org admin</td>
-</tr>
-<tr>
-<td><code>active</code></td>
-<td>bool</td>
-<td>default: true</td>
-<td>Account status</td>
-</tr>
-<tr>
-<td><code>last_login_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Last login</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-<tr>
-<td><code>updated_at</code></td>
-<td>time</td>
-<td>auto-update</td>
-<td>Modification time</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Edges</strong>:</p>
+<h1 id="v070">v0.7.0<a class="headerlink" href="#v070" title="Permanent link">&para;</a></h1>
+<p><strong>Release Date:</strong> 2026-05-10</p>
+<h2 id="breaking-changes">Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permanent link">&para;</a></h2>
+<h3 id="project-renamed-from-coreforge-to-systemforge">Project Renamed from CoreForge to SystemForge<a class="headerlink" href="#project-renamed-from-coreforge-to-systemforge" title="Permanent link">&para;</a></h3>
+<p>The project has been renamed from CoreForge to SystemForge. <strong>All import paths must be updated:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// Before</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/grokify/coreforge/identity&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/grokify/coreforge/session/jwt&quot;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1">// After</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/grokify/systemforge/identity&quot;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/grokify/systemforge/session/jwt&quot;</span>
+</code></pre></div>
+<p><strong>Migration steps:</strong></p>
+<ol>
+<li>
+<p>Update <code>go.mod</code>:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/grokify/systemforge@v0.7.0
+</code></pre></div></p>
+</li>
+<li>
+<p>Update all imports in your codebase:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.go&quot;</span><span class="w"> </span>-exec<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="s1">&#39;s|grokify/coreforge|grokify/systemforge|g&#39;</span><span class="w"> </span><span class="o">{}</span><span class="w"> </span>+
+</code></pre></div></p>
+</li>
+<li>
+<p>Run <code>go mod tidy</code> to clean up dependencies</p>
+</li>
+</ol>
+<h2 id="highlights">Highlights<a class="headerlink" href="#highlights" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>memberships</code> → Membership (O2M)</li>
-<li><code>oauth_accounts</code> → OAuthAccount (O2M)</li>
-<li><code>refresh_tokens</code> → RefreshToken (O2M)</li>
-<li><code>api_keys</code> → APIKey (O2M)</li>
-<li><code>oauth_apps</code> → OAuthApp (O2M)</li>
-<li><code>oauth_tokens</code> → OAuthToken (O2M)</li>
-<li><code>oauth_auth_codes</code> → OAuthAuthCode (O2M)</li>
-<li><code>oauth_consents</code> → OAuthConsent (O2M)</li>
-<li><code>created_service_accounts</code> → ServiceAccount (O2M)</li>
+<li><strong>ProductGraph Integration</strong> - Event correlation and user journey tracking with frontend-backend session linking</li>
+<li><strong>Session Invalidation</strong> - Track sessions across devices with "logout all devices" functionality</li>
+<li><strong>Account Lockout Protection</strong> - Brute-force attack protection with configurable lockout policies</li>
 </ul>
-<hr />
-<h3 id="organization">Organization<a class="headerlink" href="#organization" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_organizations</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>string</td>
-<td>not empty</td>
-<td>Display name</td>
-</tr>
-<tr>
-<td><code>slug</code></td>
-<td>string</td>
-<td>unique, not empty</td>
-<td>URL identifier</td>
-</tr>
-<tr>
-<td><code>logo_url</code></td>
-<td>string</td>
-<td>optional, nillable</td>
-<td>Logo URL</td>
-</tr>
-<tr>
-<td><code>settings</code></td>
-<td>JSON</td>
-<td>optional</td>
-<td>Custom config</td>
-</tr>
-<tr>
-<td><code>plan</code></td>
-<td>enum</td>
-<td>default: free</td>
-<td>Subscription tier</td>
-</tr>
-<tr>
-<td><code>active</code></td>
-<td>bool</td>
-<td>default: true</td>
-<td>Org status</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-<tr>
-<td><code>updated_at</code></td>
-<td>time</td>
-<td>auto-update</td>
-<td>Modification time</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Plan Values</strong>: <code>free</code>, <code>starter</code>, <code>pro</code>, <code>enterprise</code></p>
-<p><strong>Edges</strong>:</p>
+<h2 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h2>
+<h3 id="productgraph-integration">ProductGraph Integration<a class="headerlink" href="#productgraph-integration" title="Permanent link">&para;</a></h3>
+<p>New integration with <a href="https://github.com/plexusone/productgraph">ProductGraph</a> for product analytics:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="s">&quot;github.com/grokify/systemforge/observability&quot;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="s">&quot;github.com/grokify/systemforge/productgraph&quot;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">)</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="nx">obs</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">observability</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">observability</span><span class="p">.</span><span class="nx">ConfigFromEnv</span><span class="p">())</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nx">obs</span><span class="p">.</span><span class="nx">SetProductGraphFromEnv</span><span class="p">()</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1">// Middleware for automatic request tracking</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="nx">router</span><span class="p">.</span><span class="nx">Use</span><span class="p">(</span><span class="nx">obs</span><span class="p">.</span><span class="nx">ProductGraphMiddleware</span><span class="p">())</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1">// Manual event tracking</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="nx">obs</span><span class="p">.</span><span class="nx">TrackAPICall</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;POST&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/api/checkout&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">150</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="nx">obs</span><span class="p">.</span><span class="nx">TrackJourneyStep</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;checkout_flow&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;payment&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Enter Payment&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>See <a href="../../observability/overview/#productgraph-integration">Observability - ProductGraph Integration</a> for details.</p>
+<h3 id="session-invalidation">Session Invalidation<a class="headerlink" href="#session-invalidation" title="Permanent link">&para;</a></h3>
+<p>New <code>session/invalidation</code> package for multi-device session management:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/grokify/systemforge/session/invalidation&quot;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nx">store</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">invalidation</span><span class="p">.</span><span class="nx">NewMemoryStore</span><span class="p">()</span><span class="w">  </span><span class="c1">// Or NewRedisStore for production</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nx">manager</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">invalidation</span><span class="p">.</span><span class="nx">NewManager</span><span class="p">(</span><span class="nx">store</span><span class="p">,</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="nx">invalidation</span><span class="p">.</span><span class="nx">WithSessionTTL</span><span class="p">(</span><span class="mi">24</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Hour</span><span class="p">),</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nx">invalidation</span><span class="p">.</span><span class="nx">WithMaxSessionsPerUser</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">)</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1">// Create session with device info</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="nx">session</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">manager</span><span class="p">.</span><span class="nx">CreateSession</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">userID</span><span class="p">,</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nx">invalidation</span><span class="p">.</span><span class="nx">WithDeviceInfo</span><span class="p">(</span><span class="s">&quot;Chrome on macOS&quot;</span><span class="p">),</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="nx">invalidation</span><span class="p">.</span><span class="nx">WithIPAddress</span><span class="p">(</span><span class="s">&quot;192.168.1.100&quot;</span><span class="p">),</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="p">)</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1">// Logout all devices</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="nx">manager</span><span class="p">.</span><span class="nx">InvalidateAllSessions</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">userID</span><span class="p">)</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="c1">// Logout other devices (keep current)</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="nx">manager</span><span class="p">.</span><span class="nx">InvalidateOtherSessions</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">userID</span><span class="p">,</span><span class="w"> </span><span class="nx">currentSessionID</span><span class="p">)</span>
+</code></pre></div>
+<p>See <a href="../../session/invalidation/">Session Invalidation</a> for details.</p>
+<h3 id="account-lockout-protection">Account Lockout Protection<a class="headerlink" href="#account-lockout-protection" title="Permanent link">&para;</a></h3>
+<p>New <code>identity/security</code> package for brute-force protection:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/grokify/systemforge/identity/security&quot;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nx">store</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">security</span><span class="p">.</span><span class="nx">NewMemoryLockoutStore</span><span class="p">()</span><span class="w">  </span><span class="c1">// Or NewRedisLockoutStore</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nx">lockout</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">security</span><span class="p">.</span><span class="nx">NewLockout</span><span class="p">(</span><span class="nx">store</span><span class="p">,</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nx">security</span><span class="p">.</span><span class="nx">WithMaxAttempts</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nx">security</span><span class="p">.</span><span class="nx">WithLockoutDuration</span><span class="p">(</span><span class="mi">15</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Minute</span><span class="p">),</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">)</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1">// In login handler</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">lockout</span><span class="p">.</span><span class="nx">CheckAndRecord</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">email</span><span class="p">,</span><span class="w"> </span><span class="nx">loginSuccess</span><span class="p">)</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="k">if</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">Is</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="nx">security</span><span class="p">.</span><span class="nx">ErrAccountLocked</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;account locked, try again later&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="p">}</span>
+</code></pre></div>
+<p>See <a href="../../identity/security/">Account Security</a> for details.</p>
+<h2 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>memberships</code> → Membership (O2M)</li>
-<li><code>api_keys</code> → APIKey (O2M)</li>
-<li><code>oauth_apps</code> → OAuthApp (O2M)</li>
-<li><code>service_accounts</code> → ServiceAccount (O2M)</li>
+<li><strong>Windows CI</strong>: Fixed flaky <code>TestSession_IsExpired</code> test caused by Windows time resolution (~15.6ms)</li>
+<li><strong>Lint Issues</strong>: Resolved golangci-lint errcheck, gosec G115, and staticcheck SA1019 warnings</li>
+<li><strong>Security Lint</strong>: Fixed gosec G710 (open redirect) and G124 (insecure cookie) warnings</li>
 </ul>
-<hr />
-<h3 id="membership">Membership<a class="headerlink" href="#membership" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_memberships</code></p>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
+<th>Dependency</th>
+<th>Change</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
+<td>github.com/plexusone/omniobserve</td>
+<td>0.8.0 → 0.9.0</td>
 </tr>
 <tr>
-<td><code>user_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>User reference</td>
+<td>google.golang.org/grpc</td>
+<td>1.80.0 → 1.81.0</td>
 </tr>
 <tr>
-<td><code>organization_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Org reference</td>
+<td>github.com/mattn/go-sqlite3</td>
+<td>1.14.42 → 1.14.44</td>
 </tr>
 <tr>
-<td><code>role</code></td>
-<td>string</td>
-<td>not empty</td>
-<td>Role name</td>
+<td>github.com/authzed/spicedb</td>
+<td>1.51.1 → 1.52.0</td>
 </tr>
 <tr>
-<td><code>permissions</code></td>
-<td>JSON</td>
-<td>optional</td>
-<td>Fine-grained perms</td>
+<td>github.com/redis/go-redis/v9</td>
+<td>9.18.0 → 9.19.0</td>
 </tr>
 <tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
+<td>github.com/jackc/pgx/v5</td>
+<td>5.9.1 → 5.9.2</td>
 </tr>
 <tr>
-<td><code>updated_at</code></td>
-<td>time</td>
-<td>auto-update</td>
-<td>Modification time</td>
+<td>github.com/invopop/jsonschema</td>
+<td>0.13.0 → 0.14.0</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Unique Constraint</strong>: <code>(user_id, organization_id)</code></p>
-<p><strong>Edges</strong>:</p>
+<h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>user</code> → User (M2O)</li>
-<li><code>organization</code> → Organization (M2O)</li>
+<li>Added <a href="../../observability/overview/">Observability Overview</a> with ProductGraph integration guide</li>
+<li>Added <a href="../../session/invalidation/">Session Invalidation</a> documentation</li>
+<li>Added <a href="../../identity/security/">Account Security</a> documentation</li>
+<li>Added ProductGraph design documents (PRD, TRD, Plan, Tasks)</li>
 </ul>
-<hr />
-<h3 id="oauthaccount">OAuthAccount<a class="headerlink" href="#oauthaccount" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_oauth_accounts</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>user_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>User reference</td>
-</tr>
-<tr>
-<td><code>provider</code></td>
-<td>string</td>
-<td>not empty</td>
-<td>Provider name</td>
-</tr>
-<tr>
-<td><code>provider_user_id</code></td>
-<td>string</td>
-<td>not empty</td>
-<td>External ID</td>
-</tr>
-<tr>
-<td><code>access_token</code></td>
-<td>string</td>
-<td>sensitive</td>
-<td>Encrypted token</td>
-</tr>
-<tr>
-<td><code>refresh_token</code></td>
-<td>string</td>
-<td>optional, sensitive</td>
-<td>Encrypted token</td>
-</tr>
-<tr>
-<td><code>expires_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Token expiry</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-<tr>
-<td><code>updated_at</code></td>
-<td>time</td>
-<td>auto-update</td>
-<td>Modification time</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Unique Constraint</strong>: <code>(provider, provider_user_id)</code></p>
-<hr />
-<h3 id="apikey">APIKey<a class="headerlink" href="#apikey" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_api_keys</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>string</td>
-<td>not empty</td>
-<td>Key name</td>
-</tr>
-<tr>
-<td><code>key_prefix</code></td>
-<td>string</td>
-<td>max: 12</td>
-<td>First chars</td>
-</tr>
-<tr>
-<td><code>key_hash</code></td>
-<td>string</td>
-<td>unique, sensitive</td>
-<td>SHA256 hash</td>
-</tr>
-<tr>
-<td><code>user_id</code></td>
-<td>UUID</td>
-<td>FK, optional</td>
-<td>Owner user</td>
-</tr>
-<tr>
-<td><code>organization_id</code></td>
-<td>UUID</td>
-<td>FK, optional</td>
-<td>Owner org</td>
-</tr>
-<tr>
-<td><code>scopes</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Allowed scopes</td>
-</tr>
-<tr>
-<td><code>expires_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Expiration</td>
-</tr>
-<tr>
-<td><code>last_used_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Last usage</td>
-</tr>
-<tr>
-<td><code>revoked</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Revocation status</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="oauth-schemas">OAuth Schemas<a class="headerlink" href="#oauth-schemas" title="Permanent link">&para;</a></h2>
-<h3 id="oauthapp">OAuthApp<a class="headerlink" href="#oauthapp" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_oauth_apps</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>client_id</code></td>
-<td>string</td>
-<td>unique, immutable</td>
-<td>Public ID</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>string</td>
-<td>not empty, max: 255</td>
-<td>App name</td>
-</tr>
-<tr>
-<td><code>description</code></td>
-<td>string</td>
-<td>optional, max: 1000</td>
-<td>Description</td>
-</tr>
-<tr>
-<td><code>logo_url</code></td>
-<td>string</td>
-<td>optional</td>
-<td>App logo</td>
-</tr>
-<tr>
-<td><code>app_type</code></td>
-<td>enum</td>
-<td>default: web</td>
-<td>Client type</td>
-</tr>
-<tr>
-<td><code>owner_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Creating user</td>
-</tr>
-<tr>
-<td><code>organization_id</code></td>
-<td>UUID</td>
-<td>FK, optional</td>
-<td>Owning org</td>
-</tr>
-<tr>
-<td><code>redirect_uris</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Allowed URIs</td>
-</tr>
-<tr>
-<td><code>allowed_scopes</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Allowed scopes</td>
-</tr>
-<tr>
-<td><code>allowed_grants</code></td>
-<td>JSON</td>
-<td>default: [auth_code, refresh]</td>
-<td>Grant types</td>
-</tr>
-<tr>
-<td><code>allowed_response_types</code></td>
-<td>JSON</td>
-<td>default: [code]</td>
-<td>Response types</td>
-</tr>
-<tr>
-<td><code>access_token_ttl</code></td>
-<td>int</td>
-<td>default: 900</td>
-<td>Token TTL (sec)</td>
-</tr>
-<tr>
-<td><code>refresh_token_ttl</code></td>
-<td>int</td>
-<td>default: 604800</td>
-<td>Refresh TTL (sec)</td>
-</tr>
-<tr>
-<td><code>refresh_token_rotation</code></td>
-<td>bool</td>
-<td>default: true</td>
-<td>Enable rotation</td>
-</tr>
-<tr>
-<td><code>first_party</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Skip consent</td>
-</tr>
-<tr>
-<td><code>public</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>No secret</td>
-</tr>
-<tr>
-<td><code>active</code></td>
-<td>bool</td>
-<td>default: true</td>
-<td>App status</td>
-</tr>
-<tr>
-<td><code>revoked_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Revocation time</td>
-</tr>
-<tr>
-<td><code>metadata</code></td>
-<td>JSON</td>
-<td>optional</td>
-<td>Custom data</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-<tr>
-<td><code>updated_at</code></td>
-<td>time</td>
-<td>auto-update</td>
-<td>Modification time</td>
-</tr>
-</tbody>
-</table>
-<p><strong>App Types</strong>: <code>web</code>, <code>spa</code>, <code>native</code>, <code>service</code>, <code>machine</code></p>
-<hr />
-<h3 id="oauthappsecret">OAuthAppSecret<a class="headerlink" href="#oauthappsecret" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_oauth_app_secrets</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>app_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Parent app</td>
-</tr>
-<tr>
-<td><code>secret_hash</code></td>
-<td>string</td>
-<td>sensitive, not empty</td>
-<td>Argon2id hash</td>
-</tr>
-<tr>
-<td><code>secret_prefix</code></td>
-<td>string</td>
-<td>max: 12</td>
-<td>First chars</td>
-</tr>
-<tr>
-<td><code>expires_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Expiration</td>
-</tr>
-<tr>
-<td><code>last_used_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Last usage</td>
-</tr>
-<tr>
-<td><code>revoked</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Revocation status</td>
-</tr>
-<tr>
-<td><code>revoked_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Revocation time</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="oauthtoken">OAuthToken<a class="headerlink" href="#oauthtoken" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_oauth_tokens</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>app_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Issuing app</td>
-</tr>
-<tr>
-<td><code>user_id</code></td>
-<td>UUID</td>
-<td>FK, optional</td>
-<td>Token owner</td>
-</tr>
-<tr>
-<td><code>service_account_id</code></td>
-<td>UUID</td>
-<td>FK, optional</td>
-<td>SA owner</td>
-</tr>
-<tr>
-<td><code>access_token_signature</code></td>
-<td>string</td>
-<td>unique</td>
-<td>Token hash</td>
-</tr>
-<tr>
-<td><code>refresh_token_signature</code></td>
-<td>string</td>
-<td>unique, optional</td>
-<td>Refresh hash</td>
-</tr>
-<tr>
-<td><code>family_id</code></td>
-<td>UUID</td>
-<td>default: new</td>
-<td>Rotation family</td>
-</tr>
-<tr>
-<td><code>scopes</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Granted scopes</td>
-</tr>
-<tr>
-<td><code>audience</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Token audience</td>
-</tr>
-<tr>
-<td><code>session_id</code></td>
-<td>string</td>
-<td>optional</td>
-<td>BFF session</td>
-</tr>
-<tr>
-<td><code>request_data</code></td>
-<td>text</td>
-<td>optional</td>
-<td>Fosite data</td>
-</tr>
-<tr>
-<td><code>access_expires_at</code></td>
-<td>time</td>
-<td>required</td>
-<td>Access expiry</td>
-</tr>
-<tr>
-<td><code>refresh_expires_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Refresh expiry</td>
-</tr>
-<tr>
-<td><code>revoked</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Revocation status</td>
-</tr>
-<tr>
-<td><code>revoked_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Revocation time</td>
-</tr>
-<tr>
-<td><code>revoked_reason</code></td>
-<td>string</td>
-<td>optional</td>
-<td>Reason</td>
-</tr>
-<tr>
-<td><code>client_ip</code></td>
-<td>string</td>
-<td>optional</td>
-<td>Request IP</td>
-</tr>
-<tr>
-<td><code>user_agent</code></td>
-<td>string</td>
-<td>optional</td>
-<td>User agent</td>
-</tr>
-<tr>
-<td><code>last_used_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Last usage</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="oauthauthcode">OAuthAuthCode<a class="headerlink" href="#oauthauthcode" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_oauth_auth_codes</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>code_signature</code></td>
-<td>string</td>
-<td>unique</td>
-<td>Code hash</td>
-</tr>
-<tr>
-<td><code>app_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Requesting app</td>
-</tr>
-<tr>
-<td><code>user_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Authorizing user</td>
-</tr>
-<tr>
-<td><code>code_challenge</code></td>
-<td>string</td>
-<td>optional</td>
-<td>PKCE challenge</td>
-</tr>
-<tr>
-<td><code>code_challenge_method</code></td>
-<td>string</td>
-<td>optional, default: S256</td>
-<td>PKCE method</td>
-</tr>
-<tr>
-<td><code>redirect_uri</code></td>
-<td>string</td>
-<td>required</td>
-<td>Redirect URI</td>
-</tr>
-<tr>
-<td><code>scopes</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Requested scopes</td>
-</tr>
-<tr>
-<td><code>state</code></td>
-<td>string</td>
-<td>optional</td>
-<td>State param</td>
-</tr>
-<tr>
-<td><code>nonce</code></td>
-<td>string</td>
-<td>optional</td>
-<td>OIDC nonce</td>
-</tr>
-<tr>
-<td><code>request_data</code></td>
-<td>text</td>
-<td>optional</td>
-<td>Fosite data</td>
-</tr>
-<tr>
-<td><code>expires_at</code></td>
-<td>time</td>
-<td>required</td>
-<td>Code expiry</td>
-</tr>
-<tr>
-<td><code>used</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Exchange status</td>
-</tr>
-<tr>
-<td><code>used_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Exchange time</td>
-</tr>
-<tr>
-<td><code>client_ip</code></td>
-<td>string</td>
-<td>optional</td>
-<td>Request IP</td>
-</tr>
-<tr>
-<td><code>user_agent</code></td>
-<td>string</td>
-<td>optional</td>
-<td>User agent</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="oauthconsent">OAuthConsent<a class="headerlink" href="#oauthconsent" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_oauth_consents</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>user_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Consenting user</td>
-</tr>
-<tr>
-<td><code>app_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Consented app</td>
-</tr>
-<tr>
-<td><code>scopes</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Consented scopes</td>
-</tr>
-<tr>
-<td><code>granted</code></td>
-<td>bool</td>
-<td>default: true</td>
-<td>Active status</td>
-</tr>
-<tr>
-<td><code>granted_at</code></td>
-<td>time</td>
-<td>required</td>
-<td>Consent time</td>
-</tr>
-<tr>
-<td><code>last_used_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Last use</td>
-</tr>
-<tr>
-<td><code>revoked</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Revocation status</td>
-</tr>
-<tr>
-<td><code>revoked_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Revocation time</td>
-</tr>
-<tr>
-<td><code>revoked_reason</code></td>
-<td>string</td>
-<td>optional</td>
-<td>Reason</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-<tr>
-<td><code>updated_at</code></td>
-<td>time</td>
-<td>auto-update</td>
-<td>Modification time</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Unique Constraint</strong>: <code>(user_id, app_id)</code></p>
-<hr />
-<h3 id="serviceaccount">ServiceAccount<a class="headerlink" href="#serviceaccount" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_service_accounts</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>string</td>
-<td>not empty, max: 255</td>
-<td>Display name</td>
-</tr>
-<tr>
-<td><code>description</code></td>
-<td>string</td>
-<td>optional, max: 1000</td>
-<td>Description</td>
-</tr>
-<tr>
-<td><code>email</code></td>
-<td>string</td>
-<td>unique, not empty</td>
-<td>Unique identifier</td>
-</tr>
-<tr>
-<td><code>organization_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Owning org</td>
-</tr>
-<tr>
-<td><code>created_by</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Creating user</td>
-</tr>
-<tr>
-<td><code>allowed_scopes</code></td>
-<td>JSON</td>
-<td>default: []</td>
-<td>Allowed scopes</td>
-</tr>
-<tr>
-<td><code>active</code></td>
-<td>bool</td>
-<td>default: true</td>
-<td>Account status</td>
-</tr>
-<tr>
-<td><code>last_used_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Last usage</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-<tr>
-<td><code>updated_at</code></td>
-<td>time</td>
-<td>auto-update</td>
-<td>Modification time</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="serviceaccountkeypair">ServiceAccountKeyPair<a class="headerlink" href="#serviceaccountkeypair" title="Permanent link">&para;</a></h3>
-<p><strong>Table</strong>: <code>cf_service_account_key_pairs</code></p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Constraints</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>PK, immutable</td>
-<td>Primary key</td>
-</tr>
-<tr>
-<td><code>service_account_id</code></td>
-<td>UUID</td>
-<td>FK, required</td>
-<td>Parent SA</td>
-</tr>
-<tr>
-<td><code>key_id</code></td>
-<td>string</td>
-<td>not empty</td>
-<td>JWK kid</td>
-</tr>
-<tr>
-<td><code>key_type</code></td>
-<td>enum</td>
-<td>default: rsa</td>
-<td>Key type</td>
-</tr>
-<tr>
-<td><code>algorithm</code></td>
-<td>enum</td>
-<td>default: RS256</td>
-<td>JWT algorithm</td>
-</tr>
-<tr>
-<td><code>public_key_pem</code></td>
-<td>text</td>
-<td>not empty</td>
-<td>PEM public key</td>
-</tr>
-<tr>
-<td><code>expires_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Key expiry</td>
-</tr>
-<tr>
-<td><code>active</code></td>
-<td>bool</td>
-<td>default: true</td>
-<td>Key status</td>
-</tr>
-<tr>
-<td><code>last_used_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Last usage</td>
-</tr>
-<tr>
-<td><code>revoked</code></td>
-<td>bool</td>
-<td>default: false</td>
-<td>Revocation status</td>
-</tr>
-<tr>
-<td><code>revoked_at</code></td>
-<td>time</td>
-<td>optional, nillable</td>
-<td>Revocation time</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td>time</td>
-<td>immutable</td>
-<td>Creation time</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Key Types</strong>: <code>rsa</code>, <code>ec</code></p>
-<p><strong>Algorithms</strong>: <code>RS256</code>, <code>RS384</code>, <code>RS512</code>, <code>ES256</code>, <code>ES384</code>, <code>ES512</code></p>
-<p><strong>Unique Constraint</strong>: <code>(service_account_id, key_id)</code></p>
 
 
 

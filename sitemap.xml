@@ -177,6 +177,10 @@
          <lastmod>2026-05-10</lastmod>
     </url>
     <url>
+         <loc>https://grokify.github.io/systemforge/identity/security/</loc>
+         <lastmod>2026-05-10</lastmod>
+    </url>
+    <url>
          <loc>https://grokify.github.io/systemforge/identity/users/</loc>
          <lastmod>2026-05-10</lastmod>
     </url>
@@ -266,6 +270,14 @@
     </url>
     <url>
          <loc>https://grokify.github.io/systemforge/releases/v0.6.0/</loc>
+         <lastmod>2026-05-10</lastmod>
+    </url>
+    <url>
+         <loc>https://grokify.github.io/systemforge/releases/v0.7.0/</loc>
+         <lastmod>2026-05-10</lastmod>
+    </url>
+    <url>
+         <loc>https://grokify.github.io/systemforge/session/invalidation/</loc>
          <lastmod>2026-05-10</lastmod>
     </url>
 </urlset>
