@@ -125,6 +125,7 @@ func TestSessionMiddleware_SessionNotFound(t *testing.T) {
 	})
 
 	req := httptest.NewRequest("GET", "/", nil)
+	//nolint:gosec // G124: Test code - security attributes not needed for httptest
 	req.AddCookie(&http.Cookie{
 		Name:  "cf_session",
 		Value: "non-existent-session",
@@ -173,6 +174,7 @@ func TestSessionMiddleware_SessionExpired(t *testing.T) {
 	})
 
 	req := httptest.NewRequest("GET", "/", nil)
+	//nolint:gosec // G124: Test code - security attributes not needed for httptest
 	req.AddCookie(&http.Cookie{
 		Name:  "cf_session",
 		Value: session.ID,
@@ -209,6 +211,7 @@ func TestSessionMiddleware_TouchOnAccess(t *testing.T) {
 	time.Sleep(10 * time.Millisecond)
 
 	req := httptest.NewRequest("GET", "/", nil)
+	//nolint:gosec // G124: Test code - security attributes not needed for httptest
 	req.AddCookie(&http.Cookie{
 		Name:  "cf_session",
 		Value: session.ID,
@@ -251,6 +254,7 @@ func TestSessionMiddleware_OnSessionLoad(t *testing.T) {
 	})
 
 	req := httptest.NewRequest("GET", "/", nil)
+	//nolint:gosec // G124: Test code - security attributes not needed for httptest
 	req.AddCookie(&http.Cookie{
 		Name:  "cf_session",
 		Value: session.ID,
