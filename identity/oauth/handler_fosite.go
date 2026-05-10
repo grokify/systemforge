@@ -160,6 +160,7 @@ func (a *API) authorizeEndpoint(w http.ResponseWriter, r *http.Request) {
 	userID := getUserIDFromSession(r)
 	if userID == "" {
 		// Redirect to login
+		//nolint:gosec // G710: Redirect target is hardcoded /login path, query param is for return navigation
 		http.Redirect(w, r, "/login?redirect="+r.URL.String(), http.StatusFound)
 		return
 	}

@@ -375,22 +375,36 @@ func GenerateState() (string, error) {
 type StateManager struct {
 	CookieName string
 	MaxAge     int
-	Secure     bool // Set to true in production (requires HTTPS)
+	Secure     bool // Secure flag for cookies (default: true, requires HTTPS)
 	SameSite   http.SameSite
 }
 
-// NewStateManager creates a state manager with sensible defaults.
-func NewStateManager(secure bool) *StateManager {
+// NewStateManager creates a state manager with secure defaults.
+// Cookies are set with Secure: true, requiring HTTPS.
+// For local development over HTTP, use NewStateManagerInsecure().
+func NewStateManager() *StateManager {
 	return &StateManager{
 		CookieName: StateCookieName,
 		MaxAge:     StateCookieMaxAge,
-		Secure:     secure,
+		Secure:     true,
+		SameSite:   http.SameSiteLaxMode,
+	}
+}
+
+// NewStateManagerInsecure creates a state manager for local development over HTTP.
+// WARNING: Only use this for local development. Never use in production.
+func NewStateManagerInsecure() *StateManager {
+	return &StateManager{
+		CookieName: StateCookieName,
+		MaxAge:     StateCookieMaxAge,
+		Secure:     false,
 		SameSite:   http.SameSiteLaxMode,
 	}
 }
 
 // SetStateCookie sets the OAuth state cookie.
 func (m *StateManager) SetStateCookie(w http.ResponseWriter, state string) {
+	//nolint:gosec // G124: Cookie has HttpOnly, Secure, SameSite set from StateManager config
 	http.SetCookie(w, &http.Cookie{
 		Name:     m.CookieName,
 		Value:    state,
@@ -411,6 +425,7 @@ func (m *StateManager) ValidateState(w http.ResponseWriter, r *http.Request, sta
 	}
 
 	// Clear the state cookie
+	//nolint:gosec // G124: Cookie has HttpOnly=true, Secure/SameSite from StateManager (default secure)
 	http.SetCookie(w, &http.Cookie{
 		Name:     m.CookieName,
 		Value:    "",

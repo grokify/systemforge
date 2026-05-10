@@ -100,8 +100,11 @@ type User struct {
 The package includes a `StateManager` for cookie-based CSRF protection:
 
 ```go
-// Create state manager (secure=true for production with HTTPS)
-stateManager := cfoauth.NewStateManager(!cfg.IsDevelopment())
+// Create state manager (defaults to Secure: true, requires HTTPS)
+stateManager := cfoauth.NewStateManager()
+
+// For local development over HTTP only:
+// stateManager := cfoauth.NewStateManagerInsecure()
 
 // In redirect handler: set state cookie
 func handleRedirect(w http.ResponseWriter, r *http.Request) {
@@ -158,7 +161,7 @@ func NewAuthHandler(cfg *Config) *AuthHandler {
             RedirectURL:  cfg.GoogleCallbackURL,
             Scopes:       []string{"openid", "email", "profile"},
         }),
-        stateManager: cfoauth.NewStateManager(cfg.IsProduction()),
+        stateManager: cfoauth.NewStateManager(), // Secure by default
     }
 }
 
@@ -319,7 +322,7 @@ func (s *UserService) FindOrCreateFromOAuth(ctx context.Context, oauthUser *cfoa
 ## Security Considerations
 
 1. **Always validate state** - Use `StateManager` or your own CSRF protection
-2. **Use HTTPS in production** - Set `secure=true` in `NewStateManager()`
+2. **Use HTTPS in production** - `NewStateManager()` defaults to `Secure: true`; only use `NewStateManagerInsecure()` for local HTTP development
 3. **Store tokens securely** - Encrypt OAuth tokens at rest
 4. **Validate email ownership** - Consider email verification for sensitive apps
 5. **Check token expiry** - Refresh tokens before they expire
