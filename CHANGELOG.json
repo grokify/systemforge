@@ -1,11 +1,49 @@
 {
   "irVersion": "1.0",
-  "project": "coreforge",
+  "project": "systemforge",
   "repository": "https://github.com/grokify/systemforge",
   "versioning": "semver",
   "commitConvention": "conventional",
   "maintainers": ["grokify"],
   "releases": [
+    {
+      "version": "v0.7.0",
+      "date": "2026-05-10",
+      "highlights": [
+        { "description": "BREAKING: Renamed project from CoreForge to SystemForge" },
+        { "description": "ProductGraph integration for event correlation and tracking" },
+        { "description": "Session invalidation with memory and Redis stores" },
+        { "description": "Account lockout protection for identity module" }
+      ],
+      "changed": [
+        { "description": "BREAKING: Renamed project from CoreForge to SystemForge - update all imports from coreforge to systemforge", "commit": "dc9b68f" }
+      ],
+      "added": [
+        { "description": "ProductGraph client for event correlation and tracking", "commit": "cf8aa54" },
+        { "description": "ProductGraph integration with observability module", "commit": "df5c013" },
+        { "description": "Session invalidation with MemoryStore and RedisStore implementations", "commit": "b4077b1" },
+        { "description": "Account lockout protection in identity module", "commit": "500fd61" }
+      ],
+      "fixed": [
+        { "description": "Session IsExpired flaky test on Windows due to time resolution", "commit": "e332cfa" },
+        { "description": "golangci-lint errcheck, gosec G115, staticcheck SA1019 issues", "commit": "16cfbe1" },
+        { "description": "gosec G710 open redirect and G124 insecure cookie lint issues", "commit": "d8de86f" }
+      ],
+      "documentation": [
+        { "description": "Observability overview documentation", "commit": "98b3669" },
+        { "description": "ProductGraph task tracking documentation", "commit": "9ce6db1" },
+        { "description": "ProductGraph integration design documents", "commit": "062b663" }
+      ],
+      "dependencies": [
+        { "description": "Bump github.com/plexusone/omniobserve from 0.8.0 to 0.9.0", "commit": "2fd164e" },
+        { "description": "Bump google.golang.org/grpc from 1.80.0 to 1.81.0", "commit": "2e809c5" },
+        { "description": "Bump github.com/mattn/go-sqlite3 from 1.14.42 to 1.14.44", "commit": "4e17458" },
+        { "description": "Bump github.com/authzed/spicedb from 1.51.1 to 1.52.0", "commit": "17b7839" },
+        { "description": "Bump github.com/redis/go-redis/v9 from 9.18.0 to 9.19.0", "commit": "b85b324" },
+        { "description": "Bump github.com/jackc/pgx/v5 from 5.9.1 to 5.9.2", "commit": "15bbb86" },
+        { "description": "Bump github.com/invopop/jsonschema from 0.13.0 to 0.14.0", "commit": "7bd75e2" }
+      ]
+    },
     {
       "version": "v0.6.0",
       "date": "2026-04-12",
