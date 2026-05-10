@@ -97,6 +97,7 @@ func (m *CookieManager) GetSessionID(r *http.Request) string {
 
 // ClearSessionCookie removes the session cookie from the response.
 func (m *CookieManager) ClearSessionCookie(w http.ResponseWriter) {
+	//nolint:gosec // G124: Cookie has Secure, HttpOnly, SameSite set from CookieConfig
 	cookie := &http.Cookie{
 		Name:     m.config.Name,
 		Value:    "",

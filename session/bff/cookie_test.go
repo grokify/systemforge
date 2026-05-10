@@ -107,6 +107,7 @@ func TestCookieManager_GetSessionID(t *testing.T) {
 	sessionID := "test-session-id"
 
 	req := httptest.NewRequest("GET", "/", nil)
+	//nolint:gosec // G124: Test code - security attributes not needed for httptest
 	req.AddCookie(&http.Cookie{
 		Name:  "cf_session",
 		Value: sessionID,
@@ -133,6 +134,7 @@ func TestCookieManager_GetSessionID_WrongCookie(t *testing.T) {
 	mgr := NewCookieManager(DefaultCookieConfig())
 
 	req := httptest.NewRequest("GET", "/", nil)
+	//nolint:gosec // G124: Test code - security attributes not needed for httptest
 	req.AddCookie(&http.Cookie{
 		Name:  "other_cookie",
 		Value: "some-value",
