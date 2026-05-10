@@ -40,6 +40,7 @@ func TestSessionMiddleware_WithSession(t *testing.T) {
 	})
 
 	req := httptest.NewRequest("GET", "/", nil)
+	//nolint:gosec // G124: Test code - security attributes not needed for httptest
 	req.AddCookie(&http.Cookie{
 		Name:  "cf_session",
 		Value: session.ID,

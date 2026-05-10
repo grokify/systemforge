@@ -108,6 +108,7 @@ func TestHandler_GetSession_WithSession(t *testing.T) {
 	router := handler.Router()
 
 	req := httptest.NewRequest("GET", "/session", nil)
+	//nolint:gosec // G124: Test code - security attributes not needed for httptest
 	req.AddCookie(&http.Cookie{
 		Name:  "cf_session",
 		Value: session.ID,
@@ -222,6 +223,7 @@ func TestHandler_Refresh(t *testing.T) {
 
 	req := httptest.NewRequest("POST", "/refresh", nil)
 	req.Header.Set("Origin", "https://example.com")
+	//nolint:gosec // G124: Test code - security attributes not needed for httptest
 	req.AddCookie(&http.Cookie{
 		Name:  "cf_session",
 		Value: session.ID,
