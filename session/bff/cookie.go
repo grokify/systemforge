@@ -70,6 +70,7 @@ func NewCookieManager(config CookieConfig) *CookieManager {
 
 // SetSessionCookie creates and sets a session cookie on the response.
 func (m *CookieManager) SetSessionCookie(w http.ResponseWriter, sessionID string, expiry time.Time) {
+	//nolint:gosec // G124: Cookie has Secure, HttpOnly, SameSite set from CookieConfig
 	cookie := &http.Cookie{
 		Name:     m.config.Name,
 		Value:    sessionID,

@@ -207,6 +207,7 @@ func TestCookieManager_CustomName(t *testing.T) {
 
 	// Get cookie
 	req := httptest.NewRequest("GET", "/", nil)
+	//nolint:gosec // G124: Test code - security attributes not needed for httptest
 	req.AddCookie(&http.Cookie{
 		Name:  "my_app_session",
 		Value: sessionID,

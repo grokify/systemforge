@@ -160,6 +160,7 @@ func TestHandler_Logout(t *testing.T) {
 
 	req := httptest.NewRequest("POST", "/logout", nil)
 	req.Header.Set("Origin", "https://example.com")
+	//nolint:gosec // G124: Test code - security attributes not needed for httptest
 	req.AddCookie(&http.Cookie{
 		Name:  "cf_session",
 		Value: session.ID,
