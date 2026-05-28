@@ -17,7 +17,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.44
 	github.com/ory/fosite v0.49.0
 	github.com/plexusone/omniobserve v0.10.0
-	github.com/redis/go-redis/v9 v9.19.0
+	github.com/redis/go-redis/v9 v9.20.0
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.11.1
 	github.com/stripe/stripe-go/v84 v84.4.1
