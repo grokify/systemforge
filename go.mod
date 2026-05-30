@@ -4,7 +4,7 @@ go 1.26.3
 
 require (
 	entgo.io/ent v0.14.6
-	github.com/authzed/authzed-go v1.9.0
+	github.com/authzed/authzed-go v1.10.0
 	github.com/authzed/grpcutil v0.0.0-20260105210157-e237581949c2
 	github.com/authzed/spicedb v1.53.0
 	github.com/danielgtaylor/huma/v2 v2.38.0
